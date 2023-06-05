@@ -51,7 +51,7 @@ module.exports = {
                         { name: "Name", value: client.user.tag, inline: true },
                         { name: "ID", value: client.user.id, inline: true },
                         { name: "Version", value: `v${bot.version}`, inline: true },
-                        { name: "Developer", value: `v${bot.author}`, inline: true },
+                        { name: "Developer", value: `${bot.author}`, inline: true },
                         { name: "Uptime", value: uptime, inline: true },
                         { name: "Statistics", value: `Guilds: ${client.guilds.cache.size}\nUsers: ${client.users.cache.size}`, inline: true }
                     )
