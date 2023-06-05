@@ -1,5 +1,4 @@
 const emoji = require("../config.json").emojis;
-const { uuid } = require("easyscriptjs");
 
 const appealSchema = require("../models/appealSchema");
 const bannedUserSchema = require("../models/bannedUserSchema");
@@ -36,7 +35,7 @@ module.exports = {
                 return;
             }
 
-            const id = uuid();
+            const id = require("crypto").randomUUID();
 
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${id}`)

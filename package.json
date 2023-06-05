@@ -1,6 +1,6 @@
 {
   "name": "global-chat",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A Discord bot that connects multiple servers together in one channel!",
   "main": "src/index.js",
   "scripts": {
@@ -8,15 +8,13 @@
     "register": "node src/scripts/register.js"
   },
   "author": "William Harrison",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@globalchat/cdn": "^1.0.0",
     "@globalchat/get": "^1.0.2",
     "@sentry/node": "^7.53.1",
-    "axios": "^1.4.0",
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
-    "easyscriptjs": "^1.2.6",
     "mongoose": "^6.8.3",
     "node-fetch": "^2.6.9"
   }
