@@ -102,7 +102,7 @@ module.exports = async function (message, client, Discord) {
 
                             let user = message.author.tag;
 
-                            if(role.supporter) user = `${message.author.tag} ❤️`;
+                            if(role.supporter) user = `${message.author.tag} 💖`;
                             if(role.verified) user = `${message.author.tag} ✅`;
                             if(role.mod) user = `${message.author.tag} 🔨`;
                             if(role.dev) user = `${message.author.tag} 💻`;
