@@ -5,7 +5,7 @@ module.exports = async function (message, client) {
     const role = user.roles;
 
     const guild = await client.guilds.fetch(client.config_default.server);
-    const member = await guild.members.fetch(message.author);
+    const member = await guild.members.fetch(message.author) || null;
 
     const owner = client.config_default.owner === message.author.id;
     const supporter = member.premiumSinceTimestamp ? true : false;
@@ -26,7 +26,7 @@ module.exports.interaction = async function (interaction, client) {
     const role = user.roles;
 
     const guild = await client.guilds.fetch(client.config_default.server);
-    const member = await guild.members.fetch(interaction.user);
+    const member = await guild.members.fetch(interaction.user) || null;
 
     const owner = client.config_default.owner === interaction.user.id;
     const supporter = member.premiumSinceTimestamp ? true : false;
