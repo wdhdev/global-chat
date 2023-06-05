@@ -61,12 +61,12 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "uptime") {
-                const uptime = new Discord.EmbedBuilder()
+                const uptimeInfo = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("Uptime")
                     .setDescription(`${uptime} [<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>]`)
 
-                await interaction.editReply({ embeds: [uptime] });
+                await interaction.editReply({ embeds: [uptimeInfo] });
                 return;
             }
         } catch(err) {
