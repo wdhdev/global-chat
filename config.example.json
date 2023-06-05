@@ -1,0 +1,48 @@
+{
+    "channels": {
+        "appeals": "",
+        "blocked": "",
+        "messages": "",
+        "modLogs": "",
+        "nsfwImages": "",
+        "reports": "",
+        "suggestions": ""
+    },
+
+    "default": {
+        "owner": "",
+        "server": ""
+    },
+
+    "embeds": {
+        "default": "#E87F2A",
+        "error": "#E74C3C",
+        "green": "#00FF00",
+        "red": "#00FF00"
+    },
+
+    "emojis": {
+        "clock": ":alarm_clock:",
+        "cross": ":x:",
+        "error": ":x:",
+        "green_circle": ":green_circle:",
+        "information": ":information_source:",
+        "orange_circle": ":orange_circle:",
+        "pingpong": ":ping_pong:",
+        "red_circle": ":red_circle:",
+        "reply": ":arrow_right:",
+        "successful": ":white_check_mark:",
+        "tick": ":white_check_mark:"
+    },
+
+    "presence": {
+        "activity": "",
+        "activityType": 0,
+        "status": "ONLINE"
+    },
+
+    "roles": {
+        "booster": "",
+        "mod": ""
+    }
+}
