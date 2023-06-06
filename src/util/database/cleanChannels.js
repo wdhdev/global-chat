@@ -37,7 +37,7 @@ module.exports = async function cleanChannels(client) {
                 if(!(await checkWebhook(document.webhook))) {
                     await schema.findOneAndUpdate({ _id: document._id }, { webhook: null });
 
-                    modifiedGuilds.push(document._id);
+                    modifiedData.push(document._id);
                     resolve(`Modified: ${document._id}`);
                 }
             }
