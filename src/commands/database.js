@@ -3,7 +3,7 @@ const emoji = require("../config.json").emojis;
 const devSchema = require("../models/devSchema");
 
 module.exports = {
-	name: "db",
+	name: "database",
 	description: "Manage the bot's database.",
     options: [
         {
