@@ -5,7 +5,7 @@ const bannedUserSchema = require("../models/bannedUserSchema");
 const channelSchema = require("../models/channelSchema");
 const devSchema = require("../models/devSchema");
 const modSchema = require("../models/modSchema");
-const welcomeSchema = require("../models/welcomeSchema");
+const noWelcomeSchema = require("../models/noWelcomeSchema");
 
 module.exports = {
     name: "ban",
@@ -146,7 +146,7 @@ module.exports = {
                         }
 
                         await channelSchema.findOneAndDelete({ _id: id });
-                        await welcomeSchema.findOneAndDelete({ _id: id });
+                        await noWelcomeSchema.findOneAndDelete({ _id: id });
 
                         const banned = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)

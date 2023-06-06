@@ -55,9 +55,11 @@ module.exports = {
 
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} Cleared the \`channels\` collection!`)
+                        .setTitle("Collection Cleanup")
+                        .setDescription(`${emoji.successful} Cleaned up the \`channels\` collection!`)
                         .addFields (
-                            { name: "Removed Documents", value: res.length ? `\`\`\`${res.join("\n")}\`\`\`` : "*None*" }
+                            { name: "Modified Documents", value: res.modified.length ? `\`\`\`${res.join("\n")}\`\`\`` : "*None*" },
+                            { name: "Removed Documents", value: res.removed.length ? `\`\`\`${res.join("\n")}\`\`\`` : "*None*" }
                         )
 
                     await interaction.editReply({ embeds: [result], ephemeral: true });

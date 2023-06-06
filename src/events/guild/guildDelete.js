@@ -1,6 +1,6 @@
 const channelSchema = require("../../models/channelSchema");
 const checkWebhook = require("../../util/checkWebhook");
-const welcomeSchema = require("../../models/welcomeSchema");
+const noWelcomeSchema = require("../../models/noWelcomeSchema");
 
 module.exports = {
 	name: "guildDelete",
@@ -14,7 +14,7 @@ module.exports = {
             }
 
             await channelSchema.findOneAndDelete({ _id: guild.id });
-            await welcomeSchema.findOneAndDelete({ _id: guild.id });
+            await noWelcomeSchema.findOneAndDelete({ _id: guild.id });
         } catch(err) {
 			client.logEventError(err);
         }

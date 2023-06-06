@@ -1,7 +1,7 @@
 module.exports = async function (guild, client, Discord) {
     const channelSchema = require("../models/channelSchema");
     const filterSchema = require("../models/filterSchema");
-    const welcomeSchema = require("../models/welcomeSchema");
+    const noWelcomeSchema = require("../models/noWelcomeSchema");
 
     const checkWebhook = require("./checkWebhook");
 
@@ -14,7 +14,7 @@ module.exports = async function (guild, client, Discord) {
         .setTimestamp()
 
     for(const [gId, g] of client.guilds.cache) {
-        if(await welcomeSchema.exists({ _id: gId })) return;
+        if(await noWelcomeSchema.exists({ _id: gId })) return;
 
         await channelSchema.findOne({ _id: gId }, async (err, data) => {
             if(data && data.channel) {

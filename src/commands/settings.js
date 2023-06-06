@@ -1,7 +1,7 @@
 const { PermissionFlagsBits } = require("discord.js");
 
 const emoji = require("../config.json").emojis;
-const welcomeSchema = require("../models/welcomeSchema");
+const noWelcomeSchema = require("../models/noWelcomeSchema");
 
 module.exports = {
 	name: "settings",
@@ -21,8 +21,8 @@ module.exports = {
 	async execute(interaction, client, Discord) {
         try {
             if(interaction.options.getSubcommand() === "welcome_messages") {
-                if(await welcomeSchema.exists({ _id: interaction.guild.id })) {
-                    await welcomeSchema.findOneAndDelete({ _id: interaction.guild.id });
+                if(await noWelcomeSchema.exists({ _id: interaction.guild.id })) {
+                    await noWelcomeSchema.findOneAndDelete({ _id: interaction.guild.id });
 
                     const done = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -30,7 +30,7 @@ module.exports = {
 
                     await interaction.editReply({ embeds: [done] });
                 } else {
-                    data = new welcomeSchema({ _id: interaction.guild.id });
+                    data = new noWelcomeSchema({ _id: interaction.guild.id });
 
                     await data.save();
 
