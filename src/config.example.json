@@ -17,8 +17,8 @@
     "embeds": {
         "default": "#E87F2A",
         "error": "#E74C3C",
-        "green": "#00FF00",
-        "red": "#00FF00"
+        "green": "#287E29",
+        "red": "#BF0000"
     },
 
     "emojis": {
@@ -36,7 +36,7 @@
     },
 
     "presence": {
-        "activity": "",
+        "activity": "/register",
         "activityType": 0,
         "status": "ONLINE"
     },
