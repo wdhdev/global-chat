@@ -1,0 +1,69 @@
+const emoji = require("../config.json").emojis;
+
+const devSchema = require("../models/devSchema");
+
+module.exports = {
+    name: "suggestion-approve",
+    startsWith: false,
+    async execute(interaction, client, Discord) {
+        try {
+            const dev = await devSchema.exists({ _id: interaction.user.id });
+
+            check:
+            if(dev) {
+                break check;
+            } else {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} You do not have permission to perform this action!`)
+
+                await interaction.reply({ embeds: [error], ephemeral: true });
+                return;
+            }
+
+            const modal = new Discord.ModalBuilder()
+                .setCustomId(`modal-${interaction.id}`)
+                .setTitle("Approve Suggestion")
+
+            const modalReason = new Discord.TextInputBuilder()
+                .setCustomId(`modal-reason-${interaction.id}`)
+                .setStyle(Discord.TextInputStyle.Short)
+                .setLabel("Why should this suggestion be approved?")
+                .setPlaceholder("This suggestion should be approved because...")
+                .setMinLength(5)
+                .setMaxLength(100)
+                .setRequired(true)
+
+            const actionRow = new Discord.ActionRowBuilder().addComponents(modalReason);
+
+            modal.addComponents(actionRow);
+
+            await interaction.showModal(modal);
+
+            client.on("interactionCreate", async i => {
+                if(!i.isModalSubmit()) return;
+
+                if(i.customId === `modal-${interaction.id}`) {
+                    const reason = i.fields.getTextInputValue(`modal-reason-${interaction.id}`);
+
+                    const reply = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.successful} The suggestion has been approved.`)
+
+                    await i.reply({ embeds: [reply], ephemeral: true });
+
+                    const approved = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.green)
+                        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                        .setTitle("Approved")
+                        .setDescription(`${reason}`)
+                        .setTimestamp()
+
+                    await interaction.message.edit({ embeds: [interaction.message.embeds[0], approved], components: [] });
+                }
+            })
+        } catch(err) {
+            client.logButtonError(err, interaction, Discord);
+        }
+    }
+}

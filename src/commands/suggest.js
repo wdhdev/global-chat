@@ -31,15 +31,20 @@ module.exports = {
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
+                        .setStyle(Discord.ButtonStyle.Success)
+                        .setCustomId("suggestion-approve")
+                        .setLabel("Approve"),
+
+                        new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Danger)
-                        .setCustomId(`suggestion-delete-${interaction.user.id}`)
-                        .setLabel("Delete")
+                        .setCustomId("suggestion-deny")
+                        .setLabel("Deny")
                     )
 
                 const message = await suggestionsChannel.send({ embeds: [suggestion], components: [actions] })
 
-                message.react("✅");
-                message.react("❌");
+                message.react(`${emoji.tick}`);
+                message.react(`${emoji.cross}`);
             } catch(err) {
                 console.error(err);
 
