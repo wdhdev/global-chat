@@ -8,7 +8,7 @@ module.exports = {
     options: [
         {
             type: 1,
-            name: "clean",
+            name: "cleanup",
             description: "Clean up a specific collection in the database.",
             options: [
                 {
@@ -45,7 +45,7 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommand() === "clean") {
+            if(interaction.options.getSubcommand() === "cleanup") {
                 const collection = interaction.options.getString("collection");
 
                 if(collection === "channels") {
