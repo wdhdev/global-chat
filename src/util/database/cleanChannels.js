@@ -39,8 +39,14 @@ module.exports = async function cleanChannels(client) {
 
                     modifiedData.push(document._id);
                     resolve(`Modified: ${document._id}`);
+                    return;
                 }
+
+                resolve();
+                return;
             }
+
+            resolve();
         }))
     }
 
