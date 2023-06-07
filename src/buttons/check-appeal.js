@@ -16,7 +16,7 @@ module.exports = {
                 .setStyle(Discord.TextInputStyle.Short)
                 .setLabel("What is your appeal ID?")
                 .setPlaceholder("xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx")
-                   .setMinLength(36)
+                .setMinLength(36)
                 .setMaxLength(36)
                 .setRequired(true)
 

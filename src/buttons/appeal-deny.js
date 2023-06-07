@@ -53,11 +53,11 @@ module.exports = {
 
             const modalReason = new Discord.TextInputBuilder()
                 .setCustomId(`modal-reason-${interaction.id}`)
-                .setStyle(Discord.TextInputStyle.Short)
+                .setStyle(Discord.TextInputStyle.Paragraph)
                 .setLabel("Why should this appeal be denied?")
                 .setPlaceholder("This appeal should be denied because...")
                 .setMinLength(5)
-                .setMaxLength(100)
+                .setMaxLength(500)
                 .setRequired(true)
 
             const actionRow = new Discord.ActionRowBuilder().addComponents(modalReason);

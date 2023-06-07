@@ -27,11 +27,11 @@ module.exports = {
 
             const modalReason = new Discord.TextInputBuilder()
                 .setCustomId(`modal-reason-${interaction.id}`)
-                .setStyle(Discord.TextInputStyle.Short)
+                .setStyle(Discord.TextInputStyle.Paragraph)
                 .setLabel("Why should this suggestion be denied?")
                 .setPlaceholder("This suggestion should be denied because...")
                 .setMinLength(5)
-                .setMaxLength(100)
+                .setMaxLength(500)
                 .setRequired(true)
 
             const actionRow = new Discord.ActionRowBuilder().addComponents(modalReason);
