@@ -58,8 +58,8 @@ module.exports = {
                         .setTitle("Collection Cleanup")
                         .setDescription(`${emoji.successful} Cleaned up the \`channels\` collection!`)
                         .addFields (
-                            { name: "Modified Documents", value: res.modified.length ? `\`\`\`${res.join("\n")}\`\`\`` : "*None*" },
-                            { name: "Removed Documents", value: res.removed.length ? `\`\`\`${res.join("\n")}\`\`\`` : "*None*" }
+                            { name: "Modified Documents", value: res.modified.length ? `\`\`\`${res.modified.join("\n")}\`\`\`` : "*None*" },
+                            { name: "Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
 
                     await interaction.editReply({ embeds: [result], ephemeral: true });
