@@ -17,8 +17,8 @@
     "embeds": {
         "default": "#E87F2A",
         "error": "#E74C3C",
-        "green": "#287E29",
-        "red": "#BF0000"
+        "green": "#57F287",
+        "red": "#ED4245"
     },
 
     "emojis": {
