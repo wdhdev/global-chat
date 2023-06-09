@@ -28,7 +28,7 @@ module.exports = async function (message, client, Discord) {
 
     // Embed message
     const chat = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     if(message.content.length >= 1) chat.setDescription(`${content}`);
@@ -46,7 +46,7 @@ module.exports = async function (message, client, Discord) {
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
 
     const messageLog = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .addFields (
             { name: "Message ID", value: `${id}` },
             { name: "User ID", value: `${message.author.id}` },
@@ -100,12 +100,12 @@ module.exports = async function (message, client, Discord) {
                                 }
                             })
 
-                            let user = message.author.tag;
+                            let user = message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag;
 
-                            if(role.supporter) user = `${message.author.tag} 💖`;
-                            if(role.verified) user = `${message.author.tag} ✅`;
-                            if(role.mod) user = `${message.author.tag} 🔨`;
-                            if(role.dev) user = `${message.author.tag} 💻`;
+                            if(role.supporter) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 💖`;
+                            if(role.verified) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} ✅`;
+                            if(role.mod) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 🔨`;
+                            if(role.dev) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 💻`;
 
                             if(cdnRes) {
                                 await webhook.send({

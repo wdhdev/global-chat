@@ -5,7 +5,7 @@ module.exports = async (guild, reason, evidence, interaction, client, Discord) =
     try {
         const report = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+            .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
             .setTitle("Guild Report")
             .addFields (
                 { name: "Guild", value: guild },

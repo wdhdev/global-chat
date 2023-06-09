@@ -24,7 +24,7 @@ module.exports = {
             try {
                 const suggestion = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                 	.setDescription(`${text}`)
                 	.setTimestamp()
 
