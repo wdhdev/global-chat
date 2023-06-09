@@ -48,7 +48,7 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .setTitle("Bot Information")
                     .addFields (
-                        { name: "Name", value: client.user.tag, inline: true },
+                        { name: "Name", value: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, inline: true },
                         { name: "ID", value: client.user.id, inline: true },
                         { name: "Version", value: `v${bot.version}`, inline: true },
                         { name: "Developer", value: `${bot.author}`, inline: true },

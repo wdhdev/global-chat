@@ -6,7 +6,7 @@ module.exports = {
 	async execute(client) {
         try {
 			// Login Message
-			console.log(`Logged in as: ${client.user.tag}`);
+			console.log(`Logged in as: ${client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag}`);
 
 			// Register Commands
 			const register = require("../../scripts/register");
