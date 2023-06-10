@@ -16,7 +16,7 @@ module.exports = {
         }
     ],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
-    botPermissions: [],
+    botPermissions: ["ManageMessages", "ManageWebhooks"],
     cooldown: 120,
     enabled: true,
     hidden: false,
@@ -72,8 +72,7 @@ module.exports = {
                 })
             })
         } catch(err) {
-            const command = this;
-            client.logCommandError(command, err, interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }
