@@ -1,5 +1,5 @@
-const reportGuild = require("../util/reportGuild");
-const reportUser = require("../util/reportUser");
+const reportGuild = require("../util/report/guild");
+const reportUser = require("../util/report/user");
 
 module.exports = {
 	name: "report",

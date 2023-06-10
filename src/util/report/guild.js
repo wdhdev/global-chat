@@ -1,5 +1,5 @@
 module.exports = async (guild, reason, evidence, interaction, client, Discord) => {
-    const emoji = require("../config.json").emojis;
+    const emoji = require("../../config.json").emojis;
     const reportChannel = client.channels.cache.get(client.config_channels.reports);
 
     try {

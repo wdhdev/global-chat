@@ -1,8 +1,8 @@
 module.exports = async (message, client, Discord) => {
-    const blockedSchema = require("../models/blockedSchema");
-    const filterSchema = require("../models/filterSchema");
+    const blockedSchema = require("../../models/blockedSchema");
+    const filterSchema = require("../../models/filterSchema");
     const replaceContent = require("./replaceContent");
-    const role = await require("./getRoles")(message, client);
+    const role = await require("../roles/get")(message, client);
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
