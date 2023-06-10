@@ -2,7 +2,7 @@ const emoji = require("../config.json").emojis;
 
 module.exports = {
     name: "vote",
-    description: "Sends the voting links.",
+    description: "Sends the voting link.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
@@ -11,14 +11,15 @@ module.exports = {
     hidden: false,
     async execute(interaction, client, Discord) {
         try {
-            const vote = new Discord.EmbedBuilder()
-                .setColor(client.config_embeds.default)
-            	.setDescription(`
-                    **Vote on Top.gg**
-					${emoji.reply} [Support Server](https://wdh.gg/gc-support-vote)
-				`)
+            const button = new Discord.ActionRowBuilder()
+                .addComponents (
+                    new Discord.ButtonBuilder()
+                        .setStyle(Discord.ButtonStyle.Link)
+                        .setLabel("Vote on Top.gg")
+                        .setURL("https://wdh.gg/gc-vote")
+                )
 
-            await interaction.editReply({ embeds: [vote] });
+            await interaction.editReply({ components: [button] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }
