@@ -54,7 +54,14 @@ module.exports = {
 
             if(interaction.type !== Discord.InteractionType.ApplicationCommand) return;
 
-            if(await bannedUserSchema.exists({ _id: interaction.user.id })) return;
+            if(await bannedUserSchema.exists({ _id: interaction.user.id })) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} You are banned from using the bot!`)
+
+                await interaction.reply({ embeds: [error], ephemeral: true });
+                return;
+            }
 
             const command = client.commands.get(interaction.commandName);
 
