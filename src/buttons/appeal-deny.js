@@ -38,6 +38,15 @@ module.exports = {
                 return;
             }
 
+            if(data.id === interaction.user.id) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} You cannot manage your own appeal!`)
+
+                await interaction.reply({ embeds: [error], ephemeral: true });
+                return;
+            }
+
             if(data.status !== "NOT_REVIEWED") {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
