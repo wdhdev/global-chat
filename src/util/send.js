@@ -29,6 +29,12 @@ module.exports = async function (message, client, Discord) {
             .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
             .setTimestamp()
 
+        const blockedInfo = new Discord.EmbedBuilder()
+            .addFields (
+                { name: "User ID", value: `${message.author.id}` },
+                { name: "Guild ID", value: `${message.guild.id}` }
+            )
+
         if(message.content.length) blocked.setDescription(message.content);
 
         if(message.attachments.first()) {
