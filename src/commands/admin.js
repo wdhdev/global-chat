@@ -286,7 +286,7 @@ module.exports = {
                         .setDescription(`${emoji.successful} The appeal message has been sent.`)
 
                     await interaction.editReply({ embeds: [sent] });
-                } catch {
+                } catch(err) {
                     client.logCommandError(err, interaction, Discord);
 
                     const error = new Discord.EmbedBuilder()
