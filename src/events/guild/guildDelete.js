@@ -26,7 +26,7 @@ module.exports = {
                     { name: "ID", value: guild.id, inline: true },
                     { name: "Owner", value: `<@${guild.ownerId}>`, inline: true },
                     { name: "Created", value: `<t:${guild.createdTimestamp.toString().slice(0, -3)}:R>`, inline: true },
-                    { name: "Member Count", value: guild.memberCount, inline: true }
+                    { name: "Member Count", value: `${guild.memberCount}`, inline: true }
                 )
                 .setTimestamp()
 
