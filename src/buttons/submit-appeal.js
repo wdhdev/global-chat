@@ -73,13 +73,16 @@ module.exports = {
                     const banReason = i.fields.getTextInputValue(`modal-banreason-${id}`);
                     const unbanReason = i.fields.getTextInputValue(`modal-unbanreason-${id}`);
 
+                    const banData = await bannedUserSchema.findOne({ _id: interaction.user.id });
+
                     const embed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .addFields (
-                            { name: "ID", value: id },
-                            { name: "User", value: `<@${interaction.user.id}>` },
-                            { name: "Ban Reason", value: `${banReason}` },
-                            { name: "Unban Reason", value: `${unbanReason}` }
+                            { name: "🔢 Appeal ID", value: id },
+                            { name: "👤 User", value: interaction.user },
+                            { name: "🔨 Ban Reason", value: banData.reason ? `${banData.reason}` : "*None*" },
+                            { name: "🔨 Ban Reason (*user provided*)", value: `${data.ban_reason}` },
+                            { name: "🔓 Unban Reason (*user provided*)", value: `${data.unban_reason}` }
                         )
 
                     const data = new appealSchema({

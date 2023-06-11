@@ -91,7 +91,7 @@ module.exports = {
 
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("❌ Appeal Denied")
+                        .setTitle("Appeal Denied")
                         .addFields (
                             { name: "🔢 Appeal ID", value: id },
                             { name: "❓ Reason", value: `${reason}` },

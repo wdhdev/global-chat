@@ -93,7 +93,7 @@ module.exports = {
 
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("✅ Appeal Approved")
+                        .setTitle("Appeal Approved")
                         .addFields (
                             { name: "🔢 Appeal ID", value: id },
                             { name: "❓ Reason", value: `${reason}` },

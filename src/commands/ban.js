@@ -154,7 +154,7 @@ module.exports = {
 
                         const banLog = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setTitle("🔨 Guild Banned")
+                            .setTitle("Guild Banned")
                             .addFields (
                                 { name: "🔢 Guild ID", value: id },
                                 { name: "🔨 Moderator", value: interaction.user },
@@ -205,7 +205,7 @@ module.exports = {
 
                     const banInfo = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("ℹ️ Ban Information")
+                        .setTitle("Ban Information")
                         .addFields (
                             { name: "🕰️ Timestamp", value: `<t:${data.timestamp.slice(0, -3)}>` },
                             { name: "❓ Reason", value: `${data.reason}` },
@@ -242,7 +242,7 @@ module.exports = {
                     const banInfo = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
-                        .setTitle("ℹ️ Ban Information")
+                        .setTitle("Ban Information")
                         .addFields (
                             { name: "🕰️ Timestamp", value: `<t:${data.timestamp.slice(0, -3)}>` },
                             { name: "❓ Reason", value: `${data.reason}` },
@@ -290,7 +290,7 @@ module.exports = {
 
                         const banLog = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setTitle("🔨 User Banned")
+                            .setTitle("User Banned")
                             .addFields (
                                 { name: "👤 User", value: user },
                                 { name: "❓ Reason", value: `${reason}` },
