@@ -176,7 +176,7 @@ module.exports = {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("➕ Role Added")
+                        .setTitle("Role Added")
                         .addFields (
                             { name: "🎭 Role", value: "🔨 Moderator" },
                             { name: "👤 User", value: `${user}` }
@@ -208,7 +208,7 @@ module.exports = {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("➖ Role Removed")
+                        .setTitle("Role Removed")
                         .addFields (
                             { name: "🎭 Role", value: "🔨 Moderator" },
                             { name: "👤 User", value: `${user}` }
