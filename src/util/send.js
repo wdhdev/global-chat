@@ -1,6 +1,7 @@
 module.exports = async function (message, client, Discord) {
     const cdn = require("./cdn");
     const checkWebhook = require("./checkWebhook");
+    const emoji = require("../config.json").emojis;
     const role = await require("./roles/get")(message, client);
     const roles = require("./roles/assign");
     const test = require("./filter/test");
