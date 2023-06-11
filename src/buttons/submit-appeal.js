@@ -17,7 +17,7 @@ module.exports = {
                 return;
             }
 
-            if(!await bannedUserSchema.exists({ _id: interaction.user.id, allowAppeal: false })) {
+            if(await bannedUserSchema.exists({ _id: interaction.user.id, allowAppeal: false })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You are allowed to submit an appeal!`)
