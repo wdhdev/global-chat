@@ -31,7 +31,7 @@ module.exports = {
                 .setLabel("Why should this suggestion be approved?")
                 .setPlaceholder("This suggestion should be approved because...")
                 .setMinLength(5)
-                .setMaxLength(500)
+                .setMaxLength(250)
                 .setRequired(true)
 
             const actionRow = new Discord.ActionRowBuilder().addComponents(modalReason);

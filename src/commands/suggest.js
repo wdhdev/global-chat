@@ -8,6 +8,7 @@ module.exports = {
             type: 3,
             name: "text",
             description: "Your suggestion about the bot or support server.",
+            max_length: 250,
             required: true
         }
     ],

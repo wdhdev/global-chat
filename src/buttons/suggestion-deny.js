@@ -31,7 +31,7 @@ module.exports = {
                 .setLabel("Why should this suggestion be denied?")
                 .setPlaceholder("This suggestion should be denied because...")
                 .setMinLength(5)
-                .setMaxLength(500)
+                .setMaxLength(250)
                 .setRequired(true)
 
             const actionRow = new Discord.ActionRowBuilder().addComponents(modalReason);
