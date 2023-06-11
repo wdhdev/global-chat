@@ -93,7 +93,7 @@ module.exports = {
                         .setColor(client.config_embeds.default)
                         .setTitle("Appeal Denied")
                         .addFields (
-                            { name: "🔢 Appeal ID", value: id },
+                            { name: "📄 Appeal", value: id },
                             { name: "❓ Reason", value: `${reason}` },
                             { name: "🔨 Moderator", value: interaction.user }
                         )

@@ -111,7 +111,7 @@ module.exports = {
                             .setColor(client.config_embeds.default)
                             .setTitle("🗑️ CDN: Upload Deleted")
                             .addFields (
-                                { name: "👤 User", value: user },
+                                { name: "👤 User", value: `${user}` },
                                 { name: "📄 File", value: file },
                                 { name: "🔨 Moderator", value: interaction.user },
                                 { name: "❓ Reason", value: `${reason}` }

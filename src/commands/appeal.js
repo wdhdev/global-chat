@@ -119,7 +119,7 @@ module.exports = {
                 const appealData = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .addFields (
-                        { name: "🔢 Appeal ID", value: id },
+                        { name: "📄 Appeal", value: id },
                         { name: "👤 User", value: `<@${data.id}>` },
                         { name: "🔨 Ban Reason", value: banData.reason ? `${banData.reason}` : "*None*" },
                         { name: "🔨 Ban Reason (*user provided*)", value: `${data.ban_reason}` },

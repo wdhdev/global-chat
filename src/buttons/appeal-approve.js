@@ -95,7 +95,7 @@ module.exports = {
                         .setColor(client.config_embeds.default)
                         .setTitle("Appeal Approved")
                         .addFields (
-                            { name: "🔢 Appeal ID", value: id },
+                            { name: "📄 Appeal", value: id },
                             { name: "❓ Reason", value: `${reason}` },
                             { name: "🔨 Moderator", value: interaction.user }
                         )

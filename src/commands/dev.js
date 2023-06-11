@@ -89,7 +89,7 @@ module.exports = {
                     .setTitle("➕ Role Added")
                     .addFields (
                         { name: "🎭 Role", value: "💻 Developer" },
-                        { name: "👤 User", value: user }
+                        { name: "👤 User", value: `${user}` }
                     )
                     .setTimestamp()
 
@@ -121,7 +121,7 @@ module.exports = {
                     .setTitle("➖ Role Removed")
                     .addFields (
                         { name: "🎭 Role", value: "💻 Developer" },
-                        { name: "👤 User", value: user }
+                        { name: "👤 User", value: `${user}` }
                     )
                     .setTimestamp()
 

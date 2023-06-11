@@ -106,7 +106,7 @@ module.exports = {
                             .setColor(client.config_embeds.default)
                             .setTitle("Guild Unbanned")
                             .addFields (
-                                { name: "🔢 Guild ID", value: id },
+                                { name: "🔢 Guild ID", value: `${id}` },
                                 { name: "❓ Reason", value: `${reason}` },
                                 { name: "🔨 Moderator", value: interaction.user },
                             )
@@ -146,7 +146,7 @@ module.exports = {
                             .setColor(client.config_embeds.default)
                             .setTitle("User Unbanned")
                             .addFields (
-                                { name: "👤 User", value: user },
+                                { name: "👤 User", value: `${user}` },
                                 { name: "❓ Reason", value: `${reason}` },
                                 { name: "🔨 Moderator", value: interaction.user },
                             )
