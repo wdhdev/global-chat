@@ -113,7 +113,7 @@ module.exports = {
                             .addFields (
                                 { name: "👤 User", value: `${user}` },
                                 { name: "📄 File", value: file },
-                                { name: "🔨 Moderator", value: interaction.user },
+                                { name: "🔨 Moderator", value: `${interaction.user}` },
                                 { name: "❓ Reason", value: `${reason}` }
                             )
                             .setTimestamp()
@@ -150,7 +150,7 @@ module.exports = {
                 //             .addFields (
                 //                 { name: "👤 User", value: `${user}` },
                 //                 { name: "📄 File", value: file },
-                //                 { name: "🔨 Moderator", value: interaction.user }
+                //                 { name: "🔨 Moderator", value: `${interaction.user}` }
                 //             )
                 //             .setTimestamp()
 

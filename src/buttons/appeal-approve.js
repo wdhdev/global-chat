@@ -97,7 +97,7 @@ module.exports = {
                         .addFields (
                             { name: "📄 Appeal", value: id },
                             { name: "❓ Reason", value: `${reason}` },
-                            { name: "🔨 Moderator", value: interaction.user }
+                            { name: "🔨 Moderator", value: `${interaction.user}` }
                         )
                         .setTimestamp()
 

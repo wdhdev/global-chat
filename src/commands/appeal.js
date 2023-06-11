@@ -89,7 +89,7 @@ module.exports = {
                     .setTitle("Appeal Deleted")
                     .addFields (
                         { name: "📄 Appeal", value: id },
-                        { name: "🔨 Moderator", value: interaction.user }
+                        { name: "🔨 Moderator", value: `${interaction.user}` }
                     )
                     .setTimestamp()
 

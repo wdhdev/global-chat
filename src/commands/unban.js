@@ -108,7 +108,7 @@ module.exports = {
                             .addFields (
                                 { name: "🔢 Guild ID", value: `${id}` },
                                 { name: "❓ Reason", value: `${reason}` },
-                                { name: "🔨 Moderator", value: interaction.user },
+                                { name: "🔨 Moderator", value: `${interaction.user}` },
                             )
                             .setTimestamp()
 
@@ -148,7 +148,7 @@ module.exports = {
                             .addFields (
                                 { name: "👤 User", value: `${user}` },
                                 { name: "❓ Reason", value: `${reason}` },
-                                { name: "🔨 Moderator", value: interaction.user },
+                                { name: "🔨 Moderator", value: `${interaction.user}` },
                             )
                             .setTimestamp()
 

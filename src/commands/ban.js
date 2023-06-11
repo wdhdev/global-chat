@@ -157,7 +157,7 @@ module.exports = {
                             .setTitle("Guild Banned")
                             .addFields (
                                 { name: "🔢 Guild ID", value: `${id}` },
-                                { name: "🔨 Moderator", value: interaction.user },
+                                { name: "🔨 Moderator", value: `${interaction.user}` },
                                 { name: "❓ Reason", value: `${reason}` }
                             )
                             .setTimestamp()
@@ -295,7 +295,7 @@ module.exports = {
                                 { name: "👤 User", value: `${user}` },
                                 { name: "❓ Reason", value: `${reason}` },
                                 { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
-                                { name: "🔨 Moderator", value: interaction.user }
+                                { name: "🔨 Moderator", value: `${interaction.user}` }
                             )
                             .setTimestamp()
 

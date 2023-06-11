@@ -79,7 +79,7 @@ module.exports = {
                         .setColor(client.config_embeds.default)
                         .addFields (
                             { name: "📄 Appeal", value: id },
-                            { name: "👤 User", value: interaction.user },
+                            { name: "👤 User", value: `${interaction.user}` },
                             { name: "🔨 Ban Reason", value: banData.reason ? `${banData.reason}` : "*None*" },
                             { name: "🔨 Ban Reason (*user provided*)", value: `${data.ban_reason}` },
                             { name: "🔓 Unban Reason (*user provided*)", value: `${data.unban_reason}` }
