@@ -7,7 +7,7 @@ module.exports = async function cleanChannels(client) {
     const promises = [];
 
     const validGuilds = [];
-    const modifiedData = [];
+    let modifiedData = [];
     const removedData = [];
 
     // Valid Guilds
@@ -53,7 +53,7 @@ module.exports = async function cleanChannels(client) {
     await Promise.all(promises);
 
     return {
-        "modified": modifiedData,
+        "modified": modifiedData.filter(item => !removedData.includes(item)),
         "removed": removedData
     }
 }
