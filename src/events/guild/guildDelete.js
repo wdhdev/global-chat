@@ -1,6 +1,6 @@
-const channelSchema = require("../../models/channelSchema");
 const checkWebhook = require("../../util/checkWebhook");
-const noWelcomeSchema = require("../../models/noWelcomeSchema");
+
+const channelSchema = require("../../models/channelSchema");
 
 module.exports = {
 	name: "guildDelete",
@@ -14,7 +14,19 @@ module.exports = {
             }
 
             await channelSchema.findOneAndDelete({ _id: guild.id });
-            await noWelcomeSchema.findOneAndDelete({ _id: guild.id });
+
+            const logsChannel = client.channels.cache.get(client.config_channels.logs);
+
+            const log = new Discord.EmbedBuilder()
+                .setColor(client.config_embeds.default)
+                .setTitle("➖ Guild Left")
+                .addFields (
+                    { name: "🪪 Name", value: `${guild.name}` },
+                    { name: "🔢 ID", value: guild.id }
+                )
+                .setTimestamp()
+
+            logsChannel.send({ embeds: [log] });
         } catch(err) {
 			client.logEventError(err);
         }

@@ -35,6 +35,7 @@ module.exports = {
 	async execute(interaction, client, Discord) {
         try {
             const dev = await devSchema.exists({ _id: interaction.user.id });
+            const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             if(!dev) {
                 const error = new Discord.EmbedBuilder()
@@ -55,14 +56,19 @@ module.exports = {
 
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("Collection Cleanup")
+                        .setTitle("🧹 Collection Cleanup")
                         .setDescription(`${emoji.successful} Cleaned up the \`channels\` collection!`)
                         .addFields (
-                            { name: "Modified Documents", value: res.modified.length ? `\`\`\`${res.modified.join("\n")}\`\`\`` : "*None*" },
-                            { name: "Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
+                            { name: "📝 Modified Documents", value: res.modified.length ? `\`\`\`${res.modified.join("\n")}\`\`\`` : "*None*" },
+                            { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
 
                     await interaction.editReply({ embeds: [result], ephemeral: true });
+
+                    result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                    result.setTimestamp();
+
+                    logsChannel.send({ embeds: [result] });
                     return;
                 }
 

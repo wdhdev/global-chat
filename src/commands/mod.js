@@ -1,8 +1,6 @@
-const announce = require("../util/announcement");
 const cdn = require("@globalchat/cdn");
 const emoji = require("../config.json").emojis;
 
-const appealSchema = require("../models/appealSchema");
 const devSchema = require("../models/devSchema");
 const modSchema = require("../models/modSchema");
 
@@ -10,44 +8,6 @@ module.exports = {
 	name: "mod",
 	description: "Moderator Commands",
     options: [
-        {
-            type: 1,
-            name: "announce",
-            description: "Send an announcement.",
-            options: [
-                {
-                    type: 3,
-                    name: "text",
-                    description: "The text for the announcement to include.",
-                    max_length: 1024,
-                    required: true
-                }
-            ]
-        },
-
-        {
-            type: 2,
-            name: "appeal",
-            description: "Manage user appeals.",
-            options: [
-                {
-                    type: 1,
-                    name: "get",
-                    description: "Get information about an appeal.",
-                    options: [
-                        {
-                            type: 3,
-                            name: "id",
-                            description: "The ID of the appeal.",
-                            min_length: 36,
-                            max_length: 36,
-                            required: true
-                        }
-                    ]
-                }
-            ]
-        },
-
         {
             type: 2,
             name: "cdn",
@@ -131,66 +91,6 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommand() === "announce") {
-                const text = interaction.options.getString("text");
-
-                await announce(interaction, text, client, Discord);
-
-                const sent = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} The announcement has been sent!`)
-
-                await interaction.editReply({ embeds: [sent] });
-                return;
-            }
-
-            if(interaction.options.getSubcommandGroup() === "appeal") {
-                const id = interaction.options.getString("id");
-
-                if(interaction.options.getSubcommand() === "get") {
-                    if(!await appealSchema.exists({ _id: id })) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} Please specify a valid appeal ID!`)
-
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
-
-                    const data = await appealSchema.findOne({ _id: id });
-
-                    const state = {
-                        "APPROVED": `${emoji.green_circle} Approved`,
-                        "DENIED": `${emoji.red_circle} Denied`,
-                        "NOT_REVIEWED": `${emoji.orange_circle} Pending Review`
-                    }
-
-                    const appealData = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                    	.setDescription(`
-							**Appeal**
-							${emoji.reply} ${id}
-							**User**
-							${emoji.reply} <@${data.id}>
-
-							**Ban Reason** (*user provided*)
-							${emoji.reply} ${data.ban_reason}
-							**Unban Reason** (*user provided*)
-							${emoji.reply} ${data.unban_reason}
-
-							**Status**
-							${emoji.reply} ${state[data.status]}
-							${data.status !== "NOT_REVIEWED" ? `**Moderator**\n${emoji.reply} <@${data.mod}>` : ""}
-							${data.status !== "NOT_REVIEWED" ? `**Reason**\n${emoji.reply} ${data.reason}` : ""}
-						`)
-
-                    await interaction.editReply({ embeds: [appealData] });
-                    return;
-                }
-
-                return;
-            }
-
             if(interaction.options.getSubcommandGroup() === "cdn") {
                 const user = interaction.options.getUser("user");
 
@@ -209,12 +109,12 @@ module.exports = {
 
                         const cdnLog = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setTitle("CDN: Upload Deleted")
+                            .setTitle("🗑️ CDN: Upload Deleted")
                             .addFields (
-                                { name: "User", value: `${user}` },
-                                { name: "File Name", value: file },
-                                { name: "Moderator", value: `${interaction.user}` },
-                                { name: "Reason", value: `${reason}` }
+                                { name: "👤 User", value: user },
+                                { name: "📄 File", value: file },
+                                { name: "🔨 Moderator", value: interaction.user },
+                                { name: "❓ Reason", value: `${reason}` }
                             )
                             .setTimestamp()
 
@@ -246,11 +146,11 @@ module.exports = {
 
                 //         const cdnLog = new Discord.EmbedBuilder()
                 //             .setColor(client.config_embeds.default)
-                //             .setTitle("CDN: NSFW Upload Deleted")
+                //             .setTitle("🗑️ CDN: NSFW Upload Deleted")
                 //             .addFields (
-                //                 { name: "User", value: `${user}` },
-                //                 { name: "File Name", value: file },
-                //                 { name: "Moderator", value: `${interaction.user}` }
+                //                 { name: "👤 User", value: `${user}` },
+                //                 { name: "📄 File", value: file },
+                //                 { name: "🔨 Moderator", value: interaction.user }
                 //             )
                 //             .setTimestamp()
 

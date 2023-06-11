@@ -91,11 +91,11 @@ module.exports = {
 
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("Appeal Denied")
+                        .setTitle("❌ Appeal Denied")
                         .addFields (
-                            { name: "ID", value: `${id}` },
-                            { name: "Moderator", value: `${interaction.user}` },
-                            { name: "Reason", value: `${reason}` }
+                            { name: "🔢 Appeal ID", value: id },
+                            { name: "❓ Reason", value: `${reason}` },
+                            { name: "🔨 Moderator", value: interaction.user }
                         )
                         .setTimestamp()
 

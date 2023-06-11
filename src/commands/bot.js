@@ -52,7 +52,7 @@ module.exports = {
                         { name: "ID", value: client.user.id, inline: true },
                         { name: "Version", value: `v${bot.version}`, inline: true },
                         { name: "Developer", value: `${bot.author}`, inline: true },
-                        { name: "Uptime", value: uptime, inline: true },
+                        { name: "Online Since", value: `<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>`, inline: true },
                         { name: "Statistics", value: `Guilds: ${client.guilds.cache.size}\nUsers: ${client.users.cache.size}`, inline: true }
                     )
 

@@ -1,4 +1,4 @@
-module.exports = async function (interaction, text, client, Discord) {
+module.exports = async function (text, interaction, client, Discord) {
     const channelSchema = require("../models/channelSchema");
     const checkWebhook = require("./checkWebhook");
 

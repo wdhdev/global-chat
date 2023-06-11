@@ -104,11 +104,11 @@ module.exports = {
 
                         const banLog = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setTitle("Guild Unbanned")
+                            .setTitle("🔓 Guild Unbanned")
                             .addFields (
-                                { name: "Guild ID", value: `${id}` },
-                                { name: "Moderator", value: `${interaction.user}` },
-                                { name: "Reason", value: `${reason}` }
+                                { name: "🔢 Guild ID", value: id },
+                                { name: "❓ Reason", value: `${reason}` },
+                                { name: "🔨 Moderator", value: interaction.user },
                             )
                             .setTimestamp()
 
@@ -144,11 +144,11 @@ module.exports = {
 
                         const banLog = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setTitle("User Unbanned")
+                            .setTitle("🔓 User Unbanned")
                             .addFields (
-                                { name: "User", value: `${user}` },
-                                { name: "Moderator", value: `${interaction.user}` },
-                                { name: "Reason", value: `${reason}` }
+                                { name: "👤 User", value: user },
+                                { name: "❓ Reason", value: `${reason}` },
+                                { name: "🔨 Moderator", value: interaction.user },
                             )
                             .setTimestamp()
 

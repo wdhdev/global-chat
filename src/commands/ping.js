@@ -22,12 +22,10 @@ module.exports = {
 
             const ping = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-            	.setDescription(`
-					**Bot Latency**
-					${emoji.reply} ${botLatency}ms
-					**API Latency**
-					${emoji.reply} ${apiLatency}ms
-				`)
+                .addFields (
+                    { name: "Bot Latency", value: `${botLatency}ms` },
+                    { name: "API Latency", value: `${apiLatency}ms` }
+                )
 
             await interaction.editReply({ embeds: [ping] });
         } catch(err) {

@@ -13,7 +13,7 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 300,
+    cooldown: 120,
     enabled: true,
     hidden: false,
 	async execute(interaction, client, Discord) {
@@ -46,7 +46,7 @@ module.exports = {
                 message.react(`${emoji.tick}`);
                 message.react(`${emoji.cross}`);
             } catch(err) {
-                console.error(err);
+                client.logCommandError(err, interaction, Discord);
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)

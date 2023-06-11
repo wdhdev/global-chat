@@ -1,6 +1,6 @@
+const announce = require("../util/announcement");
 const emoji = require("../config.json").emojis;
 
-const appealSchema = require("../models/appealSchema");
 const devSchema = require("../models/devSchema");
 const modSchema = require("../models/modSchema");
 const verifiedSchema = require("../models/verifiedSchema");
@@ -10,24 +10,16 @@ module.exports = {
 	description: "Admin Commands",
     options: [
         {
-            type: 2,
-            name: "appeal",
-            description: "Manage appeals.",
+            type: 1,
+            name: "announce",
+            description: "Send an announcement.",
             options: [
                 {
-                    type: 1,
-                    name: "delete",
-                    description: "Delete an appeal.",
-                    options: [
-                        {
-                            type: 3,
-                            name: "id",
-                            description: "The ID of the appeal.",
-                            min_length: 36,
-                            max_length: 36,
-                            required: true
-                        }
-                    ]
+                    type: 3,
+                    name: "text",
+                    description: "The text for the announcement to include.",
+                    max_length: 1024,
+                    required: true
                 }
             ]
         },
@@ -125,7 +117,7 @@ module.exports = {
 	async execute(interaction, client, Discord) {
         try {
             const dev = await devSchema.exists({ _id: interaction.user.id });
-            const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
+            const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             if(!dev && interaction.user.id !== client.config_default.owner) {
                 const error = new Discord.EmbedBuilder()
@@ -136,40 +128,16 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommandGroup() === "appeal") {
-                const id = interaction.options.getString("id");
+            if(interaction.options.getSubcommand() === "announce") {
+                const text = interaction.options.getString("text");
 
-                if(interaction.options.getSubcommand() === "delete") {
-                    if(!await appealSchema.exists({ _id: id })) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} Please specify a valid appeal ID!`)
+                await announce(text, interaction, client, Discord);
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                const sent = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} The announcement has been sent!`)
 
-                    await appealSchema.findOneAndDelete({ _id: id });
-
-                    const deleted = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The appeal has been deleted!`)
-
-                    await interaction.editReply({ embeds: [deleted] });
-
-                    const appealLog = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setTitle("Appeal Deleted")
-                        .addFields (
-                            { name: "ID", value: `${id}` },
-                            { name: "Moderator", value: `${interaction.user}` }
-                        )
-                        .setTimestamp()
-
-                    modLogsChannel.send({ embeds: [appealLog] });
-                    return;
-                }
-
+                await interaction.editReply({ embeds: [sent] });
                 return;
             }
 
@@ -186,54 +154,68 @@ module.exports = {
                         return;
                     }
 
-                    modSchema.findOne({ _id: user.id }, async (err, data) => {
-                        if(!data) {
-                            data = new modSchema({ _id: user.id });
+                    if(await modSchema.exists({ _id: user.id })) {
+                        const error = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.error)
+                            .setDescription(`${emoji.error} ${user} is already a moderator!`)
 
-                            await data.save();
+                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        return;
+                    }
 
-                            const added = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.default)
-                                .setDescription(`${emoji.successful} ${user} has been added to the moderator role.`)
+                    data = new modSchema({ _id: user.id });
 
-                            await interaction.editReply({ embeds: [added] });
-                            return;
-                        }
+                    await data.save();
 
-                        if(data) {
-                            const error = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.error} ${user} is already a moderator!`)
+                    const added = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.successful} ${user} has been added to the moderator role.`)
 
-                            await interaction.editReply({ embeds: [error], ephemeral: true });
-                            return;
-                        }
-                    })
+                    await interaction.editReply({ embeds: [added] });
+
+                    const log = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                        .setTitle("➕ Role Added")
+                        .addFields (
+                            { name: "🎭 Role", value: "🔨 Moderator" },
+                            { name: "👤 User", value: user }
+                        )
+                        .setTimestamp()
+
+                    logsChannel.send({ embeds: [log] });
                     return;
                 }
 
                 if(interaction.options.getSubcommand() === "remove") {
-                    modSchema.findOne({ _id: user.id }, async (err, data) => {
-                        if(!data) {
-                            const error = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.error} ${user} is not a moderator!`)
+                    if(!await modSchema.exists({ _id: user.id })) {
+                        const error = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.error)
+                            .setDescription(`${emoji.error} ${user} is not a moderator!`)
 
-                            await interaction.editReply({ embeds: [error], ephemeral: true });
-                            return;
-                        }
+                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        return;
+                    }
 
-                        if(data) {
-                            await data.delete();
+                    await modSchema.findOneAndDelete({ _id: user.id });
 
-                            const removed = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.default)
-                                .setDescription(`${emoji.successful} ${user} has been removed from the moderator role.`)
+                    const removed = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.successful} ${user} has been removed from the moderator role.`)
 
-                            await interaction.editReply({ embeds: [removed] });
-                            return;
-                        }
-                    })
+                    await interaction.editReply({ embeds: [removed] });
+
+                    const log = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                        .setTitle("➖ Role Removed")
+                        .addFields (
+                            { name: "🎭 Role", value: "🔨 Moderator" },
+                            { name: "👤 User", value: user }
+                        )
+                        .setTimestamp()
+
+                    logsChannel.send({ embeds: [log] });
                     return;
                 }
             }
@@ -244,12 +226,10 @@ module.exports = {
 
                 const embed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`
-						**Submit**
-						${emoji.reply} Appeal your ban from the bot.
-						**Check**
-						${emoji.reply} Check the status of your appeal.
-					`)
+                    .addFields (
+                        { name: "Submit", value: "Appeal your ban from the bot." },
+                        { name: "Check", value: "Check the status of your appeal." }
+                    )
 
                 const buttons = new Discord.ActionRowBuilder()
                     .addComponents (
@@ -273,6 +253,8 @@ module.exports = {
 
                     await interaction.editReply({ embeds: [sent] });
                 } catch {
+                    client.logCommandError(err, interaction, Discord);
+
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.error} The ban appeal message could not be sent.`)
@@ -287,31 +269,22 @@ module.exports = {
             if(interaction.options.getSubcommand() === "unverify") {
                 const user = interaction.options.getUser("user");
 
-                verifiedSchema.findOne({ _id: user.id }, async (err, data) => {
-                    if(!data) {
-                        data = new verifiedSchema({ _id: user.id });
+                if(!await verifiedSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is not verified!`)
 
-                        await data.save();
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is not verified!`)
+                await modSchema.findOneAndDelete({ _id: user.id });
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                const unverified = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} ${user} has been unverified!`)
 
-                    if(data) {
-                        await data.delete();
-
-                        const unverified = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been unverified!`)
-
-                        await interaction.editReply({ embeds: [unverified] });
-                        return;
-                    }
-                })
+                await interaction.editReply({ embeds: [unverified] });
                 return;
             }
 
@@ -354,29 +327,24 @@ module.exports = {
                     return;
                 }
 
-                verifiedSchema.findOne({ _id: user.id }, async (err, data) => {
-                    if(!data) {
-                        data = new verifiedSchema({ _id: user.id });
+                if(await verifiedSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is already verified!`)
 
-                        await data.save();
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        const verified = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been verified.`)
+                data = new verifiedSchema({ _id: user.id });
 
-                        await interaction.editReply({ embeds: [verified] });
-                        return;
-                    }
+                await data.save();
 
-                    if(data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is already verified!`)
+                const verified = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} ${user} has been verified.`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
-                })
+                await interaction.editReply({ embeds: [verified] });
                 return;
             }
         } catch(err) {

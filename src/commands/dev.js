@@ -41,7 +41,7 @@ module.exports = {
     hidden: true,
 	async execute(interaction, client, Discord) {
         try {
-            if(interaction.user.id !== "853158265466257448") {
+            if(interaction.user.id !== client.config_default.owner) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
@@ -49,6 +49,8 @@ module.exports = {
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
             }
+
+            const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             const user = interaction.options.getUser("user");
 
@@ -62,54 +64,68 @@ module.exports = {
                     return;
                 }
 
-                devSchema.findOne({ _id: user.id }, async (err, data) => {
-                    if(!data) {
-                        data = new devSchema({ _id: user.id });
+                if(await devSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is already a developer!`)
 
-                        await data.save();
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        const added = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been added to the developer role.`)
+                data = new devSchema({ _id: user.id });
 
-                        await interaction.editReply({ embeds: [added] });
-                        return;
-                    }
+                await data.save();
 
-                    if(data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is already a developer!`)
+                const added = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} ${user} has been added to the developer role.`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
-                })
+                await interaction.editReply({ embeds: [added] });
+
+                const log = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setTitle("➕ Role Added")
+                    .addFields (
+                        { name: "🎭 Role", value: "💻 Developer" },
+                        { name: "👤 User", value: user }
+                    )
+                    .setTimestamp()
+
+                logsChannel.send({ embeds: [log] });
                 return;
             }
 
             if(interaction.options.getSubcommand() === "remove") {
-                devSchema.findOne({ _id: user.id }, async (err, data) => {
-                    if(!data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is not a developer!`)
+                if(!await devSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is not a developer!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                    if(data) {
-                        await data.delete();
+                await devSchema.findOneAndDelete({ _id: user.id });
 
-                        const removed = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been removed from the developer role.`)
+                const removed = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} ${user} has been removed from the developer role.`)
 
-                        await interaction.editReply({ embeds: [removed] });
-                        return;
-                    }
-                })
+                await interaction.editReply({ embeds: [removed] });
+
+                const log = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setTitle("➖ Role Removed")
+                    .addFields (
+                        { name: "🎭 Role", value: "💻 Developer" },
+                        { name: "👤 User", value: user }
+                    )
+                    .setTimestamp()
+
+                logsChannel.send({ embeds: [log] });
                 return;
             }
         } catch(err) {

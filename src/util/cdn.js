@@ -80,7 +80,7 @@ module.exports = async (message, chat, client, Discord) => {
     //         .setTitle("Image Not Sent")
     //         .setDescription(`${emoji.error} The server was unable to process your image.`)
     //         .addFields (
-    //             { name: "Common Causes", value: `${emoji.dot} The file was too big\n${emoji.dot} The file was too small\n${emoji.dot} The server was unable to scan your file` }
+    //             { name: "Common Causes", value: `- The file was too big\n- The file was too small\n- The server was unable to scan your file` }
     //         )
 
     //     try {

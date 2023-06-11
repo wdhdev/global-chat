@@ -76,7 +76,7 @@ module.exports = {
                     const embed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .addFields (
-                            { name: "ID", value: `${id}` },
+                            { name: "ID", value: id },
                             { name: "User", value: `<@${interaction.user.id}>` },
                             { name: "Ban Reason", value: `${banReason}` },
                             { name: "Unban Reason", value: `${unbanReason}` }

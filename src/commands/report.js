@@ -1,5 +1,4 @@
-const reportGuild = require("../util/report/guild");
-const reportUser = require("../util/report/user");
+const emoji = require("../../config.json").emojis;
 
 module.exports = {
 	name: "report",
@@ -63,17 +62,46 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 60,
+    cooldown: 30,
     enabled: true,
     hidden: false,
 	async execute(interaction, client, Discord) {
         try {
+            const reportChannel = client.channels.cache.get(client.config_channels.reports);
+
             if(interaction.options.getSubcommand() === "guild") {
                 const guild = interaction.options.getString("guild");
                 const reason = interaction.options.getString("reason");
                 const evidence = interaction.options.getString("evidence");
 
-                reportGuild(guild, reason, evidence, interaction, client, Discord);
+                try {
+                    const report = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                        .setTitle("❗ Guild Report")
+                        .addFields (
+                            { name: "🗃️ Guild", value: guild },
+                            { name: "❓ Reason", value: reason },
+                            { name: "📄 Evidence", value: evidence }
+                        )
+
+                    reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report] });
+                } catch(err) {
+                    client.logCommandError(err, interaction, Discord);
+
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} An error occurred while submitting the report.`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const submitted = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} Your report has been submitted.`)
+
+                await interaction.editReply({ embeds: [submitted], ephemeral: true });
                 return;
             }
 
@@ -82,7 +110,34 @@ module.exports = {
                 const reason = interaction.options.getString("reason");
                 const evidence = interaction.options.getString("evidence");
 
-                reportUser(user, reason, evidence, interaction, client, Discord);
+                try {
+                    const report = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                        .setTitle("❗ User Report")
+                        .addFields (
+                            { name: "👤 User", value: user },
+                            { name: "❓ Reason", value: reason },
+                            { name: "📄 Evidence", value: evidence }
+                        )
+
+                    reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report] });
+                } catch(err) {
+                    client.logCommandError(err, interaction, Discord);
+
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} An error occurred while submitting the report.`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const submitted = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} Your report has been submitted.`)
+
+                await interaction.editReply({ embeds: [submitted], ephemeral: true });
                 return;
             }
         } catch(err) {
