@@ -4,7 +4,7 @@ const channelSchema = require("../../models/channelSchema");
 
 module.exports = {
 	name: "guildDelete",
-	async execute(client, guild) {
+	async execute(client, Discord, guild) {
         try {
             if(await channelSchema.exists({ _id: guild.id })) {
                 const data = await channelSchema.findOne({ _id: guild.id });
