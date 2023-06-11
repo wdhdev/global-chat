@@ -26,7 +26,7 @@ module.exports = async (message, chat, client, Discord) => {
             .setDescription(`${emoji.error} Your media was not sent, as the file uses an invalid extension.`)
             .addFields (
                 { name: "Extension Used", value: `\`${fileExt.split(".").join("")}\`` },
-                { name: "Valid Extensions", value: "`jpeg`, `jpg`, `png`" }
+                { name: "Valid Extensions", value: "`jpeg`, `jpg`, `png`, `svg`, `webp`" }
             )
 
         try {

@@ -35,6 +35,7 @@ module.exports = async (message, client, Discord) => {
             .setDescription("You aren't allowed to send messages with blocked phrases!")
             .addFields (
                 { name: "Message", value: `${message.content}` },
+                { name: "Filter", value: "Profanity" },
                 { name: "Reason", value: `Detected Word: \`${blockedWords.join("\`\nDetected Word: \`")}\`` }
             )
 
@@ -43,6 +44,7 @@ module.exports = async (message, client, Discord) => {
         } catch {}
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+        blocked.setDescription(null);
 
         const blockedInfo = new Discord.EmbedBuilder()
             .addFields (
@@ -71,10 +73,11 @@ module.exports = async (message, client, Discord) => {
         await data.save();
 
         const blocked = new Discord.EmbedBuilder()
-        	.setTitle("Blocked Link")
+            .setTitle("Blocked Link")
             .setDescription("You aren't allowed to send links!")
             .addFields (
                 { name: "Message", value: `${message.content}` },
+                { name: "Filter", value: "Link" },
                 { name: "Reason", value: `Detected Link: \`${linkMatches.join("\`\nDetected Link: \`")}\`` }
             )
 
@@ -83,6 +86,7 @@ module.exports = async (message, client, Discord) => {
         } catch {}
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+        blocked.setDescription(null);
 
         const blockedInfo = new Discord.EmbedBuilder()
             .addFields (

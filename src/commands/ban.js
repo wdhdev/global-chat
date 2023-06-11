@@ -282,9 +282,39 @@ module.exports = {
 
                         await data.save();
 
+                        const ban = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.error)
+                            .setTitle("Ban")
+                            .setDescription(`${emoji.information} You have been banned from using the bot.`)
+                            .addFields (
+                                { name: "❓ Reason", value: `${reason}` },
+                                { name: "📜 Appealable", value: appealable ? "✅" : "❌" }
+                            )
+                            .setTimestamp()
+
+                        const button = new Discord.ActionRowBuilder()
+                            .addComponents (
+                                new Discord.ButtonBuilder()
+                                    .setStyle(Discord.ButtonStyle.Link)
+                                    .setLabel("Appeal")
+                                    .setURL("https://discord.com/channels/1067023529226293248/1094505532267704331")
+                            )
+
+                        let sentDM = false;
+
+                        try {
+                            if(appealable) {
+                                user.send({ embeds: [ban], components: [button] });
+                                sentDM = true;
+                            } else {
+                                user.send({ embeds: [ban] });
+                                sentDM = true;
+                            }
+                        } catch {}
+
                         const banned = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been banned.`)
+                            .setDescription(`${emoji.successful} ${user} has been banned.\n${emoji.information} ${sentDM ? "The user has been notified." : "The user was not able to be notified."}`)
 
                         await interaction.editReply({ embeds: [banned] });
 
@@ -293,6 +323,7 @@ module.exports = {
                             .setTitle("User Banned")
                             .addFields (
                                 { name: "👤 User", value: `${user}` },
+                                { name: "🔔 Notified", value: sentDM ? "✅" : "❌" },
                                 { name: "❓ Reason", value: `${reason}` },
                                 { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
                                 { name: "🔨 Moderator", value: `${interaction.user}` }

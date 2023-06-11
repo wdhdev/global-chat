@@ -13,7 +13,63 @@ module.exports = async function (message, client, Discord) {
 
     message.delete();
 
-    if(await bannedUserSchema.exists({ _id: message.author.id }) || !message.content.length && !role.verified || message.content.length >= 2048) return;
+    const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
+
+    if(await bannedUserSchema.exists({ _id: message.author.id })) {
+        const error = new Discord.EmbedBuilder()
+            .setColor(client.config_embeds.error)
+            .setDescription(`${emoji.error} You are banned from using the bot!`)
+
+        try {
+            await message.author.send({ embeds: [error] });
+        } catch {}
+
+        const blocked = new Discord.EmbedBuilder()
+            .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+            .setTimestamp()
+
+        if(message.content.length) blocked.setDescription(message.content);
+
+        if(message.attachments.first()) {
+            const fileExt = path.extname(message.attachments.first().url.toLowerCase());
+            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+        
+            if(allowedExtensions.includes(fileExt.split(".").join(""))) {
+                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
+
+                blocked.setImage(`attachment://${attachment.name}`);
+            } else if(!message.content.length) {
+                return;
+            }
+        }
+
+        blockedChannel.send({ embeds: [blocked, blockedInfo] });
+        return;
+    }
+
+    if(!message.content.length && !role.verified) {
+        const error = new Discord.EmbedBuilder()
+            .setColor(client.config_embeds.error)
+            .setDescription(`${emoji.error} Your media was not processed as you are not a verified user.`)
+
+        try {
+            await message.author.send({ embeds: [error] });
+        } catch {}
+
+        return;
+    }
+
+    if(message.content.length >= 2048) {
+        const error = new Discord.EmbedBuilder()
+            .setColor(client.config_embeds.error)
+            .setDescription(`${emoji.error} Your message can only contain less than 2048 characters!`)
+
+        try {
+            await message.author.send({ embeds: [error] });
+        } catch {}
+
+        return;
+    }
 
     if(message.content.length) {
     	if(await test(message, client, Discord)) return;
@@ -31,7 +87,7 @@ module.exports = async function (message, client, Discord) {
         .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
-    if(message.content.length >= 1) chat.setDescription(`${content}`);
+    if(message.content.length) chat.setDescription(`${content}`);
 
     // CDN
     let cdnRes;

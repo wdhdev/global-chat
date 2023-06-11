@@ -61,6 +61,13 @@ module.exports = {
 
         {
             type: 1,
+            name: "moderators",
+            description: "Get a list of all the moderators.",
+            options: []
+        },
+
+        {
+            type: 1,
             name: "send-appeal-message",
             description: "Send the ban appeal message to a specified channel.",
             options: [
@@ -218,6 +225,33 @@ module.exports = {
                     logsChannel.send({ embeds: [log] });
                     return;
                 }
+            }
+
+            if(interaction.options.getSubcommand() === "moderators") {
+                const data = await modSchema.find();
+
+                const users = [];
+
+                for(const item of data) {
+                    users.push(item._id);
+                }
+
+                if(!users.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} There are no moderators!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const verifiedUsers = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                	.setTitle("Moderators")
+                    .setDescription(`<@${users.join(">\n<@")}>`)
+
+                await interaction.editReply({ embeds: [verifiedUsers] });
+                return;
             }
 
             if(interaction.options.getSubcommand() === "send-appeal-message") {
