@@ -69,6 +69,7 @@ module.exports = {
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("🧹 Collection Cleanup")
+                        .setDescription("**Collection**: `banned-guilds`")
                         .addFields (
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
@@ -90,6 +91,7 @@ module.exports = {
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("🧹 Collection Cleanup")
+                        .setDescription("**Collection**: `banned-users`")
                         .addFields (
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
@@ -111,6 +113,7 @@ module.exports = {
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("🧹 Collection Cleanup")
+                        .setDescription("**Collection**: `channels`")
                         .addFields (
                             { name: "📝 Modified Documents", value: res.modified.length ? `\`\`\`${res.modified.join("\n")}\`\`\`` : "*None*" },
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
