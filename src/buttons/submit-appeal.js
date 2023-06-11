@@ -56,7 +56,7 @@ module.exports = {
                 .setLabel("Why should you be unbanned?")
                 .setPlaceholder("I should be unbanned because...")
                 .setMinLength(30)
-                .setMaxLength(1024)
+                .setMaxLength(250)
                 .setRequired(true)
 
             const firstActionRow = new Discord.ActionRowBuilder().addComponents(modalBanReason);
