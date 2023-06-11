@@ -285,6 +285,18 @@ module.exports = {
                     .setDescription(`${emoji.successful} ${user} has been unverified!`)
 
                 await interaction.editReply({ embeds: [unverified] });
+
+                const log = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setTitle("Role Removed")
+                    .addFields (
+                        { name: "🎭 Role", value: "✅ Verified" },
+                        { name: "👤 User", value: `${user}` }
+                    )
+                    .setTimestamp()
+
+                logsChannel.send({ embeds: [log] });
                 return;
             }
 
@@ -345,6 +357,18 @@ module.exports = {
                     .setDescription(`${emoji.successful} ${user} has been verified.`)
 
                 await interaction.editReply({ embeds: [verified] });
+
+                const log = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setTitle("Role Added")
+                    .addFields (
+                        { name: "🎭 Role", value: "✅ Verified" },
+                        { name: "👤 User", value: `${user}` }
+                    )
+                    .setTimestamp()
+
+                logsChannel.send({ embeds: [log] });
                 return;
             }
         } catch(err) {
