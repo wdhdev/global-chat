@@ -23,6 +23,12 @@ module.exports = {
                         },
 
                         {
+                            name: "banned-users",
+                            description: "Clean up the banned-users collection.",
+                            value: "banned-users"
+                        },
+
+                        {
                             name: "channels",
                             description: "Clean up the channels collection.",
                             value: "channels"
@@ -59,6 +65,27 @@ module.exports = {
                     const cleanBannedGuilds = require("../util/database/cleanBannedGuilds");
 
                     const res = await cleanBannedGuilds(client);
+
+                    const result = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setTitle("🧹 Collection Cleanup")
+                        .addFields (
+                            { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
+                        )
+
+                    await interaction.editReply({ embeds: [result], ephemeral: true });
+
+                    result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                    result.setTimestamp();
+
+                    logsChannel.send({ embeds: [result] });
+                    return;
+                }
+
+                if(collection === "banned-users") {
+                    const cleanBannedUsers = require("../util/database/cleanBannedUsers");
+
+                    const res = await cleanBannedUsers(client);
 
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
