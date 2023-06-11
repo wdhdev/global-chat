@@ -14,10 +14,7 @@ module.exports = {
 
 			// Check for banned guilds
 			client.guilds.cache.forEach(async guild => {
-				if(await bannedGuildSchema.exists({ _id: guild.id })) {
-					guild.leave();
-					console.log(`[ON START] Left Banned Guild: ${guild.id}`);
-				}
+				if(await bannedGuildSchema.exists({ _id: guild.id })) guild.leave();
 			})
 		} catch(err) {
 			client.logEventError(err);
