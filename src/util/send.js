@@ -182,7 +182,6 @@ module.exports = async function (message, client, Discord) {
                                             username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
                                             avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                             embeds: [replyEmbed, chat],
-                                            files: [chat.data.image.url],
                                             allowedMentions: { parse: [] }
                                         }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                     } else {
