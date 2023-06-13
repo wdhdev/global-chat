@@ -1,8 +1,9 @@
 module.exports = async function (message, client, Discord) {
+    const assignRoles = require("./roles/assign");
     const cdn = require("./cdn");
     const emoji = require("../config.json").emojis;
     const snowflake = require("discord-snowflake");
-    const role = await require("./roles/get")(message, client);
+    const role = await require("./roles/get").message(message, client);
     const test = require("./filter/test");
 
     const bannedUserSchema = require("../models/bannedUserSchema");
@@ -42,7 +43,7 @@ module.exports = async function (message, client, Discord) {
         if(message.attachments.first()) {
             const fileExt = path.extname(message.attachments.first().url.toLowerCase());
             const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
-        
+
             if(allowedExtensions.includes(fileExt.split(".").join(""))) {
                 const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
 
@@ -120,10 +121,11 @@ module.exports = async function (message, client, Discord) {
         .setTimestamp()
 
     if(message.content.length) chat.setDescription(`${message.content}`);
-    if(reply) chat.setTitle("Reply")
+
+    assignRoles(message, client, chat);
 
     // CDN
-    let cdnRes;
+    let cdnRes = false;
 
     if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
     if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) return;
@@ -159,34 +161,30 @@ module.exports = async function (message, client, Discord) {
 
                     if(!chatChannel) return resolve(null);
 
-                    findReply:
-                    if(reply) {
-                        const originalMessage = await messageSchema.findOne({ messages: reference.url });
-
-                        for(const msg of originalMessage.messages) {
-                            if(msg.startsWith(`https://discord.com/channels/${guildId}/`)) {
-                                replyEmbed.setURL(msg);
-                                break findReply;
-                            }
-                        }
-                    }
-
                     try {
                         if(data.webhook) {
                             try {
                                 const webhook = new Discord.WebhookClient({ url: data.webhook });
 
+                                const username = message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag;
+                                const webhookUsername = username;
+
+                                if(role.supporter) webhookUsername = `${username} 💖`;
+                                if(role.verified) webhookUsername = `${username} ✅`;
+                                if(role.mod) webhookUsername = `${username} 🔨`;
+                                if(role.dev) webhookUsername = `${username} 💻`;
+
                                 if(cdnRes) {
                                     if(reply) {
                                         await webhook.send({
-                                            username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                            username: webhookUsername,
                                             avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                             embeds: [replyEmbed, chat],
                                             allowedMentions: { parse: [] }
                                         }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                     } else {
                                         await webhook.send({
-                                            username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                            username: webhookUsername,
                                             avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                             content: `${message.content}`,
                                             files: [chat.data.image.url],
@@ -199,14 +197,14 @@ module.exports = async function (message, client, Discord) {
 
                                 if(reply) {
                                     await webhook.send({
-                                        username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                        username: webhookUsername,
                                         avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                         embeds: [replyEmbed, chat],
                                         allowedMentions: { parse: [] }
                                     }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                 } else {
                                     await webhook.send({
-                                        username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                        username: webhookUsername,
                                         avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                         content: `${message.content}`,
                                         allowedMentions: { parse: [] }
@@ -248,7 +246,7 @@ module.exports = async function (message, client, Discord) {
 
     Promise.all(promises).then(async () => {
         if(cdnRes) {
-            let data = new messageSchema({
+            data = new messageSchema({
                 _id: id,
                 user: message.author.id,
                 guild: message.guild.id,
@@ -259,7 +257,7 @@ module.exports = async function (message, client, Discord) {
 
             await data.save();
         } else {
-            let data = new messageSchema({
+            data = new messageSchema({
                 _id: id,
                 user: message.author.id,
                 guild: message.guild.id,

@@ -34,7 +34,9 @@ module.exports = {
 				)
 				.setTimestamp()
 
-			logsChannel.send({ embeds: [bannedGuildsResult] });
+			if(bannedGuildsRes.removed.length) {
+				logsChannel.send({ embeds: [bannedGuildsResult] });
+			}
 
 			// Banned Users
 			const cleanBannedUsers = require("../../util/database/cleanBannedUsers");
@@ -50,7 +52,9 @@ module.exports = {
 				)
 				.setTimestamp()
 
-			logsChannel.send({ embeds: [bannedUsersResult] });
+			if(bannedUsersRes.removed.length) {
+				logsChannel.send({ embeds: [bannedUsersResult] });
+			}
 
 			// Channels
 			const cleanChannels = require("../../util/database/cleanChannels");
@@ -67,7 +71,9 @@ module.exports = {
 				)
 				.setTimestamp()
 
-			logsChannel.send({ embeds: [channelsResult] });
+			if(channelsRes.modified.length || channelsRes.removed.length) {
+				logsChannel.send({ embeds: [channelsResult] });
+			}
 		} catch(err) {
 			client.logEventError(err);
 		}

@@ -2,7 +2,7 @@ module.exports = async (message, client, Discord) => {
     const blockedSchema = require("../../models/blockedSchema");
     const filterSchema = require("../../models/filterSchema");
     const replaceContent = require("./replaceContent");
-    const role = await require("../roles/get")(message, client);
+    const role = await require("../roles/get").message(message, client);
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
@@ -38,6 +38,19 @@ module.exports = async (message, client, Discord) => {
                 { name: "Filter", value: "Profanity" },
                 { name: "Reason", value: `Detected Word: \`${blockedWords.join("\`\nDetected Word: \`")}\`` }
             )
+
+        if(message.attachments.first()) {
+            const fileExt = path.extname(message.attachments.first().url.toLowerCase());
+            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+
+            if(allowedExtensions.includes(fileExt.split(".").join(""))) {
+                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
+
+                blocked.setImage(`attachment://${attachment.name}`);
+            } else if(!message.content.length) {
+                return;
+            }
+        }
 
         try {
             await message.author.send({ embeds: [blocked] });
@@ -80,6 +93,19 @@ module.exports = async (message, client, Discord) => {
                 { name: "Filter", value: "Link" },
                 { name: "Reason", value: `Detected Link: \`${linkMatches.join("\`\nDetected Link: \`")}\`` }
             )
+
+        if(message.attachments.first()) {
+            const fileExt = path.extname(message.attachments.first().url.toLowerCase());
+            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+
+            if(allowedExtensions.includes(fileExt.split(".").join(""))) {
+                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
+
+                blocked.setImage(`attachment://${attachment.name}`);
+            } else if(!message.content.length) {
+                return;
+            }
+        }
 
         try {
             await message.author.send({ embeds: [error] });

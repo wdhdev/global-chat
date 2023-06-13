@@ -3,7 +3,7 @@ module.exports = async (message, chat, client, Discord) => {
     const cdn = require("@globalchat/cdn");
     const emoji = require("../config.json").emojis;
     const path = require("path");
-    const role = await require("./roles/get")(message, client);
+    const role = await require("./roles/get").message(message, client);
 
     if(!role.verified) {
         const error = new Discord.EmbedBuilder()
