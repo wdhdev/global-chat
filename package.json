@@ -1,6 +1,6 @@
 {
   "name": "global-chat",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "A Discord bot that connects multiple servers together in one channel!",
   "main": "src/index.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "@globalchat/cdn": "^1.0.0",
     "@globalchat/get": "^1.0.2",
     "@sentry/node": "^7.53.1",
+    "discord-snowflake": "^1.0.1",
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",

@@ -1,9 +1,8 @@
 module.exports = async function (message, client, Discord) {
     const cdn = require("./cdn");
-    const checkWebhook = require("./checkWebhook");
     const emoji = require("../config.json").emojis;
+    const snowflake = require("discord-snowflake");
     const role = await require("./roles/get")(message, client);
-    const roles = require("./roles/assign");
     const test = require("./filter/test");
 
     const bannedUserSchema = require("../models/bannedUserSchema");
@@ -87,26 +86,47 @@ module.exports = async function (message, client, Discord) {
 
     const id = message.id;
 
-    let content = message.content;
-    // const reference = message.type === 19 ? await message.fetchReference() : null;
+    const reference = message.type === 19 ? await message.fetchReference() : null;
+    let reply = false;
 
-    // if(message.type === 19) content = `**${reference.author.username}**: ${reference.content}\n${emoji.reply} ${message.content}`;
+    const replyEmbed = new Discord.EmbedBuilder()
+        .setTitle("Original Message")
+
+    reply:
+    if(reference) {
+        const data = await messageSchema.findOne({ messages: reference.url });
+
+        if(data) {
+            reply = true;
+        } else {
+            break reply;
+        }
+
+        let user = null;
+
+        try {
+            user = await client.users.fetch(data.user);
+        } catch {}
+
+        if(user) replyEmbed.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+        if(data.content) replyEmbed.setDescription(data.content);
+        if(data.attachment) replyEmbed.setImage(data.attachment);
+        replyEmbed.setTimestamp(snowflake(data._id));
+    }
 
     // Embed message
     const chat = new Discord.EmbedBuilder()
         .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
-    if(message.content.length) chat.setDescription(`${content}`);
+    if(message.content.length) chat.setDescription(`${message.content}`);
+    if(reply) chat.setTitle("Reply")
 
     // CDN
     let cdnRes;
 
     if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
     if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) return;
-
-    // Roles
-    await roles(message, client, chat);
 
     // Log
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
@@ -137,63 +157,84 @@ module.exports = async function (message, client, Discord) {
 
                     if(!guild.members.me.permissions.has(requiredPerms)) return resolve(null);
 
-                    if(!chatChannel) {
-                        await data.delete();
-                        resolve(null);
-                        return;
+                    if(!chatChannel) return resolve(null);
+
+                    findReply:
+                    if(reply) {
+                        const originalMessage = await messageSchema.findOne({ messages: reference.url });
+
+                        for(const msg of originalMessage.messages) {
+                            if(msg.startsWith(`https://discord.com/channels/${guildId}/`)) {
+                                replyEmbed.setURL(msg);
+                                break findReply;
+                            }
+                        }
                     }
 
                     try {
                         if(data.webhook) {
-                            if(!await checkWebhook(data.webhook)) {
+                            try {
+                                const webhook = new Discord.WebhookClient({ url: data.webhook });
+
+                                if(cdnRes) {
+                                    if(reply) {
+                                        await webhook.send({
+                                            username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                            avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                            embeds: [replyEmbed, chat],
+                                            files: [chat.data.image.url],
+                                            allowedMentions: { parse: [] }
+                                        }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    } else {
+                                        await webhook.send({
+                                            username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                            avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                            content: `${message.content}`,
+                                            files: [chat.data.image.url],
+                                            allowedMentions: { parse: [] }
+                                        }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    }
+
+                                    return;
+                                }
+
+                                if(reply) {
+                                    await webhook.send({
+                                        username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        embeds: [replyEmbed, chat],
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                } else {
+                                    await webhook.send({
+                                        username: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        content: `${message.content}`,
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
+                            } catch {
                                 try {
-                                    await chatChannel.send({ embeds: [chat] })
-                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${data.channel}/${msg.id}`)))
+                                    if(reply) {
+                                        await chatChannel.send({ embeds: [replyEmbed, chat] })
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    } else {
+                                        await chatChannel.send({ embeds: [chat] })
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    }
                                 } catch {
                                     resolve(null);
                                 }
-                                return;
                             }
-
-                            const webhook = new Discord.WebhookClient({ url: data.webhook });
-
-                            webhook.on("error", async () => {
-                                try {
-                                    await chatChannel.send({ embeds: [chat] })
-                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${data.channel}/${msg.id}`)))
-                                } catch {
-                                    resolve(null);
-                                }
-                            })
-
-                            let user = message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag;
-
-                            if(role.supporter) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 💖`;
-                            if(role.verified) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} ✅`;
-                            if(role.mod) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 🔨`;
-                            if(role.dev) user = `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 💻`;
-
-                            if(cdnRes) {
-                                await webhook.send({
-                                    username: user,
-                                    avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                    content: `${content}`,
-                                    files: [chat.data.image.url],
-                                    allowedMentions: { parse: [] }
-                                }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${data.channel}/${msg.id}`)))
-                                return;
-                            }
-
-                            await webhook.send({
-                                username: user,
-                                avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                content: `${content}`,
-                                allowedMentions: { parse: [] }
-                            }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${data.channel}/${msg.id}`)))
                         } else {
                             try {
-                                await chatChannel.send({ embeds: [chat] })
-                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${data.channel}/${msg.id}`)))
+                                if(reply) {
+                                    await chatChannel.send({ embeds: [replyEmbed, chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                } else {
+                                    await chatChannel.send({ embeds: [chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
                             } catch {
                                 resolve(null);
                             }
@@ -221,7 +262,6 @@ module.exports = async function (message, client, Discord) {
         } else {
             let data = new messageSchema({
                 _id: id,
-                timestamp: Date.now(),
                 user: message.author.id,
                 guild: message.guild.id,
                 content: message.content,
