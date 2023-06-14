@@ -210,7 +210,9 @@ module.exports = async function (message, client, Discord) {
                                         allowedMentions: { parse: [] }
                                     }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                 }
-                            } catch {
+                            } catch(err) {
+                                client.logEventError(err);
+
                                 try {
                                     if(reply) {
                                         await chatChannel.send({ embeds: [replyEmbed, chat] })
