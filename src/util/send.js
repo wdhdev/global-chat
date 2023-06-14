@@ -167,7 +167,7 @@ module.exports = async function (message, client, Discord) {
                                 const webhook = new Discord.WebhookClient({ url: data.webhook });
 
                                 const username = message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag;
-                                const webhookUsername = username;
+                                let webhookUsername = username;
 
                                 if(role.supporter) webhookUsername = `${username} 💖`;
                                 if(role.verified) webhookUsername = `${username} ✅`;
