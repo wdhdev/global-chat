@@ -1,18 +1,18 @@
 {
     "channels": {
-        "appeals": "",
-        "blocked": "",
-        "logs": "",
-        "messages": "",
-        "modLogs": "",
+        "appeals": "1083298359319736320",
+        "blocked": "1078093240105975848",
+        "logs": "1117236422164885514",
+        "messages": "1084767299350822934",
+        "modLogs": "1082186293796147301",
         "nsfwImages": "",
-        "reports": "",
-        "suggestions": ""
+        "reports": "1067341548393615430",
+        "suggestions": "1112176323029368852"
     },
 
     "default": {
-        "owner": "",
-        "server": ""
+        "owner": "853158265466257448",
+        "server": "1067023529226293248"
     },
 
     "embeds": {
@@ -24,26 +24,26 @@
 
     "emojis": {
         "clock": ":alarm_clock:",
-        "cross": ":x:",
+        "cross": "<:cross:1111114810554318878>",
         "error": ":x:",
         "green_circle": ":green_circle:",
         "information": ":information_source:",
         "orange_circle": ":orange_circle:",
         "pingpong": ":ping_pong:",
         "red_circle": ":red_circle:",
-        "reply": ":arrow_right:",
+        "reply": "<:reply:1111102420714537012>",
         "successful": ":white_check_mark:",
-        "tick": ":white_check_mark:"
+        "tick": "<:tick:1111114306952646747>"
     },
 
     "presence": {
-        "activity": "/register",
+        "activity": "wdh.gg/globalchat",
         "activityType": 0,
         "status": "ONLINE"
     },
 
     "roles": {
-        "booster": "",
-        "mod": ""
+        "booster": "1115056722042703942",
+        "mod": "1082167230357307402"
     }
 }
