@@ -129,7 +129,7 @@ module.exports = async function (message, client, Discord) {
     if(message.content.length) chat.setDescription(`${message.content}`);
 
     assignRoles(message, client, chat);
-    if(reply) assignRoles(message, client, replyEmbed);
+    assignRoles(message, client, replyEmbed);
 
     // CDN
     let cdnRes = false;
@@ -181,17 +181,6 @@ module.exports = async function (message, client, Discord) {
                                 if(role.mod) webhookUsername = `${username} 🔨`;
                                 if(role.dev) webhookUsername = `${username} 💻`;
 
-                                if(cdnRes) {
-                                    await webhook.send({
-                                        username: webhookUsername,
-                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                        content: `${message.content}`,
-                                        files: [chat.data.image.url],
-                                        allowedMentions: { parse: [] }
-                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                                    return;
-                                }
-
                                 if(replyUrls) {
                                     replyUrls.forEach(async url => {
                                         const splitUrl = url.split("/");
@@ -202,7 +191,6 @@ module.exports = async function (message, client, Discord) {
                                     })
 
                                     replyUrls = null;
-                                    return;
                                 } else {
                                     await webhook.send({
                                         username: webhookUsername,
@@ -210,6 +198,17 @@ module.exports = async function (message, client, Discord) {
                                         content: `${message.content}`,
                                         allowedMentions: { parse: [] }
                                     }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
+
+                                if(cdnRes) {
+                                    await webhook.send({
+                                        username: webhookUsername,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        content: `${message.content}`,
+                                        files: [chat.data.image.url],
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    return;
                                 }
                             } catch(err) {
                                 client.logEventError(err);
