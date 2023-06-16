@@ -1,9 +1,9 @@
 module.exports = async (message, chat, client, Discord) => {
     // const bannedUserSchema = require("../models/bannedUserSchema");
-    const cdn = require("@globalchat/cdn");
     const emoji = require("../config.json").emojis;
     const path = require("path");
     const role = await require("./roles/get").message(message, client);
+    const upload = require("./cdn/upload");
 
     if(!role.verified) {
         const error = new Discord.EmbedBuilder()
@@ -36,7 +36,7 @@ module.exports = async (message, chat, client, Discord) => {
         return false;
     }
 
-    const res = await cdn.upload(process.env.token, message.attachments.first().url, message.author.id);
+    const res = await upload(process.env.token, message.attachments.first().url, message.author.id);
 
     if(res.status === 201) {
         chat.setImage(res.data.url);

@@ -1,4 +1,4 @@
-const cdn = require("@globalchat/cdn");
+const cdnDelete = require("../util/cdn/delete");
 const emoji = require("../config.json").emojis;
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "delete") {
                 const file = interaction.options.getString("file");
 
-                const res = await cdn.delete(client.token, file, interaction.user.id);
+                const res = await cdnDelete(client.token, file, interaction.user.id);
 
                 if(res.status === 204) {
                     const deleted = new Discord.EmbedBuilder()

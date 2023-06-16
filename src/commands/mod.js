@@ -1,4 +1,5 @@
-const cdn = require("@globalchat/cdn");
+const cdnDelete = require("../util/cdn/delete");
+const cdnDeleteNSFW = require("../util/cdn/delete-nsfw");
 const emoji = require("../config.json").emojis;
 
 const devSchema = require("../models/devSchema");
@@ -98,7 +99,7 @@ module.exports = {
                     const file = interaction.options.getString("file");
                     const reason = interaction.options.getString("reason");
 
-                    const res = await cdn.delete(client.token, file, user.id);
+                    const res = await cdnDelete(client.token, file, user.id);
 
                     if(res.status === 204) {
                         const deleted = new Discord.EmbedBuilder()
@@ -135,7 +136,7 @@ module.exports = {
                 // if(interaction.options.getSubcommand() === "delete-nsfw") {
                 //     const file = interaction.options.getString("file");
 
-                //     const res = await cdn.deleteNSFW(client.token, file, user.id);
+                //     const res = await cdnDeleteNSFW(client.token, file, user.id);
 
                 //     if(res.status === 204) {
                 //         const deleted = new Discord.EmbedBuilder()
