@@ -12,9 +12,7 @@ module.exports = async function (message, client, Discord) {
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
-    try {
-        message.delete();
-    } catch {}
+    message.delete();
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
@@ -91,12 +89,16 @@ module.exports = async function (message, client, Discord) {
 
     const reference = message.type === 19 ? await message.fetchReference() : null;
     let reply = false;
+    let replyUrls = null;
 
     const replyEmbed = new Discord.EmbedBuilder()
         .setTitle("Original Message")
 
     reply:
     if(reference) {
+        // if reference is a message from the bot
+        if(reference.author.id === client.user.id) return;
+
         const data = await messageSchema.findOne({ messages: reference.url });
 
         if(data) {
@@ -114,6 +116,7 @@ module.exports = async function (message, client, Discord) {
         if(user) replyEmbed.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
         if(data.content) replyEmbed.setDescription(data.content);
         if(data.attachment) replyEmbed.setImage(data.attachment);
+        if(data.messages) replyUrls = data.messages;
         replyEmbed.setTimestamp(snowflake(data._id));
     }
 
@@ -129,7 +132,7 @@ module.exports = async function (message, client, Discord) {
     // CDN
     let cdnRes = false;
 
-    // if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
+    if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
     if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) return;
 
     // Log
@@ -176,39 +179,60 @@ module.exports = async function (message, client, Discord) {
                                 if(role.mod) webhookUsername = `${username} 🔨`;
                                 if(role.dev) webhookUsername = `${username} 💻`;
 
-                                webhook.on("error", async err => {
-                                    client.logEventError(err);
+                                if(cdnRes) {
+                                        await webhook.send({
+                                            username: webhookUsername,
+                                            avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                            content: `${message.content}`,
+                                            files: [chat.data.image.url],
+                                            allowedMentions: { parse: [] }
+                                        }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
 
-                                    try {
-                                        await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
-                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                                    } catch {
-                                        resolve(null);
-                                    }
-                                })
+                                    return;
+                                }
 
-                                await webhook.send({
-                                    username: webhookUsername,
-                                    avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                    content: message.content.length && !reply ? message.content : "",
-                                    embeds: reply ? [replyEmbed, chat] : [],
-                                    // files: cdnRes && !reply ? [chat.data.image.url] : [],
-                                    allowedMentions: { parse: [] }
-                                }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                if(replyUrls) {
+                                    console.log(replyUrls)
+                                    replyUrls.forEach(async url => {
+                                        const splitUrl = url.split('/');
+                                        const channel = client.channels.cache.get(splitUrl[5]);
+                                        const msg = await channel.messages.fetch(splitUrl[6]);
+                                        console.log("reply")
+                                        await msg.reply({ embeds: [chat] })
+                                    })
+                                    replyUrls = null;
+                                } else {
+                                    await webhook.send({
+                                        username: webhookUsername,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        content: `${message.content}`,
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
                             } catch(err) {
                                 client.logEventError(err);
 
                                 try {
-                                    await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
-                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    if(reply) {
+                                        await chatChannel.send({ embeds: [replyEmbed, chat] })
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    } else {
+                                        await chatChannel.send({ embeds: [chat] })
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    }
                                 } catch {
                                     resolve(null);
                                 }
                             }
                         } else {
                             try {
-                                await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
-                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                if(reply) {
+                                    await chatChannel.send({ embeds: [replyEmbed, chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                } else {
+                                    await chatChannel.send({ embeds: [chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
                             } catch {
                                 resolve(null);
                             }
