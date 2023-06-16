@@ -12,11 +12,13 @@ module.exports = async function (message, client, Discord) {
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
-    message.delete();
-
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
     if(await bannedUserSchema.exists({ _id: message.author.id })) {
+        try {
+            message.delete();
+        } catch {}
+
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
             .setDescription(`${emoji.error} You are banned from using the bot!`)
@@ -58,6 +60,10 @@ module.exports = async function (message, client, Discord) {
     }
 
     if(!message.content.length && !role.verified) {
+        try {
+            message.delete();
+        } catch {}
+
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
             .setDescription(`${emoji.error} Your media was not processed as you are not a verified user.`)
@@ -70,6 +76,10 @@ module.exports = async function (message, client, Discord) {
     }
 
     if(message.content.length >= 2048) {
+        try {
+            message.delete();
+        } catch {}
+
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
             .setDescription(`${emoji.error} Your message can only contain less than 2048 characters!`)
@@ -82,7 +92,13 @@ module.exports = async function (message, client, Discord) {
     }
 
     if(message.content.length) {
-    	if(await test(message, client, Discord)) return;
+    	if(await test(message, client, Discord)) {
+            try {
+                message.delete();
+            } catch {}
+
+            return;
+        }
     }
 
     const id = message.id;
@@ -128,7 +144,13 @@ module.exports = async function (message, client, Discord) {
     let cdnRes = false;
 
     if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
-    if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) return;
+    if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) {
+        try {
+            message.delete();
+        } catch {}
+
+        return;
+    }
 
     // Log
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
@@ -271,4 +293,8 @@ module.exports = async function (message, client, Discord) {
             await data.save();
         }
     })
+
+    try {
+        message.delete();
+    } catch {}
 }
