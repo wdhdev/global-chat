@@ -96,6 +96,9 @@ module.exports = async function (message, client, Discord) {
 
     reply:
     if(reference) {
+        // if reference is a message from the bot
+        if(reference.author.id === client.user.id) break reply;
+        
         const data = await messageSchema.findOne({ messages: reference.url });
 
         if(data) {
