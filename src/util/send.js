@@ -12,7 +12,9 @@ module.exports = async function (message, client, Discord) {
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
-    message.delete();
+    try {
+        message.delete();
+    } catch {}
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
@@ -96,7 +98,6 @@ module.exports = async function (message, client, Discord) {
 
     reply:
     if(reference) {
-        // if reference is a message from the bot
         if(reference.author.id === client.user.id) return;
 
         const data = await messageSchema.findOne({ messages: reference.url });
@@ -128,6 +129,7 @@ module.exports = async function (message, client, Discord) {
     if(message.content.length) chat.setDescription(`${message.content}`);
 
     assignRoles(message, client, chat);
+    if(reply) assignRoles(message, client, replyEmbed);
 
     // CDN
     let cdnRes = false;
@@ -192,14 +194,14 @@ module.exports = async function (message, client, Discord) {
                                 }
 
                                 if(replyUrls) {
-                                    console.log(replyUrls)
                                     replyUrls.forEach(async url => {
-                                        const splitUrl = url.split('/');
+                                        const splitUrl = url.split("/");
                                         const channel = client.channels.cache.get(splitUrl[5]);
                                         const msg = await channel.messages.fetch(splitUrl[6]);
-                                        console.log("reply")
-                                        await msg.reply({ embeds: [chat] })
+
+                                        await msg.reply({ embeds: [chat] });
                                     })
+
                                     replyUrls = null;
                                 } else {
                                     await webhook.send({
