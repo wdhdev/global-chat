@@ -182,14 +182,13 @@ module.exports = async function (message, client, Discord) {
                                 if(role.dev) webhookUsername = `${username} 💻`;
 
                                 if(cdnRes) {
-                                        await webhook.send({
-                                            username: webhookUsername,
-                                            avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                            content: `${message.content}`,
-                                            files: [chat.data.image.url],
-                                            allowedMentions: { parse: [] }
-                                        }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-
+                                    await webhook.send({
+                                        username: webhookUsername,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        content: `${message.content}`,
+                                        files: [chat.data.image.url],
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                     return;
                                 }
 
@@ -202,7 +201,7 @@ module.exports = async function (message, client, Discord) {
                                         await msg.reply({ embeds: [chat] });
                                     })
 
-                                    replyUrls = null;
+                                    return;
                                 } else {
                                     await webhook.send({
                                         username: webhookUsername,
