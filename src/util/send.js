@@ -129,7 +129,7 @@ module.exports = async function (message, client, Discord) {
     // CDN
     let cdnRes = false;
 
-    if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
+    // if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
     if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) return;
 
     // Log
@@ -192,7 +192,7 @@ module.exports = async function (message, client, Discord) {
                                     avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                     content: message.content.length && !reply ? message.content : "",
                                     embeds: reply ? [replyEmbed, chat] : [],
-                                    files: cdnRes && !reply ? [chat.data.image.url] : [],
+                                    // files: cdnRes && !reply ? [chat.data.image.url] : [],
                                     allowedMentions: { parse: [] }
                                 }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                             } catch(err) {
