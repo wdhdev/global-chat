@@ -184,6 +184,13 @@ module.exports = async function (message, client, Discord) {
                                             embeds: [replyEmbed, chat],
                                             allowedMentions: { parse: [] }
                                         }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                    } else if(!message.content.length) {
+                                        await webhook.send({
+                                            username: webhookUsername,
+                                            avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                            files: [chat.data.image.url],
+                                            allowedMentions: { parse: [] }
+                                        }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                     } else {
                                         await webhook.send({
                                             username: webhookUsername,
