@@ -309,10 +309,10 @@ module.exports = {
 
                         try {
                             if(appealable) {
-                                user.send({ embeds: [ban], components: [button] });
+                                await user.send({ embeds: [ban], components: [button] });
                                 sentDM = true;
                             } else {
-                                user.send({ embeds: [ban] });
+                                await user.send({ embeds: [ban] });
                                 sentDM = true;
                             }
                         } catch {}
