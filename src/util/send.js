@@ -201,6 +201,7 @@ module.exports = async function (message, client, Discord) {
                                         await msg.reply({ embeds: [chat] });
                                     })
 
+                                    replyUrls = null;
                                     return;
                                 } else {
                                     await webhook.send({
