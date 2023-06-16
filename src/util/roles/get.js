@@ -1,10 +1,9 @@
+const devSchema = require("../../models/devSchema");
+const modSchema = require("../../models/modSchema");
+const verifiedSchema = require("../../models/verifiedSchema");
+
 module.exports.interaction = async function (interaction, client) {
-    const get = require("@globalchat/get");
-
-    const user = await get.user(interaction.user.id);
-    const role = user.roles;
-
-    const owner = client.config_default.owner === interaction.user.id;
+    const role = await getRoles(interaction.user.id, client);
 
     let supporter = false;
 
@@ -16,7 +15,7 @@ module.exports.interaction = async function (interaction, client) {
     } catch {}
 
     return {
-        "owner": owner,
+        "owner": role.owner,
         "dev": role.dev,
         "mod": role.mod,
         "verified": role.verified,
@@ -25,12 +24,7 @@ module.exports.interaction = async function (interaction, client) {
 }
 
 module.exports.message = async function (message, client) {
-    const get = require("@globalchat/get");
-
-    const user = await get.user(message.author.id);
-    const role = user.roles;
-
-    const owner = client.config_default.owner === message.author.id;
+    const role = await getRoles(message.author.id, client);
 
     let supporter = false;
 
@@ -42,10 +36,19 @@ module.exports.message = async function (message, client) {
     } catch {}
 
     return {
-        "owner": owner,
+        "owner": role.owner,
         "dev": role.dev,
         "mod": role.mod,
         "verified": role.verified,
         "supporter": supporter
+    }
+}
+
+async function getRoles(user, client) {
+    return {
+        "owner": client.config_default.owner === user,
+        "dev": await devSchema.exists({ _id: user }) ? true : false,
+        "mod": await modSchema.exists({ _id: user }) ? true : false,
+        "verified": await verifiedSchema.exists({ _id: user }) ? true : false
     }
 }

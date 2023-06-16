@@ -1,5 +1,5 @@
 const emoji = require("../config.json").emojis;
-const get = require("@globalchat/get");
+const getRoles = require("../util/roles/get");
 
 const bannedUserSchema = require("../models/bannedUserSchema");
 const blockedSchema = require("../models/blockedSchema");
@@ -52,26 +52,7 @@ module.exports = {
             const banData = `${banned && banInfo.timestamp ? `${emoji.reply} 🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `${emoji.reply} 📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `${emoji.reply} ❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `${emoji.reply} 🔨 <@${banInfo.mod}>` : ""}\n`;
 
             // Roles
-			async function getRoles(client) {
-                const i = await get.user(user.id);
-                const role = i.roles;
-
-                const guild = await client.guilds.fetch(client.config_default.server);
-                const member = await guild.members.fetch(user);
-
-                const owner = client.config_default.owner === user.id;
-                const supporter = member.premiumSinceTimestamp ? true : false;
-
-                return {
-                    "owner": owner,
-                    "dev": role.dev,
-                    "mod": role.mod,
-                    "verified": role.verified,
-                    "supporter": supporter
-                }
-            }
-
-            const role = await getRoles(client);
+            const role = await getRoles.interaction(interaction, client);
 
             const roles = [];
 
