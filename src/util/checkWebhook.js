@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("axios");
 
 module.exports = async function (webhook) {
     if((await fetch(webhook)).ok) {

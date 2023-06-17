@@ -16,7 +16,6 @@
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",
-    "mongoose": "^6.8.3",
-    "node-fetch": "^2.6.9"
+    "mongoose": "^6.8.3"
   }
 }
