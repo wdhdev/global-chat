@@ -59,7 +59,7 @@ module.exports = {
             if(role.dev) roles.push("💻 Developer");
             if(role.mod) roles.push("🔨 Moderator");
             if(role.verified) roles.push("✅ Verified");
-            if(role.supporter) roles.push("❤️ Supporter");
+            if(role.supporter) roles.push("💖 Supporter");
 
             // Stats
             const blocked = (await blockedSchema.find({ user: user.id })).length;
