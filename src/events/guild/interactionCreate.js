@@ -106,6 +106,7 @@ module.exports = {
             if(interaction.user.id === client.config_default.owner) {
                 try {
                     await command.execute(interaction, client, Discord);
+					return;
                 } catch(err) {
                     client.logEventError(err);
 
@@ -114,6 +115,7 @@ module.exports = {
                         .setDescription(`${emoji.error} There was an error while executing that command!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
+					return;
                 }
             }
 
