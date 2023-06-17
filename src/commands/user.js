@@ -78,7 +78,7 @@ module.exports = {
                 .setTitle("User Information")
                 .addFields (
                     { name: "Roles", value: roles.join("\n") || "*None*" },
-                    { name: "Banned", value: `${banned ? "✅ Yes" : "❌ No"}${banned ? `\n${banData}` : ""}` },
+                    { name: "Banned", value: `${banned ? "" : "❌"}${banned ? `\n${banData}` : ""}` },
                     { name: "Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}` }
                 )
 
