@@ -14,7 +14,7 @@ module.exports = {
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Link)
                         .setLabel("Support Server")
-                        .setURL("https://wdh.gg/gc-support")
+                        .setURL("https://discord.gg/globalchat")
                 )
 
             await interaction.editReply({ components: [button] });

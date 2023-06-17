@@ -83,11 +83,20 @@ module.exports = {
 
                     await appealSchema.findOneAndUpdate({ _id: id }, { status: "DENIED", mod: interaction.user.id, reason: reason });
 
-                    const reply = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The appeal has been denied.`)
+                    const userDM = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.red)
+                        .setTitle("Appeal Denied")
+                        .setDescription(`${emoji.error} Your appeal has been denied and you have not been unbanned from Global Chat.`)
+                        .setTimestamp()
 
-                    await i.reply({ embeds: [reply], ephemeral: true });
+                    let sentDM = false;
+
+                    try {
+                        const user = await client.users.fetch(data.id);
+                        await user.send({ embeds: [userDM] });
+
+                        sentDM = true;
+                    } catch {}
 
                     const denied = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)
@@ -98,11 +107,18 @@ module.exports = {
 
                     await interaction.message.edit({ embeds: [interaction.message.embeds[0], denied], components: [] });
 
+                    const reply = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.successful} The appeal has been denied.`)
+
+                    await i.reply({ embeds: [reply], ephemeral: true });
+
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("Appeal Denied")
                         .addFields (
                             { name: "📄 Appeal", value: id },
+                            { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
                             { name: "❓ Reason", value: `${reason}` },
                             { name: "🔨 Moderator", value: `${interaction.user}` }
                         )

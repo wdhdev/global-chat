@@ -85,11 +85,20 @@ module.exports = {
                     await bannedUserSchema.findOneAndDelete({ _id: data.id });
                     await appealSchema.findOneAndUpdate({ _id: id }, { status: "APPROVED", mod: interaction.user.id, reason: reason });
 
-                    const reply = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The appeal has been approved.`)
+                    const userDM = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.green)
+                        .setTitle("Appeal Approved")
+                        .setDescription(`${emoji.successful} Your appeal has been approved and you have been unbanned from Global Chat.`)
+                        .setTimestamp()
 
-                    await i.reply({ embeds: [reply], ephemeral: true });
+                    let sentDM = false;
+
+                    try {
+                        const user = await client.users.fetch(data.id);
+                        await user.send({ embeds: [userDM] });
+
+                        sentDM = true;
+                    } catch {}
 
                     const approved = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
@@ -100,11 +109,18 @@ module.exports = {
 
                     await interaction.message.edit({ embeds: [interaction.message.embeds[0], approved], components: [] });
 
+                    const reply = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.successful} The appeal has been approved.`)
+
+                    await i.reply({ embeds: [reply], ephemeral: true });
+
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("Appeal Approved")
                         .addFields (
                             { name: "📄 Appeal", value: id },
+                            { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
                             { name: "❓ Reason", value: `${reason}` },
                             { name: "🔨 Moderator", value: `${interaction.user}` }
                         )

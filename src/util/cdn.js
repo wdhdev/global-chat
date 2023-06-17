@@ -51,17 +51,9 @@ module.exports = async (message, chat, client, Discord) => {
 
     //     const error = new Discord.EmbedBuilder()
     //         .setColor(client.config_embeds.error)
-    //         .setTitle("NSFW Image")
-    //         .setDescription(`${emoji.information} An image you have sent has been flagged as NSFW content. As a result of this, you have been automatically banned from using the bot.\n\nIf this is a false positive, please send an appeal in the support server.`)
+    //         .setTitle("NSFW Image Detected")
+    //         .setDescription(`${emoji.information} An image you have sent has been flagged as NSFW content. As a result of this, you have been automatically banned from using the bot.\n\nIf this is a false positive, please send an appeal in the [support server](https://discord.gg/globalchat).`)
     //         .setImage(res.data.url)
-
-    //     const appeal = new Discord.ActionRowBuilder()
-    //         .addComponents (
-    //             new Discord.ButtonBuilder()
-    //                 .setStyle(Discord.ButtonStyle.Link)
-    //                 .setLabel("Appeal")
-    //                 .setURL("https://wdh.gg/gc-appeal")
-    //         )
 
     //     try {
     //         await message.author.send({ embeds: [error], components: [appeal] });
@@ -77,11 +69,7 @@ module.exports = async (message, chat, client, Discord) => {
     // if(res.status === 422 || res.data.code === "UNABLE_TO_SCAN") {
     //     const error = new Discord.EmbedBuilder()
     //         .setColor(client.config_embeds.error)
-    //         .setTitle("Image Not Sent")
     //         .setDescription(`${emoji.error} The server was unable to process your image.`)
-    //         .addFields (
-    //             { name: "Common Causes", value: `- The file was too big\n- The file was too small\n- The server was unable to scan your file` }
-    //         )
 
     //     try {
     //         await message.author.send({ embeds: [error] });

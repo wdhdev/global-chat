@@ -123,40 +123,50 @@ module.exports = {
             if(interaction.options.getSubcommand() === "user") {
                 const user = interaction.options.getUser("user");
 
-                bannedUserSchema.findOne({ _id: user.id }, async (err, data) => {
-                    if(!data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is not banned!`)
+                if(!await bannedUserSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is not banned!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                    if(data) {
-                        await data.delete();
+                await bannedGuildSchema.findOneAndDelete({ _id: user.id });
 
-                        const unbanned = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been unbanned.`)
+                const userDM = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.green)
+                    .setTitle("Unbanned")
+                    .setDescription(`${emoji.successful} You have been unbanned from Global Chat.`)
+                    .setTimestamp()
 
-                        await interaction.editReply({ embeds: [unbanned] });
+                let sentDM = false;
 
-                        const banLog = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setTitle("User Unbanned")
-                            .addFields (
-                                { name: "👤 User", value: `${user}` },
-                                { name: "❓ Reason", value: `${reason}` },
-                                { name: "🔨 Moderator", value: `${interaction.user}` },
-                            )
-                            .setTimestamp()
+                try {
+                    const user = await client.users.fetch(data._id);
+                    await user.send({ embeds: [userDM] });
 
-                        modLogsChannel.send({ embeds: [banLog] });
-                        return;
-                    }
-                })
+                    sentDM = true;
+                } catch {}
 
+                const unbanned = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} ${user} has been unbanned.`)
+
+                await interaction.editReply({ embeds: [unbanned] });
+
+                const banLog = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("User Unbanned")
+                    .addFields (
+                        { name: "👤 User", value: `${user}` },
+                        { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
+                        { name: "❓ Reason", value: `${reason}` },
+                        { name: "🔨 Moderator", value: `${interaction.user}` },
+                    )
+                    .setTimestamp()
+
+                modLogsChannel.send({ embeds: [banLog] });
                 return;
             }
         } catch(err) {

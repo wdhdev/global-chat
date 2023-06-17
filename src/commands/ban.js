@@ -127,56 +127,56 @@ module.exports = {
             if(interaction.options.getSubcommand() === "guild") {
                 const id = interaction.options.getString("id");
 
-                bannedGuildSchema.findOne({ _id: id }, async (err, data) => {
-                    if(!data) {
-                        data = new bannedGuildSchema({
-                            _id: id,
-                            timestamp: Date.now(),
-                            reason: reason,
-                            mod: interaction.user.id
-                        })
+                if(id === client.config_default.server) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} You cannot ban that server!`)
 
-                        await data.save();
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        const guild = client.guilds.cache.get(id);
+                if(await bannedGuildSchema.exists({ _id: id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} That guild is already banned!`)
 
-                        if(guild) {
-                            guild.leave();
-                            console.log(`[BAN] Left Guild: ${id}`);
-                        }
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        await channelSchema.findOneAndDelete({ _id: id });
-
-                        const banned = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} Banned Guild: \`${id}\``)
-
-                        await interaction.editReply({ embeds: [banned] });
-
-                        const banLog = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setTitle("Guild Banned")
-                            .addFields (
-                                { name: "🔢 Guild ID", value: `${id}` },
-                                { name: "🔨 Moderator", value: `${interaction.user}` },
-                                { name: "❓ Reason", value: `${reason}` }
-                            )
-                            .setTimestamp()
-
-                        modLogsChannel.send({ embeds: [banLog] });
-                        return;
-                    }
-
-                    if(data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} That guild is already banned!`)
-
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                data = new bannedGuildSchema({
+                    _id: id,
+                    timestamp: Date.now(),
+                    reason: reason,
+                    mod: interaction.user.id
                 })
 
+                await data.save();
+
+                const guild = client.guilds.cache.get(id);
+
+                if(guild) guild.leave();
+
+                await channelSchema.findOneAndDelete({ _id: id });
+
+                const banned = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} Banned Guild: \`${id}\``)
+
+                await interaction.editReply({ embeds: [banned] });
+
+                const banLog = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("Guild Banned")
+                    .addFields (
+                        { name: "🔢 Guild ID", value: `${id}` },
+                        { name: "🔨 Moderator", value: `${interaction.user}` },
+                        { name: "❓ Reason", value: `${reason}` }
+                    )
+                    .setTimestamp()
+
+                modLogsChannel.send({ embeds: [banLog] });
                 return;
             }
 
@@ -271,84 +271,84 @@ module.exports = {
                     return;
                 }
 
-                bannedUserSchema.findOne({ _id: user.id }, async (err, data) => {
-                    if(!data) {
-                        data = new bannedUserSchema({
-                            _id: user.id,
-                            timestamp: Date.now(),
-                            allowAppeal: appealable,
-                            reason: reason,
-                            mod: interaction.user.id
-                        })
+                if(user.bot) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} You cannot ban bots!`)
 
-                        await data.save();
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        await devSchema.findOneAndDelete({ _id: user.id });
-                        await modSchema.findOneAndDelete({ _id: user.id });
-                        await verifiedSchema.findOneAndDelete({ _id: user.id });
+                if(user.id === client.config_default.owner) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} You cannot ban that user!`)
 
-                        const ban = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setTitle("Ban")
-                            .setDescription(`${emoji.information} You have been banned from using the bot.`)
-                            .addFields (
-                                { name: "❓ Reason", value: `${reason}` },
-                                { name: "📜 Appealable", value: appealable ? "✅" : "❌" }
-                            )
-                            .setTimestamp()
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        const button = new Discord.ActionRowBuilder()
-                            .addComponents (
-                                new Discord.ButtonBuilder()
-                                    .setStyle(Discord.ButtonStyle.Link)
-                                    .setLabel("Appeal")
-                                    .setURL("https://discord.com/channels/1067023529226293248/1094505532267704331")
-                            )
+                if(await bannedUserSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is already banned!`)
 
-                        let sentDM = false;
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
-                        try {
-                            if(appealable) {
-                                await user.send({ embeds: [ban], components: [button] });
-                                sentDM = true;
-                            } else {
-                                await user.send({ embeds: [ban] });
-                                sentDM = true;
-                            }
-                        } catch {}
-
-                        const banned = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} ${user} has been banned.\n${emoji.information} ${sentDM ? "The user has been notified." : "The user was not able to be notified."}`)
-
-                        await interaction.editReply({ embeds: [banned] });
-
-                        const banLog = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setTitle("User Banned")
-                            .addFields (
-                                { name: "👤 User", value: `${user}` },
-                                { name: "🔔 Notified", value: sentDM ? "✅" : "❌" },
-                                { name: "❓ Reason", value: `${reason}` },
-                                { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
-                                { name: "🔨 Moderator", value: `${interaction.user}` }
-                            )
-                            .setTimestamp()
-
-                        modLogsChannel.send({ embeds: [banLog] });
-                        return;
-                    }
-
-                    if(data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is already banned!`)
-
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                data = new bannedUserSchema({
+                    _id: user.id,
+                    timestamp: Date.now(),
+                    allowAppeal: appealable,
+                    reason: reason,
+                    mod: interaction.user.id
                 })
 
+                await data.save();
+
+                await devSchema.findOneAndDelete({ _id: user.id });
+                await modSchema.findOneAndDelete({ _id: user.id });
+                await verifiedSchema.findOneAndDelete({ _id: user.id });
+
+                const ban = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setTitle("Banned")
+                    .setDescription(`${emoji.information} You have been banned from using the bot.`)
+                    .addFields (
+                        { name: "❓ Reason", value: `${reason}` },
+                        { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
+                        appealable ? { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat)\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331)\n3. Click \`Submit\` and fill in the form\n4. Wait for a response to your appeal" }: null
+                    )
+                    .setTimestamp()
+
+                let sentDM = false;
+
+                try {
+                    await user.send({ embeds: [ban] });
+                    sentDM = true;
+                } catch {}
+
+                const banned = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} ${user} has been banned.`)
+
+                await interaction.editReply({ embeds: [banned] });
+
+                const banLog = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("User Banned")
+                    .addFields (
+                        { name: "👤 User", value: `${user}` },
+                        { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
+                        { name: "❓ Reason", value: `${reason}` },
+                        { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
+                        { name: "🔨 Moderator", value: `${interaction.user}` }
+                    )
+                    .setTimestamp()
+
+                modLogsChannel.send({ embeds: [banLog] });
                 return;
             }
         } catch(err) {

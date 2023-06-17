@@ -121,10 +121,10 @@ module.exports = {
                     .addFields (
                         { name: "📄 Appeal", value: id },
                         { name: "👤 User", value: `<@${data.id}>` },
-                        { name: "🔨 Ban Reason", value: banData.reason ? `${banData.reason}` : "*None*" },
+                        { name: "🔨 Ban Reason (*actual reason*)", value: banData.reason ? `${banData.reason}` : "*None*" },
                         { name: "🔨 Ban Reason (*user provided*)", value: `${data.ban_reason}` },
                         { name: "🔓 Unban Reason (*user provided*)", value: `${data.unban_reason}` },
-                        { name: "✏️ Status", value: `${state[data.status]}${data.status !== "NOT_REVIEWED" ? `\n❓ ${data.reason}\n🔨 <@${data.mod}>` : ""}` }
+                        { name: "📝 Status", value: `${state[data.status]}${data.status !== "NOT_REVIEWED" ? `\n❓ ${data.reason}\n🔨 <@${data.mod}>` : ""}` }
                     )
 
                 await interaction.editReply({ embeds: [appealData] });
