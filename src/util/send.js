@@ -124,7 +124,7 @@ module.exports = async function (message, client, Discord) {
 
     if(message.content.length) chat.setDescription(`${message.content}`);
 
-    assignRoles(message, client, chat);
+    await assignRoles(message, client, chat);
 
     // CDN
     let cdnRes = false;
