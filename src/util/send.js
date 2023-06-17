@@ -179,48 +179,63 @@ module.exports = async function (message, client, Discord) {
                                 webhook.on("error", async err => {
                                     client.logEventError(err);
 
-                                    try {
-                                        await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
+                                    if(reply) {
+                                        await chatChannel.send({ embeds: [replyEmbed, chat] })
                                             .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                                    } catch {
-                                        resolve(null);
+                                    } else {
+                                        await chatChannel.send({ embeds: [chat] })
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                     }
                                 })
 
-                                await webhook.send({
-                                    username: webhookUsername,
-                                    avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                    content: message.content.length && !reply ? message.content : "",
-                                    embeds: reply ? [replyEmbed, chat] : [],
-                                    // files: cdnRes && !reply ? [chat.data.image.url] : [],
-                                    allowedMentions: { parse: [] }
-                                }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                if(reply) {
+                                    await webhook.send({
+                                        username: webhookUsername,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        embeds: [replyEmbed, chat],
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                } else if(cdnRes) {
+                                    await webhook.send({
+                                        username: webhookUsername,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        content: message.content.length && !reply ? `${message.content}` : "",
+                                        files: [chat.data.image.url],
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                } else {
+                                    await webhook.send({
+                                        username: webhookUsername,
+                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                        content: `${message.content}`,
+                                        allowedMentions: { parse: [] }
+                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
                             } catch(err) {
                                 client.logEventError(err);
 
-                                try {
-                                    await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
+                                if(reply) {
+                                    await chatChannel.send({ embeds: [replyEmbed, chat] })
                                         .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                                } catch {
-                                    resolve(null);
+                                } else {
+                                    await chatChannel.send({ embeds: [chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                 }
                             }
                         } else {
                             try {
-                                await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
-                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                if(reply) {
+                                    await chatChannel.send({ embeds: [replyEmbed, chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                } else {
+                                    await chatChannel.send({ embeds: [chat] })
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                }
                             } catch {
                                 resolve(null);
                             }
                         }
                     } catch {}
-                } else {
-                    try {
-                        await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
-                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                    } catch {
-                        resolve(null);
-                    }
                 }
             }).clone()
         }))
