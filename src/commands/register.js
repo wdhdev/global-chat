@@ -29,9 +29,7 @@ module.exports = {
                 avatar: "https://avatars.githubusercontent.com/u/126386097",
             }).then(async webhook => {
                 schema.findOne({ _id: interaction.guild.id }, async (err, data) => {
-                    if(err) {
-                        console.log(err);
-                    }
+                    if(err) client.logCommandError(err, interaction, Discord);
 
                     if(data) {
                         await schema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
@@ -43,6 +41,12 @@ module.exports = {
                             .setDescription(`${emoji.successful} The global chat channel has been changed to: ${channel}`)
 
                         await interaction.editReply({ embeds: [channelChanged] });
+
+                        const setup = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.default)
+                            .setDescription(`${emoji.information} This channel has been setup for global chat.`)
+
+                        chatChannel.send({ embeds: [setup] });
                         return;
                     }
 
