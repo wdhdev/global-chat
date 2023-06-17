@@ -25,6 +25,13 @@ module.exports = {
         },
 
         {
+            type: 1,
+            name: "developers",
+            description: "Get a list of all the developers.",
+            options: []
+        },
+
+        {
             type: 2,
             name: "mod",
             description: "Manage the moderator role.",
