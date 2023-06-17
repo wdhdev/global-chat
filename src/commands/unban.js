@@ -132,7 +132,7 @@ module.exports = {
                     return;
                 }
 
-                await bannedGuildSchema.findOneAndDelete({ _id: user.id });
+                await bannedUserSchema.findOneAndDelete({ _id: user.id });
 
                 const userDM = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.green)
