@@ -52,7 +52,7 @@ module.exports = {
             const banData = `${banned && banInfo.timestamp ? `${emoji.reply} 🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `${emoji.reply} 📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `${emoji.reply} ❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `${emoji.reply} 🔨 <@${banInfo.mod}>` : ""}\n`;
 
             // Roles
-            const role = await getRoles(interaction.user, client);
+            const role = await getRoles(user, client);
 
             const roles = [];
 
