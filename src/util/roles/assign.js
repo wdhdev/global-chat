@@ -1,5 +1,5 @@
 module.exports = async (message, client, chat) => {
-    const role = await require("./get").message(message, client);
+    const role = await require("./get")(message.author, client);
 
     const username = message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag;
     const avatar = message.author.displayAvatarURL({ format: "png", dynamic: true });

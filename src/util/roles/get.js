@@ -2,35 +2,14 @@ const devSchema = require("../../models/devSchema");
 const modSchema = require("../../models/modSchema");
 const verifiedSchema = require("../../models/verifiedSchema");
 
-module.exports.interaction = async function (interaction, client) {
-    const role = await getRoles(interaction.user.id, client);
+module.exports = async function (user, client) {
+    const role = await getRoles(user.id, client);
 
     let supporter = false;
 
     try {
         const guild = await client.guilds.fetch(client.config_default.server);
-        const member = await guild.members.fetch(interaction.user);
-
-        supporter = member.premiumSinceTimestamp ? true : false;
-    } catch {}
-
-    return {
-        "owner": role.owner,
-        "dev": role.dev,
-        "mod": role.mod,
-        "verified": role.verified,
-        "supporter": supporter
-    }
-}
-
-module.exports.message = async function (message, client) {
-    const role = await getRoles(message.author.id, client);
-
-    let supporter = false;
-
-    try {
-        const guild = await client.guilds.fetch(client.config_default.server);
-        const member = await guild.members.fetch(message.author);
+        const member = await guild.members.fetch(user);
 
         supporter = member.premiumSinceTimestamp ? true : false;
     } catch {}

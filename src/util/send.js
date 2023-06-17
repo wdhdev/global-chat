@@ -3,7 +3,7 @@ module.exports = async function (message, client, Discord) {
     const cdn = require("./cdn");
     const emoji = require("../config.json").emojis;
     const snowflake = require("discord-snowflake");
-    const role = await require("./roles/get").message(message, client);
+    const role = await require("./roles/get")(message.author, client);
     const test = require("./filter/test");
 
     const bannedUserSchema = require("../models/bannedUserSchema");

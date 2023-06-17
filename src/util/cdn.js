@@ -2,7 +2,7 @@ module.exports = async (message, chat, client, Discord) => {
     // const bannedUserSchema = require("../models/bannedUserSchema");
     const emoji = require("../config.json").emojis;
     const path = require("path");
-    const role = await require("./roles/get").message(message, client);
+    const role = await require("./roles/get")(message.author, client);
     const upload = require("./cdn/upload");
 
     if(!role.verified) {
