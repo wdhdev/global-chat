@@ -48,8 +48,8 @@ module.exports = {
                             .setColor(client.config_embeds.default)
                             .setTitle("Guild Registered")
                             .addFields (
-                                { name: "Name", value: `${guild.name}`, inline: true },
-                                { name: "ID", value: guild.id, inline: true },
+                                { name: "Name", value: `${interaction.guild.name}`, inline: true },
+                                { name: "ID", value: `${interaction.guild.id}`, inline: true },
                                 { name: "Responsible User", value: `${interaction.user}`, inline: true },
                                 { name: "Channel", value: `${channel}`, inline: true }
                             )
