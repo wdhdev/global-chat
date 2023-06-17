@@ -315,7 +315,7 @@ module.exports = {
                 const ban = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setTitle("Banned")
-                    .setDescription(`${emoji.information} You have been banned from using the bot.`)
+                    .setDescription(`${emoji.information} You have been banned from using Global Chat.`)
                     .addFields (
                         { name: "❓ Reason", value: `${reason}` },
                         { name: "📜 Appealable", value: appealable ? "✅" : "❌" }
@@ -324,7 +324,7 @@ module.exports = {
 
                 if(appealable) {
                     ban.addFields (
-                        { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat)\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331)\n3. Click \`Submit\` and fill in the form\n4. Wait for a response to your appeal" }
+                        { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat).\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331).\n3. Click \`Submit\` and fill in the form.\n4. Wait for a response to your appeal." }
                     )
                 }
 

@@ -88,7 +88,7 @@ module.exports = {
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
                         .setTitle("Appeal Approved")
-                        .setDescription(`${emoji.successful} Your appeal has been approved and you have been unbanned from Global Chat.`)
+                        .setDescription(`${emoji.successful} Your appeal has been approved and you have been unbanned from Global Chat.\n❓ ${reason}`)
                         .setTimestamp()
 
                     let sentDM = false;

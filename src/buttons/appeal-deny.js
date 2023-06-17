@@ -86,7 +86,7 @@ module.exports = {
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)
                         .setTitle("Appeal Denied")
-                        .setDescription(`${emoji.error} Your appeal has been denied and you have not been unbanned from Global Chat.`)
+                        .setDescription(`${emoji.error} Your appeal has been denied.\n❓ ${reason}`)
                         .setTimestamp()
 
                     let sentDM = false;
