@@ -17,7 +17,7 @@ module.exports = {
     ],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: ["ManageMessages", "ManageWebhooks"],
-    cooldown: 120,
+    cooldown: 60,
     enabled: true,
     hidden: false,
     async execute(interaction, client, Discord) {

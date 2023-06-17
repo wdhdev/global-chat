@@ -103,6 +103,20 @@ module.exports = {
                 }
             }
 
+            if(interaction.user.id === client.config_default.owner) {
+                try {
+                    await command.execute(interaction, client, Discord);
+                } catch(err) {
+                    client.logEventError(err);
+
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} There was an error while executing that command!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                }
+            }
+
             if(!cooldowns.has(command.name)) cooldowns.set(command.name, new Discord.Collection());
 
             const currentTime = Date.now();
