@@ -26,51 +26,29 @@ module.exports = {
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
-            channel.createWebhook({
+            const webhook = await channel.createWebhook({
                 name: "Global Chat",
-                avatar: "https://avatars.githubusercontent.com/u/126386097",
-            }).then(async webhook => {
-                if(!await schema.findOne({ _id: interaction.guild.id })) {
-                    data = new schema({
-                        _id: interaction.guild.id,
-                        channel: channel.id,
-                        webhook: webhook.url
-                    })
+                avatar: "https://avatars.githubusercontent.com/u/126386097"
+            })
 
-                    await data.save();
+            if(!await schema.findOne({ _id: interaction.guild.id })) {
+                data = new schema({
+                    _id: interaction.guild.id,
+                    channel: channel.id,
+                    webhook: webhook.url
+                })
 
-                    const registerChannel = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The global chat channel has been set to: ${channel}`)
+                await data.save();
 
-                    await interaction.editReply({ embeds: [registerChannel] });
-
-                    const log = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setTitle("Guild Registered")
-                        .addFields (
-                            { name: "Name", value: `${interaction.guild.name}`, inline: true },
-                            { name: "ID", value: `${interaction.guild.id}`, inline: true },
-                            { name: "Responsible User", value: `${interaction.user}`, inline: true },
-                            { name: "Channel", value: `${channel}`, inline: true }
-                        )
-                        .setTimestamp()
-
-                    logsChannel.send({ embeds: [log] });
-                    return;
-                }
-
-                await schema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
-
-                const channelChanged = new Discord.EmbedBuilder()
+                const registerChannel = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} The global chat channel has been changed to: ${channel}`)
+                    .setDescription(`${emoji.successful} The global chat channel has been set to: ${channel}`)
 
-                await interaction.editReply({ embeds: [channelChanged] });
+                await interaction.editReply({ embeds: [registerChannel] });
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setTitle("Guild Re-registered")
+                    .setTitle("Guild Registered")
                     .addFields (
                         { name: "Name", value: `${interaction.guild.name}`, inline: true },
                         { name: "ID", value: `${interaction.guild.id}`, inline: true },
@@ -80,7 +58,29 @@ module.exports = {
                     .setTimestamp()
 
                 logsChannel.send({ embeds: [log] });
-            })
+                return;
+            }
+
+            await schema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
+
+            const channelChanged = new Discord.EmbedBuilder()
+                .setColor(client.config_embeds.default)
+                .setDescription(`${emoji.successful} The global chat channel has been changed to: ${channel}`)
+
+            await interaction.editReply({ embeds: [channelChanged] });
+
+            const log = new Discord.EmbedBuilder()
+                .setColor(client.config_embeds.default)
+                .setTitle("Guild Re-registered")
+                .addFields (
+                    { name: "Name", value: `${interaction.guild.name}`, inline: true },
+                    { name: "ID", value: `${interaction.guild.id}`, inline: true },
+                    { name: "Responsible User", value: `${interaction.user}`, inline: true },
+                    { name: "Channel", value: `${channel}`, inline: true }
+                )
+                .setTimestamp()
+
+            logsChannel.send({ embeds: [log] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }
