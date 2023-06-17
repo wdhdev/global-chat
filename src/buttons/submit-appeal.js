@@ -115,7 +115,10 @@ module.exports = {
                     const created = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("Appeal Created")
-                        .setDescription(`${emoji.successful} Your appeal has been created.\n${emoji.information} Appeal ID: \`${id}\``)
+                        .setDescription(`${emoji.successful} Your appeal has been created.`)
+                        .addFields (
+                            { name: "🔢 Appeal ID", value: id }
+                        )
 
                     await i.reply({ embeds: [created], ephemeral: true });
 

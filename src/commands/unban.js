@@ -137,7 +137,10 @@ module.exports = {
                 const userDM = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.green)
                     .setTitle("Unbanned")
-                    .setDescription(`${emoji.successful} You have been unbanned from Global Chat.\n❓ ${reason}`)
+                    .setDescription(`${emoji.successful} You have been unbanned from Global Chat.`)
+                    .addFields (
+                        { name: "❓ Reason", value: `${reason}` }
+                    )
                     .setTimestamp()
 
                 let sentDM = false;
