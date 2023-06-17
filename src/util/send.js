@@ -215,7 +215,12 @@ module.exports = async function (message, client, Discord) {
                         }
                     } catch {}
                 } else {
-                    resolve(null);
+                    try {
+                        await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
+                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                    } catch {
+                        resolve(null);
+                    }
                 }
             }).clone()
         }))
