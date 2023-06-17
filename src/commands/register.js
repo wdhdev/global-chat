@@ -36,8 +36,6 @@ module.exports = {
                     if(data) {
                         await schema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
 
-                        await data.save();
-
                         const channelChanged = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
                             .setDescription(`${emoji.successful} The global chat channel has been changed to: ${channel}`)
