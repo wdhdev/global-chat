@@ -318,10 +318,15 @@ module.exports = {
                     .setDescription(`${emoji.information} You have been banned from using the bot.`)
                     .addFields (
                         { name: "❓ Reason", value: `${reason}` },
-                        { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
-                        appealable ? { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat)\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331)\n3. Click \`Submit\` and fill in the form\n4. Wait for a response to your appeal" }: null
+                        { name: "📜 Appealable", value: appealable ? "✅" : "❌" }
                     )
                     .setTimestamp()
+
+                if(appealable) {
+                    ban.addFields (
+                        { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat)\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331)\n3. Click \`Submit\` and fill in the form\n4. Wait for a response to your appeal" }
+                    )
+                }
 
                 let sentDM = false;
 
