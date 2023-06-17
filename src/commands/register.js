@@ -31,6 +31,8 @@ module.exports = {
                 schema.findOne({ _id: interaction.guild.id }, async (err, data) => {
                     if(err) client.logCommandError(err, interaction, Discord);
 
+                    const logsChannel = client.channels.cache.get(client.config_channels.logs);
+
                     if(data) {
                         await schema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
 
@@ -42,11 +44,18 @@ module.exports = {
 
                         await interaction.editReply({ embeds: [channelChanged] });
 
-                        const setup = new Discord.EmbedBuilder()
+                        const log = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.information} This channel has been setup for global chat.`)
+                            .setTitle("Guild Registered")
+                            .addFields (
+                                { name: "Name", value: `${guild.name}`, inline: true },
+                                { name: "ID", value: guild.id, inline: true },
+                                { name: "Responsible User", value: `${interaction.user}`, inline: true },
+                                { name: "Channel", value: `${channel}`, inline: true }
+                            )
+                            .setTimestamp()
 
-                        chatChannel.send({ embeds: [setup] });
+                        logsChannel.send({ embeds: [log] });
                         return;
                     }
 
@@ -65,13 +74,18 @@ module.exports = {
 
                         await interaction.editReply({ embeds: [registerChannel] });
 
-                        const chatChannel = client.channels.cache.get(channel.id);
-
-                        const setup = new Discord.EmbedBuilder()
+                        const log = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.information} This channel has been setup for global chat.`)
+                            .setTitle("Guild Registered")
+                            .addFields (
+                                { name: "Name", value: `${guild.name}`, inline: true },
+                                { name: "ID", value: guild.id, inline: true },
+                                { name: "Responsible User", value: `${interaction.user}`, inline: true },
+                                { name: "Channel", value: `${channel}`, inline: true }
+                            )
+                            .setTimestamp()
 
-                        chatChannel.send({ embeds: [setup] });
+                        logsChannel.send({ embeds: [log] });
                         return;
                     }
                 })
