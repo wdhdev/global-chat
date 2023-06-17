@@ -58,21 +58,22 @@ module.exports = {
                         })
 
                         await data.save();
+
+                        const registerChannel = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.default)
+                            .setDescription(`${emoji.successful} The global chat channel has been set to: ${channel}`)
+
+                        await interaction.editReply({ embeds: [registerChannel] });
+
+                        const chatChannel = client.channels.cache.get(channel.id);
+
+                        const setup = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.default)
+                            .setDescription(`${emoji.information} This channel has been setup for global chat.`)
+
+                        chatChannel.send({ embeds: [setup] });
+                        return;
                     }
-
-                    const registerChannel = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The global chat channel has been set to: ${channel}`)
-
-                    await interaction.editReply({ embeds: [registerChannel] });
-
-                    const chatChannel = client.channels.cache.get(channel.id);
-
-                    const setup = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.information} This channel has been setup for global chat.`)
-
-                    chatChannel.send({ embeds: [setup] });
                 })
             })
         } catch(err) {
