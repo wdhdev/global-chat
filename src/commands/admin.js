@@ -148,6 +148,33 @@ module.exports = {
                 return;
             }
 
+            if(interaction.options.getSubcommand() === "developers") {
+                const data = await devSchema.find();
+
+                const users = [];
+
+                for(const item of data) {
+                    users.push(item._id);
+                }
+
+                if(!users.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} There are no developers!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const developers = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                	.setTitle("Developers")
+                    .setDescription(`<@${users.join(">\n<@")}>`)
+
+                await interaction.editReply({ embeds: [developers] });
+                return;
+            }
+
             if(interaction.options.getSubcommandGroup() === "mod") {
                 const user = interaction.options.getUser("user");
 
@@ -245,12 +272,12 @@ module.exports = {
                     return;
                 }
 
-                const verifiedUsers = new Discord.EmbedBuilder()
+                const moderators = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                 	.setTitle("Moderators")
                     .setDescription(`<@${users.join(">\n<@")}>`)
 
-                await interaction.editReply({ embeds: [verifiedUsers] });
+                await interaction.editReply({ embeds: [moderators] });
                 return;
             }
 
