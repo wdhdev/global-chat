@@ -49,42 +49,35 @@ module.exports = {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             if(interaction.options.getSubcommand() === "errors") {
-                try {
-                    const result = await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/`, {
-                        headers: {
-                            Authorization: `Bearer ${process.env.sentry_bearer}`
-                        }
-                    }).then(res => res.json())
-
-                    if(!result) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} There is no data available!`)
-
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
+                const result = await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/`, {
+                    headers: {
+                        Authorization: `Bearer ${process.env.sentry_bearer}`
                     }
+                }).then(res => res.json())
 
-                    const issues = [];
+                console.log(result);
 
-                    for(const issue of result.body) {
-                        issues.push(`- [${issue.title}](${issue.permalink})`);
-                    }
-
-                    const data = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setTitle("Issues")
-                        .setDescription(issues.join("\n"))
-
-                    await interaction.editReply({ embeds: [data] });
-                } catch(err) {
+                if(!result) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} An error occurred while fetching data!`)
+                        .setDescription(`${emoji.error} There is no data available!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
                 }
 
+                const issues = [];
+
+                for(const issue of result.body) {
+                    issues.push(`- [${issue.title}](${issue.permalink})`);
+                }
+
+                const data = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("Issues")
+                    .setDescription(issues.join("\n"))
+
+                await interaction.editReply({ embeds: [data] });
                 return;
             }
 
