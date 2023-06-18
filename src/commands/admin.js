@@ -175,7 +175,7 @@ module.exports = {
             const dev = await devSchema.exists({ _id: interaction.user.id });
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
-            if(!dev) {
+            if(!dev && interaction.user.id !== client.config_default.owner) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
