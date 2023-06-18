@@ -114,8 +114,7 @@ module.exports = {
                 const uptimeInfo = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("Uptime")
-                    .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
-                    .setDescription(`${uptime} [<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>]`)
+                    .setDescription(`${uptime}\n<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>`)
 
                 await interaction.editReply({ embeds: [uptimeInfo] });
                 return;
