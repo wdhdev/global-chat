@@ -90,6 +90,13 @@ module.exports = {
 
         {
             type: 1,
+            name: "supporters",
+            description: "Get a list of all the supporters.",
+            options: []
+        },
+
+        {
+            type: 1,
             name: "unverify",
             description: "Unverify a user.",
             options: [
@@ -156,12 +163,12 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "developers") {
-                const data = await devSchema.find();
+                const devs = await devSchema.find();
 
                 const users = [];
 
-                for(const item of data) {
-                    users.push(item._id);
+                for(const user of devs) {
+                    users.push(user._id);
                 }
 
                 if(!users.length) {
@@ -175,7 +182,7 @@ module.exports = {
 
                 const developers = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                	.setTitle("Developers")
+                	.setTitle("💻 Developers")
                     .setDescription(`<@${users.join(">\n<@")}>`)
 
                 await interaction.editReply({ embeds: [developers] });
@@ -262,12 +269,12 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "moderators") {
-                const data = await modSchema.find();
+                const mods = await modSchema.find();
 
                 const users = [];
 
-                for(const item of data) {
-                    users.push(item._id);
+                for(const user of mods) {
+                    users.push(user._id);
                 }
 
                 if(!users.length) {
@@ -281,7 +288,7 @@ module.exports = {
 
                 const moderators = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                	.setTitle("Moderators")
+                	.setTitle("🔨 Moderators")
                     .setDescription(`<@${users.join(">\n<@")}>`)
 
                 await interaction.editReply({ embeds: [moderators] });
@@ -334,6 +341,35 @@ module.exports = {
                 return;
             }
 
+            if(interaction.options.getSubcommand() === "supporters") {
+                const guild = await client.guilds.fetch(client.config_default.server);
+                const members = await guild.members.fetch();
+                const boosters = members.filter(member => member.premiumSinceTimestamp);
+
+                const users = [];
+
+                for(const user of boosters) {
+                    users.push(user.id);
+                }
+
+                if(!users.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} There are no supporters!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const supporters = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                	.setTitle("💖 Supporters")
+                    .setDescription(`<@${users.join(">\n<@")}>`)
+
+                await interaction.editReply({ embeds: [supporters] });
+                return;
+            }
+
             if(interaction.options.getSubcommand() === "unverify") {
                 const user = interaction.options.getUser("user");
 
@@ -369,12 +405,12 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "verified") {
-                const data = await verifiedSchema.find();
+                const verified = await verifiedSchema.find();
 
                 const users = [];
 
-                for(const item of data) {
-                    users.push(item._id);
+                for(const user of verified) {
+                    users.push(user._id);
                 }
 
                 if(!users.length) {
@@ -388,7 +424,7 @@ module.exports = {
 
                 const verifiedUsers = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                	.setTitle("Verified Users")
+                	.setTitle("✅ Verified Users")
                     .setDescription(`<@${users.join(">\n<@")}>`)
 
                 await interaction.editReply({ embeds: [verifiedUsers] });
