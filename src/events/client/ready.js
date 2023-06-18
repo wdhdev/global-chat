@@ -12,6 +12,7 @@ module.exports = {
 
 			const online = new Discord.EmbedBuilder()
 				.setColor(client.config_embeds.green)
+				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
 				.setTitle("🟢 Bot is Online")
                 .setTimestamp()
 
@@ -23,6 +24,7 @@ module.exports = {
 
 			const registered = new Discord.EmbedBuilder()
 				.setColor(client.config_embeds.green)
+				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
 				.setTitle("📝 Registered Commands")
                 .setTimestamp()
 
@@ -34,22 +36,6 @@ module.exports = {
 			})
 
 			// Cleanup Database
-			// Banned Guilds
-			const cleanBannedGuilds = require("../../util/database/cleanBannedGuilds");
-			const bannedGuildsRes = await cleanBannedGuilds(client);
-
-			const bannedGuildsResult = new Discord.EmbedBuilder()
-				.setColor(client.config_embeds.default)
-				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
-				.setTitle("🧹 Collection Cleanup")
-				.setDescription("**Collection**: `banned-guilds`")
-				.addFields (
-					{ name: "🗑️ Removed Documents", value: bannedGuildsRes.removed.length ? `\`\`\`${bannedGuildsRes.removed.join("\n")}\`\`\`` : "*None*" }
-				)
-				.setTimestamp()
-
-			if(bannedGuildsRes.removed.length) logsChannel.send({ embeds: [bannedGuildsResult] });
-
 			// Banned Users
 			const cleanBannedUsers = require("../../util/database/cleanBannedUsers");
 			const bannedUsersRes = await cleanBannedUsers(client);
@@ -58,7 +44,7 @@ module.exports = {
 				.setColor(client.config_embeds.default)
 				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
 				.setTitle("🧹 Collection Cleanup")
-				.setDescription("**Collection**: `banned-users`")
+				.setDescription("`banned-users`")
 				.addFields (
 					{ name: "🗑️ Removed Documents", value: bannedUsersRes.removed.length ? `\`\`\`${bannedUsersRes.removed.join("\n")}\`\`\`` : "*None*" }
 				)
@@ -74,7 +60,7 @@ module.exports = {
 				.setColor(client.config_embeds.default)
 				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
 				.setTitle("🧹 Collection Cleanup")
-				.setDescription("**Collection**: `channels`")
+				.setDescription("`channels`")
 				.addFields (
 					{ name: "📝 Modified Documents", value: channelsRes.modified.length ? `\`\`\`${channelsRes.modified.join("\n")}\`\`\`` : "*None*" },
 					{ name: "🗑️ Removed Documents", value: channelsRes.removed.length ? `\`\`\`${channelsRes.removed.join("\n")}\`\`\`` : "*None*" }

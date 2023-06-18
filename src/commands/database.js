@@ -17,12 +17,6 @@ module.exports = {
                     description: "The collection to clean up.",
                     choices: [
                         {
-                            name: "banned-guilds",
-                            description: "Clean up the banned-guilds collection.",
-                            value: "banned-guilds"
-                        },
-
-                        {
                             name: "banned-users",
                             description: "Clean up the banned-users collection.",
                             value: "banned-users"
@@ -61,31 +55,6 @@ module.exports = {
             if(interaction.options.getSubcommand() === "cleanup") {
                 const collection = interaction.options.getString("collection");
 
-                if(collection === "banned-guilds") {
-                    const cleanBannedGuilds = require("../util/database/cleanBannedGuilds");
-
-                    const res = await cleanBannedGuilds(client);
-
-                    const result = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setTitle("🧹 Collection Cleanup")
-                        .setDescription("**Collection**: `banned-guilds`")
-                        .addFields (
-                            { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
-                        )
-
-                    await interaction.editReply({ embeds: [result], ephemeral: true });
-
-                    if(res.removed.length) {
-                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
-                        result.setTimestamp();
-
-                        logsChannel.send({ embeds: [result] });
-                    }
-
-                    return;
-                }
-
                 if(collection === "banned-users") {
                     const cleanBannedUsers = require("../util/database/cleanBannedUsers");
 
@@ -94,7 +63,7 @@ module.exports = {
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("🧹 Collection Cleanup")
-                        .setDescription("**Collection**: `banned-users`")
+                        .setDescription("`banned-users`")
                         .addFields (
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
@@ -119,7 +88,7 @@ module.exports = {
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("🧹 Collection Cleanup")
-                        .setDescription("**Collection**: `channels`")
+                        .setDescription("`channels`")
                         .addFields (
                             { name: "📝 Modified Documents", value: res.modified.length ? `\`\`\`${res.modified.join("\n")}\`\`\`` : "*None*" },
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }

@@ -1,6 +1,12 @@
 const bot = require("../../package.json");
 const moment = require("moment");
 
+const channelSchema = require("../models/channelSchema");
+const devSchema = require("../models/devSchema");
+const messageSchema = require("../models/messageSchema");
+const modSchema = require("../models/modSchema");
+const verifiedSchema = require("../models/verifiedSchema");
+
 module.exports = {
     name: "bot",
     description: "Different information about the bot.",
@@ -9,6 +15,13 @@ module.exports = {
             type: 1,
             name: "info",
             description: "Get information about the bot.",
+            options: []
+        },
+
+        {
+            type: 1,
+            name: "statistics",
+            description: "Get statistics about the bot.",
             options: []
         },
 
@@ -47,16 +60,43 @@ module.exports = {
                 const info = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("Bot Information")
+                    .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
                     .addFields (
                         { name: "Name", value: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, inline: true },
                         { name: "ID", value: client.user.id, inline: true },
                         { name: "Version", value: `v${bot.version}`, inline: true },
                         { name: "Developer", value: `${bot.author}`, inline: true },
-                        { name: "Online Since", value: `<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>`, inline: true },
-                        { name: "Statistics", value: `Guilds: ${client.guilds.cache.size}\nUsers: ${client.users.cache.size}`, inline: true }
+                        { name: "Online Since", value: `<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>`, inline: true }
                     )
 
                 await interaction.editReply({ embeds: [info] });
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "statistics") {
+                const registeredGuilds = await channelSchema.find();
+                const developers = await devSchema.find();
+                const moderators = await modSchema.find();
+                const verifiedUsers = await verifiedSchema.find();
+                const messages = await messageSchema.find();
+                const images = await messageSchema.find({ attachment: { $ne: null } });
+
+                const stats = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("📊 Statistics")
+                    .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
+                    .addFields (
+                        { name: "🗄️ Guilds", value: `${client.guilds.cache.size}`, inline: true },
+                        { name: "📝 Registered Guilds", value: `${registeredGuilds.length}`, inline: true },
+                        { name: "👤 Users", value: `${client.users.cache.size}`, inline: true },
+                        { name: "💻 Developers", value: `${developers.length}`, inline: true },
+                        { name: "🔨 Moderators", value: `${moderators.length}`, inline: true },
+                        { name: "✅ Verified Users", value: `${verifiedUsers.length}`, inline: true },
+                        { name: "💬 Messages", value: `${messages.length}`, inline: true },
+                        { name: "🖼️ Images", value: `${images.length}`, inline: true }
+                    )
+
+                await interaction.editReply({ embeds: [stats] });
                 return;
             }
 
@@ -64,6 +104,7 @@ module.exports = {
                 const uptimeInfo = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("Uptime")
+                    .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
                     .setDescription(`${uptime} [<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>]`)
 
                 await interaction.editReply({ embeds: [uptimeInfo] });
