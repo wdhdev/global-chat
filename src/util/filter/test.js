@@ -65,7 +65,7 @@ module.exports = async (message, client, Discord) => {
 
     // Phishing filter
     const phishingFilter = require("./filters/phishing");
-    const phishingResult = phishingFilter(message);
+    const phishingResult = await phishingFilter(message);
 
     if(phishingResult) {
         new blockedSchema({

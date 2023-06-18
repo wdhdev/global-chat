@@ -73,6 +73,7 @@ module.exports = {
                 const data = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("Issues")
+                    .setURL(`https://${process.env.sentry_org}.sentry.io/projects/${process.env.sentry_project}/issues`)
                     .setDescription(issues.join("\n"))
 
                 const action = new Discord.ActionRowBuilder()

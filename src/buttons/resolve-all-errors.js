@@ -27,6 +27,8 @@ module.exports = {
                     "status": "resolved"
                 }
             }).then(res => res.json())
+
+            console.log(res);
         } catch(err) {
             client.logButtonError(err, interaction, Discord);
             return;
