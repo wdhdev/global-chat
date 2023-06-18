@@ -216,34 +216,23 @@ module.exports = async function (message, client, Discord) {
                     } catch {
                         resolve(null);
                     }
+                } else {
+                    resolve(null);
                 }
             }).clone()
         }))
     }
 
     Promise.all(promises).then(async () => {
-        if(cdnRes) {
-            data = new messageSchema({
-                _id: id,
-                user: message.author.id,
-                guild: message.guild.id,
-                content: message.content,
-                attachment: chat.data.image.url,
-                messages: messages
-            })
+        data = new messageSchema({
+            _id: id,
+            user: message.author.id,
+            guild: message.guild.id,
+            content: message.content,
+            attachment: cdnRes ? chat.data.image.url : null,
+            messages: messages
+        })
 
-            await data.save();
-        } else {
-            data = new messageSchema({
-                _id: id,
-                user: message.author.id,
-                guild: message.guild.id,
-                content: message.content,
-                attachment: null,
-                messages: messages
-            })
-
-            await data.save();
-        }
+        await data.save();
     })
 }
