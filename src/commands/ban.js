@@ -122,64 +122,6 @@ module.exports = {
                 return;
             }
 
-            const reason = interaction.options.getString("reason");
-
-            if(interaction.options.getSubcommand() === "guild") {
-                const id = interaction.options.getString("id");
-
-                if(id === client.config_default.guild) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} You cannot ban that server!`)
-
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
-
-                if(await bannedGuildSchema.exists({ _id: id })) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} That guild is already banned!`)
-
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
-
-                data = new bannedGuildSchema({
-                    _id: id,
-                    timestamp: Date.now(),
-                    reason: reason,
-                    mod: interaction.user.id
-                })
-
-                await data.save();
-
-                const guild = client.guilds.cache.get(id);
-
-                if(guild) guild.leave();
-
-                await channelSchema.findOneAndDelete({ _id: id });
-
-                const banned = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} Banned Guild: \`${id}\``)
-
-                await interaction.editReply({ embeds: [banned] });
-
-                const banLog = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setTitle("Guild Banned")
-                    .addFields (
-                        { name: "🔢 Guild ID", value: `${id}` },
-                        { name: "🔨 Moderator", value: `${interaction.user}` },
-                        { name: "❓ Reason", value: `${reason}` }
-                    )
-                    .setTimestamp()
-
-                modLogsChannel.send({ embeds: [banLog] });
-                return;
-            }
-
             if(interaction.options.getSubcommandGroup() === "info") {
                 if(interaction.options.getSubcommand() === "guild") {
                     const id = interaction.options.getString("id");
@@ -255,6 +197,64 @@ module.exports = {
                     return;
                 }
 
+                return;
+            }
+
+            const reason = interaction.options.getString("reason");
+
+            if(interaction.options.getSubcommand() === "guild") {
+                const id = interaction.options.getString("id");
+
+                if(id === client.config_default.guild) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} You cannot ban that server!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                if(await bannedGuildSchema.exists({ _id: id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} That guild is already banned!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                data = new bannedGuildSchema({
+                    _id: id,
+                    timestamp: Date.now(),
+                    reason: reason,
+                    mod: interaction.user.id
+                })
+
+                await data.save();
+
+                const guild = client.guilds.cache.get(id);
+
+                if(guild) guild.leave();
+
+                await channelSchema.findOneAndDelete({ _id: id });
+
+                const banned = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} Banned Guild: \`${id}\``)
+
+                await interaction.editReply({ embeds: [banned] });
+
+                const banLog = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("Guild Banned")
+                    .addFields (
+                        { name: "🔢 Guild ID", value: `${id}` },
+                        { name: "🔨 Moderator", value: `${interaction.user}` },
+                        { name: "❓ Reason", value: `${reason}` }
+                    )
+                    .setTimestamp()
+
+                modLogsChannel.send({ embeds: [banLog] });
                 return;
             }
 
