@@ -49,7 +49,7 @@ module.exports = {
 
             if(banInfo) banned = true;
 
-            const banData = `${banned && banInfo.timestamp ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `🔨 <@${banInfo.mod}>` : "❌"}\n`;
+            const banData = `${banned ? "✅" : "❌"}\n${banned && banInfo.timestamp ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `🔨 <@${banInfo.mod}>` : ""}`;
 
             // Roles
             const role = await getRoles(user, client);
