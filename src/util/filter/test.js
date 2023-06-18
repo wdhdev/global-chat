@@ -1,4 +1,5 @@
 module.exports = async (message, client, Discord) => {
+    const emoji = require("../../config.json").emojis;
     const role = await require("../roles/get")(message.author, client);
 
     const bannedUserSchema = require("../../models/bannedUserSchema");
