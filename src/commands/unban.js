@@ -146,7 +146,6 @@ module.exports = {
                 let sentDM = false;
 
                 try {
-                    const user = await client.users.fetch(data._id);
                     await user.send({ embeds: [userDM] });
 
                     sentDM = true;
