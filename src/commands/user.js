@@ -49,7 +49,7 @@ module.exports = {
 
             if(banInfo) banned = true;
 
-            const banData = `${banned && banInfo.timestamp ? `${emoji.reply} 🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `${emoji.reply} 📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `${emoji.reply} ❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `${emoji.reply} 🔨 <@${banInfo.mod}>` : ""}\n`;
+            const banData = `${banned && banInfo.timestamp ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `🔨 <@${banInfo.mod}>` : "❌"}\n`;
 
             // Roles
             const role = await getRoles(user, client);
@@ -78,7 +78,7 @@ module.exports = {
                 .setTitle("User Information")
                 .addFields (
                     { name: "Roles", value: roles.join("\n") || "*None*" },
-                    { name: "Banned", value: `${banned ? "" : "❌"}${banned ? `\n${banData}` : ""}` },
+                    { name: "Banned", value: banData },
                     { name: "Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}` }
                 )
 
