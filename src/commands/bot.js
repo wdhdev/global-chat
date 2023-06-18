@@ -96,8 +96,7 @@ module.exports = {
                     .setTitle("📊 Statistics")
                     .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
                     .addFields (
-                        { name: "🗄️ Guilds", value: `${client.guilds.cache.size}`, inline: true },
-                        { name: "📝 Registered Guilds", value: `${registeredGuilds.length}`, inline: true },
+                        { name: "🗄️ Guilds", value: `${client.guilds.cache.size} (${registeredGuilds.length} registered)`, inline: true },
                         { name: "👤 Users", value: `${client.users.cache.size}`, inline: true },
                         { name: "💻 Developers", value: `${developers.length}`, inline: true },
                         { name: "🔨 Moderators", value: `${moderators.length}`, inline: true },
