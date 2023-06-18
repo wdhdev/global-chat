@@ -342,7 +342,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "supporters") {
-                const guild = await client.guilds.fetch(client.config_default.server);
+                const guild = await client.guilds.fetch(client.config_default.guild);
                 const members = await guild.members.fetch();
                 const boosters = members.filter(member => member.premiumSinceTimestamp);
 

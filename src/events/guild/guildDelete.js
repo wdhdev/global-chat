@@ -20,6 +20,7 @@ module.exports = {
             const log = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("Left Guild")
+                .setThumbnail(guild.iconURL({ format: "png", dynamic: true }))
                 .addFields (
                     { name: "Name", value: `${guild.name}`, inline: true },
                     { name: "Description", value: `${guild.description || "*None*"}`, inline: true },

@@ -127,7 +127,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "guild") {
                 const id = interaction.options.getString("id");
 
-                if(id === client.config_default.server) {
+                if(id === client.config_default.guild) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.error} You cannot ban that server!`)

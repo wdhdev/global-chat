@@ -8,7 +8,7 @@ module.exports = async function (user, client) {
     let supporter = false;
 
     try {
-        const guild = await client.guilds.fetch(client.config_default.server);
+        const guild = await client.guilds.fetch(client.config_default.guild);
         const member = await guild.members.fetch(user);
 
         supporter = member.premiumSinceTimestamp ? true : false;
