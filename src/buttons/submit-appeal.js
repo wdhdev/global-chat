@@ -85,15 +85,13 @@ module.exports = {
                             { name: "🔓 Unban Reason (*user provided*)", value: `${unbanReason}` }
                         )
 
-                    const data = new appealSchema({
+                    new appealSchema({
                         _id: id,
                         id: interaction.user.id,
                         ban_reason: banReason,
                         unban_reason: unbanReason,
                         status: "NOT_REVIEWED"
-                    })
-
-                    await data.save();
+                    }).save()
 
                     const appealsChannel = client.channels.cache.get(client.config_channels.appeals);
 

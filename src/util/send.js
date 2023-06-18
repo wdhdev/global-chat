@@ -224,15 +224,13 @@ module.exports = async function (message, client, Discord) {
     }
 
     Promise.all(promises).then(async () => {
-        data = new messageSchema({
+        new messageSchema({
             _id: id,
             user: message.author.id,
             guild: message.guild.id,
             content: message.content,
             attachment: cdnRes ? chat.data.image.url : null,
             messages: messages
-        })
-
-        await data.save();
+        }).save()
     })
 }

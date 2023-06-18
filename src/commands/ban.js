@@ -208,7 +208,7 @@ module.exports = {
                 if(id === client.config_default.guild) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} You cannot ban that server!`)
+                        .setDescription(`${emoji.error} You cannot ban that guild!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -223,14 +223,12 @@ module.exports = {
                     return;
                 }
 
-                data = new bannedGuildSchema({
+                new bannedGuildSchema({
                     _id: id,
                     timestamp: Date.now(),
                     reason: reason,
                     mod: interaction.user.id
-                })
-
-                await data.save();
+                }).save()
 
                 const guild = client.guilds.cache.get(id);
 
@@ -298,15 +296,13 @@ module.exports = {
                     return;
                 }
 
-                data = new bannedUserSchema({
+                new bannedUserSchema({
                     _id: user.id,
                     timestamp: Date.now(),
                     allowAppeal: appealable,
                     reason: reason,
                     mod: interaction.user.id
-                })
-
-                await data.save();
+                }).save()
 
                 await devSchema.findOneAndDelete({ _id: user.id });
                 await modSchema.findOneAndDelete({ _id: user.id });

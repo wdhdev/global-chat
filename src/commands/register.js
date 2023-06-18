@@ -32,13 +32,11 @@ module.exports = {
             })
 
             if(!await schema.findOne({ _id: interaction.guild.id })) {
-                data = new schema({
+                new schema({
                     _id: interaction.guild.id,
                     channel: channel.id,
                     webhook: webhook.url
-                })
-
-                await data.save();
+                }).save()
 
                 const registerChannel = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

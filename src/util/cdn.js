@@ -46,8 +46,7 @@ module.exports = async (message, chat, client, Discord) => {
     // if(res.status === 406 || res.data.code === "NSFW_DETECTED") {
     //     const nsfwImagesChannel = client.channels.cache.get(client.config_channels.nsfwImages);
 
-    //     const data = new bannedUserSchema({ _id: message.author.id });
-    //     await data.save();
+    //     new bannedUserSchema({ _id: message.author.id }).save();
 
     //     const error = new Discord.EmbedBuilder()
     //         .setColor(client.config_embeds.error)

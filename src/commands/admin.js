@@ -228,9 +228,7 @@ module.exports = {
                         return;
                     }
 
-                    data = new devSchema({ _id: user.id });
-
-                    await data.save();
+                    new devSchema({ _id: user.id }).save();
 
                     const added = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -336,9 +334,7 @@ module.exports = {
                         return;
                     }
 
-                    data = new modSchema({ _id: user.id });
-
-                    await data.save();
+                    new modSchema({ _id: user.id }).save();
 
                     const added = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -579,9 +575,7 @@ module.exports = {
                     return;
                 }
 
-                data = new verifiedSchema({ _id: user.id });
-
-                await data.save();
+                new verifiedSchema({ _id: user.id }).save();
 
                 const verified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

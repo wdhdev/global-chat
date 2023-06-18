@@ -158,12 +158,10 @@ module.exports = {
                     }
 
                     if(!data) {
-                        data = new filterSchema({
+                        new filterSchema({
                             _id: filter,
                             words: [word.toLowerCase()]
-                        })
-
-                        await data.save();
+                        }).save()
 
                         const added = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
