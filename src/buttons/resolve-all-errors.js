@@ -19,17 +19,15 @@ module.exports = {
         }
 
         try {
-            const result = await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/?status=unresolved`, {
+            await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/?status=unresolved`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${process.env.sentry_bearer}`
                 },
-                body: {
+                body: JSON.stringify({
                     "status": "resolved"
-                }
+                })
             }).then(res => res.json())
-
-            console.log(result);
         } catch(err) {
             client.logButtonError(err, interaction, Discord);
             return;
