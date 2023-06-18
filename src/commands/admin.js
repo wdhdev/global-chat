@@ -346,6 +346,8 @@ module.exports = {
                 const members = await guild.members.fetch();
                 const boosters = members.filter(member => member.premiumSinceTimestamp);
 
+                console.log(boosters);
+
                 const users = [];
 
                 for(const user of boosters) {
