@@ -235,7 +235,9 @@ module.exports = async function (message, client, Discord) {
                                 resolve(null);
                             }
                         }
-                    } catch {}
+                    } catch {
+                        resolve(null);
+                    }
                 }
             }).clone()
         }))
