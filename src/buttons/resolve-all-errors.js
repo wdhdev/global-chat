@@ -22,10 +22,11 @@ module.exports = {
             await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/?status=unresolved`, {
                 method: "PUT",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${process.env.sentry_bearer}`
                 },
                 body: JSON.stringify({
-                    "status": "resolved"
+                    status: "resolved"
                 })
             }).then(res => res.json())
         } catch(err) {
