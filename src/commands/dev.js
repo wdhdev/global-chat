@@ -1,4 +1,5 @@
 const emoji = require("../config.json").emojis;
+const fetch = require("node-fetch");
 
 const devSchema = require("../models/devSchema");
 
@@ -6,6 +7,13 @@ module.exports = {
 	name: "dev",
 	description: "Developer Commands",
     options: [
+        {
+            type: 1,
+            name: "errors",
+            description: "Get all unresolved errors on Sentry.",
+            options: []
+        },
+
         {
             type: 1,
             name: "reload",
@@ -39,6 +47,46 @@ module.exports = {
             }
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
+
+            if(interaction.options.getSubcommand() === "errors") {
+                try {
+                    const result = await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/`, {
+                        headers: {
+                            Authorization: `Bearer ${process.env.sentry_bearer}`
+                        }
+                    }).then(res => res.json())
+
+                    if(!result.body) {
+                        const error = new Discord.EmbedBuilder()
+                            .setColor(client.config_embeds.error)
+                            .setDescription(`${emoji.error} There is no data available!`)
+
+                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        return;
+                    }
+
+                    const issues = [];
+
+                    for(const issue of result.body) {
+                        issues.push(`- [${issue.title}](${issue.permalink})`);
+                    }
+
+                    const data = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setTitle("Issues")
+                        .setDescription(issues.join("\n"))
+
+                    await interaction.editReply({ embeds: [data] });
+                } catch(err) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} An error occurred while fetching data!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                }
+
+                return;
+            }
 
             if(interaction.options.getSubcommand() === "reload") {
                 const cmd = interaction.options.getString("command").toLowerCase();
