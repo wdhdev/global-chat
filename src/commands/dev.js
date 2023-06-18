@@ -56,7 +56,7 @@ module.exports = {
                         }
                     }).then(res => res.json())
 
-                    if(!result.body) {
+                    if(!result) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.error} There is no data available!`)
