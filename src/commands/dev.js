@@ -58,7 +58,7 @@ module.exports = {
                 if(!result.length) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There is no data available!`)
+                        .setDescription(`${emoji.error} There are no errors!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
