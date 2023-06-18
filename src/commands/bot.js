@@ -45,11 +45,11 @@ module.exports = {
                     .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
                     .setDescription(bot.description)
                     .addFields (
-                        { name: "📈 Version", value: bot.version },
-                        { name: "💻 Developer", value: bot.author },
-                        { name: "📜 Scripts", value: `${Object.keys(bot.scripts).length}` },
-                        { name: "📌 Dependencies", value: `${Object.keys(bot.dependencies).length}` },
-                        { name: "📄 License", value: bot.license }
+                        { name: "📈 Version", value: bot.version, inline: true },
+                        { name: "💻 Developer", value: bot.author, inline: true },
+                        { name: "📜 Scripts", value: `${Object.keys(bot.scripts).length}`, inline: true },
+                        { name: "📌 Dependencies", value: `${Object.keys(bot.dependencies).length}`, inline: true },
+                        { name: "📄 License", value: bot.license, inline: true }
                     )
 
                 await interaction.editReply({ embeds: [info] });
