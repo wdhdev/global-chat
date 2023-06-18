@@ -1,11 +1,7 @@
-const bannedGuildSchema = require("../../models/bannedGuildSchema");
-
 module.exports = {
 	name: "guildMemberUpdate",
 	async execute(client, Discord, oldMember, newMember) {
         try {
-            if(await bannedGuildSchema.exists({ _id: guild.id })) return guild.leave();
-
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             if(oldMember.guild.id === client.config_default.guild && oldMember.premiumSince !== newMember.premiumSince) {
