@@ -81,6 +81,16 @@ module.exports = {
                 const messages = await messageSchema.find();
                 const images = await messageSchema.find({ attachment: { $ne: null } });
 
+                const guild = await client.guilds.fetch(client.config_default.guild);
+                const members = await guild.members.fetch();
+                const boosters = members.filter(member => member.premiumSinceTimestamp);
+
+                let supporters = 0;
+
+                for(const [userId, guildMember] of boosters) {
+                    supporters += 1;
+                }
+
                 const stats = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("📊 Statistics")
@@ -92,6 +102,7 @@ module.exports = {
                         { name: "💻 Developers", value: `${developers.length}`, inline: true },
                         { name: "🔨 Moderators", value: `${moderators.length}`, inline: true },
                         { name: "✅ Verified Users", value: `${verifiedUsers.length}`, inline: true },
+                        { name: "💖 Supporters", value: `${supporters}`, inline: true },
                         { name: "💬 Messages", value: `${messages.length}`, inline: true },
                         { name: "🖼️ Images", value: `${images.length}`, inline: true }
                     )
