@@ -55,7 +55,7 @@ module.exports = {
                     const approved = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("Approved")
+                        .setTitle("✅ Approved")
                         .setDescription(`${reason}`)
                         .setTimestamp()
 

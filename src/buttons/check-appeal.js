@@ -62,13 +62,13 @@ module.exports = {
                         .setColor(client.config_embeds.default)
                         .setTitle("Your Appeal")
                         .addFields (
-                            { name: "ID", value: id },
-                            { name: "Status", value: `${state[data.status]}` }
+                            { name: "📄 ID", value: id },
+                            { name: "📝 Status", value: `${state[data.status]}` }
                         )
 
                     if(data.status !== "NOT_REVIEWED") {
                         appealData.addFields (
-                            { name: "Reason", value: `${data.reason}` }
+                            { name: "❓ Reason", value: `${data.reason}` }
                         )
                     }
 

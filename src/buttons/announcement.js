@@ -5,11 +5,11 @@ module.exports = {
     startsWith: false,
     async execute(interaction, client, Discord) {
         try {
-            const announcementInfo = new Discord.EmbedBuilder()
+            const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setDescription(`${emoji.information} This is an official announcement made by the Global Chat Developers.`)
 
-            await interaction.reply({ embeds: [announcementInfo], ephemeral: true });
+            await interaction.reply({ embeds: [info], ephemeral: true });
         } catch(err) {
             client.logButtonError(err, interaction, Discord);
         }

@@ -117,21 +117,14 @@ module.exports = {
                         .setTitle("Appeal Created")
                         .setDescription(`${emoji.successful} Your appeal has been created.`)
                         .addFields (
-                            { name: "🔢 Appeal ID", value: id }
-                        )
-
-                    await i.reply({ embeds: [created], ephemeral: true });
-
-                    const confirmation = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setTitle("Appeal Created")
-                        .addFields (
-                            { name: "🔢 ID", value: id }
+                            { name: "📄 ID", value: id }
                         )
                         .setTimestamp()
 
+                    await i.reply({ embeds: [created], ephemeral: true });
+
                     try {
-                        interaction.user.send({ embeds: [confirmation] });
+                        interaction.user.send({ embeds: [created] });
                     } catch {}
                 }
             })

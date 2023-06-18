@@ -87,7 +87,7 @@ module.exports = {
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
-                        .setTitle("Appeal Approved")
+                        .setTitle("✅ Appeal Approved")
                         .setDescription(`${emoji.successful} Your appeal has been approved and you have been unbanned from Global Chat.`)
                         .addFields (
                             { name: "❓ Reason", value: `${reason}` }
@@ -106,7 +106,7 @@ module.exports = {
                     const approved = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("Approved")
+                        .setTitle("✅ Approved")
                         .setDescription(`${reason}`)
                         .setTimestamp()
 
@@ -120,7 +120,7 @@ module.exports = {
 
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("Appeal Approved")
+                        .setTitle("✅ Appeal Approved")
                         .addFields (
                             { name: "📄 Appeal", value: id },
                             { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },

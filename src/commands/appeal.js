@@ -86,7 +86,7 @@ module.exports = {
 
                 const appealLog = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setTitle("Appeal Deleted")
+                    .setTitle("🗑️ Appeal Deleted")
                     .addFields (
                         { name: "📄 Appeal", value: id },
                         { name: "🔨 Moderator", value: `${interaction.user}` }

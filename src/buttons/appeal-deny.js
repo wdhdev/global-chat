@@ -85,7 +85,7 @@ module.exports = {
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)
-                        .setTitle("Appeal Denied")
+                        .setTitle("❌ Appeal Denied")
                         .setDescription(`${emoji.error} Your appeal has been denied.`)
                         .addFields (
                             { name: "❓ Reason", value: `${reason}` }
@@ -104,7 +104,7 @@ module.exports = {
                     const denied = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("Denied")
+                        .setTitle("❌ Denied")
                         .setDescription(`${reason}`)
                         .setTimestamp()
 
@@ -118,7 +118,7 @@ module.exports = {
 
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle("Appeal Denied")
+                        .setTitle("❌ Appeal Denied")
                         .addFields (
                             { name: "📄 Appeal", value: id },
                             { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
