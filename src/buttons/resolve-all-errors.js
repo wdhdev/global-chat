@@ -1,4 +1,5 @@
 const emoji = require("../config.json").emojis;
+const fetch = require("node-fetch");
 
 const devSchema = require("../models/devSchema");
 
@@ -18,7 +19,7 @@ module.exports = {
         }
 
         try {
-            await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/?status=unresolved`, {
+            const result = await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/?status=unresolved`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${process.env.sentry_bearer}`
@@ -28,7 +29,7 @@ module.exports = {
                 }
             }).then(res => res.json())
 
-            console.log(res);
+            console.log(result);
         } catch(err) {
             client.logButtonError(err, interaction, Discord);
             return;
