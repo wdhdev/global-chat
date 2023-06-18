@@ -8,18 +8,32 @@ module.exports = {
 			// Login Message
 			console.log(`Logged in as: ${client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag}`);
 
+            const logsChannel = client.channels.cache.get(client.config_channels.logs);
+
+			const online = new Discord.EmbedBuilder()
+				.setColor(client.config_embeds.green)
+				.setTitle("🟢 Bot is Online")
+                .setTimestamp()
+
+			logsChannel.send({ embeds: [online] });
+
 			// Register Commands
 			const register = require("../../scripts/register");
 			await register(client);
 
-			// Check for banned guilds
+			const registered = new Discord.EmbedBuilder()
+				.setColor(client.config_embeds.green)
+				.setTitle("📝 Registered Commands")
+                .setTimestamp()
+
+			logsChannel.send({ embeds: [registered] });
+
+			// Leave Banned Guilds
 			client.guilds.cache.forEach(async guild => {
 				if(await bannedGuildSchema.exists({ _id: guild.id })) guild.leave();
 			})
 
 			// Cleanup Database
-            const logsChannel = client.channels.cache.get(client.config_channels.logs);
-
 			// Banned Guilds
 			const cleanBannedGuilds = require("../../util/database/cleanBannedGuilds");
 			const bannedGuildsRes = await cleanBannedGuilds(client);
@@ -34,9 +48,7 @@ module.exports = {
 				)
 				.setTimestamp()
 
-			if(bannedGuildsRes.removed.length) {
-				logsChannel.send({ embeds: [bannedGuildsResult] });
-			}
+			if(bannedGuildsRes.removed.length) logsChannel.send({ embeds: [bannedGuildsResult] });
 
 			// Banned Users
 			const cleanBannedUsers = require("../../util/database/cleanBannedUsers");
@@ -52,9 +64,7 @@ module.exports = {
 				)
 				.setTimestamp()
 
-			if(bannedUsersRes.removed.length) {
-				logsChannel.send({ embeds: [bannedUsersResult] });
-			}
+			if(bannedUsersRes.removed.length) logsChannel.send({ embeds: [bannedUsersResult] });
 
 			// Channels
 			const cleanChannels = require("../../util/database/cleanChannels");
@@ -71,9 +81,7 @@ module.exports = {
 				)
 				.setTimestamp()
 
-			if(channelsRes.modified.length || channelsRes.removed.length) {
-				logsChannel.send({ embeds: [channelsResult] });
-			}
+			if(channelsRes.modified.length || channelsRes.removed.length) logsChannel.send({ embeds: [channelsResult] });
 		} catch(err) {
 			client.logEventError(err);
 		}

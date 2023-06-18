@@ -1,9 +1,7 @@
 const fetch = require("node-fetch");
 
 module.exports = async function (webhook) {
-    if((await fetch(webhook)).ok) {
-        return true;
-    } else {
-        return false;
-    }
+    const res = (await fetch(webhook)).ok ? true : false;
+
+    return res;
 }
