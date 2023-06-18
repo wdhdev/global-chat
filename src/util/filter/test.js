@@ -9,6 +9,7 @@ module.exports = async (message, client, Discord) => {
     const verifiedSchema = require("../../models/verifiedSchema");
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
+    const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
     // Profanity filter
     const profanityFilter = require("./filters/profranity");
