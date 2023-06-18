@@ -82,9 +82,9 @@ module.exports = async (message, client, Discord) => {
             mod: client.user.id
         }).save()
 
-        await devSchema.findOneAndDelete({ _id: user.id });
-        await modSchema.findOneAndDelete({ _id: user.id });
-        await verifiedSchema.findOneAndDelete({ _id: user.id });
+        await devSchema.findOneAndDelete({ _id: message.author.id });
+        await modSchema.findOneAndDelete({ _id: message.author.id });
+        await verifiedSchema.findOneAndDelete({ _id: message.author.id });
 
         const blocked = new Discord.EmbedBuilder()
             .setTitle("⚠️ Phishing Link Detected")
