@@ -4,31 +4,17 @@ const devSchema = require("../models/devSchema");
 
 module.exports = {
 	name: "dev",
-	description: "Manage the developer role.",
+	description: "Developer Commands",
     options: [
         {
             type: 1,
-            name: "add",
-            description: "Promote a user to a developer.",
+            name: "reload",
+            description: "Reload a command.",
             options: [
                 {
-                    type: 6,
-                    name: "user",
-                    description: "The user to promote.",
-                    required: true
-                }
-            ]
-        },
-
-        {
-            type: 1,
-            name: "remove",
-            description: "Demote a user from a developer.",
-            options: [
-                {
-                    type: 6,
-                    name: "user",
-                    description: "The user to demote.",
+                    type: 3,
+                    name: "command",
+                    description: "The command to reload.",
                     required: true
                 }
             ]
@@ -41,7 +27,9 @@ module.exports = {
     hidden: true,
 	async execute(interaction, client, Discord) {
         try {
-            if(interaction.user.id !== client.config_default.owner) {
+            const dev = await devSchema.exists({ _id: interaction.user.id });
+
+            if(!dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
@@ -52,76 +40,38 @@ module.exports = {
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
-            const user = interaction.options.getUser("user");
+            if(interaction.options.getSubcommand() === "reload") {
+                const cmd = interaction.options.getString("command").toLowerCase();
+                const command = client.commands.get(cmd);
 
-            if(interaction.options.getSubcommand() === "add") {
-                if(user.bot) {
+                if(!command) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} You cannot add a bot to the developer role!`)
+                        .setDescription(`${emoji.error} No command exists with that name!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
                 }
 
-                if(await devSchema.exists({ _id: user.id })) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} ${user} is already a developer!`)
+                delete require.cache[require.resolve(`./${command.name}.js`)];
+                client.commands.delete(command.name);
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
+                const newCommand = require(`./${command.name}.js`);
 
-                data = new devSchema({ _id: user.id });
+                client.commands.set(newCommand.name, newCommand);
 
-                await data.save();
-
-                const added = new Discord.EmbedBuilder()
+                const reloaded = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} ${user} has been added to the developer role.`)
+                    .setDescription(`${emoji.successful} \`/${cmd}\` was reloaded!`)
 
-                await interaction.editReply({ embeds: [added] });
+                await interaction.editReply({ embeds: [reloaded] });
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                    .setTitle("Role Added")
+                    .setTitle("Command Reloaded")
                     .addFields (
-                        { name: "🎭 Role", value: "💻 Developer" },
-                        { name: "👤 User", value: `${user}` }
-                    )
-                    .setTimestamp()
-
-                logsChannel.send({ embeds: [log] });
-                return;
-            }
-
-            if(interaction.options.getSubcommand() === "remove") {
-                if(!await devSchema.exists({ _id: user.id })) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} ${user} is not a developer!`)
-
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
-
-                await devSchema.findOneAndDelete({ _id: user.id });
-
-                const removed = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} ${user} has been removed from the developer role.`)
-
-                await interaction.editReply({ embeds: [removed] });
-
-                const log = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                    .setTitle("Role Removed")
-                    .addFields (
-                        { name: "🎭 Role", value: "💻 Developer" },
-                        { name: "👤 User", value: `${user}` }
+                        { name: "📄 Command", value: cmd }
                     )
                     .setTimestamp()
 
