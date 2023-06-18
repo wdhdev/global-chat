@@ -3,9 +3,9 @@ module.exports = async (message, client, Discord) => {
 
     const bannedUserSchema = require("../../models/bannedUserSchema");
     const blockedSchema = require("../../models/blockedSchema");
-    const devSchema = require("../models/devSchema");
-    const modSchema = require("../models/modSchema");
-    const verifiedSchema = require("../models/verifiedSchema");
+    const devSchema = require("../../models/devSchema");
+    const modSchema = require("../../models/modSchema");
+    const verifiedSchema = require("../../models/verifiedSchema");
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
