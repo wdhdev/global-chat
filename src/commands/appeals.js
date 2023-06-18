@@ -59,7 +59,7 @@ module.exports = {
             const appeals = [];
 
             for(const appeal of data) {
-                appeals.push(`- ${state[appeal.status]} \`${appeal._id}\``);
+                appeals.push(`${state[appeal.status]} \`${appeal._id}\``);
             }
 
             const appealData = new Discord.EmbedBuilder()
