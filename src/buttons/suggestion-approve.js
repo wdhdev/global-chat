@@ -9,10 +9,7 @@ module.exports = {
         try {
             const dev = await devSchema.exists({ _id: interaction.user.id });
 
-            check:
-            if(dev) {
-                break check;
-            } else {
+            if(!dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to perform this action!`)

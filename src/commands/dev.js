@@ -75,7 +75,15 @@ module.exports = {
                     .setTitle("Issues")
                     .setDescription(issues.join("\n"))
 
-                await interaction.editReply({ embeds: [data] });
+                const action = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Success)
+                            .setCustomId("resolve-all-errors")
+                            .setLabel("Resolve All")
+                    )
+
+                await interaction.editReply({ embeds: [data], components: [action] });
                 return;
             }
 
