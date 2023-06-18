@@ -34,25 +34,29 @@ module.exports = {
 
             const input = interaction.options.getString("code");
 
-			const output = eval(input);
-		
-			const result = new Discord.EmbedBuilder()
-			    .setColor(client.config_embeds.default)
-			    .addFields (
-					{ name: "Input", value: `\`\`\`${input}\`\`\`` },
-					{ name: "Output", value: `\`\`\`${output}\`\`\`` }
-			    )
-		
-			await interaction.editReply({ embeds: [result], ephemeral: true });
-        } catch(err) {
-			const result = new Discord.EmbedBuilder()
-				.setColor(client.config_embeds.error)
-				.addFields (
-					{ name: "Input", value: `\`\`\`${input}\`\`\`` },
-					{ name: "Output", value: `\`\`\`${err.message}\`\`\`` }
-				)
+            try {
+                const output = eval(input);
 
-			await interaction.editReply({ embeds: [result], ephemeral: true });
+                const result = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .addFields (
+                        { name: "Input", value: `\`\`\`${input}\`\`\`` },
+                        { name: "Output", value: `\`\`\`${output}\`\`\`` }
+                    )
+
+                await interaction.editReply({ embeds: [result], ephemeral: true });
+            } catch(err) {
+                const result = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .addFields (
+                        { name: "Input", value: `\`\`\`${input}\`\`\`` },
+                        { name: "Output", value: `\`\`\`${err.message}\`\`\`` }
+                    )
+
+                await interaction.editReply({ embeds: [result], ephemeral: true });
+            }
+        } catch(err) {
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }
