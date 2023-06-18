@@ -55,8 +55,6 @@ module.exports = {
                     }
                 }).then(res => res.json())
 
-                console.log(result);
-
                 if(!result) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
@@ -68,7 +66,7 @@ module.exports = {
 
                 const issues = [];
 
-                for(const issue of result.body) {
+                for(const issue of result) {
                     issues.push(`- [${issue.title}](${issue.permalink})`);
                 }
 
