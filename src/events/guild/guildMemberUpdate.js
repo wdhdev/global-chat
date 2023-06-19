@@ -17,7 +17,10 @@ module.exports = {
                         .setTimestamp()
 
                     logsChannel.send({ embeds: [log] });
-                } else {
+                    return;
+                }
+
+                if(!newMember.premiumSince) {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ format: "png", dynamic: true }) })
@@ -29,6 +32,7 @@ module.exports = {
                         .setTimestamp()
 
                     logsChannel.send({ embeds: [log] });
+                    return;
                 }
             }
         } catch(err) {
