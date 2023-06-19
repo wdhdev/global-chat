@@ -68,7 +68,7 @@ module.exports = {
                         const info = message.replace("https://discord.com/channels/", "").split("/");;
 
                         try {
-                            client.channels.fetch(info[1]).then(async channel => {
+                            await client.channels.fetch(info[1]).then(async channel => {
                                 await channel.messages.delete(info[2]);
                             })
 
@@ -97,7 +97,6 @@ module.exports = {
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                         .setTitle("🗑️ Message Deleted")
                         .addFields (
-                            { name: "👤 User", value: `<@${data.user}>` },
                             { name: "💬 Message", value: `${data._id}` },
                             { name: "📄 Result", value: `Deleted ${deleted} of ${total} messages.` }
                         )
