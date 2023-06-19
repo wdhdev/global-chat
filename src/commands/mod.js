@@ -80,10 +80,7 @@ module.exports = {
             const mod = await modSchema.exists({ _id: interaction.user.id });
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-            check:
-            if(mod || dev) {
-                break check;
-            } else {
+            if(!mod && !dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
@@ -114,8 +111,8 @@ module.exports = {
                             .addFields (
                                 { name: "👤 User", value: `${user}` },
                                 { name: "📄 File", value: file },
-                                { name: "🔨 Moderator", value: `${interaction.user}` },
-                                { name: "❓ Reason", value: `${reason}` }
+                                { name: "❓ Reason", value: `${reason}` },
+                                { name: "🔨 Moderator", value: `${interaction.user}` }
                             )
                             .setTimestamp()
 
