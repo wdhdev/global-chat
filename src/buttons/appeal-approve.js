@@ -120,12 +120,12 @@ module.exports = {
 
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
+                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                         .setTitle("✅ Appeal Approved")
                         .addFields (
                             { name: "📄 Appeal", value: id },
                             { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
-                            { name: "❓ Reason", value: `${reason}` },
-                            { name: "🔨 Moderator", value: `${interaction.user}` }
+                            { name: "❓ Reason", value: `${reason}` }
                         )
                         .setTimestamp()
 

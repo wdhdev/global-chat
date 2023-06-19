@@ -83,11 +83,10 @@ module.exports = {
                 Promise.all(promises).then(async () => {
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setTitle(`🗑️ Deleted Message: ${id}`)
+                        .setTitle(`🗑️ Message Deleted`)
                         .addFields (
-                            { name: "💬 Messages", value: `${total}` },
-                            { name: "✅ Deleted", value: `${deleted}` },
-                            { name: "❌ Couldn't Delete", value: `${total - deleted}` }
+                            { name: "🔢 Message ID", value: `${id}` },
+                            { name: "📄 Result", value: `Deleted ${deleted} of ${total} messages.` }
                         )
                         .setTimestamp()
 
@@ -95,14 +94,12 @@ module.exports = {
 
                     const cdnLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
+                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                         .setTitle("🗑️ Message Deleted")
                         .addFields (
-                            { name: "👤 User", value: `<@${data.id}>` },
+                            { name: "👤 User", value: `<@${data.user}>` },
                             { name: "💬 Message", value: `${data._id}` },
-                            { name: "📩 Sent Messages", value: `${total}` },
-                            { name: "✅ Deleted", value: `${deleted}` },
-                            { name: "❌ Couldn't Delete", value: `${total - deleted}` },
-                            { name: "🔨 Moderator", value: `${interaction.user}` }
+                            { name: "📄 Result", value: `Deleted ${deleted} of ${total} messages.` }
                         )
                         .setTimestamp()
 

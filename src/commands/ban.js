@@ -241,10 +241,10 @@ module.exports = {
 
                 const banLog = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle("Guild Banned")
                     .addFields (
                         { name: "🔢 Guild ID", value: `${id}` },
-                        { name: "🔨 Moderator", value: `${interaction.user}` },
                         { name: "❓ Reason", value: `${reason}` }
                     )
                     .setTimestamp()
@@ -336,13 +336,14 @@ module.exports = {
 
                 const banLog = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle("User Banned")
                     .addFields (
                         { name: "👤 User", value: `${user}` },
                         { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
                         { name: "❓ Reason", value: `${reason}` },
-                        { name: "📜 Appealable", value: appealable ? "✅" : "❌" },
-                        { name: "🔨 Moderator", value: `${interaction.user}` }
+                        { name: "📜 Appealable", value: appealable ? "✅" : "❌" }
+                        
                     )
                     .setTimestamp()
 

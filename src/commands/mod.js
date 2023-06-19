@@ -107,12 +107,13 @@ module.exports = {
 
                         const cdnLog = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
+                            .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                             .setTitle("🗑️ CDN: Upload Deleted")
                             .addFields (
                                 { name: "👤 User", value: `${user}` },
                                 { name: "📄 File", value: file },
-                                { name: "❓ Reason", value: `${reason}` },
-                                { name: "🔨 Moderator", value: `${interaction.user}` }
+                                { name: "❓ Reason", value: `${reason}` }
+                                
                             )
                             .setTimestamp()
 
@@ -144,11 +145,12 @@ module.exports = {
 
                 //         const cdnLog = new Discord.EmbedBuilder()
                 //             .setColor(client.config_embeds.default)
+                //             .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                 //             .setTitle("🗑️ CDN: NSFW Upload Deleted")
                 //             .addFields (
                 //                 { name: "👤 User", value: `${user}` },
-                //                 { name: "📄 File", value: file },
-                //                 { name: "🔨 Moderator", value: `${interaction.user}` }
+                //                 { name: "📄 File", value: file }
+                //                 
                 //             )
                 //             .setTimestamp()
 
