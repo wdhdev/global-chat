@@ -81,6 +81,8 @@ module.exports = {
                 }
 
                 Promise.all(promises).then(async () => {
+                    await data.delete();
+
                     const result = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle(`🗑️ Message Deleted`)
