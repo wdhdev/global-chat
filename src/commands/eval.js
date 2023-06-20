@@ -34,8 +34,25 @@ module.exports = {
 
             const input = interaction.options.getString("code");
 
+            async function isSecret(string) {
+                for(const key in process.env) {
+                    if(process.env[key] === string) return true;
+                }
+
+                return false;
+            }
+
             try {
                 const output = eval(input);
+
+                if(await isSecret(output)) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} You cannot retrieve secret values!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
