@@ -34,9 +34,9 @@ module.exports = {
 
             const input = interaction.options.getString("code");
 
-            async function isSecret(string) {
+            async function isSecret(input) {
                 for(const key in process.env) {
-                    if(process.env[key] === string) return true;
+                    if(process.env[key].toString() === input.toString()) return true;
                 }
 
                 return false;
