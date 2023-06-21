@@ -104,12 +104,17 @@ module.exports = function replaceContent(string) {
     content = content.replace("^", "u");
     content = content.replace("*", "");
     content = content.replace("-", "");
+    content = content.replace(".", "");
+    content = content.replace(",", "");
+    content = content.replace("?", "");
+    content = content.replace("/", "");
 
     // Replace numbers
     content = content.replace("0", "o");
     content = content.replace("1", "i");
     content = content.replace("3", "e");
     content = content.replace("5", "s");
+    content = content.replace("8", "a");
 
     return content;
 }
