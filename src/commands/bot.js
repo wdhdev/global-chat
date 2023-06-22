@@ -46,8 +46,7 @@ module.exports = {
                     .setDescription(bot.description)
                     .addFields (
                         { name: "📈 Version", value: bot.version, inline: true },
-                        { name: "💻 Developer", value: bot.author, inline: true },
-                        { name: "📌 Dependencies", value: `${Object.keys(bot.dependencies).length}`, inline: true }
+                        { name: "💻 Developer", value: bot.author, inline: true }
                     )
 
                 await interaction.editReply({ embeds: [info] });
