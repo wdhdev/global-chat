@@ -2,20 +2,30 @@ module.exports = async function profanity(message) {
     const filterSchema = require("../../../models/filterSchema");
     const replaceContent = require("../replaceContent");
 
-    const filter = await filterSchema.findOne({ _id: "block" });
+    const blockFilter = await filterSchema.findOne({ _id: "block" });
+    const autobanFilter = await filterSchema.findOne({ _id: "autoban" });
 
     const content = replaceContent(message.content.toLowerCase());
 
     const blockedWords = [];
+    let autoban = false;
 
-    filter.words.some(word => {
+    blockFilter.words.some(word => {
         if(content.includes(word)) blockedWords.push(word);
+    })
+
+    autobanFilter.words.some(word => {
+        if(content.includes(word)) {
+            blockedWords.push(word);
+            autoban = true;
+        }
     })
 
     if(blockedWords.length) {
         return {
             "result": true,
-            "words": blockedWords
+            "words": blockedWords,
+            "autoban": autoban
         }
     } else {
         return {

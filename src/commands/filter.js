@@ -6,7 +6,7 @@ const modSchema = require("../models/modSchema");
 
 module.exports = {
 	name: "filter",
-	description: "Manage the bot's filter.",
+	description: "Manage the bot's filters.",
     options: [
         {
             type: 1,
@@ -20,54 +20,27 @@ module.exports = {
                     min_length: 3,
                     max_length: 64,
                     required: true
-                } // ,
+                },
 
-                // {
-                //     type: 3,
-                //     name: "filter",
-                //     description: "The filter you want to add the word to.",
-                //     choices: [
-                //         {
-                //             name: "block",
-                //             description: "Add the word to the blocked words filter.",
-                //             value: "block"
-                //         },
+                {
+                    type: 3,
+                    name: "filter",
+                    description: "The filter you want to add the word to.",
+                    choices: [
+                        {
+                            name: "block",
+                            description: "Add the word to the blocked words filter.",
+                            value: "block"
+                        },
 
-                //         {
-                //             name: "unblock",
-                //             description: "Add the word to the unblocked words filter.",
-                //             value: "unblock"
-                //         }
-                //     ],
-                //     required: true
-                // }
-            ]
-        },
-
-        {
-            type: 1,
-            name: "list",
-            description: "Get a list of all the words in a filter.",
-            options: [
-                // {
-                //     type: 3,
-                //     name: "filter",
-                //     description: "The filter you want the list of.",
-                //     choices: [
-                //         {
-                //             name: "block",
-                //             description: "Get a list of the blocked words filter.",
-                //             value: "block"
-                //         },
-
-                //         {
-                //             name: "unblock",
-                //             description: "Get a list of the blocked words filter.",
-                //             value: "unblock"
-                //         }
-                //     ],
-                //     required: true
-                // }
+                        {
+                            name: "autoban",
+                            description: "Add the word to the autoban filter.",
+                            value: "autoban"
+                        }
+                    ],
+                    required: true
+                }
             ]
         },
 
@@ -83,27 +56,27 @@ module.exports = {
                     min_length: 3,
                     max_length: 64,
                     required: true
-                } // ,
+                },
 
-                // {
-                //     type: 3,
-                //     name: "filter",
-                //     description: "The filter you want to remove the word from.",
-                //     choices: [
-                //         {
-                //             name: "block",
-                //             description: "Remove the word from the blocked words filter.",
-                //             value: "block"
-                //         },
+                {
+                    type: 3,
+                    name: "filter",
+                    description: "The filter you want to remove the word from.",
+                    choices: [
+                        {
+                            name: "block",
+                            description: "Remove the word from the blocked words filter.",
+                            value: "block"
+                        },
 
-                //         {
-                //             name: "unblock",
-                //             description: "Remove the word to from unblocked words filter.",
-                //             value: "unblock"
-                //         }
-                //     ],
-                //     required: true
-                // }
+                        {
+                            name: "autoban",
+                            description: "Remove the word to from autoban filter.",
+                            value: "autoban"
+                        }
+                    ],
+                    required: true
+                }
             ]
         }
     ],
@@ -128,8 +101,7 @@ module.exports = {
 
             if(interaction.options.getSubcommand() === "add") {
                 const word = interaction.options.getString("word");
-                // const filter = interaction.options.getString("filter");
-                const filter = "block";
+                const filter = interaction.options.getString("filter");
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
@@ -172,54 +144,9 @@ module.exports = {
                 return;
             }
 
-            // if(interaction.options.getSubcommand() === "list") {
-            //     // const filter = interaction.options.getString("filter");
-            //     const filter = "block";
-
-            //     const data = await filterSchema.findOne({ _id: filter });
-
-            //     if(!data) {
-            //         const error = new Discord.EmbedBuilder()
-            //             .setColor(client.config_embeds.error)
-            //             .setDescription(`${emoji.error} There are no words on the filter!`)
-
-            //         await interaction.editReply({ embeds: [error], ephemeral: true });
-            //         return;
-            //     }
-
-            //     const filters = {
-            //         "block": "Block",
-            //         // "unblock": "Unblock"
-            //     }
-
-            //     const embed = new Discord.EmbedBuilder()
-            //         .setColor(client.config_embeds.default)
-            //         .setTitle(`${filters[filter]} Filter`)
-            //         .setDescription(`\`${data.words.sort().join("\`, \`")}\``)
-
-            //     try {
-            //         await interaction.user.send({ embeds: [embed] });
-            //     } catch {
-            //         const error = new Discord.EmbedBuilder()
-            //             .setColor(client.config_embeds.error)
-            //             .setDescription(`${emoji.error} I could not DM you!`)
-
-            //         await interaction.editReply({ embeds: [error], ephemeral: true });
-            //         return;
-            //     }
-
-            //     const sent = new Discord.EmbedBuilder()
-            //         .setColor(client.config_embeds.default)
-            //         .setDescription(`${emoji.successful} Check your DMs!`)
-
-            //     await interaction.editReply({ embeds: [sent] });
-            //     return;
-            // }
-
             if(interaction.options.getSubcommand() === "remove") {
                 const word = interaction.options.getString("word");
-                // const filter = interaction.options.getString("filter");
-                const filter = "block";
+                const filter = interaction.options.getString("filter");
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {

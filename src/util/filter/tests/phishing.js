@@ -62,8 +62,6 @@ module.exports = async function(message, client, Discord) {
                 const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
 
                 blocked.setImage(`attachment://${attachment.name}`);
-            } else if(!message.content.length) {
-                return;
             }
         }
 
@@ -77,9 +75,6 @@ module.exports = async function(message, client, Discord) {
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
         blocked.setDescription(null);
-        blocked.addFields (
-            { name: "🔨 Banned", value: "✅" }
-        )
 
         const blockedInfo = new Discord.EmbedBuilder()
             .addFields (

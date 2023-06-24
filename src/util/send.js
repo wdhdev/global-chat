@@ -29,7 +29,7 @@ module.exports = async function (message, client, Discord) {
         const blocked = new Discord.EmbedBuilder()
             .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
             .addFields (
-                { name: "❓ Reason", value: "Banned User" }
+                { name: "❓ Reason", value: "🔨 Banned User" }
             )
             .setTimestamp()
 

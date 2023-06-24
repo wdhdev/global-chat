@@ -34,8 +34,6 @@ module.exports = async function(message, client, Discord) {
                 const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
 
                 blocked.setImage(`attachment://${attachment.name}`);
-            } else if(!message.content.length) {
-                return;
             }
         }
 
