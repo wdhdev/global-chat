@@ -2,8 +2,8 @@ module.exports = async function profanity(message) {
     const filterSchema = require("../../../models/filterSchema");
     const replaceContent = require("../replaceContent");
 
-    const blockFilter = await filterSchema.findOne({ _id: "block" });
-    const autobanFilter = await filterSchema.findOne({ _id: "autoban" });
+    const blockFilter = await filterSchema.findOne({ _id: "block" }) || { words: [] };
+    const autobanFilter = await filterSchema.findOne({ _id: "autoban" }) || { words: [] };
 
     const content = replaceContent(message.content.toLowerCase());
 
