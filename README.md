@@ -3,12 +3,11 @@ A Discord bot which connects many servers together using a text channel!
 
 ![Languages](https://skillicons.dev/icons?i=nodejs,mongodb,sentry)
 
-## 🧪 Usage
-This project is under a [MIT License](https://github.com/Global-Chat-7493/bot/blob/main/LICENSE).
+# ⛔ Prohibited Usage
+- Hosting a public bot using this source code.
+  - Hosting a **private** bot is allowed if it is only being used for small servers.
+    - All servers must have less than 25 members (excluding bots).
+    - You can only have a maximum of 5 servers using the bot.
+- Coping this source code and promoting and using it as your own.
 
-### ⛔ Prohibited Usage
-- Host a public bot using this source code.
-  - Private bots are allowed.
-- Copy this source code and use it as your own.
-
-Acting out any of the above items will result in copyright infringments and bot takedowns.
+**Participating in anything in the list above will result in copyright infringments and bot takedowns.**
