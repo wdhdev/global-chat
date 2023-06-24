@@ -172,49 +172,49 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommand() === "list") {
-                // const filter = interaction.options.getString("filter");
-                const filter = "block";
+            // if(interaction.options.getSubcommand() === "list") {
+            //     // const filter = interaction.options.getString("filter");
+            //     const filter = "block";
 
-                const data = await filterSchema.findOne({ _id: filter });
+            //     const data = await filterSchema.findOne({ _id: filter });
 
-                if(!data) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no words on the filter!`)
+            //     if(!data) {
+            //         const error = new Discord.EmbedBuilder()
+            //             .setColor(client.config_embeds.error)
+            //             .setDescription(`${emoji.error} There are no words on the filter!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
+            //         await interaction.editReply({ embeds: [error], ephemeral: true });
+            //         return;
+            //     }
 
-                const filters = {
-                    "block": "Block",
-                    // "unblock": "Unblock"
-                }
+            //     const filters = {
+            //         "block": "Block",
+            //         // "unblock": "Unblock"
+            //     }
 
-                const embed = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setTitle(`${filters[filter]} Filter`)
-                    .setDescription(`\`${data.words.sort().join("\`, \`")}\``)
+            //     const embed = new Discord.EmbedBuilder()
+            //         .setColor(client.config_embeds.default)
+            //         .setTitle(`${filters[filter]} Filter`)
+            //         .setDescription(`\`${data.words.sort().join("\`, \`")}\``)
 
-                try {
-                    await interaction.user.send({ embeds: [embed] });
-                } catch {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} I could not DM you!`)
+            //     try {
+            //         await interaction.user.send({ embeds: [embed] });
+            //     } catch {
+            //         const error = new Discord.EmbedBuilder()
+            //             .setColor(client.config_embeds.error)
+            //             .setDescription(`${emoji.error} I could not DM you!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
+            //         await interaction.editReply({ embeds: [error], ephemeral: true });
+            //         return;
+            //     }
 
-                const sent = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} Check your DMs!`)
+            //     const sent = new Discord.EmbedBuilder()
+            //         .setColor(client.config_embeds.default)
+            //         .setDescription(`${emoji.successful} Check your DMs!`)
 
-                await interaction.editReply({ embeds: [sent] });
-                return;
-            }
+            //     await interaction.editReply({ embeds: [sent] });
+            //     return;
+            // }
 
             if(interaction.options.getSubcommand() === "remove") {
                 const word = interaction.options.getString("word");

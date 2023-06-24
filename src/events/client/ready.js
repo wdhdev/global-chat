@@ -1,5 +1,3 @@
-const bannedGuildSchema = require("../../models/bannedGuildSchema");
-
 module.exports = {
 	name: "ready",
 	once: true,
@@ -29,11 +27,6 @@ module.exports = {
                 .setTimestamp()
 
 			logsChannel.send({ embeds: [registered] });
-
-			// Leave Banned Guilds
-			client.guilds.cache.forEach(async guild => {
-				if(await bannedGuildSchema.exists({ _id: guild.id })) guild.leave();
-			})
 
 			// Cleanup Database
 			// Banned Users

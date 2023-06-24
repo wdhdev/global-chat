@@ -1,5 +1,3 @@
-const emoji = require("../config.json").emojis;
-
 module.exports = {
     name: "vote",
     description: "Sends the voting link.",

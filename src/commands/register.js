@@ -46,12 +46,11 @@ module.exports = {
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setTitle("Guild Registered")
+                    .setTitle("📝 Guild Registered")
                     .addFields (
                         { name: "Name", value: `${interaction.guild.name}`, inline: true },
                         { name: "ID", value: `${interaction.guild.id}`, inline: true },
-                        { name: "Responsible User", value: `${interaction.user}`, inline: true },
-                        { name: "Channel", value: `${channel}`, inline: true }
+                        { name: "Responsible User", value: `${interaction.user}`, inline: true }
                     )
                     .setTimestamp()
 
@@ -69,12 +68,11 @@ module.exports = {
 
             const log = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setTitle("Guild Re-registered")
+                .setTitle("🔄️ Guild Re-registered")
                 .addFields (
                     { name: "Name", value: `${interaction.guild.name}`, inline: true },
                     { name: "ID", value: `${interaction.guild.id}`, inline: true },
-                    { name: "Responsible User", value: `${interaction.user}`, inline: true },
-                    { name: "Channel", value: `${channel}`, inline: true }
+                    { name: "Responsible User", value: `${interaction.user}`, inline: true }
                 )
                 .setTimestamp()
 

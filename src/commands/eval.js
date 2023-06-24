@@ -1,7 +1,5 @@
 const emoji = require("../config.json").emojis;
 
-const devSchema = require("../models/devSchema");
-
 module.exports = {
 	name: "eval",
 	description: "Evaluate code on the bot.",
@@ -21,9 +19,7 @@ module.exports = {
     hidden: true,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-
-            if(!dev) {
+            if(interaction.user.id !== client.config_default.owner) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)

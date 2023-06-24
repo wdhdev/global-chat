@@ -1,6 +1,5 @@
 const emoji = require("../config.json").emojis;
 
-const bannedGuildSchema = require("../models/bannedGuildSchema");
 const bannedUserSchema = require("../models/bannedUserSchema");
 const devSchema = require("../models/devSchema");
 const modSchema = require("../models/modSchema");
@@ -9,30 +8,6 @@ module.exports = {
     name: "unban",
     description: "Unban a user or guild.",
     options: [
-        {
-            type: 1,
-            name: "guild",
-            description: "Unban a guild.",
-            options: [
-                {
-                    type: 3,
-                    name: "id",
-                    description: "The ID of the guild you want to unban.",
-                    min_length: 17,
-                    max_length: 19,
-                    required: true
-                },
-
-                {
-                    type: 3,
-                    name: "reason",
-                    description: "Why you want to unban the guild.",
-                    max_length: 1024,
-                    required: true
-                }
-            ]
-        },
-
         {
             type: 1,
             name: "user",
@@ -76,46 +51,6 @@ module.exports = {
             }
 
             const reason = interaction.options.getString("reason");
-
-            if(interaction.options.getSubcommand() === "guild") {
-                const id = interaction.options.getString("id");
-
-                bannedGuildSchema.findOne({ _id: id }, async (err, data) => {
-                    if(!data) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} That guild is not banned!`)
-
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
-
-                    if(data) {
-                        await data.delete();
-
-                        const unbanned = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} Unbanned Guild: \`${id}\``)
-
-                        await interaction.editReply({ embeds: [unbanned] });
-
-                        const banLog = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                            .setTitle("Guild Unbanned")
-                            .addFields (
-                                { name: "🔢 Guild ID", value: `${id}` },
-                                { name: "❓ Reason", value: `${reason}` }
-                            )
-                            .setTimestamp()
-
-                        modLogsChannel.send({ embeds: [banLog] });
-                        return;
-                    }
-                })
-
-                return;
-            }
 
             if(interaction.options.getSubcommand() === "user") {
                 const user = interaction.options.getUser("user");

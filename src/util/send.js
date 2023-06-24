@@ -1,6 +1,5 @@
 module.exports = async function (message, client, Discord) {
     const assignRoles = require("./roles/assign");
-    const cdn = require("./cdn");
     const emoji = require("../config.json").emojis;
     const snowflake = require("discord-snowflake");
     const role = await require("./roles/get")(message.author, client);
@@ -126,12 +125,6 @@ module.exports = async function (message, client, Discord) {
 
     await assignRoles(message, client, chat);
 
-    // CDN
-    let cdnRes = false;
-
-    // if(message.attachments.size >= 1) cdnRes = await cdn(message, chat, client, Discord);
-    if(/* cdnRes === "NSFW" || */ !cdnRes && !message.content.length) return;
-
     // Log
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
 
@@ -145,7 +138,6 @@ module.exports = async function (message, client, Discord) {
         .setTimestamp()
 
     if(message.content.length >= 1) messageLog.setDescription(`${message.content}`);
-    if(cdnRes) messageLog.setImage(chat.data.image.url);
 
     messagesChannel.send({ embeds: [messageLog] });
 
@@ -192,7 +184,6 @@ module.exports = async function (message, client, Discord) {
                                     avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                                     content: message.content.length && !reply ? message.content : "",
                                     embeds: reply ? [replyEmbed, chat] : [],
-                                    // files: cdnRes && !reply ? [chat.data.image.url] : [],
                                     allowedMentions: { parse: [] }
                                 }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                             } catch(err) {
@@ -229,7 +220,7 @@ module.exports = async function (message, client, Discord) {
             user: message.author.id,
             guild: message.guild.id,
             content: message.content,
-            attachment: cdnRes ? chat.data.image.url : null,
+            attachment: null,
             messages: messages
         }).save()
     })
