@@ -54,9 +54,7 @@ module.exports = {
             .setCustomId(`modal-description-${id}`)
             .setStyle(Discord.TextInputStyle.Paragraph)
             .setLabel("Description")
-            .setMinLength(10)
-            .setMaxLength(200)
-            .setRequired(true)
+            .setMaxLength(500)
 
         const firstRow = new Discord.ActionRowBuilder().addComponents(modalName);
         const secondRow = new Discord.ActionRowBuilder().addComponents(modalDescription);
@@ -70,7 +68,7 @@ module.exports = {
 
             if(i.customId === `modal-${id}`) {
                 const name = i.fields.getTextInputValue(`modal-name-${id}`);
-                const description = i.fields.getTextInputValue(`modal-description-${id}`);
+                const description = i.fields.getTextInputValue(`modal-description-${id}`) ?? "*No description provided.*";
 
                 const menu = new Discord.StringSelectMenuBuilder()
                     .setCustomId(`select-menu-${id}`)
