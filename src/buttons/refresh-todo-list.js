@@ -25,6 +25,7 @@ module.exports = {
             .setColor(client.config_embeds.default)
             .setTitle("To-Do List")
             .setDescription(todoList.length ? todoList.join("\n") : "*There are no tasks.*")
+            .setTimestamp()
 
         try {
             await interaction.message.edit({ embeds: [list] });

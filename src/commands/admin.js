@@ -501,6 +501,7 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .setTitle("To-Do List")
                     .setDescription(todoList.length ? todoList.join("\n") : "*There are no tasks.*")
+                    .setTimestamp()
 
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
