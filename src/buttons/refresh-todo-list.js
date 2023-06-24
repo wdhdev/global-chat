@@ -27,8 +27,12 @@ module.exports = {
             .setDescription(todoList.length ? todoList.join("\n") : "*There are no tasks.*")
             .setTimestamp()
 
+        const priorityEmbed = new Discord.EmbedBuilder()
+            .setTitle("Priority")
+            .setDescription(`🔴 High\n🟠 Medium\n🟢 Low\n⚪ None`)
+
         try {
-            await interaction.message.edit({ embeds: [list] });
+            await interaction.message.edit({ embeds: [list, priorityEmbed] });
         } catch {}
 
         await interaction.deferUpdate();
