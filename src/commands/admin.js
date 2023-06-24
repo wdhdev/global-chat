@@ -3,6 +3,7 @@ const emoji = require("../config.json").emojis;
 
 const devSchema = require("../models/devSchema");
 const modSchema = require("../models/modSchema");
+const todoSchema = require("../models/todoSchema");
 const verifiedSchema = require("../models/verifiedSchema");
 
 module.exports = {
@@ -110,13 +111,28 @@ module.exports = {
 
         {
             type: 1,
-            name: "send-appeal-message",
-            description: "Send the ban appeal message to a specified channel.",
+            name: "send-appeal-menu",
+            description: "Send the appeal menu to a specified channel.",
             options: [
                 {
                     type: 7,
                     name: "channel",
-                    description: "Channel where the ban appeal message should be sent.",
+                    description: "Channel where the menu should be sent.",
+                    channel_types: [0],
+                    required: true
+                }
+            ]
+        },
+
+        {
+            type: 1,
+            name: "send-to-do-list",
+            description: "Send the To-Do List to a specified channel.",
+            options: [
+                {
+                    type: 7,
+                    name: "channel",
+                    description: "Channel where the list should be sent.",
                     channel_types: [0],
                     required: true
                 }
@@ -418,7 +434,7 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommand() === "send-appeal-message") {
+            if(interaction.options.getSubcommand() === "send-appeal-menu") {
                 const channel = interaction.options.getChannel("channel");
                 const appealChannel = client.channels.cache.get(channel.id);
 
@@ -447,15 +463,83 @@ module.exports = {
 
                     const sent = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The appeal message has been sent.`)
+                        .setDescription(`${emoji.successful} The appeal menu has been sent.`)
 
                     await interaction.editReply({ embeds: [sent] });
                 } catch(err) {
-                    client.logCommandError(err, interaction, Discord);
-
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} The ban appeal message could not be sent.`)
+                        .setDescription(`${emoji.error} The appeal menu could not be sent.`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "send-to-do-list") {
+                const channel = interaction.options.getChannel("channel");
+                const appealChannel = client.channels.cache.get(channel.id);
+
+                const data = await todoSchema.find();
+
+                const todoList = [];
+
+                const priority = {
+                    high: "🔴",
+                    medium: "🟠",
+                    low: "🟢",
+                    none: "⚪"
+                }
+
+                for(const todo of data) {
+                    todoList.push(`${priority[todo.priority]} ${todo.name}`);
+                }
+
+                const list = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("To-Do List")
+                    .setDescription(todoList.length ? todoList.join("\n") : "*There are no tasks.*")
+
+                const actions = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Secondary)
+                            .setCustomId("get-todo")
+                            .setLabel("Get Task"),
+
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Success)
+                            .setCustomId("add-todo")
+                            .setLabel("Add Task"),
+
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Danger)
+                            .setCustomId("remove-todo")
+                            .setLabel("Remove Task")
+                    )
+
+                const listActions = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Primary)
+                            .setCustomId("refresh-todo-list")
+                            .setLabel("Refresh")
+                    )
+
+                try {
+                	await appealChannel.send({ embeds: [list], components: [actions, listActions] });
+
+                    const sent = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.successful} The list has been sent.`)
+
+                    await interaction.editReply({ embeds: [sent] });
+                } catch(err) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} The list could not be sent.`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;

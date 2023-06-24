@@ -59,10 +59,10 @@ module.exports = {
                 .setMaxLength(250)
                 .setRequired(true)
 
-            const firstActionRow = new Discord.ActionRowBuilder().addComponents(modalBanReason);
-            const secondActionRow = new Discord.ActionRowBuilder().addComponents(modalUnbanReason);
+            const firstRow = new Discord.ActionRowBuilder().addComponents(modalBanReason);
+            const secondRow = new Discord.ActionRowBuilder().addComponents(modalUnbanReason);
 
-            modal.addComponents(firstActionRow, secondActionRow);
+            modal.addComponents(firstRow, secondRow);
 
             await interaction.showModal(modal);
 

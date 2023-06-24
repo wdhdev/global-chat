@@ -87,8 +87,6 @@ module.exports = {
 
                     reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report] });
                 } catch(err) {
-                    client.logCommandError(err, interaction, Discord);
-
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.error} An error occurred while submitting the report.`)
@@ -123,8 +121,6 @@ module.exports = {
 
                     reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report] });
                 } catch(err) {
-                    client.logCommandError(err, interaction, Discord);
-
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.error} An error occurred while submitting the report.`)
