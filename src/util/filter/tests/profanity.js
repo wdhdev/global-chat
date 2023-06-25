@@ -73,7 +73,6 @@ module.exports = async function(message, client, Discord) {
             } catch {}
 
             blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-            blocked.setDescription(null);
 
             const actions = new Discord.ActionRowBuilder()
                 .addComponents (
@@ -124,7 +123,6 @@ module.exports = async function(message, client, Discord) {
             } catch {}
 
             blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-            blocked.setDescription(null);
 
             const actions = new Discord.ActionRowBuilder()
                 .addComponents (
