@@ -36,10 +36,8 @@ module.exports = {
             return;
         }
 
-        const id = require("crypto").randomUUID();
-
         const menu = new Discord.StringSelectMenuBuilder()
-            .setCustomId(`select-menu-${id}`)
+            .setCustomId(`select-menu-${interaction.id}`)
             .setPlaceholder("Select a task to remove")
 
         for(const todo of data) {
@@ -58,7 +56,7 @@ module.exports = {
         client.on("interactionCreate", async i => {
             if(!i.isStringSelectMenu()) return;
 
-            if(i.customId === `select-menu-${id}`) {
+            if(i.customId === `select-menu-${interaction.id}`) {
                 const value = i.values[0];
 
                 const todo = await todoSchema.findOne({ _id: value });

@@ -36,14 +36,12 @@ module.exports = {
             none: "⚪"
         }
 
-        const id = require("crypto").randomUUID();
-
         const modal = new Discord.ModalBuilder()
-            .setCustomId(`modal-${id}`)
+            .setCustomId(`modal-${interaction.id}`)
             .setTitle("Add Task")
 
         const modalName = new Discord.TextInputBuilder()
-            .setCustomId(`modal-name-${id}`)
+            .setCustomId(`modal-name-${interaction.id}`)
             .setStyle(Discord.TextInputStyle.Short)
             .setLabel("Name")
             .setMinLength(3)
@@ -51,7 +49,7 @@ module.exports = {
             .setRequired(true)
 
         const modalDescription = new Discord.TextInputBuilder()
-            .setCustomId(`modal-description-${id}`)
+            .setCustomId(`modal-description-${interaction.id}`)
             .setStyle(Discord.TextInputStyle.Paragraph)
             .setLabel("Description")
             .setMaxLength(500)
@@ -66,12 +64,12 @@ module.exports = {
         client.on("interactionCreate", async i => {
             if(!i.isModalSubmit()) return;
 
-            if(i.customId === `modal-${id}`) {
-                const name = i.fields.getTextInputValue(`modal-name-${id}`);
-                const description = i.fields.getTextInputValue(`modal-description-${id}`) ?? "*No description provided.*";
+            if(i.customId === `modal-${interaction.id}`) {
+                const name = i.fields.getTextInputValue(`modal-name-${interaction.id}`);
+                const description = i.fields.getTextInputValue(`modal-description-${interaction.id}`) ?? "*No description provided.*";
 
                 const menu = new Discord.StringSelectMenuBuilder()
-                    .setCustomId(`select-menu-${id}`)
+                    .setCustomId(`select-menu-${interaction.id}`)
                     .setPlaceholder("Select a priority")
                     .addOptions (
                         new Discord.StringSelectMenuOptionBuilder()
@@ -102,7 +100,7 @@ module.exports = {
                 client.on("interactionCreate", async i2 => {
                     if(!i2.isStringSelectMenu()) return;
 
-                    if(i2.customId === `select-menu-${id}`) {
+                    if(i2.customId === `select-menu-${interaction.id}`) {
                         const priority = i2.values[0];
 
                         const message = interaction.message;

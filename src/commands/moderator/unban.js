@@ -24,7 +24,7 @@ module.exports = {
                     type: 3,
                     name: "reason",
                     description: "Why you want to unban the user.",
-                    max_length: 1024,
+                    max_length: 250,
                     required: true
                 }
             ]

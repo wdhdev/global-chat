@@ -1,6 +1,4 @@
 module.exports = async function(message, client, Discord) {
-    const emoji = require("../../../config.json").emojis;
-
     const bannedUserSchema = require("../../../models/bannedUserSchema");
     const blockedSchema = require("../../../models/blockedSchema");
     const devSchema = require("../../../models/devSchema");
@@ -36,21 +34,20 @@ module.exports = async function(message, client, Discord) {
             await verifiedSchema.findOneAndDelete({ _id: message.author.id });
 
             const blocked = new Discord.EmbedBuilder()
-                .setTitle("⚠️ Profanity Detected")
-                .setDescription("You aren't allowed to send messages with profanity!")
+                .setTitle("⛔ Message Blocked")
+                .setDescription(`${message.content}`)
                 .addFields (
-                    { name: "💬 Message", value: `${message.content}` },
                     { name: "🚩 Filter", value: "🤬 Profanity" },
-                    { name: "❓ Reason", value: `Word: \`${profanityResult.words.join("\`\nWord: \`")}\`` },
+                    { name: "❓ Reason", value: `You aren't allowed to send messages with profanity!\n\nProfanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` },
                     { name: "⚒️ Action", value: "🔨 Ban" }
                 )
 
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setTitle("🔨 Banned")
+                .setTitle("Banned")
                 .setDescription("ℹ️ You have been banned from using Global Chat.")
                 .addFields (
-                    { name: "❓ Reason", value: "[AUTOMOD] Profanity which is included on the autoban filter detected." },
+                    { name: "❓ Reason", value: "[AUTOMOD] Profanity included on the autoban filter detected." },
                     { name: "📜 Appealable", value: "✅" },
                     { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat).\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331).\n3. Click \`Submit\` and fill in the form.\n4. Wait for a response to your appeal." }
                 )
@@ -78,13 +75,16 @@ module.exports = async function(message, client, Discord) {
             blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
             blocked.setDescription(null);
 
-            const blockedInfo = new Discord.EmbedBuilder()
-                .addFields (
-                    { name: "User ID", value: `${message.author.id}` },
-                    { name: "Guild ID", value: `${message.guild.id}` }
-                )
+            const actions = new Discord.ActionRowBuilder()
+                .addComponents (
+                    new Discord.ButtonBuilder()
+                        .setStyle(Discord.ButtonStyle.Secondary)
+                        .setCustomId(`ban-${message.author.id}`)
+                        .setEmoji("🔨")
+                        .setLabel("Ban")
+                )        
 
-            blockedChannel.send({ embeds: [blocked, blockedInfo] });
+            blockedChannel.send({ embeds: [blocked], components: [actions] });
 
             const banLog = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
@@ -93,7 +93,7 @@ module.exports = async function(message, client, Discord) {
                 .addFields (
                     { name: "👤 User", value: `${message.author}` },
                     { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
-                    { name: "❓ Reason", value: "[AUTOMOD] Profanity which is included on the autoban filter detected." },
+                    { name: "❓ Reason", value: "[AUTOMOD] Profanity included on the autoban filter detected." },
                     { name: "📜 Appealable", value: "✅" }
                 )
                 .setTimestamp()
@@ -101,12 +101,11 @@ module.exports = async function(message, client, Discord) {
             modLogsChannel.send({ embeds: [banLog] });
         } else {
             const blocked = new Discord.EmbedBuilder()
-                .setTitle("⚠️ Profanity Detected")
-                .setDescription("You aren't allowed to send messages with profanity!")
+                .setTitle("⛔ Message Blocked")
+                .setDescription(`${message.content}`)
                 .addFields (
-                    { name: "💬 Message", value: `${message.content}` },
                     { name: "🚩 Filter", value: "🤬 Profanity" },
-                    { name: "❓ Reason", value: `Word: \`${profanityResult.words.join("\`\nWord: \`")}\`` },
+                    { name: "❓ Reason", value: `You aren't allowed to send messages with profanity!\n\nProfanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` }
                 )
 
             if(message.attachments.first()) {
@@ -127,13 +126,16 @@ module.exports = async function(message, client, Discord) {
             blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
             blocked.setDescription(null);
 
-            const blockedInfo = new Discord.EmbedBuilder()
-                .addFields (
-                    { name: "User ID", value: `${message.author.id}` },
-                    { name: "Guild ID", value: `${message.guild.id}` }
-                )
+            const actions = new Discord.ActionRowBuilder()
+                .addComponents (
+                    new Discord.ButtonBuilder()
+                        .setStyle(Discord.ButtonStyle.Secondary)
+                        .setCustomId(`ban-${message.author.id}`)
+                        .setEmoji("🔨")
+                        .setLabel("Ban")
+                )        
 
-            blockedChannel.send({ embeds: [blocked, blockedInfo] });
+            blockedChannel.send({ embeds: [blocked], components: [actions] });
         }
 
         return true;

@@ -46,7 +46,7 @@ module.exports = {
                     type: 3,
                     name: "reason",
                     description: "Why you want to ban the user.",
-                    max_length: 1024,
+                    max_length: 250,
                     required: true
                 },
 
@@ -176,7 +176,7 @@ module.exports = {
 
                 const ban = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setTitle("🔨 Banned")
+                    .setTitle("Banned")
                     .setDescription("ℹ️ You have been banned from using Global Chat.")
                     .addFields (
                         { name: "❓ Reason", value: `${reason}` },

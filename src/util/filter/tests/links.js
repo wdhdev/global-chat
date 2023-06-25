@@ -18,12 +18,11 @@ module.exports = async function(message, client, Discord) {
         }).save()
 
         const blocked = new Discord.EmbedBuilder()
-            .setTitle("⚠️ Link Detected")
-            .setDescription("You aren't allowed to send links!")
+            .setTitle("⛔ Message Blocked")
+            .setDescription(`${message.content}`)
             .addFields (
-                { name: "💬 Message", value: `${message.content}` },
                 { name: "🚩 Filter", value: "🔗 Links" },
-                { name: "❓ Reason", value: `Link: \`${linkResult.links.join("\`\nLink: \`")}\`` }
+                { name: "❓ Reason", value: `You aren't allowed to send links!\n\nLink Detected: \`${linkResult.links.join("\`\nLink Detected: \`")}\`` }
             )
 
         if(message.attachments.first()) {
@@ -44,13 +43,16 @@ module.exports = async function(message, client, Discord) {
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
         blocked.setDescription(null);
 
-        const blockedInfo = new Discord.EmbedBuilder()
-            .addFields (
-                { name: "User ID", value: `${message.author.id}` },
-                { name: "Guild ID", value: `${message.guild.id}` }
+        const actions = new Discord.ActionRowBuilder()
+            .addComponents (
+                new Discord.ButtonBuilder()
+                    .setStyle(Discord.ButtonStyle.Secondary)
+                    .setCustomId(`ban-${message.author.id}`)
+                    .setEmoji("🔨")
+                    .setLabel("Ban")
             )
 
-        blockedChannel.send({ embeds: [blocked, blockedInfo] });
+        blockedChannel.send({ embeds: [blocked], components: [actions] });
         return true;
     }
 

@@ -96,7 +96,7 @@ module.exports = {
                     result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
                     result.setTimestamp();
 
-                    modLogsChannel.send({ embeds: [log] });
+                    modLogsChannel.send({ embeds: [result] });
                 })
 
                 return;

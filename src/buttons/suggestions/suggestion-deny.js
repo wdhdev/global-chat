@@ -53,7 +53,9 @@ module.exports = {
                         .setDescription(`${reason}`)
                         .setTimestamp()
 
-                    await interaction.message.edit({ embeds: [interaction.message.embeds[0], denied], components: [] });
+                    interaction.message.embeds.push(denied);
+
+                    await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
                 }
             })
         } catch(err) {

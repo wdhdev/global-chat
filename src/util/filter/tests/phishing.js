@@ -1,6 +1,4 @@
 module.exports = async function(message, client, Discord) {
-    const emoji = require("../../../config.json").emojis;
-
     const bannedUserSchema = require("../../../models/bannedUserSchema");
     const blockedSchema = require("../../../models/blockedSchema");
     const devSchema = require("../../../models/devSchema");
@@ -19,7 +17,7 @@ module.exports = async function(message, client, Discord) {
             user: message.author.id,
             guild: message.guild.id,
             filter: "PHISHING",
-            reason: null
+            reason: "A phishing link was detected in your message."
         }).save()
 
         new bannedUserSchema({
@@ -35,17 +33,17 @@ module.exports = async function(message, client, Discord) {
         await verifiedSchema.findOneAndDelete({ _id: message.author.id });
 
         const blocked = new Discord.EmbedBuilder()
-            .setTitle("⚠️ Phishing Link Detected")
-            .setDescription("A phishing link has been detected in your message.")
+            .setTitle("⛔ Message Blocked")
+            .setDescription(`${message.content}`)
             .addFields (
-                { name: "💬 Message", value: `${message.content}` },
                 { name: "🚩 Filter", value: "🪝 Phishing" },
+                { name: "❓ Reason", value: "A phishing link was detected in your message." },
                 { name: "⚒️ Action", value: "🔨 Ban" }
             )
 
         const ban = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setTitle("🔨 Banned")
+            .setTitle("Banned")
             .setDescription("ℹ️ You have been banned from using Global Chat.")
             .addFields (
                 { name: "❓ Reason", value: "[AUTOMOD] Phishing link detected." },
@@ -76,13 +74,7 @@ module.exports = async function(message, client, Discord) {
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
         blocked.setDescription(null);
 
-        const blockedInfo = new Discord.EmbedBuilder()
-            .addFields (
-                { name: "User ID", value: `${message.author.id}` },
-                { name: "Guild ID", value: `${message.guild.id}` }
-            )
-
-        blockedChannel.send({ embeds: [blocked, blockedInfo] });
+        blockedChannel.send({ embeds: [blocked] });
 
         const banLog = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
