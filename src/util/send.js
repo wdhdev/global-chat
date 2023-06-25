@@ -151,9 +151,9 @@ module.exports = async function (message, client, Discord) {
                 if(data && data.channel) {
                     const chatChannel = client.channels.cache.get(data.channel);
 
-                    if(!guild.members.me.permissions.has(requiredPerms)) return resolve(null);
+                    if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
-                    if(!chatChannel) return resolve(null);
+                    if(!chatChannel) return resolve();
 
                     try {
                         if(data.webhook) {
@@ -175,7 +175,7 @@ module.exports = async function (message, client, Discord) {
                                         await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
                                             .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                     } catch {
-                                        resolve(null);
+                                        resolve();
                                     }
                                 })
 
@@ -193,7 +193,7 @@ module.exports = async function (message, client, Discord) {
                                     await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
                                         .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                 } catch {
-                                    resolve(null);
+                                    resolve();
                                 }
                             }
                         } else {
@@ -201,14 +201,14 @@ module.exports = async function (message, client, Discord) {
                                 await chatChannel.send({ embeds: [reply ? replyEmbed : null, chat] })
                                     .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                             } catch {
-                                resolve(null);
+                                resolve();
                             }
                         }
                     } catch {
-                        resolve(null);
+                        resolve();
                     }
                 } else {
-                    resolve(null);
+                    resolve();
                 }
             }).clone()
         }))

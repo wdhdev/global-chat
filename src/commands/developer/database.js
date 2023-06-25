@@ -26,6 +26,12 @@ module.exports = {
                             name: "channels",
                             description: "Clean up the channels collection.",
                             value: "channels"
+                        },
+
+                        {
+                            name: "filter",
+                            description: "Clean up the filter collection.",
+                            value: "filter"
                         }
                     ],
                     required: true
@@ -97,6 +103,32 @@ module.exports = {
                     await interaction.editReply({ embeds: [result], ephemeral: true });
 
                     if(res.modified.length || res.removed.length) {
+                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                        result.setTimestamp();
+
+                        logsChannel.send({ embeds: [result] });
+                    }
+
+                    return;
+                }
+
+                if(collection === "filter") {
+                    const cleanFilter = require("../../util/database/cleanFilter");
+
+                    const res = await cleanFilter(client);
+
+                    const result = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setTitle("🧹 Collection Cleanup")
+                        .setDescription("`filter`")
+                        .addFields (
+                            { name: "📝 Modified Documents", value: res.modified.length ? `\`\`\`${res.modified.join("\n")}\`\`\`` : "*None*" },
+                            { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
+                        )
+
+                    await interaction.editReply({ embeds: [result], ephemeral: true });
+
+                    if(res.removed.length) {
                         result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
                         result.setTimestamp();
 
