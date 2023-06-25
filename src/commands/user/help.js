@@ -67,7 +67,7 @@ module.exports = {
             await pushRoot();
             (await getDirs("./src/commands")).forEach(dir => pushDir(dir));
 
-            const cmds = [];
+            let cmds = [];
 
             for(const cmd of commands) {
                 const info = client.commands.get(cmd);
