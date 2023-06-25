@@ -1,4 +1,4 @@
-module.exports = async function cleanChannels(client) {
+module.exports = async function cleanChannels() {
     const schema = require("../../models/filterSchema");
 
     let autobanData = await schema.findOne({ _id: "autoban" });

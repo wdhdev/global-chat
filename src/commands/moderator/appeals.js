@@ -39,7 +39,7 @@ module.exports = {
             if(!await appealSchema.exists({ id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} This user has no appeals!`)
+                    .setDescription(`${emoji.error} ${user} has no appeals!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;

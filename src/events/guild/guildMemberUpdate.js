@@ -9,7 +9,7 @@ module.exports = {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ format: "png", dynamic: true }) })
-                        .setTitle("🎭 Role Added")
+                        .setTitle("Role Added")
                         .addFields (
                             { name: "🎭 Role", value: "💖 Supporter" },
                             { name: "👤 User", value: `${oldMember}` }
@@ -24,7 +24,7 @@ module.exports = {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ format: "png", dynamic: true }) })
-                        .setTitle("🎭 Role Removed")
+                        .setTitle("Role Removed")
                         .addFields (
                             { name: "🎭 Role", value: "💖 Supporter" },
                             { name: "👤 User", value: `${oldMember}` }

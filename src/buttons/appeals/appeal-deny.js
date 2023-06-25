@@ -86,7 +86,6 @@ module.exports = {
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)
                         .setTitle("❌ Appeal Denied")
-                        .setDescription(`${emoji.error} Your appeal has been denied.`)
                         .addFields (
                             { name: "❓ Reason", value: `${reason}` }
                         )
