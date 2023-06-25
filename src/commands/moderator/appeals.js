@@ -46,9 +46,9 @@ module.exports = {
             }
 
             const state = {
-                "APPROVED": emoji.green_circle,
-                "DENIED": emoji.red_circle,
-                "NOT_REVIEWED": emoji.orange_circle
+                "APPROVED": "🟢",
+                "DENIED": "🔴",
+                "NOT_REVIEWED": "🟠"
             }
 
             const data = await appealSchema.find({ id: user.id });

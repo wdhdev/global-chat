@@ -28,7 +28,7 @@ module.exports = {
     botPermissions: [],
     cooldown: 5,
     enabled: true,
-    hidden: false,
+    hidden: true,
     async execute(interaction, client, Discord) {
         try {
             const dev = await devSchema.exists({ _id: interaction.user.id });

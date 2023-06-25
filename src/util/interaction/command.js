@@ -90,7 +90,7 @@ module.exports = async function commandInteraction(client, Discord, interaction)
 
                 const cooldown = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.clock} Please wait ${timeLeft} ${timeLeft === 1 ? "second" : "seconds"} before running that command again!`)
+                    .setDescription(`⏰ Please wait ${timeLeft} second${timeLeft === 1 ? "" : "s"} before running that command again!`)
 
                 await interaction.editReply({ embeds: [cooldown] });
                 return;

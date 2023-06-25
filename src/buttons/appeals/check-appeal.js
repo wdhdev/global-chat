@@ -53,9 +53,9 @@ module.exports = {
                     }
 
                     const state = {
-                        "APPROVED": `${emoji.green_circle} Approved`,
-                        "DENIED": `${emoji.red_circle} Denied`,
-                        "NOT_REVIEWED": `${emoji.orange_circle} Pending Review`
+                        "APPROVED": "🟢 Approved",
+                        "DENIED": "🔴 Denied",
+                        "NOT_REVIEWED": "🟠 Pending Review"
                     }
 
                     const appealData = new Discord.EmbedBuilder()

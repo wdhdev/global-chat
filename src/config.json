@@ -23,14 +23,10 @@
     },
 
     "emojis": {
-        "clock": ":alarm_clock:",
         "cross": "<:cross:1111114810554318878>",
         "error": ":x:",
-        "green_circle": ":green_circle:",
         "information": ":information_source:",
-        "orange_circle": ":orange_circle:",
         "pingpong": ":ping_pong:",
-        "red_circle": ":red_circle:",
         "reply": "<:reply:1111102420714537012>",
         "successful": ":white_check_mark:",
         "tick": "<:tick:1111114306952646747>"

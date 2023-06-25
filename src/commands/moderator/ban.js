@@ -177,7 +177,7 @@ module.exports = {
                 const ban = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setTitle("🔨 Banned")
-                    .setDescription(`${emoji.information} You have been banned from using Global Chat.`)
+                    .setDescription("ℹ️ You have been banned from using Global Chat.")
                     .addFields (
                         { name: "❓ Reason", value: `${reason}` },
                         { name: "📜 Appealable", value: appealable ? "✅" : "❌" }

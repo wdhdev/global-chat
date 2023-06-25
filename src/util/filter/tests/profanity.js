@@ -48,7 +48,7 @@ module.exports = async function(message, client, Discord) {
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
                 .setTitle("🔨 Banned")
-                .setDescription(`${emoji.information} You have been banned from using Global Chat.`)
+                .setDescription("ℹ️ You have been banned from using Global Chat.")
                 .addFields (
                     { name: "❓ Reason", value: "[AUTOMOD] Profanity which is included on the autoban filter detected." },
                     { name: "📜 Appealable", value: "✅" },

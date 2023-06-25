@@ -51,12 +51,6 @@ module.exports = {
                         .setTimestamp()
 
                     await interaction.message.edit({ embeds: [interaction.message.embeds[0], approved], components: [] });
-
-                    const reply = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The suggestion has been approved.`)
-
-                    await i.reply({ embeds: [reply], ephemeral: true });
                 }
             })
         } catch(err) {

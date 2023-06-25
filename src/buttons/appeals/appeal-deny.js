@@ -110,12 +110,6 @@ module.exports = {
 
                     await interaction.message.edit({ embeds: [interaction.message.embeds[0], denied], components: [] });
 
-                    const reply = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The appeal has been denied.`)
-
-                    await i.reply({ embeds: [reply], ephemeral: true });
-
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })

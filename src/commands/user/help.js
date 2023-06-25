@@ -22,8 +22,6 @@ module.exports = {
         try {
             const cmd = interaction.options.getString("command");
 
-            const validPermissions = client.validPermissions;
-
             const commands = [];
 
             async function pushRoot() {
@@ -77,6 +75,8 @@ module.exports = {
                 cmds.push(`</${cmd}:${client.commandIds.get(cmd)}>\n${emoji.reply} ${info.description}`);
             }
 
+            cmds = cmds.sort();
+
             const help = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
@@ -89,37 +89,18 @@ module.exports = {
             if(command) {
                 if(!command.enabled) return await interaction.editReply({ embeds: [help] });
 
-                if(command.userPermissions.length) {
-                    const invalidPerms = [];
-
-                    for(const perm of command.userPermissions) {
-                        if(!validPermissions.includes(perm)) continue;
-
-                        if(!interaction.member?.permissions.has(perm)) invalidPerms.push(perm);
-                    }
-
-                    if(invalidPerms.length) return await interaction.editReply({ embeds: [help] });
-                }
-
-                const description = command.description ? command.description : "N/A";
-                const userPermissions = command.userPermissions.length ? `\`${command.userPermissions.join("\`, \`")}\`` : "N/A";
+                const description = command.description ?? "N/A";
                 const botPermissions = command.botPermissions.length ? `\`${command.botPermissions.join("\`, \`")}\`` : "N/A";
-                const cooldown = command.cooldown ? command.cooldown.length === 1 ? `\`${command.cooldown}\` second` : `${command.cooldown} seconds` : "None";
+                const cooldown = command.cooldown ? `${command.cooldown} second${command.cooldown === 1 ? "" : "s"}` : "None";
 
                 const commandHelp = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`
-                        **Command**
-                        ${emoji.reply} </${command.name}:${client.commandIds.get(cmd)}>
-                        **Description**
-                        ${emoji.reply} ${description}
-                        **Cooldown**
-                        ${emoji.reply} ${cooldown}
-                        **User Permissions**
-                        ${emoji.reply} ${userPermissions}
-                        **Bot Permissions**
-                        ${emoji.reply} ${botPermissions}
-                    `)
+                    .setTitle(`Command: ${command.name}`)
+                    .addFields (
+                        { name: "Description", value: description },
+                        { name: "Cooldown", value: cooldown },
+                        { name: "Bot Permissions", value: botPermissions }
+                    )
                     .setTimestamp()
 
                 await interaction.editReply({ embeds: [commandHelp] });
