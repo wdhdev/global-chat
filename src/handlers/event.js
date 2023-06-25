@@ -3,10 +3,8 @@ module.exports = (client, Discord) => {
 
     loadEvents(client, Discord);
 
-    const Sentry = require("@sentry/node");
-
     client.logEventError = async function(err) {
-        Sentry.captureException(err);
+        client.sentry.captureException(err);
     }
 
     require("dotenv").config();

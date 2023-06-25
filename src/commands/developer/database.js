@@ -1,4 +1,5 @@
 const emoji = require("../../config.json").emojis;
+const mongoose = require("mongoose");
 
 const devSchema = require("../../models/devSchema");
 
@@ -37,6 +38,13 @@ module.exports = {
                     required: true
                 }
             ]
+        },
+
+        {
+            type: 1,
+            name: "reconnect",
+            description: "Reconnect the bot to the database.",
+            options: []
         }
     ],
     default_member_permissions: null,
@@ -138,6 +146,21 @@ module.exports = {
                     return;
                 }
 
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "reconnect") {
+                await mongoose.connection.close();
+                console.log("Disconnected from Database!");
+
+                const database = require("../../util/database/connect");
+                await database();
+
+                const result = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} Reconnected to the database!`)
+
+                await interaction.editReply({ embeds: [result] });
                 return;
             }
         } catch(err) {

@@ -1,115 +1,106 @@
-const Sentry = require("@sentry/node");
+(async () => {
+    const Sentry = require("@sentry/node");
 
-require("dotenv").config();
+    require("dotenv").config();
 
-Sentry.init({
-    dsn: process.env.sentry_dsn,
-    tracesSampleRate: 1.0
-})
+    Sentry.init({
+        dsn: process.env.sentry_dsn,
+        tracesSampleRate: 1.0
+    })
 
-const config = require("./config.json");
+    const config = require("./config.json");
 
-const Discord = require("discord.js");
-const client = new Discord.Client({
-    intents: 3276799,
-    presence: {
-        activities: [
-            {
-                name: config.presence.activity,
-                type: config.presence.activityType,
-            }
-        ],
-        status: config.presence.status
-    }
-})
+    const Discord = require("discord.js");
+    const client = new Discord.Client({
+        intents: 3276799,
+        presence: {
+            activities: [
+                {
+                    name: config.presence.activity,
+                    type: config.presence.activityType,
+                }
+            ],
+            status: config.presence.status
+        }
+    })
 
-// Error Handling
-client.on("error", (err) => {
-    Sentry.captureException(err);
-    console.error(err);
-})
+    // Error Handling
+    client.on("error", (err) => Sentry.captureException(err));
+    client.on("warn", (warn) => Sentry.captureMessage(warn));
+    process.on("unhandledRejection", (err) => Sentry.captureException(err));
 
-client.on("warn", (warn) => {
-    Sentry.captureMessage(warn);
-    console.warn(warn);
-})
+    // Connect to Database
+    const database = require("./util/database/connect");
+    await database();
 
-process.on("unhandledRejection", (err) => {
-    Sentry.captureException(err);
-    console.error(err);
-})
+    // Configs
+    client.config_channels = config.channels;
+    client.config_default = config.default;
+    client.config_embeds = config.embeds;
+    client.config_emojis = config.emojis;
+    client.config_presence = config.presence;
+    client.config_roles = config.roles;
 
-// Connect to Database
-const database = require("./util/database");
-database();
+    // Handlers
+    client.buttons = new Discord.Collection();
+    client.commands = new Discord.Collection();
+    client.events = new Discord.Collection();
 
-// Configs
-client.config_channels = config.channels;
-client.config_default = config.default;
-client.config_embeds = config.embeds;
-client.config_emojis = config.emojis;
-client.config_presence = config.presence;
-client.config_roles = config.roles;
+    ["button", "command", "event"].forEach(handler => {
+        require(`./handlers/${handler}`) (client, Discord);
+    })
 
-// Handlers
-client.buttons = new Discord.Collection();
-client.commands = new Discord.Collection();
-client.events = new Discord.Collection();
+    // Login
+    client.login(process.env.token);
 
-["button", "command", "event"].forEach(handler => {
-    require(`./handlers/${handler}`) (client, Discord);
-})
+    // Constants
+    client.commandIds = new Discord.Collection();
+    client.sentry = Sentry;
 
-// Login
-client.login(process.env.token);
-
-// Global
-client.sentry = Sentry;
-client.commandIds = new Discord.Collection();
-
-client.validPermissions = [
-    "CreateInstantInvite",
-    "KickMembers",
-    "BanMembers",
-    "Administrator",
-    "ManageChannels",
-    "ManageGuild",
-    "AddReactions",
-    "ViewAuditLog",
-    "PrioritySpeaker",
-    "Stream",
-    "ViewChannel",
-    "SendMessages",
-    "SendTTSMessages",
-    "ManageMessages",
-    "EmbedLinks",
-    "AttachFiles",
-    "ReadMessageHistory",
-    "MentionEveryone",
-    "UseExternalEmojis",
-    "ViewGuildInsights",
-    "Connect",
-    "Speak",
-    "MuteMembers",
-    "DeafenMembers",
-    "MoveMembers",
-    "UseVAD",
-    "ChangeNickname",
-    "ManageNicknames",
-    "ManageRoles",
-    "ManageWebhooks",
-    "ManageEmojisAndStickers",
-    "UseApplicationCommands",
-    "RequestToSpeak",
-    "ManageEvents",
-    "ManageThreads",
-    "CreatePublicThreads",
-    "CreatePrivateThreads",
-    "UseExternalStickers",
-    "SendMessagesInThreads",
-    "UseEmbeddedActivities",
-    "ModerateMembers",
-    "ViewCreatorMonetizationAnalytics",
-    "UseSoundboard",
-    "SendVoiceMessages"
-]
+    client.validPermissions = [
+        "CreateInstantInvite",
+        "KickMembers",
+        "BanMembers",
+        "Administrator",
+        "ManageChannels",
+        "ManageGuild",
+        "AddReactions",
+        "ViewAuditLog",
+        "PrioritySpeaker",
+        "Stream",
+        "ViewChannel",
+        "SendMessages",
+        "SendTTSMessages",
+        "ManageMessages",
+        "EmbedLinks",
+        "AttachFiles",
+        "ReadMessageHistory",
+        "MentionEveryone",
+        "UseExternalEmojis",
+        "ViewGuildInsights",
+        "Connect",
+        "Speak",
+        "MuteMembers",
+        "DeafenMembers",
+        "MoveMembers",
+        "UseVAD",
+        "ChangeNickname",
+        "ManageNicknames",
+        "ManageRoles",
+        "ManageWebhooks",
+        "ManageEmojisAndStickers",
+        "UseApplicationCommands",
+        "RequestToSpeak",
+        "ManageEvents",
+        "ManageThreads",
+        "CreatePublicThreads",
+        "CreatePrivateThreads",
+        "UseExternalStickers",
+        "SendMessagesInThreads",
+        "UseEmbeddedActivities",
+        "ModerateMembers",
+        "ViewCreatorMonetizationAnalytics",
+        "UseSoundboard",
+        "SendVoiceMessages"
+    ]
+})()

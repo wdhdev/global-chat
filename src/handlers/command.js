@@ -4,10 +4,9 @@ module.exports = (client) => {
     loadCommands(client);
 
     const emoji = require("../config.json").emojis;
-    const Sentry = require("@sentry/node");
 
     client.logCommandError = async function(err, interaction, Discord) {
-        Sentry.captureException(err);
+        client.sentry.captureException(err);
 
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
