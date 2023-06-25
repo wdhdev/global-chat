@@ -141,7 +141,11 @@ module.exports = {
                             return;
                         }
 
-                        data.words.push(word.toLowerCase());
+                        const words = string.split(",") || [word];
+
+                        for(const input of words) {
+                            data.words.push(input.toLowerCase());
+                        }
 
                         await data.save();
 
