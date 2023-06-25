@@ -1,30 +1,24 @@
-try {
-    const fs = require("fs");
+const fs = require("fs");
+const getDirs = require("../util/getDirs");
 
-    module.exports = async (client, Discord) => {
-        const loadDir = (dirs) => {
-            const eventFiles = fs.readdirSync(`./src/events/${dirs}`).filter(file => file.endsWith(".js"));
+module.exports = async (client, Discord) => {
+    async function loadDir(dir) {
+        const files = fs.readdirSync(`./src/events/${dir}`).filter(file => file.endsWith(".js"));
 
-            for(const file of eventFiles) {
-                const event = require(`../events/${dirs}/${file}`);
+        for(const file of files) {
+            const event = require(`../events/${dir}/${file}`);
 
-                client.events.set(event.name, event);
+            client.events.set(event.name, event);
 
-                console.log(`Loaded Event: ${event.name}`);
+            console.log(`Loaded Event: ${event.name}`);
 
-                if(event.once) {
-                    client.once(event.name, (message, interaction) => event.execute(client, Discord, message, interaction));
-                } else {
-                    client.on(event.name, (message, interaction) => event.execute(client, Discord, message, interaction));
-                }
+            if(event.once) {
+                client.once(event.name, (message, interaction) => event.execute(client, Discord, message, interaction));
+            } else {
+                client.on(event.name, (message, interaction) => event.execute(client, Discord, message, interaction));
             }
         }
-
-        ["client", "guild"].forEach(e => loadDir(e));
     }
-} catch(err) {
-    const Sentry = require("@sentry/node");
 
-    Sentry.captureException(err);
-    console.error(err);
+    (await getDirs("./src/events")).forEach(dir => loadDir(dir));
 }

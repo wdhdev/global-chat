@@ -1,10 +1,11 @@
-try {
-    const fs = require("fs");
+const fs = require("fs");
+const getDirs = require("../util/getDirs");
 
-    module.exports = async (client) => {
-        const commandFiles = fs.readdirSync(`./src/commands/`).filter(file => file.endsWith(".js"));
+module.exports = async (client) => {
+    async function loadRoot() {
+        const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
 
-        for(const file of commandFiles) {
+        for(const file of files) {
             const command = require(`../commands/${file}`);
 
             client.commands.set(command.name, command);
@@ -12,9 +13,19 @@ try {
             console.log(`Loaded Command: ${command.name}`);
         }
     }
-} catch(err) {
-    const Sentry = require("@sentry/node");
 
-    Sentry.captureException(err);
-    console.error(err);
+    async function loadDir(dir) {
+        const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
+
+        for(const file of files) {
+            const command = require(`../commands/${dir}/${file}`);
+
+            client.commands.set(command.name, command);
+
+            console.log(`Loaded Command: ${command.name}`);
+        }
+    }
+
+    await loadRoot();
+    (await getDirs("./src/commands")).forEach(dir => loadDir(dir));
 }

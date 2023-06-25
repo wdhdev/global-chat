@@ -7,7 +7,6 @@ module.exports = (client, Discord) => {
 
     client.logEventError = async function(err) {
         Sentry.captureException(err);
-        console.error(err);
     }
 
     require("dotenv").config();
