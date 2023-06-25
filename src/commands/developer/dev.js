@@ -33,10 +33,6 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "errors") {
-                const path = require("path");
-
-                const image = path.resolve("./src/assets/sentry-glyph-light-400x352.png");
-
                 const result = await fetch(`https://sentry.io/api/0/projects/${process.env.sentry_org}/${process.env.sentry_project}/issues/`, {
                     headers: {
                         Authorization: `Bearer ${process.env.sentry_bearer}`
@@ -46,7 +42,7 @@ module.exports = {
                 if(!result.length) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no unresolved issues on Sentry!`)
+                        .setDescription(`${emoji.error} There are no unresolved issues!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -60,7 +56,6 @@ module.exports = {
 
                 const data = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setThumbnail("attachment://sentry-glyph-light-400x352.png")
                     .setTitle("Unresolved Issues")
                     .setDescription(issues.join("\n"))
 
@@ -72,7 +67,7 @@ module.exports = {
                             .setLabel("Resolve All")
                     )
 
-                await interaction.editReply({ embeds: [data], components: [action], files: [image] });
+                await interaction.editReply({ embeds: [data], components: [action] });
                 return;
             }
         } catch(err) {

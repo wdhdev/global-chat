@@ -506,13 +506,8 @@ module.exports = {
                     )
                     .setTimestamp()
 
-                const actions = new Discord.ActionRowBuilder()
+                const row1 = new Discord.ActionRowBuilder()
                     .addComponents (
-                        new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Secondary)
-                            .setCustomId("get-todo")
-                            .setLabel("Get Task"),
-
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Success)
                             .setCustomId("add-todo")
@@ -524,8 +519,13 @@ module.exports = {
                             .setLabel("Remove Task")
                     )
 
-                const listActions = new Discord.ActionRowBuilder()
+                const row2 = new Discord.ActionRowBuilder()
                     .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Secondary)
+                            .setCustomId("get-todo")
+                            .setLabel("Get Task"),
+
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setCustomId("refresh-todo-list")
@@ -533,7 +533,7 @@ module.exports = {
                     )
 
                 try {
-                	await appealChannel.send({ embeds: [list], components: [actions, listActions] });
+                	await appealChannel.send({ embeds: [list], components: [row1, row2] });
 
                     const sent = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
