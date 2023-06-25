@@ -132,14 +132,16 @@ module.exports = {
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
+                        if(data.words.includes(word.toLowerCase())) {
+                            const error = new Discord.EmbedBuilder()
+                                .setColor(client.config_embeds.error)
+                                .setDescription(`${emoji.error} That word is already on the filter!`)
 
-                        const words = word.split(",") || [word];
-
-                        for(const input of words) {
-                            if(data.words.includes(input.toLowerCase())) continue;
-
-                            data.words.push(input.toLowerCase());
+                            await interaction.editReply({ embeds: [error], ephemeral: true });
+                            return;
                         }
+
+                        data.words.push(word.toLowerCase());
 
                         await data.save();
 
@@ -221,13 +223,16 @@ module.exports = {
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
-                        const words = word.split(",") || [word];
+                        if(!data.words.includes(word.toLowerCase())) {
+                            const error = new Discord.EmbedBuilder()
+                                .setColor(client.config_embeds.error)
+                                .setDescription(`${emoji.error} That word is not on the filter!`)
 
-                        for(const input of words) {
-                            if(!data.words.includes(word.toLowerCase())) continue;
-
-                            data.words = data.words.filter(item => item !== input.toLowerCase());
+                            await interaction.editReply({ embeds: [error], ephemeral: true });
+                            return;
                         }
+
+                        data.words = data.words.filter(item => item !== word.toLowerCase());
 
                         await data.save();
 
