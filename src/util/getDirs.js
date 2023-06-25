@@ -1,7 +1,7 @@
-const { readdir } = require("fs/promises");
+const fs = require("fs/promises");
 
-module.exports = async function (source) {
-    return (await readdir(source, { withFileTypes: true }))
+module.exports = async function (path) {
+    return (await fs.readdir(path, { withFileTypes: true }))
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => dirent.name);
 }
