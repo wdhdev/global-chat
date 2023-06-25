@@ -232,7 +232,11 @@ module.exports = {
                             return;
                         }
 
-                        data.words = data.words.filter(item => item !== word.toLowerCase());
+                        const words = string.split(",") || [word];
+
+                        for(const input of words) {
+                            data.words = data.words.filter(item => item !== input.toLowerCase());
+                        }
 
                         await data.save();
 
