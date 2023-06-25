@@ -1,5 +1,6 @@
 const emoji = require("../../config.json").emojis;
 const fs = require("fs");
+const getDirs = require("../../util/getDirs");
 
 module.exports = {
     name: "help",
@@ -25,23 +26,48 @@ module.exports = {
 
             const commands = [];
 
-            const commandFiles = fs.readdirSync(`./src/commands/`).filter(file => file.endsWith(".js"));
+            async function pushRoot() {
+                const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
 
-            for(const file of commandFiles) {
-                const command = require(`./${file}`);
+                for(const file of files) {
+                    const command = require(`../${file}`);
 
-                if(command.name) {
-                    if(!command.enabled || command.hidden) continue;
+                    if(command.name) {
+                        if(!command.enabled || command.hidden) continue;
 
-                    if(command.default_member_permissions) {
-                        if(!interaction.member.permissions.has(command.default_member_permissions)) continue;
+                        if(command.default_member_permissions) {
+                            if(!interaction.member.permissions.has(command.default_member_permissions)) continue;
+                        }
+
+                        commands.push(command.name);
+                    } else {
+                        continue;
                     }
-
-                    commands.push(command.name);
-                } else {
-                    continue;
                 }
             }
+
+            async function pushDir(dir) {
+                const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
+
+                for(const file of files) {
+                    const command = require(`../${dir}/${file}`);
+
+                    if(command.name) {
+                        if(!command.enabled || command.hidden) continue;
+
+                        if(command.default_member_permissions) {
+                            if(!interaction.member.permissions.has(command.default_member_permissions)) continue;
+                        }
+
+                        commands.push(command.name);
+                    } else {
+                        continue;
+                    }
+                }
+            }
+
+            await pushRoot();
+            (await getDirs("./src/commands")).forEach(dir => pushDir(dir));
 
             const cmds = [];
 
