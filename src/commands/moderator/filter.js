@@ -132,18 +132,12 @@ module.exports = {
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
-                        if(data.words.includes(word.toLowerCase())) {
-                            const error = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.error} That word is already on the filter!`)
-
-                            await interaction.editReply({ embeds: [error], ephemeral: true });
-                            return;
-                        }
 
                         const words = string.split(",") || [word];
 
                         for(const input of words) {
+                            if(data.words.includes(input.toLowerCase())) continue;
+
                             data.words.push(input.toLowerCase());
                         }
 
@@ -227,18 +221,11 @@ module.exports = {
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
-                        if(!data.words.includes(word.toLowerCase())) {
-                            const error = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.error} That word is not on the filter!`)
-
-                            await interaction.editReply({ embeds: [error], ephemeral: true });
-                            return;
-                        }
-
                         const words = string.split(",") || [word];
 
                         for(const input of words) {
+                            if(!data.words.includes(word.toLowerCase())) continue;
+
                             data.words = data.words.filter(item => item !== input.toLowerCase());
                         }
 
