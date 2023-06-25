@@ -87,22 +87,14 @@ module.exports = {
                         .setColor(client.config_embeds.default)
                         .setTitle(`🗑️ Message Deleted`)
                         .addFields (
-                            { name: "🔢 Message ID", value: `${id}` },
+                            { name: "💬 Message", value: `${id}` },
                             { name: "📄 Result", value: `Deleted ${deleted} of ${total} messages.` }
                         )
-                        .setTimestamp()
 
                     await interaction.editReply({ embeds: [result] });
 
-                    const log = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("🗑️ Message Deleted")
-                        .addFields (
-                            { name: "💬 Message", value: `${data._id}` },
-                            { name: "📄 Result", value: `Deleted ${deleted} of ${total} messages.` }
-                        )
-                        .setTimestamp()
+                    result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                    result.setTimestamp();
 
                     modLogsChannel.send({ embeds: [log] });
                 })

@@ -22,7 +22,7 @@ module.exports = async function(message, client, Discord) {
             .setDescription("You aren't allowed to send links!")
             .addFields (
                 { name: "💬 Message", value: `${message.content}` },
-                { name: "🚩 Filter", value: "📎 Links" },
+                { name: "🚩 Filter", value: "🔗 Links" },
                 { name: "❓ Reason", value: `Link: \`${linkResult.links.join("\`\nLink: \`")}\`` }
             )
 
