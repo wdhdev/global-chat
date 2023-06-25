@@ -133,7 +133,7 @@ module.exports = {
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
 
-                        const words = string.split(",") || [word];
+                        const words = word.split(",") || [word];
 
                         for(const input of words) {
                             if(data.words.includes(input.toLowerCase())) continue;
@@ -221,7 +221,7 @@ module.exports = {
 
                 filterSchema.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
-                        const words = string.split(",") || [word];
+                        const words = word.split(",") || [word];
 
                         for(const input of words) {
                             if(!data.words.includes(word.toLowerCase())) continue;
