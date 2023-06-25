@@ -499,13 +499,12 @@ module.exports = {
 
                 const list = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setTitle("To-Do List")
+                    .setTitle("📝 To-Do List")
                     .setDescription(todoList.length ? todoList.join("\n") : "*There are no tasks.*")
+                    .addFields (
+                        { name: "❗ Priority", value: `🔴 High\n🟠 Medium\n🟢 Low\n⚪ None` }
+                    )
                     .setTimestamp()
-
-                const priorityEmbed = new Discord.EmbedBuilder()
-                    .setTitle("Priority")
-                    .setDescription(`🔴 High\n🟠 Medium\n🟢 Low\n⚪ None`)
 
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
@@ -534,7 +533,7 @@ module.exports = {
                     )
 
                 try {
-                	await appealChannel.send({ embeds: [list, priorityEmbed], components: [actions, listActions] });
+                	await appealChannel.send({ embeds: [list], components: [actions, listActions] });
 
                     const sent = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
