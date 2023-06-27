@@ -1,4 +1,3 @@
-const announce = require("../../util/announcement");
 const emoji = require("../../config.json").emojis;
 
 const devSchema = require("../../models/devSchema");
@@ -10,21 +9,6 @@ module.exports = {
 	name: "admin",
 	description: "Admin Commands",
     options: [
-        {
-            type: 1,
-            name: "announce",
-            description: "Send an announcement.",
-            options: [
-                {
-                    type: 3,
-                    name: "text",
-                    description: "The text for the announcement to include.",
-                    max_length: 1024,
-                    required: true
-                }
-            ]
-        },
-
         {
             type: 2,
             name: "dev",
@@ -197,19 +181,6 @@ module.exports = {
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
-            if(interaction.options.getSubcommand() === "announce") {
-                const text = interaction.options.getString("text");
-
-                await announce(text, interaction, client, Discord);
-
-                const sent = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} The announcement has been sent!`)
-
-                await interaction.editReply({ embeds: [sent] });
                 return;
             }
 

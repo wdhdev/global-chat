@@ -37,9 +37,9 @@ module.exports = {
                 .setMaxLength(250)
                 .setRequired(true)
 
-            const actionRow = new Discord.ActionRowBuilder().addComponents(modalReason);
+            const row = new Discord.ActionRowBuilder().addComponents(modalReason);
 
-            modal.addComponents(actionRow);
+            modal.addComponents(row);
 
             await interaction.showModal(modal);
 
