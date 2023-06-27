@@ -45,13 +45,6 @@ module.exports = {
         },
 
         {
-            type: 1,
-            name: "developers",
-            description: "Get a list of all the developers.",
-            options: []
-        },
-
-        {
             type: 2,
             name: "mod",
             description: "Manage the moderator role.",
@@ -88,13 +81,6 @@ module.exports = {
 
         {
             type: 1,
-            name: "moderators",
-            description: "Get a list of all the moderators.",
-            options: []
-        },
-
-        {
-            type: 1,
             name: "send-appeal-menu",
             description: "Send the appeal menu to a specified channel.",
             options: [
@@ -121,13 +107,6 @@ module.exports = {
                     required: true
                 }
             ]
-        },
-
-        {
-            type: 1,
-            name: "supporters",
-            description: "Get a list of all the supporters.",
-            options: []
         },
 
         {
@@ -272,33 +251,6 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommand() === "developers") {
-                const devs = await devSchema.find();
-
-                const users = [];
-
-                for(const user of devs) {
-                    users.push(user._id);
-                }
-
-                if(!users.length) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no developers!`)
-
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
-
-                const developers = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                	.setTitle("💻 Developers")
-                    .setDescription(`<@${users.join(">\n<@")}>`)
-
-                await interaction.editReply({ embeds: [developers] });
-                return;
-            }
-
             if(interaction.options.getSubcommandGroup() === "mod") {
                 const user = interaction.options.getUser("user");
 
@@ -375,33 +327,6 @@ module.exports = {
                     return;
                 }
 
-                return;
-            }
-
-            if(interaction.options.getSubcommand() === "moderators") {
-                const mods = await modSchema.find();
-
-                const users = [];
-
-                for(const user of mods) {
-                    users.push(user._id);
-                }
-
-                if(!users.length) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no moderators!`)
-
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
-
-                const moderators = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                	.setTitle("🔨 Moderators")
-                    .setDescription(`<@${users.join(">\n<@")}>`)
-
-                await interaction.editReply({ embeds: [moderators] });
                 return;
             }
 
@@ -520,35 +445,6 @@ module.exports = {
                     return;
                 }
 
-                return;
-            }
-
-            if(interaction.options.getSubcommand() === "supporters") {
-                const guild = await client.guilds.fetch(client.config_default.guild);
-                const members = await guild.members.fetch();
-                const boosters = members.filter(member => member.premiumSinceTimestamp);
-
-                const users = [];
-
-                for(const [userId, guildMember] of boosters) {
-                    users.push(userId);
-                }
-
-                if(!users.length) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no supporters!`)
-
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
-                    return;
-                }
-
-                const supporters = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                	.setTitle("💖 Supporters")
-                    .setDescription(`<@${users.join(">\n<@")}>`)
-
-                await interaction.editReply({ embeds: [supporters] });
                 return;
             }
 
