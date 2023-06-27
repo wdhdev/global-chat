@@ -142,12 +142,6 @@ module.exports = {
 
                             await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
 
-                            const banned = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.default)
-                                .setDescription(`${emoji.successful} ${user} has been banned.`)
-
-                            await i.editReply({ embeds: [banned], components: [], ephemeral: true });
-
                             const banLog = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.default)
                                 .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })

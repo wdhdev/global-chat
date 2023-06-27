@@ -111,6 +111,8 @@ module.exports = {
 
                     await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
 
+                    await i.deferUpdate();
+
                     const appealLog = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })

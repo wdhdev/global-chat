@@ -53,6 +53,8 @@ module.exports = {
                     interaction.message.embeds.push(approved);
 
                     await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
+
+                    await i.deferUpdate();
                 }
             })
         } catch(err) {
