@@ -1,7 +1,6 @@
 module.exports = async function (message, client, Discord) {
     const assignRoles = require("./roles/assign");
     const emoji = require("../config.json").emojis;
-    const snowflake = require("discord-snowflake");
     const role = await require("./roles/get")(message.author, client);
     const test = require("./filter/test");
 
@@ -108,7 +107,7 @@ module.exports = async function (message, client, Discord) {
         if(user) replyEmbed.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
         if(data.content) replyEmbed.setDescription(data.content);
         if(data.attachment) replyEmbed.setImage(data.attachment);
-        replyEmbed.setTimestamp(snowflake(data._id));
+        replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
     }
 
     // Embed message
