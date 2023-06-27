@@ -460,7 +460,7 @@ module.exports = {
                     return;
                 }
 
-                await modSchema.findOneAndDelete({ _id: user.id });
+                await verifiedSchema.findOneAndDelete({ _id: user.id });
 
                 const unverified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
