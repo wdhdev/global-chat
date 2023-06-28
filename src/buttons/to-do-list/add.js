@@ -53,6 +53,7 @@ module.exports = {
             .setStyle(Discord.TextInputStyle.Paragraph)
             .setLabel("Description")
             .setMaxLength(500)
+            .setRequired(false)
 
         const firstRow = new Discord.ActionRowBuilder().addComponents(modalName);
         const secondRow = new Discord.ActionRowBuilder().addComponents(modalDescription);
