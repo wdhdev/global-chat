@@ -1,7 +1,6 @@
 const bot = require("../../../package.json");
 const moment = require("moment");
 
-const channelSchema = require("../../models/channelSchema");
 const devSchema = require("../../models/devSchema");
 const messageSchema = require("../../models/messageSchema");
 const modSchema = require("../../models/modSchema");
@@ -45,8 +44,8 @@ module.exports = {
                     .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
                     .setDescription(bot.description)
                     .addFields (
-                        { name: "📈 Version", value: bot.version, inline: true },
-                        { name: "💻 Developer", value: bot.author, inline: true }
+                        { name: "📈 Version", value: bot.version },
+                        { name: "💻 Developer", value: bot.author }
                     )
 
                 await interaction.editReply({ embeds: [info] });
@@ -54,7 +53,6 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "stats") {
-                const registeredGuilds = await channelSchema.find();
                 const developers = await devSchema.find();
                 const moderators = await modSchema.find();
                 const verifiedUsers = await verifiedSchema.find();
@@ -67,23 +65,17 @@ module.exports = {
 
                 let supporters = 0;
 
-                for(const [userId, guildMember] of boosters) {
+                for(const user of boosters) {
                     supporters += 1;
                 }
 
                 const stats = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
                     .setTitle("📊 Statistics")
                     .addFields (
-                        { name: "🗄️ Guilds", value: `${client.guilds.cache.size} (${registeredGuilds.length} registered)`, inline: true },
-                        { name: "👤 Users", value: `${client.users.cache.size}`, inline: true },
-                        { name: "💻 Developers", value: `${developers.length}`, inline: true },
-                        { name: "🔨 Moderators", value: `${moderators.length}`, inline: true },
-                        { name: "✅ Verified Users", value: `${verifiedUsers.length}`, inline: true },
-                        { name: "💖 Supporters", value: `${supporters}`, inline: true },
-                        { name: "💬 Messages", value: `${messages.length}`, inline: true },
-                        { name: "🖼️ Images", value: `${images.length}`, inline: true }
+                        { name: "🤖 Bot", value: `**Guilds** ${client.guilds.cache.size}\n**Users** ${client.users.cache.size}` },
+                        { name: "🎭 Roles", value: `**Developers** ${developers.length}\n**Moderators** ${moderators.length}\n**Verified** ${verifiedUsers.length}\n**Supporters** ${supporters}` },
+                        { name: "🌐 Global Chat", value: `**Messages** ${messages.length}\n**Images** ${images.length}` }
                     )
 
                 await interaction.editReply({ embeds: [stats] });

@@ -130,9 +130,20 @@ module.exports = async function (message, client, Discord) {
         .addComponents (
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
+                .setCustomId(`message-info-${id}`)
+                .setEmoji("ℹ️"),
+
+            new Discord.ButtonBuilder()
+                .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`delete-message-${id}`)
                 .setEmoji("🗑️")
-                .setLabel("Delete")
+                .setLabel("Delete"),
+
+            new Discord.ButtonBuilder()
+                .setStyle(Discord.ButtonStyle.Secondary)
+                .setCustomId(`ban-${message.author.id}`)
+                .setEmoji("🔨")
+                .setLabel("Ban")
         )
 
     if(message.content.length >= 1) messageLog.setDescription(`${message.content}`);

@@ -2,7 +2,7 @@ const emoji = require("../../config.json").emojis;
 
 module.exports = {
 	name: "eval",
-	description: "[DEVELOPER ONLY] Evaluate code on the bot.",
+	description: "[OWNER ONLY] Evaluate code on the bot.",
     options: [
         {
             type: 3,

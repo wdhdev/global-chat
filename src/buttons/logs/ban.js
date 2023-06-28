@@ -18,11 +18,47 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
 
             const id = interaction.customId.replace("ban-", "");
+
+            if(id === interaction.user.id) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} You cannot ban yourself!`)
+
+                await interaction.reply({ embeds: [error], components: [], ephemeral: true });
+                return;
+            }
+
+            if(id === client.config_default.owner) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} You cannot ban that user!`)
+
+                await interaction.reply({ embeds: [error], components: [], ephemeral: true });
+
+                interaction.message.components[0].components[2].data.disabled = true;
+
+                await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
+                return;
+            }
+
+            if(await bannedUserSchema.exists({ _id: id })) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} That user is already banned!`)
+
+                await interaction.reply({ embeds: [error], components: [], ephemeral: true });
+
+                interaction.message.components[0].components[2].data.disabled = true;
+
+                await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
+                return;
+            }
+
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
             const modal = new Discord.ModalBuilder()
@@ -76,24 +112,6 @@ module.exports = {
 
                             const user = await client.users.fetch(id);
 
-                            if(id === interaction.user.id) {
-                                const error = new Discord.EmbedBuilder()
-                                    .setColor(client.config_embeds.error)
-                                    .setDescription(`${emoji.error} You cannot ban yourself!`)
-
-                                await i.editReply({ embeds: [error], components: [], ephemeral: true });
-                                return;
-                            }
-
-                            if(id === client.config_default.owner) {
-                                const error = new Discord.EmbedBuilder()
-                                    .setColor(client.config_embeds.error)
-                                    .setDescription(`${emoji.error} You cannot ban that user!`)
-
-                                await i.editReply({ embeds: [error], components: [], ephemeral: true });
-                                return;
-                            }
-
                             new bannedUserSchema({
                                 _id: id,
                                 timestamp: Date.now(),
@@ -139,8 +157,15 @@ module.exports = {
                                 .setTimestamp()
 
                             interaction.message.embeds.push(banInfo);
+                            interaction.message.components[0].components[2].data.disabled = true;
 
-                            await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
+                            await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
+
+                            const banned = new Discord.EmbedBuilder()
+                                .setColor(client.config_embeds.default)
+                                .setDescription(`${emoji.successful} ${user} has been banned.`)
+
+                            await i.editReply({ embeds: [banned], components: [] });
 
                             const banLog = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.default)

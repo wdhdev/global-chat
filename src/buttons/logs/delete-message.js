@@ -17,7 +17,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
 
@@ -29,7 +29,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} No message was found with that ID!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
 
@@ -58,7 +58,11 @@ module.exports = {
             }
 
             Promise.all(promises).then(async () => {
-                await data.delete();
+                await interaction.deferUpdate();
+
+                interaction.message.components[0].components[1].data.disabled = true;
+
+                await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.red)
@@ -71,7 +75,7 @@ module.exports = {
 
                 interaction.message.embeds.push(result);
 
-                await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
+                await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

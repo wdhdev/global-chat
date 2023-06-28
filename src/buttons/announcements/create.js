@@ -15,7 +15,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
 
