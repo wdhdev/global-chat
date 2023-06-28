@@ -39,7 +39,7 @@ module.exports = {
             }
 
             try {
-                const output = eval(input);
+                const output = new String(await eval(input));
 
                 if(await isSecret(output)) {
                     const error = new Discord.EmbedBuilder()
