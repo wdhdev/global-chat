@@ -4,7 +4,7 @@ const devSchema = require("../../models/devSchema");
 
 module.exports = {
 	name: "announcements",
-	description: "Manage the announcement system.",
+	description: "[DEVELOPER ONLY] Manage the announcement system.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],

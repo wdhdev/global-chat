@@ -9,7 +9,7 @@ const modSchema = require("../../models/modSchema");
 
 module.exports = {
     name: "user",
-    description: "Get information about a user.",
+    description: "[MODERATOR ONLY] Get information about a user.",
     options: [
         {
             type: 6,

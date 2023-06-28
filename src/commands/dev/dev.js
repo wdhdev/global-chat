@@ -10,7 +10,7 @@ module.exports = {
         {
             type: 1,
             name: "errors",
-            description: "Get all unresolved errors on Sentry.",
+            description: "[DEVELOPER ONLY] Get all unresolved errors on Sentry.",
             options: []
         }
     ],

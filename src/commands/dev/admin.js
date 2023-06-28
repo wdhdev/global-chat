@@ -17,7 +17,7 @@ module.exports = {
                 {
                     type: 1,
                     name: "add",
-                    description: "Promote a user to a developer.",
+                    description: "[OWNER ONLY] Promote a user to a developer.",
                     options: [
                         {
                             type: 6,
@@ -31,7 +31,7 @@ module.exports = {
                 {
                     type: 1,
                     name: "remove",
-                    description: "Demote a user from a developer.",
+                    description: "[OWNER ONLY] Demote a user from a developer.",
                     options: [
                         {
                             type: 6,
@@ -52,7 +52,7 @@ module.exports = {
                 {
                     type: 1,
                     name: "add",
-                    description: "Promote a user to a moderator.",
+                    description: "[DEVELOPER ONLY] Promote a user to a moderator.",
                     options: [
                         {
                             type: 6,
@@ -66,7 +66,7 @@ module.exports = {
                 {
                     type: 1,
                     name: "remove",
-                    description: "Demote a user from a moderator.",
+                    description: "[DEVELOPER ONLY] Demote a user from a moderator.",
                     options: [
                         {
                             type: 6,
@@ -82,7 +82,7 @@ module.exports = {
         {
             type: 1,
             name: "send-appeal-menu",
-            description: "Send the appeal menu to a specified channel.",
+            description: "[DEVELOPER ONLY] Send the appeal menu to a specified channel.",
             options: [
                 {
                     type: 7,
@@ -97,7 +97,7 @@ module.exports = {
         {
             type: 1,
             name: "send-to-do-list",
-            description: "Send the To-Do List to a specified channel.",
+            description: "[DEVELOPER ONLY] Send the To-Do List to a specified channel.",
             options: [
                 {
                     type: 7,
@@ -112,7 +112,7 @@ module.exports = {
         {
             type: 1,
             name: "unverify",
-            description: "Unverify a user.",
+            description: "[DEVELOPER ONLY] Unverify a user.",
             options: [
                 {
                     type: 6,
@@ -126,14 +126,14 @@ module.exports = {
         {
             type: 1,
             name: "verified",
-            description: "Get a list of all the verified users.",
+            description: "[DEVELOPER ONLY] Get a list of all the verified users.",
             options: []
         },
 
         {
             type: 1,
             name: "verify",
-            description: "Verify a user.",
+            description: "[DEVELOPER ONLY] Verify a user.",
             options: [
                 {
                     type: 6,

@@ -6,7 +6,7 @@ const modSchema = require("../../models/modSchema");
 
 module.exports = {
 	name: "appeals",
-	description: "Get all appeals related to a user.",
+	description: "[MODERATOR ONLY] Get all appeals related to a user.",
     options: [
         {
             type: 6,

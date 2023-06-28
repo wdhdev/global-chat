@@ -10,7 +10,7 @@ module.exports = {
         {
             type: 1,
             name: "cleanup",
-            description: "Clean up a specific collection in the database.",
+            description: "[DEVELOPER ONLY] Clean up a specific collection in the database.",
             options: [
                 {
                     type: 3,
@@ -43,7 +43,7 @@ module.exports = {
         {
             type: 1,
             name: "reconnect",
-            description: "Reconnect the bot to the database.",
+            description: "[DEVELOPER ONLY] Reconnect the bot to the database.",
             options: []
         }
     ],

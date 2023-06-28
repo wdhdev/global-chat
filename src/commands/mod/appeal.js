@@ -12,7 +12,7 @@ module.exports = {
         {
             type: 1,
             name: "delete",
-            description: "Delete an appeal.",
+            description: "[MODERATOR ONLY] Delete an appeal.",
             options: [
                 {
                     type: 3,
@@ -28,7 +28,7 @@ module.exports = {
         {
             type: 1,
             name: "get",
-            description: "Get information about an appeal.",
+            description: "[MODERATOR ONLY] Get information about an appeal.",
             options: [
                 {
                     type: 3,

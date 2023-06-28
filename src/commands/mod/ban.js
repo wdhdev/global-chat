@@ -12,20 +12,13 @@ module.exports = {
         {
             type: 2,
             name: "info",
-            description: "Get information about a ban.",
+            description: "[MODERATOR ONLY] Get information about a user's ban.",
             options: [
                 {
-                    type: 1,
+                    type: 6,
                     name: "user",
-                    description: "Get information about a user's ban.",
-                    options: [
-                        {
-                            type: 6,
-                            name: "user",
-                            description: "The user who's ban information to get.",
-                            required: true
-                        }
-                    ]
+                    description: "The user who's ban information to get.",
+                    required: true
                 }
             ]
         },
@@ -33,7 +26,7 @@ module.exports = {
         {
             type: 1,
             name: "user",
-            description: "Ban a user.",
+            description: "[MODERATOR ONLY] Ban a user.",
             options: [
                 {
                     type: 6,
@@ -80,44 +73,40 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommandGroup() === "info") {
-                if(interaction.options.getSubcommand() === "user") {
-                    const user = interaction.options.getUser("user");
+                const user = interaction.options.getUser("user");
 
-                    if(!await bannedUserSchema.exists({ _id: user.id })) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is not banned!`)
+                if(!await bannedUserSchema.exists({ _id: user.id })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} ${user} is not banned!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
-
-                    const data = await bannedUserSchema.findOne({ _id: user.id });
-
-                    if(!data.timestamp || !data.reason || !data.mod) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} No information is available about this ban!`)
-
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
-
-                    const banInfo = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
-                        .setTitle("Ban Information")
-                        .addFields (
-                            { name: "🕰️ Timestamp", value: `<t:${data.timestamp.slice(0, -3)}>` },
-                            { name: "❓ Reason", value: `${data.reason}` },
-                            { name: "📜 Appealable", value: data.allowAppeal ? "✅" : "❌" },
-                            { name: "🔨 Moderator", value: `<@${data.mod}>` }
-                        )
-
-                    await interaction.editReply({ embeds: [banInfo] });
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
                 }
 
+                const data = await bannedUserSchema.findOne({ _id: user.id });
+
+                if(!data.timestamp || !data.reason || !data.mod) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} No information is available about this ban!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const banInfo = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
+                    .setTitle("Ban Information")
+                    .addFields (
+                        { name: "🕰️ Timestamp", value: `<t:${data.timestamp.slice(0, -3)}>` },
+                        { name: "❓ Reason", value: `${data.reason}` },
+                        { name: "📜 Appealable", value: data.allowAppeal ? "✅" : "❌" },
+                        { name: "🔨 Moderator", value: `<@${data.mod}>` }
+                    )
+
+                await interaction.editReply({ embeds: [banInfo] });
                 return;
             }
 

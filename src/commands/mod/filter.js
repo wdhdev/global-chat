@@ -11,7 +11,7 @@ module.exports = {
         {
             type: 1,
             name: "add",
-            description: "Add a word to a filter.",
+            description: "[MODERATOR ONLY] Add a word to a filter.",
             options: [
                 {
                     type: 3,
@@ -47,7 +47,7 @@ module.exports = {
         {
             type: 1,
             name: "list",
-            description: "Get a list of the words on a filter.",
+            description: "[MODERATOR ONLY] Get a list of the words on a filter.",
             options: [
                 {
                     type: 3,
@@ -74,7 +74,7 @@ module.exports = {
         {
             type: 1,
             name: "remove",
-            description: "Remove a word from a filter.",
+            description: "[MODERATOR ONLY] Remove a word from a filter.",
             options: [
                 {
                     type: 3,
