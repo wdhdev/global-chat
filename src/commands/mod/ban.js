@@ -10,7 +10,7 @@ module.exports = {
     description: "Ban management commands.",
     options: [
         {
-            type: 2,
+            type: 1,
             name: "info",
             description: "[MODERATOR ONLY] Get information about a user's ban.",
             options: [
