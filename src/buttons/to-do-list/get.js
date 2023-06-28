@@ -67,7 +67,7 @@ module.exports = {
                 const info = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle(`${todo.name}`)
-                    .setDescription(`${todo.description}`)
+                    .setDescription(`${todo.description || "*No description provided.*"}`)
                     .addFields (
                         { name: "❗ Priority", value: priority.text[todo.priority] },
                         { name: "🕰️ Timestamp", value: `<t:${todo.timestamp.slice(0, -3)}>` },
