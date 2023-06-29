@@ -1,8 +1,8 @@
-module.exports = async (message, client, chat) => {
-    const role = await require("./get")(message.author, client);
+module.exports = async (user, client, embed) => {
+    const role = await require("./get")(user, client);
 
-    if(role.supporter) chat.setAuthor({ name: `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 💖`, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-    if(role.verified) chat.setAuthor({ name: `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} ✅`, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-    if(role.mod) chat.setAuthor({ name: `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 🔨`, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-    if(role.dev) chat.setAuthor({ name: `${message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag} 💻`, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+    if(role.supporter) embed.setAuthor({ name: `${user.tag.endsWith("#0") ? `@${user.username}` : user.tag} 💖`, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+    if(role.verified) embed.setAuthor({ name: `${user.tag.endsWith("#0") ? `@${user.username}` : user.tag} ✅`, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+    if(role.mod) embed.setAuthor({ name: `${user.tag.endsWith("#0") ? `@${user.username}` : user.tag} 🔨`, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+    if(role.dev) embed.setAuthor({ name: `${user.tag.endsWith("#0") ? `@${user.username}` : user.tag} 💻`, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
 }

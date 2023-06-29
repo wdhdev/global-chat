@@ -106,13 +106,17 @@ module.exports = async function (message, client, Discord) {
             break isReply;
         }
 
-        let user = null;
+        let referenceUser = null;
 
         try {
-            user = await client.users.fetch(data.user);
+            referenceUser = await client.users.fetch(data.user);
         } catch {}
 
-        if(user) replyEmbed.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+        if(referenceUser) {
+            replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? `@${referenceUser.username}` : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });
+            await assignRoles(referenceUser, client, replyEmbed);
+        }
+
         if(data.content) replyEmbed.setDescription(data.content);
         if(data.attachment) replyEmbed.setImage(data.attachment);
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
@@ -125,7 +129,7 @@ module.exports = async function (message, client, Discord) {
 
     if(message.content.length) chat.setDescription(`${message.content}`);
 
-    await assignRoles(message, client, chat);
+    await assignRoles(message.author, client, chat);
 
     // Log
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
@@ -169,6 +173,16 @@ module.exports = async function (message, client, Discord) {
                     if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
                     if(!chatChannel) return resolve();
+
+                    if(reply) {
+                        replyEmbed.setURL(null);
+
+                        for(const url of (await messageSchema.findOne({ messages: reference.url })).messages) {
+                            const info = url.replace("https://discord.com/channels/", "").split("/");
+
+                            if(info[0] === guildId) replyEmbed.setURL(url);
+                        }
+                    }
 
                     try {
                         if(data.webhook) {

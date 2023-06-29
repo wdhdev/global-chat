@@ -42,7 +42,7 @@ module.exports = {
 
             for(const message of data.messages) {
                 promises.push(new Promise(async resolve => {
-                    const info = message.replace("https://discord.com/channels/", "").split("/");;
+                    const info = message.replace("https://discord.com/channels/", "").split("/");
 
                     try {
                         await client.channels.fetch(info[1]).then(async channel => {

@@ -23,11 +23,11 @@ module.exports = async function (user, client) {
     }
 }
 
-async function getRoles(user, client) {
+async function getRoles(userId, client) {
     return {
-        "owner": client.config_default.owner === user,
-        "dev": await devSchema.exists({ _id: user }) ? true : false,
-        "mod": await modSchema.exists({ _id: user }) ? true : false,
-        "verified": await verifiedSchema.exists({ _id: user }) ? true : false
+        "owner": client.config_default.owner === userId,
+        "dev": await devSchema.exists({ _id: userId }) ? true : false,
+        "mod": await modSchema.exists({ _id: userId }) ? true : false,
+        "verified": await verifiedSchema.exists({ _id: userId }) ? true : false
     }
 }
