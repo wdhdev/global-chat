@@ -94,7 +94,7 @@ module.exports = async function (message, client, Discord) {
     let reply = false;
 
     const replyEmbed = new Discord.EmbedBuilder()
-        .setTitle("Original Message")
+        .setTitle("Reference Message")
 
     isReply:
     if(reference) {
@@ -203,7 +203,8 @@ module.exports = async function (message, client, Discord) {
                                     await webhook.send({
                                         username: webhookUsername,
                                         avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                        embeds: [replyEmbed, chat],
+                                        content: message.content,
+                                        embeds: [replyEmbed],
                                         allowedMentions: { parse: [] }
                                     }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                                 } else {
