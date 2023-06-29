@@ -41,6 +41,14 @@ module.exports = async function(message, client, Discord) {
                 { name: "⚒️ Action", value: "🔨 Ban" }
             )
 
+        const actions = new Discord.ActionRowBuilder()
+            .addComponents (
+                new Discord.ButtonBuilder()
+                    .setStyle(Discord.ButtonStyle.Secondary)
+                    .setCustomId(`blocked-message-info-${message.id}`)
+                    .setEmoji("ℹ️")
+            )
+
         const ban = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
             .setTitle("Banned")
@@ -73,7 +81,7 @@ module.exports = async function(message, client, Discord) {
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
 
-        blockedChannel.send({ embeds: [blocked] });
+        blockedChannel.send({ embeds: [blocked], components: [actions] });
 
         const banLog = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)

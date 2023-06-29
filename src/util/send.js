@@ -33,6 +33,14 @@ module.exports = async function (message, client, Discord) {
             )
             .setTimestamp()
 
+        const actions = new Discord.ActionRowBuilder()
+            .addComponents (
+                new Discord.ButtonBuilder()
+                    .setStyle(Discord.ButtonStyle.Secondary)
+                    .setCustomId(`blocked-message-info-${message.id}`)
+                    .setEmoji("ℹ️")
+            )
+
         if(message.content.length) blocked.setDescription(message.content);
 
         if(message.attachments.first()) {
@@ -48,7 +56,7 @@ module.exports = async function (message, client, Discord) {
             }
         }
 
-        blockedChannel.send({ embeds: [blocked] });
+        blockedChannel.send({ embeds: [blocked], components: [actions] });
         return;
     }
 
