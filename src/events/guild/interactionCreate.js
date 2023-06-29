@@ -5,6 +5,8 @@ module.exports = {
 	name: "interactionCreate",
 	async execute(client, Discord, interaction) {
         try {
+	        if(!interaction.guild) return;
+
             if(interaction.isButton()) return await buttonInteraction(client, Discord, interaction);
             if(interaction.isCommand()) return await commandInteraction(client, Discord, interaction);
         } catch(err) {
