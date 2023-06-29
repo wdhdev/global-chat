@@ -60,10 +60,10 @@ module.exports = async function (message, client, Discord) {
         return;
     }
 
-    if(!message.content.length && !role.verified) {
+    if(!message.content.length) {
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.error} Your media was not processed as you are not a verified user.`)
+            .setDescription(`${emoji.error} Your media was not processed as the CDN is down.`)
 
         try {
             await message.author.send({ embeds: [error] });
