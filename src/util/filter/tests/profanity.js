@@ -38,7 +38,7 @@ module.exports = async function(message, client, Discord) {
                 .setDescription(`${message.content}`)
                 .addFields (
                     { name: "🚩 Filter", value: "🤬 Profanity" },
-                    { name: "❓ Reason", value: `You aren't allowed to send messages with profanity!\n\nProfanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` },
+                    { name: "❓ Reason", value: `Profanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` },
                     { name: "⚒️ Action", value: "🔨 Ban" }
                 )
 
@@ -109,7 +109,7 @@ module.exports = async function(message, client, Discord) {
                 .setDescription(`${message.content}`)
                 .addFields (
                     { name: "🚩 Filter", value: "🤬 Profanity" },
-                    { name: "❓ Reason", value: `You aren't allowed to send messages with profanity!\n\nProfanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` }
+                    { name: "❓ Reason", value: `Profanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` }
                 )
 
             if(message.attachments.first()) {
