@@ -157,7 +157,12 @@ module.exports = {
                                 .setTimestamp()
 
                             interaction.message.embeds.push(banInfo);
-                            interaction.message.components[0].components[2].data.disabled = true;
+
+                            try {
+                                interaction.message.components[0].components[2].data.disabled = true;
+                            } catch {
+                                interaction.message.components[0].components[1].data.disabled = true;
+                            }
 
                             await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
 
