@@ -51,7 +51,7 @@ module.exports = async function(message, client, Discord) {
 
                 new Discord.ButtonBuilder()
                     .setStyle(Discord.ButtonStyle.Secondary)
-                    .setCustomId(`ban-${message.author.id}`)
+                    .setCustomId(`blocked-message-ban-${message.author.id}`)
                     .setEmoji("🔨")
                     .setLabel("Ban")
             )

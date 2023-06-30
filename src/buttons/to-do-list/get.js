@@ -70,7 +70,7 @@ module.exports = {
                     .setDescription(`${todo.description || "*No description provided.*"}`)
                     .addFields (
                         { name: "❗ Priority", value: priority.text[todo.priority] },
-                        { name: "🕰️ Timestamp", value: `<t:${todo.timestamp.slice(0, -3)}>` },
+                        { name: "🕰️ Created", value: `<t:${todo.timestamp.slice(0, -3)}>` },
                         { name: "👤 Added By", value: `<@${todo.added_by}>` }
                     )
 

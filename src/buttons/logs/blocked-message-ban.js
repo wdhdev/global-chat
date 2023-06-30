@@ -6,7 +6,7 @@ const modSchema = require("../../models/modSchema");
 const verifiedSchema = require("../../models/verifiedSchema");
 
 module.exports = {
-    name: "ban",
+    name: "blocked-message-ban",
     startsWith: true,
     async execute(interaction, client, Discord) {
         try {
@@ -22,7 +22,7 @@ module.exports = {
                 return;
             }
 
-            const id = interaction.customId.replace("ban-", "");
+            const id = interaction.customId.replace("blocked-message-ban-", "");
 
             if(id === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
@@ -40,7 +40,7 @@ module.exports = {
 
                 await interaction.reply({ embeds: [error], components: [], ephemeral: true });
 
-                interaction.message.components[0].components[2].data.disabled = true;
+                interaction.message.components[0].components[1].data.disabled = true;
 
                 await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
                 return;
@@ -53,7 +53,7 @@ module.exports = {
 
                 await interaction.reply({ embeds: [error], components: [], ephemeral: true });
 
-                interaction.message.components[0].components[2].data.disabled = true;
+                interaction.message.components[0].components[1].data.disabled = true;
 
                 await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
                 return;
@@ -157,12 +157,7 @@ module.exports = {
                                 .setTimestamp()
 
                             interaction.message.embeds.push(banInfo);
-
-                            try {
-                                interaction.message.components[0].components[2].data.disabled = true;
-                            } catch {
-                                interaction.message.components[0].components[1].data.disabled = true;
-                            }
+                            interaction.message.components[0].components[1].data.disabled = true;
 
                             await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
 
