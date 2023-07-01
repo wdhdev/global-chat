@@ -14,7 +14,7 @@ module.exports = async (req, res, client) => {
     const event = req.body;
 
     const embed = new Discord.EmbedBuilder()
-        .setThumbnail("attachment://sentry.png")
+        .setThumbnail("attachment://sentry-glyph-light-1000x917.png")
         .setFooter({ text: event.project_name })
 
     const projectName = parser.getProject(event);
@@ -139,7 +139,7 @@ module.exports = async (req, res, client) => {
 
     const channel = client.channels.cache.get(data.channel);
 
-    const image = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-400x367.png", { name: "sentry.png" })
+    const image = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-1000x917.png")
 
     channel.send({ embeds: [embed], components: [actions], files: [image] });
 
