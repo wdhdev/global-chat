@@ -30,7 +30,7 @@ module.exports.getExtras = function (issue) {
     const extras = this.getEvent(issue)?.extra ?? {};
 
     const values = Object.entries(extras).map(
-        ([key, value]) => `${key}: ${value}`
+        ([key, value]) => `**${key}**: ${value}`
     );
 
     return values ?? [];

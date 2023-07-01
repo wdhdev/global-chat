@@ -28,9 +28,7 @@ module.exports = {
             )
             .setTimestamp()
 
-        try {
-            await interaction.message.edit({ embeds: [list] });
-        } catch {}
+        await interaction.message.edit({ embeds: [list] });
 
         await interaction.deferUpdate();
     }

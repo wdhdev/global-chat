@@ -42,8 +42,12 @@ module.exports = {
             .setTitle("✅ Resolved")
             .setTimestamp()
 
+        interaction.message.components[0].components[0].data.disabled = true;
+        interaction.message.components[0].components[1].data.disabled = true;
         interaction.message.embeds.push(resolved);
 
-        await interaction.message.edit({ embeds: interaction.message.embeds, components: [] });
+        await interaction.deferUpdate();
+
+        await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components, files: [] });
     }
 }

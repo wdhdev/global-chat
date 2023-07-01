@@ -10,6 +10,22 @@ module.exports = {
     options: [
         {
             type: 1,
+            name: "deregister",
+            description: "[DEVELOPER ONLY] Deregister a Sentry capture URL.",
+            options: [
+                {
+                    type: 3,
+                    name: "token",
+                    description: "The Sentry capture token.",
+                    min_length: 36,
+                    max_length: 36,
+                    required: true
+                }
+            ]
+        },
+
+        {
+            type: 1,
             name: "errors",
             description: "[DEVELOPER ONLY] Get all unresolved errors on Sentry.",
             options: []
@@ -18,7 +34,7 @@ module.exports = {
         {
             type: 1,
             name: "register",
-            description: "[DEVELOPER ONLY] Register a Sentry capture URL to capture events.",
+            description: "[DEVELOPER ONLY] Register a Sentry capture URL.",
             options: [
                 {
                     type: 7,
@@ -45,6 +61,28 @@ module.exports = {
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "deregister") {
+                const token = interaction.options.getString("token");
+
+                if(!await sentrySchema.exists({ _id: token })) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} That capture URL does not exist!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                await sentrySchema.findOneAndDelete({ _id: token });
+
+                const deleted = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} That capture URL has been deleted!`)
+
+                await interaction.editReply({ embeds: [deleted] });
                 return;
             }
 
@@ -75,15 +113,7 @@ module.exports = {
                     .setTitle("Unresolved Issues")
                     .setDescription(issues.join("\n"))
 
-                const actions = new Discord.ActionRowBuilder()
-                    .addComponents (
-                        new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Success)
-                            .setCustomId("resolve-all-errors")
-                            .setLabel("Resolve All")
-                    )
-
-                await interaction.editReply({ embeds: [data], components: [actions] });
+                await interaction.editReply({ embeds: [data] });
                 return;
             }
 
@@ -107,8 +137,9 @@ module.exports = {
                     .addComponents (
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
-                            .setCustomId(`capture-url-${id}`)
-                            .setLabel("Get URL")
+                            .setCustomId(`sentry-capture-${id}`)
+                            .setEmoji("ℹ️")
+                            .setLabel("Capture Details")
                     )
 
                 await interaction.editReply({ embeds: [registered], components: [actions] });

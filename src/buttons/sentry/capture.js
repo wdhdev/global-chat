@@ -3,7 +3,7 @@ const emoji = require("../../config.json").emojis;
 const devSchema = require("../../models/devSchema");
 
 module.exports = {
-    name: "capture-url",
+    name: "sentry-capture",
     startsWith: true,
     async execute(interaction, client, Discord) {
         const dev = await devSchema.exists({ _id: interaction.user.id });
@@ -17,23 +17,12 @@ module.exports = {
             return;
         }
 
-        const id = interaction.customId.replace("capture-url-", "");
+        const id = interaction.customId.replace("sentry-capture-", "");
 
-        const url = `https://gc-sentry-api.wdh.gg/${id}`;
-
-        const embed = new Discord.EmbedBuilder()
+        const info = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
-            .setDescription(url)
-            
-        const actions = new Discord.ActionRowBuilder()
-            .addComponents (
-                new Discord.ButtonBuilder()
-                    .setStyle(Discord.ButtonStyle.Link)
-                    .setEmoji("ℹ️")
-                    .setLabel("Info")
-                    .setURL(url)
-            )
+            .setDescription(`🔗 https://gc-sentry-api.wdh.gg/${id}\n🔑 ${id}`)
 
-        await interaction.reply({ embeds: [embed], components: [actions], ephemeral: true });
+        await interaction.reply({ embeds: [info], ephemeral: true });
     }
 }

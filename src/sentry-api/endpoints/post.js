@@ -72,7 +72,6 @@ module.exports = async (req, res, client) => {
                 `${user.username} ${user.id ? `(${user.id})` : ""}`,
                 1024
             ),
-            inline: true,
         });
     }
 
@@ -82,10 +81,9 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Tags",
             value: cap(
-                tags.map(([key, value]) => `- ${key}: ${value}`).join("\n"),
+                tags.map(([key, value]) => `**${key}**: ${value}`).join("\n"),
                 1024
             ),
-            inline: true,
         });
     }
 
@@ -94,8 +92,7 @@ module.exports = async (req, res, client) => {
     if(extras.length > 0) {
         fields.push({
             name: "Extras",
-            value: cap(`- ${extras.join("\n- ")}`, 1024),
-            inline: true,
+            value: cap(extras.join("\n"), 1024),
         });
     }
 
@@ -104,8 +101,7 @@ module.exports = async (req, res, client) => {
     if(contexts.length > 0) {
         fields.push({
             name: "Contexts",
-            value: cap(`- ${contexts.join("\n- ")}`, 1024),
-            inline: true,
+            value: cap(contexts.join("\n"), 1024),
         });
     }
 
@@ -115,7 +111,6 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Release",
             value: cap(release, 1024),
-            inline: true,
         });
     }
 
@@ -123,6 +118,12 @@ module.exports = async (req, res, client) => {
 
     const actions = new Discord.ActionRowBuilder()
         .addComponents (
+            new Discord.ButtonBuilder()
+                .setStyle(Discord.ButtonStyle.Secondary)
+                .setCustomId(`sentry-ignore-${event.id}`)
+                .setEmoji("🔕")
+                .setLabel("Ignore"),
+
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`sentry-resolve-${event.id}`)
@@ -138,9 +139,9 @@ module.exports = async (req, res, client) => {
 
     const channel = client.channels.cache.get(data.channel);
 
-    const attachment = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-400x367.png", { name: "sentry.png" })
+    const image = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-400x367.png", { name: "sentry.png" })
 
-    channel.send({ embeds: [embed], components: [actions], files: [attachment] });
+    channel.send({ embeds: [embed], components: [actions], files: [image] });
 
     res.status(200).json({ "message": "The event has been received.", "code": "EVENT_RECEIVED" });
 }
