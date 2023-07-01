@@ -20,7 +20,6 @@ module.exports = {
         const id = interaction.customId.replace("capture-url-", "");
 
         const url = `https://gc-sentry-api.wdh.gg/${id}`;
-        const infoURL = `https://gc-sentry-api.wdh.gg/info/${id}`;
 
         const embed = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
@@ -32,7 +31,7 @@ module.exports = {
                     .setStyle(Discord.ButtonStyle.Link)
                     .setEmoji("ℹ️")
                     .setLabel("Info")
-                    .setURL(infoURL)
+                    .setURL(url)
             )
 
         await interaction.reply({ embeds: [embed], components: [actions], ephemeral: true });
