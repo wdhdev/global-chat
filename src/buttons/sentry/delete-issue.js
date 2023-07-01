@@ -26,7 +26,7 @@ module.exports = {
                 headers: {
                     Authorization: `Bearer ${process.env.sentry_bearer}`
                 }
-            }).then(res => res.json())
+            })
         } catch(err) {
             client.logButtonError(err, interaction, Discord);
             return;
