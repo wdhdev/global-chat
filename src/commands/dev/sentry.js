@@ -2,6 +2,7 @@ const emoji = require("../../config.json").emojis;
 const fetch = require("node-fetch");
 
 const devSchema = require("../../models/devSchema");
+const sentrySchema = require("../../models/sentrySchema");
 
 module.exports = {
 	name: "sentry",
@@ -12,6 +13,28 @@ module.exports = {
             name: "errors",
             description: "[DEVELOPER ONLY] Get all unresolved errors on Sentry.",
             options: []
+        },
+
+        {
+            type: 1,
+            name: "register",
+            description: "[DEVELOPER ONLY] Register a Sentry project to capture issues.",
+            options: [
+                {
+                    type: 3,
+                    name: "project_id",
+                    description: "The ID of the Sentry project.",
+                    required: true
+                },
+
+                {
+                    type: 7,
+                    name: "channel",
+                    description: "The channel where new issues should be sent.",
+                    channel_types: [0],
+                    required: true
+                }
+            ]
         }
     ],
     default_member_permissions: null,
@@ -59,7 +82,7 @@ module.exports = {
                     .setTitle("Unresolved Issues")
                     .setDescription(issues.join("\n"))
 
-                const action = new Discord.ActionRowBuilder()
+                const actions = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Success)
@@ -67,7 +90,37 @@ module.exports = {
                             .setLabel("Resolve All")
                     )
 
-                await interaction.editReply({ embeds: [data], components: [action] });
+                await interaction.editReply({ embeds: [data], components: [actions] });
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "register") {
+                const channel = interaction.options.getChannel("channel");
+                const project = interaction.options.getString("project_id");
+
+                const id = require("crypto").randomUUID();
+
+                new sentrySchema({
+                    _id: id,
+                    project: project,
+                    channel: channel.id,
+                    registered: Date.now(),
+                    user: interaction.user.id
+                }).save()
+
+                const registered = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.successful} Sentry project \`${project}\` has been registered!`)
+
+                const actions = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Secondary)
+                            .setCustomId(`capture-url-${id}`)
+                            .setLabel("Get Capture URL")
+                    )
+
+                await interaction.editReply({ embeds: [registered], components: [actions] });
                 return;
             }
         } catch(err) {
