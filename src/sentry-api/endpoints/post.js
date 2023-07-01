@@ -39,14 +39,7 @@ module.exports = async (req, res, client) => {
     const snippet = cap(parser.getErrorCodeSnippet(event), 3900);
 
     if(snippet) {
-        embed.setDescription(
-            `${
-                fileLocation ? `\`📄 ${fileLocation.slice(-95)}\`\n` : ""
-            }\`\`\`${
-                parser.getLanguage(event) ?? parser.getPlatform(event)
-            }\n${snippet}
-        \`\`\``
-        );
+        embed.setDescription(`${fileLocation ? `📄 \`${fileLocation.slice(-95)}\`\n` : ""}\`\`\`${parser.getLanguage(event) ?? parser.getPlatform(event)}\n${snippet}\`\`\``);
     } else {
         embed.setDescription("Unable to generate code snippet.");
     }
