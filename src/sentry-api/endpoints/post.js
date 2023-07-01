@@ -14,8 +14,9 @@ module.exports = async (req, res, client) => {
     const event = req.body;
 
     const embed = new Discord.EmbedBuilder()
-        .setThumbnail("attachment://sentry-glyph-light-1000x917.png")
-        .setFooter({ text: event.project_name })
+        .setAuthor({ name: event.project_name, iconURL: "attachment://sentry-glyph-light-400x367.png", url: parser.getProjectLink(event) })
+
+    const logo = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-400x367.png", { name: "sentry-glyph-light-400x367.png" });
 
     const projectName = parser.getProject(event);
     const eventTitle = parser.getTitle(event);
@@ -29,9 +30,7 @@ module.exports = async (req, res, client) => {
 
     const link = parser.getLink(event);
 
-    if(link.startsWith("https://") || link.startsWith("http://")) {
-        embed.setURL(parser.getLink(event));
-    }
+    if(link.startsWith("https://") || link.startsWith("http://")) embed.setURL(parser.getLink(event));
 
     embed.setTimestamp(parser.getTime(event));
     embed.setColor(getColor(parser.getLevel(event)));
@@ -59,7 +58,7 @@ module.exports = async (req, res, client) => {
     if(location?.length > 0) {
         fields.push({
             name: "Stack",
-            value: `\`\`\`${cap(location.join("\n"), 1000)}\n\`\`\``,
+            value: `\`\`\`${cap(location.join("\n"), 1000)}\n\`\`\``
         });
     }
 
@@ -68,10 +67,8 @@ module.exports = async (req, res, client) => {
     if(user?.username) {
         fields.push({
             name: "User",
-            value: cap(
-                `${user.username} ${user.id ? `(${user.id})` : ""}`,
-                1024
-            ),
+            value: cap(`${user.username} ${user.id ? `(${user.id})` : ""}`, 1024),
+            inline: true
         });
     }
 
@@ -80,10 +77,8 @@ module.exports = async (req, res, client) => {
     if(Object.keys(tags).length > 0) {
         fields.push({
             name: "Tags",
-            value: cap(
-                tags.map(([key, value]) => `**${key}**: ${value}`).join("\n"),
-                1024
-            ),
+            value: cap(tags.map(([key, value]) => `**${key}**: ${value}`).join("\n"), 1024),
+            inline: true
         });
     }
 
@@ -93,6 +88,7 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Extras",
             value: cap(extras.join("\n"), 1024),
+            inline: true
         });
     }
 
@@ -102,6 +98,7 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Contexts",
             value: cap(contexts.join("\n"), 1024),
+            inline: true
         });
     }
 
@@ -111,6 +108,7 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Release",
             value: cap(release, 1024),
+            inline: true
         });
     }
 
@@ -139,9 +137,7 @@ module.exports = async (req, res, client) => {
 
     const channel = client.channels.cache.get(data.channel);
 
-    const image = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-1000x917.png")
-
-    channel.send({ embeds: [embed], components: [actions], files: [image] });
+    channel.send({ embeds: [embed], components: [actions], files: [logo] });
 
     res.status(200).json({ "message": "The event has been received.", "code": "EVENT_RECEIVED" });
 }

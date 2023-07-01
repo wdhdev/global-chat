@@ -10,6 +10,13 @@ module.exports = {
     options: [
         {
             type: 1,
+            name: "capture-tokens",
+            description: "[DEVELOPER ONLY] Get a list of all the active capture tokens.",
+            options: []
+        },
+
+        {
+            type: 1,
             name: "deregister",
             description: "[DEVELOPER ONLY] Deregister a Sentry capture URL.",
             options: [
@@ -61,6 +68,33 @@ module.exports = {
                     .setDescription(`${emoji.error} You do not have permission to run this command!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "capture-tokens") {
+                const data = await sentrySchema.find();
+
+                const tokens = [];
+
+                for(const token of data) {
+                    tokens.push(`- ${token._id}`);
+                }
+
+                if(!tokens.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.error} There are no tokens!`)
+
+                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    return;
+                }
+
+                const tokenInfo = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("🔑 Tokens")
+                    .setDescription(tokens.join("\n"))
+    
+                await interaction.editReply({ embeds: [tokenInfo] });
                 return;
             }
 
@@ -139,7 +173,7 @@ module.exports = {
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId(`sentry-capture-${id}`)
                             .setEmoji("ℹ️")
-                            .setLabel("Capture Details")
+                            .setLabel("Details")
                     )
 
                 await interaction.editReply({ embeds: [registered], components: [actions] });
