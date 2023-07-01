@@ -14,10 +14,8 @@ module.exports = async (req, res, client) => {
     const event = req.body;
 
     const embed = new Discord.EmbedBuilder()
-        .setAuthor({ name: `${event.project_name}` })
 
     const projectName = parser.getProject(event);
-
     const eventTitle = parser.getTitle(event);
 
     if(projectName) {
@@ -125,7 +123,7 @@ module.exports = async (req, res, client) => {
         .addComponents (
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Success)
-                .setCustomId(`sentry-resolve-${event.project.id}`)
+                .setCustomId(`sentry-resolve-${event.id}`)
                 .setLabel("Resolve")
         )
 
