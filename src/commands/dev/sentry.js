@@ -18,15 +18,8 @@ module.exports = {
         {
             type: 1,
             name: "register",
-            description: "[DEVELOPER ONLY] Register a Sentry project to capture issues.",
+            description: "[DEVELOPER ONLY] Register a Sentry capture URL to capture events.",
             options: [
-                {
-                    type: 3,
-                    name: "project_id",
-                    description: "The ID of the Sentry project.",
-                    required: true
-                },
-
                 {
                     type: 7,
                     name: "channel",
@@ -96,13 +89,11 @@ module.exports = {
 
             if(interaction.options.getSubcommand() === "register") {
                 const channel = interaction.options.getChannel("channel");
-                const project = interaction.options.getString("project_id");
 
                 const id = require("crypto").randomUUID();
 
                 new sentrySchema({
                     _id: id,
-                    project: project,
                     channel: channel.id,
                     registered: Date.now(),
                     user: interaction.user.id
@@ -110,14 +101,14 @@ module.exports = {
 
                 const registered = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} Sentry project \`${project}\` has been registered!`)
+                    .setDescription(`${emoji.successful} A new capture URL has been registered!`)
 
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId(`capture-url-${id}`)
-                            .setLabel("Get Capture URL")
+                            .setLabel("Get URL")
                     )
 
                 await interaction.editReply({ embeds: [registered], components: [actions] });

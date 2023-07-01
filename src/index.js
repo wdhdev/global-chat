@@ -105,6 +105,4 @@ client.validPermissions = [
 
 // Start Sentry API
 const sentryAPI = require("./sentry-api/index");
-sentryAPI();
-
-module.exports = client;
+sentryAPI(client);

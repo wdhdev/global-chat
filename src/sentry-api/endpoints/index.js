@@ -1,20 +1,20 @@
+const Discord = require("discord.js");
+
 const cap = require("../../util/cap");
+const getColor = require("../../util/sentry/color");
 const parser = require("../../util/sentry/parser");
 
 const schema = require("../../models/sentrySchema");
 
-module.exports = async (req, res, client, Discord) => {
+module.exports = async (req, res, client) => {
     if(!await schema.exists({ _id: req.params.secret })) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });
 
     const data = await schema.findOne({ _id: req.params.secret });
 
-    if(!req.body.project.id === data.project) return res.status(401).json({ "message": "Different project ID specified.", "code": "DIFFERENT_PROJECT" });
-
     const event = req.body;
 
     const embed = new Discord.EmbedBuilder()
-        .setColor(client.config_embeds.error)
-        .setAuthor({ name: `${req.body.project.name}` })
+        .setAuthor({ name: `${event.project_name}` })
 
     const projectName = parser.getProject(event);
 
@@ -124,9 +124,8 @@ module.exports = async (req, res, client, Discord) => {
     const actions = new Discord.ActionRowBuilder()
         .addComponents (
             new Discord.ButtonBuilder()
-                .setStyle(Discord.ButtonStyle.Secondary)
+                .setStyle(Discord.ButtonStyle.Success)
                 .setCustomId(`sentry-resolve-${event.project.id}`)
-                .setEmoji("✅")
                 .setLabel("Resolve")
         )
 
@@ -134,5 +133,5 @@ module.exports = async (req, res, client, Discord) => {
 
     channel.send({ embeds: [embed], components: [actions] });
 
-    res.status(200);
+    res.status(200).json({ "message": "The event has been recieved.", "code": "EVENT_RECIEVED" });
 }

@@ -27,13 +27,13 @@ module.exports = async function cleanChannels() {
 
     await Promise.all(promises);
 
-    if(!autobanData.words.length) {
+    if(!autobanData.words.length && autobanData._id) {
         await autobanData.delete();
 
         removedData.push("autoban");
     }
 
-    if(!blockData.words.length) {
+    if(!blockData.words.length && blockData._id) {
         await blockData.delete();
 
         removedData.push("block");

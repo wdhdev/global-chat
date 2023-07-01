@@ -1,4 +1,4 @@
-module.exports = async () => {
+module.exports = async (client) => {
     const express = require("express");
     const app = express();
 
@@ -18,7 +18,6 @@ module.exports = async () => {
         tracesSampleRate: 1.0
     })
 
-    const router = require("./util/router");
     const port = process.env.sentry_api_port;
 
     app.use(Sentry.Handlers.requestHandler());
@@ -28,7 +27,15 @@ module.exports = async () => {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(express.json());
 
-    app.use("/", router);
+    const routes = require("./util/routes");
+    
+    app.get("/info/:secret", async (req, res) => {
+        routes.info(req, res);
+    })
+    
+    app.post("/:secret", async (req, res) => {
+        routes.index(req, res, client);
+    })
 
     app.use(Sentry.Handlers.errorHandler());
 
