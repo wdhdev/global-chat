@@ -4,13 +4,8 @@ const bannedUserSchema = require("../../models/bannedUserSchema");
 
 const cooldowns = new Map();
 
-module.exports = async function commandInteraction(client, Discord, interaction) {
+module.exports = async (client, Discord, interaction) => {
     try {
-        const requiredPerms = ["SendMessages", "EmbedLinks"];
-
-        if(!interaction.guild.members.me.permissions.has(requiredPerms)) return;
-        if(!interaction.isCommand()) return;
-
         if(await bannedUserSchema.exists({ _id: interaction.user.id })) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)

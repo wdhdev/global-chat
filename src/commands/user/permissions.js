@@ -14,14 +14,14 @@ module.exports = {
     async execute(interaction, client, Discord) {
         try {
             const permissions = {
-                ManageWebhooks: "Manage Webhooks",
-                ViewChannel: "Read Messages/View Channels",
-                SendMessages: "Send Messages",
-                ManageMessages: "Manage Messages",
-                EmbedLinks: "Embed Links",
                 AttachFiles: "Attach Files",
+                EmbedLinks: "Embed Links",
+                ManageMessages: "Manage Messages",
+                ManageWebhooks: "Manage Webhooks",
                 ReadMessageHistory: "Read Message History",
-                UseExternalEmojis: "Use External Emojis"
+                SendMessages: "Send Messages",
+                UseExternalEmojis: "Use External Emojis",
+                ViewChannel: "Read Messages/View Channels"
             }
 
             const perms = [];
@@ -49,9 +49,7 @@ module.exports = {
                         .setURL("https://wdh.gg/globalchat")
                 )
 
-            if(disallowedPerms.length) return await interaction.editReply({ embeds: [permissionsEmbed], components: [inviteButton] });
-
-            await interaction.editReply({ embeds: [permissionsEmbed] });
+            await interaction.editReply({ embeds: [permissionsEmbed], components: disallowedPerms.length ? [inviteButton] : [] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }

@@ -1,12 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-module.exports = async function buttonInteraction(client, Discord, interaction) {
+module.exports = async (client, Discord, interaction) => {
     try {
-        const requiredPerms = ["SendMessages", "EmbedLinks"];
-
-        if(!interaction.guild.members.me.permissions.has(requiredPerms)) return;
-        if(!interaction.isButton()) return;
-
         const button = client.buttons.get(interaction.customId);
 
         if(button) {
