@@ -7,7 +7,6 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
         "id": data.id,
-        "project": data.project,
         "channel": data.channel,
         "registered": data.registered,
         "user": data.user
