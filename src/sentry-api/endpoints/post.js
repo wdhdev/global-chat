@@ -14,6 +14,8 @@ module.exports = async (req, res, client) => {
     const event = req.body;
 
     const embed = new Discord.EmbedBuilder()
+        .setThumbnail("attachment://sentry.png")
+        .setFooter({ text: event.project_name })
 
     const projectName = parser.getProject(event);
     const eventTitle = parser.getTitle(event);
@@ -80,7 +82,7 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Tags",
             value: cap(
-                tags.map(([key, value]) => `${key}: ${value}`).join("\n"),
+                tags.map(([key, value]) => `- ${key}: ${value}`).join("\n"),
                 1024
             ),
             inline: true,
@@ -92,7 +94,7 @@ module.exports = async (req, res, client) => {
     if(extras.length > 0) {
         fields.push({
             name: "Extras",
-            value: cap(extras.join("\n"), 1024),
+            value: cap(`- ${extras.join("\n- ")}`, 1024),
             inline: true,
         });
     }
@@ -102,7 +104,7 @@ module.exports = async (req, res, client) => {
     if(contexts.length > 0) {
         fields.push({
             name: "Contexts",
-            value: cap(contexts.join("\n"), 1024),
+            value: cap(`- ${contexts.join("\n- ")}`, 1024),
             inline: true,
         });
     }
@@ -122,14 +124,23 @@ module.exports = async (req, res, client) => {
     const actions = new Discord.ActionRowBuilder()
         .addComponents (
             new Discord.ButtonBuilder()
-                .setStyle(Discord.ButtonStyle.Success)
+                .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`sentry-resolve-${event.id}`)
-                .setLabel("Resolve")
+                .setEmoji("✅")
+                .setLabel("Resolve"),
+
+            new Discord.ButtonBuilder()
+                .setStyle(Discord.ButtonStyle.Secondary)
+                .setCustomId(`sentry-delete-${event.id}`)
+                .setEmoji("🗑️")
+                .setLabel("Delete")
         )
 
     const channel = client.channels.cache.get(data.channel);
 
-    channel.send({ embeds: [embed], components: [actions] });
+    const attachment = new AttachmentBuilder("../assets/sentry-glyph-light-400x367.png", { name: "sentry.png" })
+
+    channel.send({ embeds: [embed], components: [actions], files: [attachment] });
 
     res.status(200).json({ "message": "The event has been received.", "code": "EVENT_RECEIVED" });
 }
