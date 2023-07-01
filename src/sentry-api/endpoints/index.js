@@ -131,5 +131,5 @@ module.exports = async (req, res, client) => {
 
     channel.send({ embeds: [embed], components: [actions] });
 
-    res.status(200).json({ "message": "The event has been recieved.", "code": "EVENT_RECIEVED" });
+    res.status(200).json({ "message": "The event has been received.", "code": "EVENT_RECEIVED" });
 }
