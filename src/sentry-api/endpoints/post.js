@@ -138,7 +138,7 @@ module.exports = async (req, res, client) => {
 
     const channel = client.channels.cache.get(data.channel);
 
-    const attachment = new Discord.AttachmentBuilder("../assets/sentry-glyph-light-400x367.png", { name: "sentry.png" })
+    const attachment = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-400x367.png", { name: "sentry.png" })
 
     channel.send({ embeds: [embed], components: [actions], files: [attachment] });
 
