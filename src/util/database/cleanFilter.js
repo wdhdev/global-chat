@@ -1,8 +1,8 @@
 module.exports = async function cleanChannels() {
     const schema = require("../../models/filterSchema");
 
-    let autobanData = await schema.findOne({ _id: "autoban" });
-    let blockData = await schema.findOne({ _id: "block" });
+    let autobanData = await schema.findOne({ _id: "autoban" }) || { words: [] };
+    let blockData = await schema.findOne({ _id: "block" }) || { words: [] };
 
     const promises = [];
 
