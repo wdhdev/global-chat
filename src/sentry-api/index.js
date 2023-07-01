@@ -29,12 +29,12 @@ module.exports = async (client) => {
 
     const routes = require("./util/routes");
     
-    app.get("/info/:secret", async (req, res) => {
-        routes.info(req, res);
+    app.get("/:secret", async (req, res) => {
+        routes.get(req, res);
     })
     
     app.post("/:secret", async (req, res) => {
-        routes.index(req, res, client);
+        routes.post(req, res, client);
     })
 
     app.use(Sentry.Handlers.errorHandler());

@@ -1,4 +1,4 @@
 module.exports = {
-    index: require("../endpoints/index"),
-    info: require("../endpoints/info")
+    get: require("../endpoints/get"),
+    post: require("../endpoints/post")
 }
