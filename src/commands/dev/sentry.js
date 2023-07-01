@@ -4,8 +4,8 @@ const fetch = require("node-fetch");
 const devSchema = require("../../models/devSchema");
 
 module.exports = {
-	name: "dev",
-	description: "Developer Commands",
+	name: "sentry",
+	description: "Manage Sentry",
     options: [
         {
             type: 1,
