@@ -17,12 +17,24 @@ module.exports = {
             return;
         }
 
-        const url = `https://gc-sentry-api.wdh.gg/${interaction.customId.replace("capture-url-", "")}`;
+        const id = interaction.customId.replace("capture-url-", "");
+
+        const url = `https://gc-sentry-api.wdh.gg/${id}`;
+        const infoURL = `https://gc-sentry-api.wdh.gg/info/${id}`;
 
         const embed = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
             .setDescription(url)
+            
+        const actions = new Discord.ActionRowBuilder()
+            .addComponents (
+                new Discord.ButtonBuilder()
+                    .setStyle(Discord.ButtonStyle.Link)
+                    .setEmoji("ℹ️")
+                    .setLabel("Info")
+                    .setURL(infoURL)
+            )
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], components: [actions], ephemeral: true });
     }
 }
