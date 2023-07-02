@@ -17,11 +17,14 @@ module.exports = {
             return;
         }
 
-        const id = interaction.customId.replace("sentry-capture-", "");
+        const token = interaction.customId.replace("sentry-capture-", "");
 
         const info = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
-            .setDescription(`🔗 https://gc-sentry-api.wdh.gg/${id}\n🔑 ${id}`)
+            .addFields (
+                { name: "🔑 Token", value: token },
+                { name: "🔗 URL", value: `https://gc-sentry-api.wdh.gg/${token}` }
+            )
 
         await interaction.reply({ embeds: [info], ephemeral: true });
     }

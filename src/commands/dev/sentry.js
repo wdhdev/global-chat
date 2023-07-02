@@ -10,6 +10,13 @@ module.exports = {
     options: [
         {
             type: 1,
+            name: "capture-info",
+            description: "[DEVELOPER ONLY] Get information about a capture token.",
+            options: []
+        },
+
+        {
+            type: 1,
             name: "capture-tokens",
             description: "[DEVELOPER ONLY] Get a list of all the active capture tokens.",
             options: []
@@ -71,13 +78,29 @@ module.exports = {
                 return;
             }
 
+            if(interaction.options.getSubcommand() === "capture-info") {
+                const actions = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Secondary)
+                            .setCustomId("sentry-capture-info")
+                            .setEmoji("📝")
+                            .setLabel("Get Token")
+                    )
+
+                await interaction.editReply({ components: [actions] });
+                return;
+            }
+
             if(interaction.options.getSubcommand() === "capture-tokens") {
                 const data = await sentrySchema.find();
 
                 const tokens = [];
 
                 for(const token of data) {
-                    tokens.push(`- ${token._id}`);
+                    const segments = token._id.split("-");
+
+                    tokens.push(`\`${segments[0] + "-" + segments.slice(1).map(segment => "*".repeat(segment.length)).join("-")}\``);
                 }
 
                 if(!tokens.length) {
@@ -93,8 +116,16 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .setTitle("🔑 Tokens")
                     .setDescription(tokens.join("\n"))
+
+                const actions = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Danger)
+                            .setCustomId("sentry-reveal-capture-tokens")
+                            .setLabel("Reveal Tokens")
+                    )
     
-                await interaction.editReply({ embeds: [tokenInfo] });
+                await interaction.editReply({ embeds: [tokenInfo], components: [actions] });
                 return;
             }
 
