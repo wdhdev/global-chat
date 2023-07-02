@@ -44,8 +44,7 @@ module.exports = {
                     .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
                     .setDescription(bot.description)
                     .addFields (
-                        { name: "📈 Version", value: bot.version },
-                        { name: "💻 Developer", value: bot.author }
+                        { name: "📈 Version", value: bot.version }
                     )
 
                 await interaction.editReply({ embeds: [info] });
@@ -63,19 +62,24 @@ module.exports = {
                 const members = await guild.members.fetch();
                 const boosters = members.filter(member => member.premiumSinceTimestamp);
 
-                let supporters = 0;
+                const stat_guilds = `🗄️ ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
+                const stat_users = `👤 ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
 
-                for(const user of boosters) {
-                    supporters += 1;
-                }
+                const stat_developers = `💻 ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
+                const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
+                const stat_verified = `✅ ${verifiedUsers.length} Verified User${verifiedUsers.length === 1 ? "" : "s"}`;
+                const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
+
+                const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
+                const stat_images = `🖼️ ${images.length} Image${images.length === 1 ? "" : "s"}`;
 
                 const stats = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle("📊 Statistics")
                     .addFields (
-                        { name: "🤖 Bot", value: `**Guilds** ${client.guilds.cache.size}\n**Users** ${client.users.cache.size}` },
-                        { name: "🎭 Roles", value: `**Developers** ${developers.length}\n**Moderators** ${moderators.length}\n**Verified** ${verifiedUsers.length}\n**Supporters** ${supporters}` },
-                        { name: "🌐 Global Chat", value: `**Messages** ${messages.length}\n**Images** ${images.length}` }
+                        { name: "🤖 Bot", value: `${stat_guilds}\n${stat_users}`, inline: true },
+                        { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_verified}\n${stat_supporters}`, inline: true },
+                        { name: "🌐 Global Chat", value: `${stat_messages}\n${stat_images}`, inline: true }
                     )
 
                 await interaction.editReply({ embeds: [stats] });
@@ -83,29 +87,13 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "uptime") {
-                let totalSeconds = (client.uptime / 1000);
-
-                const days = Math.floor(totalSeconds / 86400);
-                totalSeconds %= 86400; 
-                const hours = Math.floor(totalSeconds / 3600);
-                totalSeconds %= 3600;
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = Math.floor(totalSeconds % 60);
-
-                const uptime_days = days === 1 ? `${days} day` : `${days} days`;
-                const uptime_hours = hours === 1 ? `${hours} hour` : `${hours} hours`;
-                const uptime_minutes = minutes === 1 ? `${minutes} minute` : `${minutes} minutes`;
-                const uptime_seconds = seconds === 1 ? `${seconds} second` : `${seconds} seconds`;
-
-                const uptime = `${uptime_days}, ${uptime_hours}, ${uptime_minutes}, ${uptime_seconds}`;
-
-                const uptimeInfo = new Discord.EmbedBuilder()
+                const uptime = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
 				    .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
-                    .setTitle("Uptime")
-                    .setDescription(`${uptime}\n**Timestamp**: <t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>`)
+                    .setTitle("Online Since")
+                    .setDescription(`<t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:f> **|** <t:${Math.floor(moment(Date.now() - client.uptime) / 1000)}:R>`)
 
-                await interaction.editReply({ embeds: [uptimeInfo] });
+                await interaction.editReply({ embeds: [uptime] });
                 return;
             }
         } catch(err) {
