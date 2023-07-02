@@ -62,16 +62,16 @@ module.exports = {
                 const members = await guild.members.fetch();
                 const boosters = members.filter(member => member.premiumSinceTimestamp);
 
-                const stat_guilds = `🗄️ ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
-                const stat_users = `👤 ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
+                const stat_guilds = `🗄️ **|** ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
+                const stat_users = `👤 **|** ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
 
-                const stat_developers = `💻 ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
-                const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
-                const stat_verified = `✅ ${verifiedUsers.length} Verified User${verifiedUsers.length === 1 ? "" : "s"}`;
-                const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
+                const stat_developers = `💻 **|** ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
+                const stat_moderators = `🔨 **|** ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
+                const stat_verified = `✅ **|** ${verifiedUsers.length} Verified User${verifiedUsers.length === 1 ? "" : "s"}`;
+                const stat_supporters = `💖 **|** ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
 
-                const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
-                const stat_images = `🖼️ ${images.length} Image${images.length === 1 ? "" : "s"}`;
+                const stat_messages = `💬 **|** ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
+                const stat_images = `🖼️ **|** ${images.length} Image${images.length === 1 ? "" : "s"}`;
 
                 const stats = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
