@@ -28,11 +28,11 @@ module.exports = async (client) => {
     app.use(express.json());
 
     const routes = require("./util/routes");
-    
+
     app.get("/:secret", async (req, res) => {
         routes.get(req, res);
     })
-    
+
     app.post("/:secret", async (req, res) => {
         routes.post(req, res, client);
     })
