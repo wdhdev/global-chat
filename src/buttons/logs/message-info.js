@@ -23,6 +23,7 @@ module.exports = {
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .addFields (
+                    { name: "🕰️ Timestamp", value: `<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}>` },
                     { name: "💬 Message ID", value: `${data._id}` },
                     { name: "👤 User ID", value: `${data.user}` },
                     { name: "🗄️ Guild ID", value: `${data.guild}` }

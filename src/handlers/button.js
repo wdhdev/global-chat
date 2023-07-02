@@ -1,7 +1,7 @@
 module.exports = (client) => {
-    const loadButtons = require("../helpers/loadButtons");
+    const load = require("../helpers/loadButtons");
 
-    loadButtons(client);
+    load(client);
 
     const emoji = require("../config.json").emojis;
 

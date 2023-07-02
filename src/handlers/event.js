@@ -1,7 +1,7 @@
 module.exports = (client, Discord) => {
-    const loadEvents = require("../helpers/loadEvents");
+    const load = require("../helpers/loadEvents");
 
-    loadEvents(client, Discord);
+    load(client, Discord);
 
     client.logEventError = async function(err) {
         client.sentry.captureException(err);

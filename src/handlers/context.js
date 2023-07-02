@@ -1,11 +1,11 @@
 module.exports = (client) => {
-    const load = require("../helpers/loadCommands");
+    const load = require("../helpers/loadContextCommands");
 
     load(client);
 
     const emoji = require("../config.json").emojis;
 
-    client.logCommandError = async function(err, interaction, Discord) {
+    client.logContextError = async function(err, interaction, Discord) {
         client.sentry.captureException(err);
 
         const error = new Discord.EmbedBuilder()

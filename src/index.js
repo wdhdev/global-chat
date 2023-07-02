@@ -43,9 +43,10 @@ client.config_roles = config.roles;
 // Handlers
 client.buttons = new Discord.Collection();
 client.commands = new Discord.Collection();
+client.contextCommands = new Discord.Collection();
 client.events = new Discord.Collection();
 
-["button", "command", "event"].forEach(handler => {
+["button", "command", "context", "event"].forEach(handler => {
     require(`./handlers/${handler}`) (client, Discord);
 })
 

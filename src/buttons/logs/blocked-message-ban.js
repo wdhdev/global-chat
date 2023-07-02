@@ -29,7 +29,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You cannot ban yourself!`)
 
-                await interaction.reply({ embeds: [error], components: [], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
 
@@ -38,7 +38,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} You cannot ban that user!`)
 
-                await interaction.reply({ embeds: [error], components: [], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
 
                 interaction.message.components[0].components[1].data.disabled = true;
 
@@ -51,7 +51,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} That user is already banned!`)
 
-                await interaction.reply({ embeds: [error], components: [], ephemeral: true });
+                await interaction.reply({ embeds: [error], ephemeral: true });
 
                 interaction.message.components[0].components[1].data.disabled = true;
 

@@ -15,11 +15,11 @@ module.exports = async (client, Discord, interaction) => {
             return;
         }
 
-        const command = client.commands.get(interaction.commandName);
+        const command = client.contextCommands.get(interaction.commandName);
 
         if(!command) return;
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         if(!command.enabled) {
             const disabled = new Discord.EmbedBuilder()
