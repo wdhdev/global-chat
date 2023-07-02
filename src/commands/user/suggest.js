@@ -47,7 +47,7 @@ module.exports = {
                 message.react(`${emoji.tick}`);
                 message.react(`${emoji.cross}`);
             } catch(err) {
-                client.logCommandError(err, interaction, Discord);
+                client.logError(err);
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)

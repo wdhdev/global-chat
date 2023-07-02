@@ -363,6 +363,8 @@ module.exports = {
 
                     await interaction.editReply({ embeds: [sent] });
                 } catch(err) {
+                    client.logError(err);
+
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.error} The appeal menu could not be sent.`)
@@ -437,6 +439,8 @@ module.exports = {
 
                     await interaction.editReply({ embeds: [sent] });
                 } catch(err) {
+                    client.logError(err);
+
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.error} The list could not be sent.`)
@@ -503,7 +507,7 @@ module.exports = {
                 const verifiedUsers = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                 	.setTitle("✅ Verified Users")
-                    .setDescription(`<@${users.join(">\n<@")}>`)
+                    .setDescription(`<@${users.join(">, <@")}>`)
 
                 await interaction.editReply({ embeds: [verifiedUsers] });
                 return;

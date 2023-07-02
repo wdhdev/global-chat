@@ -7,7 +7,7 @@ module.exports = {
 	name: "Report Message",
     type: 3,
     botPermissions: [],
-    cooldown: 3,
+    cooldown: 30,
     enabled: true,
     hidden: false,
 	async execute(interaction, client, Discord) {
@@ -25,6 +25,15 @@ module.exports = {
 
             const data = await messageSchema.findOne({ messages: message.url });
             const reportChannel = client.channels.cache.get(client.config_channels.reports);
+
+            if(data.user === interaction.user.id) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.error} You can't report yourself!`)
+
+                await interaction.editReply({ embeds: [error], ephemeral: true });
+                return;
+            }
 
             try {
                 const report = new Discord.EmbedBuilder()
@@ -49,7 +58,7 @@ module.exports = {
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId(`delete-message-${data._id}`)
                             .setEmoji("🗑️")
-                            .setLabel("Delete Message")
+                            .setLabel("Delete")
                     )
 
                 const msgData = await messageSchema.findOne({ messages: message.url });
@@ -70,9 +79,9 @@ module.exports = {
                 if(msgData.content) messageEmbed.setDescription(msgData.content);
                 if(msgData.attachment) messageEmbed.setImage(msgData.attachment);
 
-                reportChannel.send({ embeds: [report, messageEmbed], components: [actions] });
+                reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report, messageEmbed], components: [actions] });
             } catch(err) {
-                client.logContextError(err, interaction, Discord);
+                client.logError(err);
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)

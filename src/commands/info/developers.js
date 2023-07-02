@@ -33,7 +33,7 @@ module.exports = {
             const developers = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("💻 Developers")
-                .setDescription(`<@${users.join(">\n<@")}>`)
+                .setDescription(`<@${users.join(">, <@")}>`)
 
             await interaction.editReply({ embeds: [developers] });
         } catch(err) {

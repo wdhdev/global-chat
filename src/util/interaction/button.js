@@ -29,7 +29,7 @@ module.exports = async (client, Discord, interaction) => {
 
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There was an error while executing that command!`)
+                        .setDescription(`${emoji.error} There was an error while executing that button!`)
 
                     await interaction.reply({ embeds: [error], ephemeral: true });
                 }

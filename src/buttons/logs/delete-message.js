@@ -53,6 +53,8 @@ module.exports = {
                         deleted++;
                         resolve(true);
                     } catch(err) {
+                        client.logError(err);
+
                         resolve(false);
                     }
                 }))

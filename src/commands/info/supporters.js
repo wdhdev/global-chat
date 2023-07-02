@@ -33,7 +33,7 @@ module.exports = {
             const supporters = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("💖 Supporters")
-                .setDescription(`<@${users.join(">\n<@")}>`)
+                .setDescription(`<@${users.join(">, <@")}>`)
 
             await interaction.editReply({ embeds: [supporters] });
         } catch(err) {
