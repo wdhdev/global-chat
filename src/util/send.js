@@ -195,10 +195,10 @@ module.exports = async function (message, client, Discord) {
                                     try {
                                         if(reply) {
                                             await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                                         } else {
                                             await chatChannel.send({ embeds: [chat] })
-                                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                                         }
                                     } catch {
                                         resolve();
@@ -227,10 +227,10 @@ module.exports = async function (message, client, Discord) {
                                 try {
                                     if(reply) {
                                         await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                                     } else {
                                         await chatChannel.send({ embeds: [chat] })
-                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                                     }
                                 } catch {
                                     resolve();
@@ -240,10 +240,10 @@ module.exports = async function (message, client, Discord) {
                             try {
                                 if(reply) {
                                     await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                                 } else {
                                     await chatChannel.send({ embeds: [chat] })
-                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                                        .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                                 }
                             } catch {
                                 resolve();

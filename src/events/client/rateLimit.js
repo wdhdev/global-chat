@@ -3,8 +3,6 @@ module.exports = {
 	once: false,
 	async execute(client, Discord) {
         try {
-			console.error("The bot's rate limit has been hit.");
-
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
 			const warning = new Discord.EmbedBuilder()

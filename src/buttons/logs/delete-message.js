@@ -45,13 +45,14 @@ module.exports = {
                     const info = message.replace("https://discord.com/channels/", "").split("/");
 
                     try {
-                        await client.channels.fetch(info[1]).then(async channel => {
-                            await channel.messages.delete(info[2]);
-                        })
+                        const channel = await client.channels.fetch(info[1]);
+                        const message = await channel.messages.fetch(info[2]);
 
-                        deleted += 1;
+                        await message.delete();
+
+                        deleted++;
                         resolve(true);
-                    } catch {
+                    } catch(err) {
                         resolve(false);
                     }
                 }))
