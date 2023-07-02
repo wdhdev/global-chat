@@ -34,9 +34,9 @@ module.exports = {
                         },
 
                         {
-                            name: "block",
-                            description: "Add the word to the blocked words filter.",
-                            value: "block"
+                            name: "blacklist",
+                            description: "Add the word to the blacklist.",
+                            value: "blacklist"
                         }
                     ],
                     required: true
@@ -61,9 +61,9 @@ module.exports = {
                         },
 
                         {
-                            name: "block",
-                            description: "Get all words on the blocked words filter.",
-                            value: "block"
+                            name: "blacklist",
+                            description: "Get all words on the blacklist.",
+                            value: "blacklist"
                         }
                     ],
                     required: true
@@ -92,14 +92,14 @@ module.exports = {
                     choices: [
                         {
                             name: "autoban",
-                            description: "Remove the word to from autoban filter.",
+                            description: "Remove the word to from the autoban filter.",
                             value: "autoban"
                         },
 
                         {
-                            name: "block",
-                            description: "Remove the word from the blocked words filter.",
-                            value: "block"
+                            name: "blacklist",
+                            description: "Remove the word from the blacklist.",
+                            value: "blacklist"
                         }
                     ],
                     required: true
@@ -187,7 +187,7 @@ module.exports = {
 
                 const filters = {
                     autoban: "Autoban",
-                    block: "Block"
+                    blacklist: "Blacklist"
                 }
 
                 const embed = new Discord.EmbedBuilder()

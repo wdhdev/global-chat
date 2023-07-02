@@ -2,7 +2,7 @@ module.exports = async function cleanChannels() {
     const schema = require("../../models/filterSchema");
 
     let autobanData = await schema.findOne({ _id: "autoban" }) || { words: [] };
-    let blockData = await schema.findOne({ _id: "block" }) || { words: [] };
+    let blacklistData = await schema.findOne({ _id: "blacklist" }) || { words: [] };
 
     const promises = [];
 
@@ -11,14 +11,14 @@ module.exports = async function cleanChannels() {
 
     for(const word of autobanData.words) {
         promises.push(new Promise(async resolve => {
-            if(blockData.words.includes(word)) {
-                blockData.words = blockData.words.filter(item => item !== word);
+            if(blacklistData.words.includes(word)) {
+                blacklistData.words = blacklistData.words.filter(item => item !== word);
 
-                await blockData.save();
+                await blacklistData.save();
 
-                if(!modifiedData.includes("block")) modifiedData.push("block");
+                if(!modifiedData.includes("blacklist")) modifiedData.push("blacklist");
 
-                resolve(`Modified: block`);
+                resolve(`Modified: blacklist`);
             } else {
                 resolve();
             }
@@ -29,14 +29,12 @@ module.exports = async function cleanChannels() {
 
     if(!autobanData.words.length && autobanData._id) {
         await autobanData.delete();
-
         removedData.push("autoban");
     }
 
-    if(!blockData.words.length && blockData._id) {
-        await blockData.delete();
-
-        removedData.push("block");
+    if(!blacklistData.words.length && blacklistData._id) {
+        await blacklistData.delete();
+        removedData.push("blacklist");
     }
 
     return {

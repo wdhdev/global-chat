@@ -22,7 +22,7 @@ module.exports = async function(message, client, Discord) {
             .setDescription(`${message.content}`)
             .addFields (
                 { name: "🚩 Filter", value: "🔗 Links" },
-                { name: "❓ Reason", value: `Link Detected: \`${linkResult.links.join("\`\nLink Detected: \`")}\`` }
+                { name: "❓ Reason", value: `⚠️ \`${linkResult.links.join("\`\n⚠️ \`")}\`` }
             )
 
         if(message.attachments.first()) {

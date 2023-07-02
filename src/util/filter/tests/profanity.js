@@ -20,7 +20,34 @@ module.exports = async function(message, client, Discord) {
             reason: profanityResult.words
         }).save()
 
-        if(profanityResult.autoban) {
+        const blocked = new Discord.EmbedBuilder()
+            .setTitle("⛔ Message Blocked")
+            .setDescription(`${message.content}`)
+            .addFields (
+                { name: "🚩 Filter", value: `🤬 Profanity (${profanityResult.filter.autoban ? "autoban" : "blacklist"})` },
+                { name: "❓ Reason", value: `⚠️ \`${profanityResult.words.join("\`\n⚠️ \`")}\`` }
+            )
+
+        if(message.attachments.first()) {
+            const fileExt = path.extname(message.attachments.first().url.toLowerCase());
+            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+
+            if(allowedExtensions.includes(fileExt.split(".").join(""))) {
+                const attachment = await new Discord.AttachmentBuilder(attachment.url).fetch();
+
+                blocked.setImage(`attachment://${attachment.name}`);
+            }
+        }
+
+        const actions = new Discord.ActionRowBuilder()
+            .addComponents (
+                new Discord.ButtonBuilder()
+                    .setStyle(Discord.ButtonStyle.Secondary)
+                    .setCustomId(`blocked-message-info-${message.id}`)
+                    .setEmoji("ℹ️")
+            )
+
+        if(profanityResult.filter.autoban) {
             new bannedUserSchema({
                 _id: message.author.id,
                 timestamp: Date.now(),
@@ -33,15 +60,6 @@ module.exports = async function(message, client, Discord) {
             await modSchema.findOneAndDelete({ _id: message.author.id });
             await verifiedSchema.findOneAndDelete({ _id: message.author.id });
 
-            const blocked = new Discord.EmbedBuilder()
-                .setTitle("⛔ Message Blocked")
-                .setDescription(`${message.content}`)
-                .addFields (
-                    { name: "🚩 Filter", value: "🤬 Profanity" },
-                    { name: "❓ Reason", value: `Profanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` },
-                    { name: "⚒️ Action", value: "🔨 Ban" }
-                )
-
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
                 .setTitle("Banned")
@@ -53,17 +71,6 @@ module.exports = async function(message, client, Discord) {
                 )
                 .setTimestamp()
 
-            if(message.attachments.first()) {
-                const fileExt = path.extname(message.attachments.first().url.toLowerCase());
-                const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
-
-                if(allowedExtensions.includes(fileExt.split(".").join(""))) {
-                    const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
-
-                    blocked.setImage(`attachment://${attachment.name}`);
-                }
-            }
-
             let sentDM = false;
 
             try {
@@ -72,23 +79,9 @@ module.exports = async function(message, client, Discord) {
                 sentDM = true;
             } catch {}
 
-            blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-
-            const actions = new Discord.ActionRowBuilder()
-                .addComponents (
-                    new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
-                        .setCustomId(`blocked-message-info-${message.id}`)
-                        .setEmoji("ℹ️"),
-
-                    new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
-                        .setCustomId(`blocked-message-ban-${message.author.id}`)
-                        .setEmoji("🔨")
-                        .setLabel("Ban")
-                )        
-
-            blockedChannel.send({ embeds: [blocked], components: [actions] });
+            blocked.addFields (
+                { name: "⚒️ Action", value: "🔨 Ban" }
+            )
 
             const banLog = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
@@ -104,48 +97,22 @@ module.exports = async function(message, client, Discord) {
 
             modLogsChannel.send({ embeds: [banLog] });
         } else {
-            const blocked = new Discord.EmbedBuilder()
-                .setTitle("⛔ Message Blocked")
-                .setDescription(`${message.content}`)
-                .addFields (
-                    { name: "🚩 Filter", value: "🤬 Profanity" },
-                    { name: "❓ Reason", value: `Profanity Detected: \`${profanityResult.words.join("\`\nProfanity Detected: \`")}\`` }
-                )
-
-            if(message.attachments.first()) {
-                const fileExt = path.extname(message.attachments.first().url.toLowerCase());
-                const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
-
-                if(allowedExtensions.includes(fileExt.split(".").join(""))) {
-                    const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
-
-                    blocked.setImage(`attachment://${attachment.name}`);
-                }
-            }
-
             try {
                 await message.author.send({ embeds: [blocked] });
             } catch {}
 
-            blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
-
-            const actions = new Discord.ActionRowBuilder()
-                .addComponents (
-                    new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
-                        .setCustomId(`blocked-message-info-${message.id}`)
-                        .setEmoji("ℹ️"),
-
-                    new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
-                        .setCustomId(`blocked-message-ban-${message.author.id}`)
-                        .setEmoji("🔨")
-                        .setLabel("Ban")
-                )        
-
-            blockedChannel.send({ embeds: [blocked], components: [actions] });
+            actions.addComponents (
+                new Discord.ButtonBuilder()
+                    .setStyle(Discord.ButtonStyle.Secondary)
+                    .setCustomId(`blocked-message-ban-${message.author.id}`)
+                    .setEmoji("🔨")
+                    .setLabel("Ban")
+            )
         }
 
+        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+
+        blockedChannel.send({ embeds: [blocked], components: [actions] });
         return true;
     }
 

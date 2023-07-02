@@ -17,7 +17,7 @@ module.exports = async function(message, client, Discord) {
             user: message.author.id,
             guild: message.guild.id,
             filter: "PHISHING",
-            reason: "A phishing link was detected in your message."
+            reason: "Phishing link detected."
         }).save()
 
         new bannedUserSchema({
@@ -37,9 +37,19 @@ module.exports = async function(message, client, Discord) {
             .setDescription(`${message.content}`)
             .addFields (
                 { name: "🚩 Filter", value: "🪝 Phishing" },
-                { name: "❓ Reason", value: "A phishing link was detected in your message." },
-                { name: "⚒️ Action", value: "🔨 Ban" }
+                { name: "❓ Reason", value: "⚠️ Phishing link detected." }
             )
+
+        if(message.attachments.first()) {
+            const fileExt = path.extname(message.attachments.first().url.toLowerCase());
+            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+
+            if(allowedExtensions.includes(fileExt.split(".").join(""))) {
+                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
+
+                blocked.setImage(`attachment://${attachment.name}`);
+            }
+        }
 
         const actions = new Discord.ActionRowBuilder()
             .addComponents (
@@ -60,17 +70,6 @@ module.exports = async function(message, client, Discord) {
             )
             .setTimestamp()
 
-        if(message.attachments.first()) {
-            const fileExt = path.extname(message.attachments.first().url.toLowerCase());
-            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
-
-            if(allowedExtensions.includes(fileExt.split(".").join(""))) {
-                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
-
-                blocked.setImage(`attachment://${attachment.name}`);
-            }
-        }
-
         let sentDM = false;
 
         try {
@@ -80,6 +79,9 @@ module.exports = async function(message, client, Discord) {
         } catch {}
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+        blocked.addFields (
+            { name: "⚒️ Action", value: "🔨 Ban" }
+        )
 
         blockedChannel.send({ embeds: [blocked], components: [actions] });
 
