@@ -17,7 +17,7 @@ module.exports = {
 			logsChannel.send({ embeds: [online] });
 
 			// Register Commands
-			const register = require("../../scripts/register");
+			const register = require("../../scripts/client-register");
 			await register(client);
 
 			const registered = new Discord.EmbedBuilder()
