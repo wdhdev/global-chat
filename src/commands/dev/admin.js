@@ -416,16 +416,16 @@ module.exports = {
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Danger)
                             .setCustomId("remove-todo")
-                            .setLabel("Remove Task")
+                            .setLabel("Remove Task"),
+
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Primary)
+                            .setCustomId("get-todo")
+                            .setLabel("Get Task")
                     )
 
                 const row2 = new Discord.ActionRowBuilder()
                     .addComponents (
-                        new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Secondary)
-                            .setCustomId("get-todo")
-                            .setLabel("Get Task"),
-
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId("refresh-todo-list")
