@@ -32,14 +32,14 @@ module.exports = {
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
+                        .setStyle(Discord.ButtonStyle.Success)
                         .setCustomId("suggestion-approve")
-                        .setEmoji("✅"),
+                        .setLabel("Approve"),
 
                         new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
+                        .setStyle(Discord.ButtonStyle.Danger)
                         .setCustomId("suggestion-deny")
-                        .setEmoji("❌")
+                        .setLabel("Deny")
                     )
 
                 const message = await suggestionsChannel.send({ embeds: [suggestion], components: [actions] })

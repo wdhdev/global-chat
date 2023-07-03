@@ -98,14 +98,14 @@ module.exports = {
                     const actions = new Discord.ActionRowBuilder()
                         .addComponents (
                             new Discord.ButtonBuilder()
-                                .setStyle(Discord.ButtonStyle.Secondary)
+                                .setStyle(Discord.ButtonStyle.Success)
                                 .setCustomId(`appeal-approve-${id}`)
-                                .setEmoji("✅"),
+                                .setLabel("Approve"),
 
                             new Discord.ButtonBuilder()
-                                .setStyle(Discord.ButtonStyle.Secondary)
+                                .setStyle(Discord.ButtonStyle.Danger)
                                 .setCustomId(`appeal-deny-${id}`)
-                                .setEmoji("❌")
+                                .setLabel("Deny")
                         )
 
                     await appealsChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [embed], components: [actions] });
