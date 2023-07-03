@@ -98,12 +98,12 @@ module.exports = {
                     const actions = new Discord.ActionRowBuilder()
                         .addComponents (
                             new Discord.ButtonBuilder()
-                                .setStyle(Discord.ButtonStyle.Success)
+                                .setStyle(Discord.ButtonStyle.Secondary)
                                 .setCustomId(`appeal-approve-${id}`)
                                 .setEmoji("✅"),
 
                             new Discord.ButtonBuilder()
-                                .setStyle(Discord.ButtonStyle.Danger)
+                                .setStyle(Discord.ButtonStyle.Secondary)
                                 .setCustomId(`appeal-deny-${id}`)
                                 .setEmoji("❌")
                         )

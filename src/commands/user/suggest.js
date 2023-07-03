@@ -32,12 +32,12 @@ module.exports = {
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Success)
+                        .setStyle(Discord.ButtonStyle.Secondary)
                         .setCustomId("suggestion-approve")
                         .setEmoji("✅"),
 
                         new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setStyle(Discord.ButtonStyle.Secondary)
                         .setCustomId("suggestion-deny")
                         .setEmoji("❌")
                     )
