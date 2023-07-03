@@ -337,20 +337,22 @@ module.exports = {
                 const embed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .addFields (
-                        { name: "Submit", value: "Appeal your ban from the bot." },
-                        { name: "Check", value: "Check the status of your appeal." }
+                        { name: "📝 Submit", value: "Appeal your ban from the bot." },
+                        { name: "👀 Check", value: "Check the status of your appeal." }
                     )
 
                 const buttons = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Success)
+                            .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId("submit-appeal")
+                            .setEmoji("📝")
                             .setLabel("Submit"),
 
                         new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Primary)
+                            .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId("check-appeal")
+                            .setEmoji("👀")
                             .setLabel("Check")
                     )
 
@@ -427,7 +429,7 @@ module.exports = {
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setCustomId("refresh-todo-list")
-                            .setLabel("Refresh")
+                            .setEmoji("🔄️")
                     )
 
                 try {

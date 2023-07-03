@@ -204,7 +204,6 @@ module.exports = {
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId(`sentry-capture-${id}`)
                             .setEmoji("ℹ️")
-                            .setLabel("Details")
                     )
 
                 await interaction.editReply({ embeds: [registered], components: [actions] });

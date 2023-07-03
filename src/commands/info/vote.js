@@ -13,6 +13,7 @@ module.exports = {
                 .addComponents (
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Link)
+                        .setEmoji("🗳️")
                         .setLabel("Vote on Top.gg")
                         .setURL("https://wdh.gg/gc-vote")
                 )

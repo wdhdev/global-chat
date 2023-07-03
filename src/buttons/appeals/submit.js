@@ -100,12 +100,12 @@ module.exports = {
                             new Discord.ButtonBuilder()
                                 .setStyle(Discord.ButtonStyle.Success)
                                 .setCustomId(`appeal-approve-${id}`)
-                                .setLabel("Approve"),
+                                .setEmoji("✅"),
 
                             new Discord.ButtonBuilder()
                                 .setStyle(Discord.ButtonStyle.Danger)
                                 .setCustomId(`appeal-deny-${id}`)
-                                .setLabel("Deny")
+                                .setEmoji("❌")
                         )
 
                     await appealsChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [embed], components: [actions] });

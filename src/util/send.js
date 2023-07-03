@@ -140,14 +140,12 @@ module.exports = async function (message, client, Discord) {
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`delete-message-${id}`)
-                .setEmoji("🗑️")
-                .setLabel("Delete"),
+                .setEmoji("🗑️"),
 
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`message-ban-${message.author.id}`)
                 .setEmoji("🔨")
-                .setLabel("Ban")
         )
 
     if(message.content.length >= 1) messageLog.setDescription(`${message.content}`);

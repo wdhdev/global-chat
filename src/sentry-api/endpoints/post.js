@@ -112,20 +112,17 @@ module.exports = async (req, res, client) => {
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`sentry-ignore-${event.id}`)
-                .setEmoji("🔕")
-                .setLabel("Ignore"),
+                .setEmoji("🔕"),
 
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`sentry-resolve-${event.id}`)
-                .setEmoji("✅")
-                .setLabel("Resolve"),
+                .setEmoji("✅"),
 
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`sentry-delete-${event.id}`)
                 .setEmoji("🗑️")
-                .setLabel("Delete")
         )
 
     const channel = client.channels.cache.get(data.channel);

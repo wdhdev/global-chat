@@ -51,14 +51,12 @@ module.exports = {
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId(`report-ban-${data.user}`)
-                            .setEmoji("🔨")
-                            .setLabel("Ban"),
+                            .setEmoji("🔨"),
 
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId(`delete-message-${data._id}`)
                             .setEmoji("🗑️")
-                            .setLabel("Delete")
                     )
 
                 const msgData = await messageSchema.findOne({ messages: message.url });

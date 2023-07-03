@@ -34,12 +34,12 @@ module.exports = {
                         new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Success)
                         .setCustomId("suggestion-approve")
-                        .setLabel("Approve"),
+                        .setEmoji("✅"),
 
                         new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setCustomId("suggestion-deny")
-                        .setLabel("Deny")
+                        .setEmoji("❌")
                     )
 
                 const message = await suggestionsChannel.send({ embeds: [suggestion], components: [actions] })
