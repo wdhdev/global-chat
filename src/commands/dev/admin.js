@@ -427,9 +427,9 @@ module.exports = {
                             .setLabel("Get Task"),
 
                         new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Primary)
+                            .setStyle(Discord.ButtonStyle.Secondary)
                             .setCustomId("refresh-todo-list")
-                            .setEmoji("🔄️")
+                            .setEmoji("🔃")
                     )
 
                 try {
