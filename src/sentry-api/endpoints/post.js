@@ -16,7 +16,7 @@ module.exports = async (req, res, client) => {
     const embed = new Discord.EmbedBuilder()
         .setAuthor({ name: event.project_name, iconURL: "attachment://sentry-glyph-light-400x367.png", url: parser.getProjectLink(event) })
 
-    const logo = new Discord.AttachmentBuilder("src/sentry-api/assets/sentry-glyph-light-400x367.png", { name: "sentry-glyph-light-400x367.png" });
+    const logo = new Discord.AttachmentBuilder("src/assets/sentry-api/sentry-glyph-light-400x367.png", { name: "sentry-glyph-light-400x367.png" });
 
     const projectName = parser.getProject(event);
     const eventTitle = parser.getTitle(event);
