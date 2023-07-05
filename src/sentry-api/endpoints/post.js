@@ -1,8 +1,7 @@
 const Discord = require("discord.js");
 
-const cap = require("../../util/cap");
-const getColor = require("../../util/sentry/color");
-const parser = require("../../util/sentry/parser");
+const cap = require("../util/cap");
+const parser = require("../util/parser");
 
 const schema = require("../../models/sentrySchema");
 
@@ -14,26 +13,20 @@ module.exports = async (req, res, client) => {
     const event = req.body;
 
     const embed = new Discord.EmbedBuilder()
-        .setAuthor({ name: event.project_name, iconURL: "attachment://sentry-glyph-light-400x367.png", url: parser.getProjectLink(event) })
-
-    const logo = new Discord.AttachmentBuilder("src/assets/sentry-api/sentry-glyph-light-400x367.png", { name: "sentry-glyph-light-400x367.png" });
+        .setColor(parser.getColor(parser.getLevel(event)))
+        .setAuthor({ name: event.project_name, iconURL: "https://gc-sentry-api.wdh.gg/assets/sentry-glyph-light-400x367.png", url: parser.getProjectLink(event) })
+        .setTimestamp(parser.getTime(event))
 
     const projectName = parser.getProject(event);
     const eventTitle = parser.getTitle(event);
 
-    if(projectName) {
-        const embedTitle = `[${projectName}] ${eventTitle}`;
-        embed.setTitle(cap(embedTitle, 250));
-    } else {
-        embed.setTitle(cap(eventTitle, 250));
-    }
+    embed.setTitle(cap(eventTitle, 250));
+
+    if(projectName) embed.setTitle(cap(`[${projectName}] ${eventTitle}`, 250));
 
     const link = parser.getLink(event);
 
     if(link.startsWith("https://") || link.startsWith("http://")) embed.setURL(parser.getLink(event));
-
-    embed.setTimestamp(parser.getTime(event));
-    embed.setColor(getColor(parser.getLevel(event)));
 
     const fileLocation = parser.getFileLocation(event);
     const snippet = cap(parser.getErrorCodeSnippet(event), 3900);
@@ -52,7 +45,7 @@ module.exports = async (req, res, client) => {
         fields.push({
             name: "Stack",
             value: `\`\`\`${cap(location.join("\n"), 1000)}\n\`\`\``
-        });
+        })
     }
 
     const user = parser.getUser(event);
@@ -62,7 +55,7 @@ module.exports = async (req, res, client) => {
             name: "User",
             value: cap(`${user.username} ${user.id ? `(${user.id})` : ""}`, 1024),
             inline: true
-        });
+        })
     }
 
     const tags = parser.getTags(event);
@@ -72,7 +65,7 @@ module.exports = async (req, res, client) => {
             name: "Tags",
             value: cap(tags.map(([key, value]) => `**${key}**: ${value}`).join("\n"), 1024),
             inline: true
-        });
+        })
     }
 
     const extras = parser.getExtras(event);
@@ -82,7 +75,7 @@ module.exports = async (req, res, client) => {
             name: "Extras",
             value: cap(extras.join("\n"), 1024),
             inline: true
-        });
+        })
     }
 
     const contexts = parser.getContexts(event);
@@ -92,7 +85,7 @@ module.exports = async (req, res, client) => {
             name: "Contexts",
             value: cap(contexts.join("\n"), 1024),
             inline: true
-        });
+        })
     }
 
     const release = parser.getRelease(event);
@@ -102,7 +95,7 @@ module.exports = async (req, res, client) => {
             name: "Release",
             value: cap(release, 1024),
             inline: true
-        });
+        })
     }
 
     embed.addFields(fields);
@@ -127,7 +120,11 @@ module.exports = async (req, res, client) => {
 
     const channel = client.channels.cache.get(data.channel);
 
-    channel.send({ embeds: [embed], components: [actions], files: [logo] });
-
-    res.status(200).json({ "message": "The event has been received.", "code": "EVENT_RECEIVED" });
+    try {
+        await channel.send({ embeds: [embed], components: [actions] });
+        res.status(200).json({ "success": true });
+    } catch(err) {
+        client.sentry.captureException(err);
+        res.status(500).json({ "success": false });
+    }
 }

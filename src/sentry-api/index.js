@@ -27,7 +27,14 @@ module.exports = async (client) => {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(express.json());
 
-    const routes = require("./util/routes");
+    // Host public files
+    app.use(express.static(__dirname + "/public"));
+
+    const routes = require("./routes");
+
+    app.delete("/:secret", async (req, res) => {
+        routes.delete(req, res);
+    })
 
     app.get("/:secret", async (req, res) => {
         routes.get(req, res);

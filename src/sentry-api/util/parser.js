@@ -1,5 +1,21 @@
 // https://github.com/IanMitchell/sentrydiscord.dev/blob/867b889e15c6b101d619610d07b4663c6a73fe6a/lib/message.ts
 
+module.exports.getColor = function (level) {
+    switch (level) {
+        case "debug":
+            return parseInt("fbe14f", 16);
+        case "info":
+            return parseInt("2788ce", 16);
+        case "warning":
+            return parseInt("f18500", 16);
+        case "fatal":
+            return parseInt("d20f2a", 16);
+        case "error":
+        default:
+            return parseInt("e03e2f", 16);
+    }
+}
+
 module.exports.getContexts = function (issue) {
     const contexts = this.getEvent(issue)?.contexts ?? {};
 
