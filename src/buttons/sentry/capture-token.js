@@ -3,7 +3,7 @@ const emoji = require("../../config.json").emojis;
 const devSchema = require("../../models/devSchema");
 
 module.exports = {
-    name: "sentry-capture",
+    name: "sentry-capture-token",
     startsWith: true,
     async execute(interaction, client, Discord) {
         const dev = await devSchema.exists({ _id: interaction.user.id });
@@ -17,7 +17,7 @@ module.exports = {
             return;
         }
 
-        const token = interaction.customId.replace("sentry-capture-", "");
+        const token = interaction.customId.replace("sentry-capture-token-", "");
 
         const info = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)

@@ -202,7 +202,7 @@ module.exports = {
                     .addComponents (
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
-                            .setCustomId(`sentry-capture-${id}`)
+                            .setCustomId(`sentry-capture-token-${id}`)
                             .setEmoji("ℹ️")
                     )
 

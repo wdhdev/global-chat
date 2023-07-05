@@ -47,6 +47,6 @@ module.exports = {
 
         await interaction.deferUpdate();
 
-        await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components, files: [] });
+        await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
     }
 }
