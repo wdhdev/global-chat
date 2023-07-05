@@ -104,11 +104,7 @@ module.exports = async function (message, client, Discord) {
             referenceUser = await client.users.fetch(data.user);
         } catch {}
 
-        if(referenceUser) {
-            replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? `@${referenceUser.username}` : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });
-            await assignRoles(referenceUser, client, replyEmbed);
-        }
-
+        if(referenceUser) replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? `@${referenceUser.username}` : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });;
         if(data.content) replyEmbed.setDescription(data.content);
         if(data.attachment) replyEmbed.setImage(data.attachment);
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));

@@ -1,4 +1,3 @@
-const assignRoles = require("../../util/roles/assign");
 const emoji = require("../../config.json").emojis;
 
 const devSchema = require("../../models/devSchema");
@@ -100,10 +99,7 @@ module.exports = {
                 const message = new Discord.EmbedBuilder()
                     .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
 
-                if(user) {
-                    message.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
-                    await assignRoles(user, client, message);
-                }
+                if(user) message.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
 
                 if(data.content) messageEmbed.setDescription(data.content);
                 if(data.attachment) messageEmbed.setImage(data.attachment);
