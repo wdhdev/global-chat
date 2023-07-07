@@ -12,7 +12,7 @@ const rest = new REST({ version: "9" }).setToken(process.env.token);
     // Push Slash Commands
     await pushCommandsRoot();
     (await getDirs("./src/commands")).forEach(dir => pushCommandsDir(dir));
-    
+
     // Push Context Menu Commands
     await pushContextMenuRoot();
     (await getDirs("./src/context-menu")).forEach(dir => pushContextMenuDir(dir));
