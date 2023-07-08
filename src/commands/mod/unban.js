@@ -27,6 +27,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
@@ -40,7 +41,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} ${user} is not banned!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 

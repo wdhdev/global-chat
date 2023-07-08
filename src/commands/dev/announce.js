@@ -1,24 +1,20 @@
-const announce = require("../../util/announcement");
+const announce = require("../../util/announce");
 const emoji = require("../../config.json").emojis;
 
-const devSchema = require("../../models/devSchema");
-
 module.exports = {
-    name: "create-announcement",
-    startsWith: false,
-    async execute(interaction, client, Discord) {
+	name: "announce",
+	description: "[DEVELOPER ONLY] Make an announcement.",
+    options: [],
+    default_member_permissions: null,
+    botPermissions: [],
+    requiredRoles: ["dev"],
+    cooldown: 60,
+    enabled: true,
+    hidden: true,
+    deferReply: false,
+    ephemeral: true,
+	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-
-            if(!dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
                 .setTitle("Create Announcement")
@@ -49,13 +45,11 @@ module.exports = {
                         .setColor(client.config_embeds.default)
                         .setDescription(`${emoji.tick} The announcement has been sent!`)
 
-                    await interaction.message.edit({ embeds: [sent], components: [], ephemeral: true });
-
-                    await i.deferUpdate();
+                    await i.reply({ embeds: [sent], components: [], ephemeral: true });
                 }
             })
         } catch(err) {
-            client.logButtonError(err, interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

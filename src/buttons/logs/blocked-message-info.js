@@ -5,6 +5,7 @@ const blockedSchema = require("../../models/blockedSchema");
 module.exports = {
     name: "blocked-message-info",
     startsWith: true,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
             const id = interaction.customId.replace("blocked-message-info-", "");

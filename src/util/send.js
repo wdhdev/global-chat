@@ -157,7 +157,6 @@ module.exports = async function (message, client, Discord) {
                     const chatChannel = client.channels.cache.get(data.channel);
 
                     if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
-
                     if(!chatChannel) return resolve();
 
                     try {

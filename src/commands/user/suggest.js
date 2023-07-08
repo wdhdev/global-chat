@@ -18,6 +18,7 @@ module.exports = {
     cooldown: 60,
     enabled: true,
     hidden: false,
+    deferReply: true,
     ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
@@ -55,7 +56,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} An error occurred while submitting the suggestion.`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -63,7 +64,7 @@ module.exports = {
                 .setColor(client.config_embeds.default)
                 .setDescription(`${emoji.tick} Your suggestion has been sent.`)
 
-            await interaction.editReply({ embeds: [submitted], ephemeral: true });
+            await interaction.editReply({ embeds: [submitted] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }

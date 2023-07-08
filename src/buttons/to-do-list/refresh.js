@@ -3,6 +3,7 @@ const todoSchema = require("../../models/todoSchema");
 module.exports = {
     name: "refresh-todo-list",
     startsWith: false,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         const data = await todoSchema.find();
 

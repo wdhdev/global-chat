@@ -1,26 +1,9 @@
-const emoji = require("../../config.json").emojis;
-
-const devSchema = require("../../models/devSchema");
-
 module.exports = {
     name: "suggestion-deny",
     startsWith: false,
+    requiredRoles: ["dev"],
     async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-
-            check:
-            if(dev) {
-                break check;
-            } else {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
                 .setTitle("Deny Suggestion")

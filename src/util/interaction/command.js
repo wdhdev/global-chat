@@ -72,7 +72,7 @@ module.exports = async (client, Discord, interaction) => {
             }
         }
 
-        command.ephemeral ? await interaction.deferReply({ ephemeral: true }) : await interaction.deferReply();
+        command.deferReply ? command.ephemeral ? await interaction.deferReply({ ephemeral: true }) : await interaction.deferReply() : null;
 
         if(interaction.user.id === client.config_default.owner) {
             try {

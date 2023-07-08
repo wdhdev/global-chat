@@ -5,7 +5,6 @@ module.exports = async function (text, interaction, client, Discord) {
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
     const msg = new Discord.EmbedBuilder()
-        .setColor(client.config_embeds.default)
         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
         .setTitle("Announcement")
         .setDescription(`${text}`)
@@ -25,7 +24,7 @@ module.exports = async function (text, interaction, client, Discord) {
                 const chatChannel = client.channels.cache.get(data.channel);
 
                 if(!guild.members.me.permissions.has(requiredPerms)) return;
-                if(!chatChannel) return await data.delete();
+                if(!chatChannel) return;
 
                 if(data.webhook) {
                     if(!await checkWebhook(data.webhook)) {

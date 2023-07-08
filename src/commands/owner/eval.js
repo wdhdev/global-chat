@@ -18,6 +18,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
@@ -39,7 +40,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} You cannot retrieve secret values!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -50,7 +51,7 @@ module.exports = {
                         { name: "Output", value: `\`\`\`${output}\`\`\`` }
                     )
 
-                await interaction.editReply({ embeds: [result], ephemeral: true });
+                await interaction.editReply({ embeds: [result] });
             } catch(err) {
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
@@ -59,7 +60,7 @@ module.exports = {
                         { name: "Output", value: `\`\`\`${err.message}\`\`\`` }
                     )
 
-                await interaction.editReply({ embeds: [result], ephemeral: true });
+                await interaction.editReply({ embeds: [result] });
             }
         } catch(err) {
             client.logCommandError(err, interaction, Discord);

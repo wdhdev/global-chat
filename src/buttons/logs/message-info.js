@@ -5,6 +5,7 @@ const messageSchema = require("../../models/messageSchema");
 module.exports = {
     name: "message-info",
     startsWith: true,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
             const id = interaction.customId.replace("message-info-", "");
@@ -31,7 +32,7 @@ module.exports = {
 
             if(!interaction.message.components[0].components[1].data.disabled) {
                 info.addFields (
-                    { name: "📤 Sent Messages", value: `Sent to ${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}.` }
+                    { name: "📤 Sent To", value: `${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}` }
                 )
             }
 

@@ -5,6 +5,7 @@ const appealSchema = require("../../models/appealSchema");
 module.exports = {
     name: "check-appeal",
     startsWith: false,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
             const modal = new Discord.ModalBuilder()

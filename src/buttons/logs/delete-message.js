@@ -1,26 +1,13 @@
 const emoji = require("../../config.json").emojis;
 
-const devSchema = require("../../models/devSchema");
 const messageSchema = require("../../models/messageSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
     name: "delete-message",
     startsWith: true,
+    requiredRoles: ["mod"],
     async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             const id = interaction.customId.replace("delete-message-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 

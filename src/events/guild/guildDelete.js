@@ -4,7 +4,6 @@ const channelSchema = require("../../models/channelSchema");
 
 module.exports = {
 	name: "guildDelete",
-    ephemeral: false,
 	async execute(client, Discord, guild) {
         try {
             if(await channelSchema.exists({ _id: guild.id })) {

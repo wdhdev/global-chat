@@ -1,23 +1,10 @@
-const emoji = require("../../config.json").emojis;
 const fetch = require("node-fetch");
-
-const devSchema = require("../../models/devSchema");
 
 module.exports = {
     name: "sentry-ignore",
     startsWith: true,
+    requiredRoles: ["dev"],
     async execute(interaction, client, Discord) {
-        const dev = await devSchema.exists({ _id: interaction.user.id });
-
-        if(!dev) {
-            const error = new Discord.EmbedBuilder()
-                .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
-
-            await interaction.reply({ embeds: [error], ephemeral: true });
-            return;
-        }
-
         const id = interaction.customId.replace("sentry-ignore-", "");
 
         try {

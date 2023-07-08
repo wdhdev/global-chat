@@ -12,6 +12,7 @@ module.exports = {
     cooldown: 5,
     enabled: true,
     hidden: false,
+    deferReply: true,
     ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
@@ -28,7 +29,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There are no moderators!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 

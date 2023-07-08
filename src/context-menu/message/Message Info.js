@@ -50,7 +50,7 @@ module.exports = {
                     { name: "💬 Message ID", value: `${data._id}` },
                     { name: "👤 User ID", value: `${data.user}` },
                     { name: "🗄️ Guild ID", value: `${data.guild}` },
-                    { name: "📤 Sent Messages", value: `Sent to ${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}.` }
+                    { name: "📤 Sent To", value: `${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}` }
                 )
 
             await interaction.editReply({ embeds: [info], ephemeral: true });

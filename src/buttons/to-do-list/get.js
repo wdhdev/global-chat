@@ -5,6 +5,7 @@ const todoSchema = require("../../models/todoSchema");
 module.exports = {
     name: "get-todo",
     startsWith: false,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         const data = await todoSchema.find();
 

@@ -40,6 +40,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
@@ -52,7 +53,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} You cannot make a bot immune!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -61,7 +62,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already immune!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -92,7 +93,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not immune!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 

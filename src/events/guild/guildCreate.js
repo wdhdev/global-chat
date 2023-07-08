@@ -1,6 +1,5 @@
 module.exports = {
 	name: "guildCreate",
-    ephemeral: false,
 	async execute(client, Discord, guild) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);

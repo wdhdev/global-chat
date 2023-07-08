@@ -1,6 +1,7 @@
 module.exports = {
     name: "announcement",
     startsWith: false,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
             const info = new Discord.EmbedBuilder()

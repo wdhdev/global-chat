@@ -65,6 +65,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
@@ -88,9 +89,7 @@ module.exports = {
                 const tokens = [];
 
                 for(const token of data) {
-                    const segments = token._id.split("-");
-
-                    tokens.push(`\`${segments[0] + "-" + segments.slice(1).map(segment => "*".repeat(segment.length)).join("-")}\``);
+                    tokens.push(`\`${token._id}\``);
                 }
 
                 if(!tokens.length) {
@@ -98,7 +97,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} There are no tokens!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -106,16 +105,8 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .setTitle("🔑 Tokens")
                     .setDescription(tokens.join("\n"))
-
-                const actions = new Discord.ActionRowBuilder()
-                    .addComponents (
-                        new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Danger)
-                            .setCustomId("sentry-reveal-capture-tokens")
-                            .setLabel("Reveal Tokens")
-                    )
     
-                await interaction.editReply({ embeds: [tokenInfo], components: [actions] });
+                await interaction.editReply({ embeds: [tokenInfo] });
                 return;
             }
 
@@ -125,9 +116,9 @@ module.exports = {
                 if(!await sentrySchema.exists({ _id: token })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} That capture URL does not exist!`)
+                        .setDescription(`${emoji.cross} That capture token does not exist!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -135,7 +126,7 @@ module.exports = {
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.tick} That capture URL has been deleted!`)
+                    .setDescription(`${emoji.tick} That capture token has been deleted!`)
 
                 await interaction.editReply({ embeds: [deleted] });
                 return;
@@ -153,7 +144,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} There are no unresolved issues!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -186,17 +177,13 @@ module.exports = {
 
                 const registered = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.tick} A new capture URL has been registered!`)
-
-                const actions = new Discord.ActionRowBuilder()
-                    .addComponents (
-                        new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Secondary)
-                            .setCustomId(`sentry-capture-token-${id}`)
-                            .setEmoji("ℹ️")
+                    .setTitle("New Capture Token")
+                    .addFields (
+                        { name: "🔑 Token", value: id },
+                        { name: "🔗 URL", value: `https://gc-sentry-api.wdh.gg/${id}` }
                     )
 
-                await interaction.editReply({ embeds: [registered], components: [actions] });
+                await interaction.editReply({ embeds: [registered] });
                 return;
             }
         } catch(err) {

@@ -1,31 +1,15 @@
 const emoji = require("../../config.json").emojis;
 
 const appealSchema = require("../../models/appealSchema");
-const devSchema = require("../../models/devSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
     name: "appeal-deny",
     startsWith: true,
+    requiredRoles: ["mod"],
     async execute(interaction, client, Discord) {
         try {
             const id = interaction.customId.replace("appeal-deny-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
-
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
-
-            check:
-            if(mod || dev) {
-                break check;
-            } else {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
 
             const data = await appealSchema.findOne({ _id: id });
 

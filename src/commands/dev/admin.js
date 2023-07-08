@@ -1,6 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
 const devSchema = require("../../models/devSchema");
+const immuneSchema = require("../../models/immuneSchema");
 const modSchema = require("../../models/modSchema");
 const todoSchema = require("../../models/todoSchema");
 const verifiedSchema = require("../../models/verifiedSchema");
@@ -42,6 +43,13 @@ module.exports = {
                     ]
                 }
             ]
+        },
+
+        {
+            type: 1,
+            name: "immune",
+            description: "[DEVELOPER ONLY] Get a list of all the immune users.",
+            options: []
         },
 
         {
@@ -150,6 +158,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
@@ -163,7 +172,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -173,7 +182,7 @@ module.exports = {
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} You cannot make a bot a developer!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        await interaction.editReply({ embeds: [error] });
                         return;
                     }
 
@@ -182,7 +191,7 @@ module.exports = {
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is already a developer!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        await interaction.editReply({ embeds: [error] });
                         return;
                     }
 
@@ -214,7 +223,7 @@ module.exports = {
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is not a developer!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        await interaction.editReply({ embeds: [error] });
                         return;
                     }
 
@@ -243,6 +252,33 @@ module.exports = {
                 return;
             }
 
+            if(interaction.options.getSubcommand() === "immune") {
+                const immune = await immuneSchema.find();
+
+                const users = [];
+
+                for(const user of immune) {
+                    users.push(user._id);
+                }
+
+                if(!users.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.cross} There are no immune users!`)
+
+                    await interaction.editReply({ embeds: [error] });
+                    return;
+                }
+
+                const immuneUsers = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                	.setTitle("🚫 Immune Users")
+                    .setDescription(`<@${users.join(">, <@")}>`)
+
+                await interaction.editReply({ embeds: [immuneUsers] });
+                return;
+            }
+
             if(interaction.options.getSubcommandGroup() === "mod") {
                 const user = interaction.options.getUser("user");
 
@@ -252,7 +288,7 @@ module.exports = {
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} You cannot make a bot a moderator!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        await interaction.editReply({ embeds: [error] });
                         return;
                     }
 
@@ -261,7 +297,7 @@ module.exports = {
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is already a moderator!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        await interaction.editReply({ embeds: [error] });
                         return;
                     }
 
@@ -293,7 +329,7 @@ module.exports = {
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is not a moderator!`)
 
-                        await interaction.editReply({ embeds: [error], ephemeral: true });
+                        await interaction.editReply({ embeds: [error] });
                         return;
                     }
 
@@ -363,7 +399,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} The appeal menu could not be sent.`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -439,7 +475,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} The list could not be sent.`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -454,7 +490,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not verified!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -494,7 +530,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} There are no verified users!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -515,7 +551,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} You cannot verify bots!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -524,7 +560,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already verified!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 

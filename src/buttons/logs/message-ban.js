@@ -1,27 +1,14 @@
 const emoji = require("../../config.json").emojis;
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
-const devSchema = require("../../models/devSchema");
 const immuneSchema = require("../../models/immuneSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
     name: "message-ban",
     startsWith: true,
+    requiredRoles: ["mod"],
     async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             const id = interaction.customId.replace("message-ban-", "");
 
             if(id === interaction.user.id) {
@@ -33,7 +20,7 @@ module.exports = {
                 return;
             }
 
-            if(await immuneSchema.exists({ _id: user.id })) {
+            if(await immuneSchema.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You cannot ban that user!`)

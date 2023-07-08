@@ -6,6 +6,7 @@ const bannedUserSchema = require("../../models/bannedUserSchema");
 module.exports = {
     name: "submit-appeal",
     startsWith: false,
+    requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
             if(!await bannedUserSchema.exists({ _id: interaction.user.id })) {

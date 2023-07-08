@@ -16,6 +16,7 @@ module.exports = {
     cooldown: 5,
     enabled: true,
     hidden: false,
+    deferReply: true,
     ephemeral: true,
     async execute(interaction, client, Discord) {
         try {

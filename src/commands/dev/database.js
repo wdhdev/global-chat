@@ -51,6 +51,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
@@ -72,7 +73,7 @@ module.exports = {
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
 
-                    await interaction.editReply({ embeds: [result], ephemeral: true });
+                    await interaction.editReply({ embeds: [result] });
 
                     if(res.removed.length) {
                         result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
@@ -98,7 +99,7 @@ module.exports = {
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
 
-                    await interaction.editReply({ embeds: [result], ephemeral: true });
+                    await interaction.editReply({ embeds: [result] });
 
                     if(res.modified.length || res.removed.length) {
                         result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
@@ -124,7 +125,7 @@ module.exports = {
                             { name: "🗑️ Removed Documents", value: res.removed.length ? `\`\`\`${res.removed.join("\n")}\`\`\`` : "*None*" }
                         )
 
-                    await interaction.editReply({ embeds: [result], ephemeral: true });
+                    await interaction.editReply({ embeds: [result] });
 
                     if(res.removed.length) {
                         result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });

@@ -4,7 +4,6 @@ const contextCommandHandler = require("../../util/interaction/context-menu");
 
 module.exports = {
 	name: "interactionCreate",
-    ephemeral: false,
 	async execute(client, Discord, interaction) {
         try {
             const requiredPerms = ["SendMessages", "EmbedLinks"];

@@ -111,6 +111,7 @@ module.exports = {
     cooldown: 0,
     enabled: true,
     hidden: true,
+    deferReply: true,
     ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
@@ -125,7 +126,7 @@ module.exports = {
                                 .setColor(client.config_embeds.error)
                                 .setDescription(`${emoji.cross} That word is already on the filter!`)
 
-                            await interaction.editReply({ embeds: [error], ephemeral: true });
+                            await interaction.editReply({ embeds: [error] });
                             return;
                         }
 
@@ -169,7 +170,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} There are no words on the filter!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -193,7 +194,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} I could not DM you!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -216,7 +217,7 @@ module.exports = {
                                 .setColor(client.config_embeds.error)
                                 .setDescription(`${emoji.cross} That word is not on the filter!`)
 
-                            await interaction.editReply({ embeds: [error], ephemeral: true });
+                            await interaction.editReply({ embeds: [error] });
                             return;
                         }
 
