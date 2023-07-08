@@ -41,7 +41,7 @@ module.exports = {
             const immune = await immuneSchema.exists({ _id: user.id });
 
             // Banned
-            const banned = false;
+            let banned = false;
 
             const banInfo = await bannedUserSchema.findOne({ _id: user.id });
 
