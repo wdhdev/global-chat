@@ -17,9 +17,11 @@ module.exports = {
     ],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: ["ManageMessages", "ManageWebhooks"],
-    cooldown: 60,
+    requiredRoles: [],
+    cooldown: 120,
     enabled: true,
     hidden: false,
+    ephemeral: false,
     async execute(interaction, client, Discord) {
         try {
             const channel = interaction.options.getChannel("channel");
@@ -40,7 +42,7 @@ module.exports = {
 
                 const registerChannel = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} The global chat channel has been set to: ${channel}`)
+                    .setDescription(`${emoji.tick} The global chat channel has been set to: ${channel}`)
 
                 await interaction.editReply({ embeds: [registerChannel] });
 
@@ -62,7 +64,7 @@ module.exports = {
 
             const channelChanged = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.successful} The global chat channel has been changed to: ${channel}`)
+                .setDescription(`${emoji.tick} The global chat channel has been changed to: ${channel}`)
 
             await interaction.editReply({ embeds: [channelChanged] });
 

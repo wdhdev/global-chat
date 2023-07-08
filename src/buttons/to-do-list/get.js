@@ -24,7 +24,7 @@ module.exports = {
         if(!data.length) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} There are no tasks!`)
+                .setDescription(`${emoji.cross} There are no tasks!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -58,7 +58,7 @@ module.exports = {
                 if(!todo) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} That task does not exist!`)
+                        .setDescription(`${emoji.cross} That task does not exist!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;

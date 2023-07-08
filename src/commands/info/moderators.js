@@ -8,9 +8,11 @@ module.exports = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 0,
+    requiredRoles: [],
+    cooldown: 5,
     enabled: true,
-    hidden: true,
+    hidden: false,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
             const mods = await modSchema.find();
@@ -24,7 +26,7 @@ module.exports = {
             if(!users.length) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} There are no moderators!`)
+                    .setDescription(`${emoji.cross} There are no moderators!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;

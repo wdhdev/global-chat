@@ -8,9 +8,11 @@ module.exports = {
     options: [],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
-    cooldown: 60,
+    requiredRoles: [],
+    cooldown: 20,
     enabled: true,
     hidden: false,
+    ephemeral: false,
     async execute(interaction, client, Discord) {
         try {
             const permissions = {

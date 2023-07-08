@@ -28,10 +28,6 @@ module.exports = async function(message, client, Discord) {
             mod: client.user.id
         }).save()
 
-        await devSchema.findOneAndDelete({ _id: message.author.id });
-        await modSchema.findOneAndDelete({ _id: message.author.id });
-        await verifiedSchema.findOneAndDelete({ _id: message.author.id });
-
         const blocked = new Discord.EmbedBuilder()
             .setTitle("⛔ Message Blocked")
             .setDescription(`${message.content}`)

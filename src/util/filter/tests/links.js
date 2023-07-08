@@ -1,5 +1,5 @@
 module.exports = async function(message, client, Discord) {
-    const role = await require("../../roles/get")(message.author, client);
+    const role = await require("../../roles/get")(message.author.id, client);
 
     const blockedSchema = require("../../../models/blockedSchema");
 

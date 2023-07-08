@@ -146,22 +146,14 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["dev"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
-
-            if(!dev && interaction.user.id !== client.config_default.owner) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
 
             if(interaction.options.getSubcommandGroup() === "dev") {
                 const user = interaction.options.getUser("user");
@@ -169,7 +161,7 @@ module.exports = {
                 if(interaction.user.id !== client.config_default.owner) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} You do not have permission to run this command!`)
+                        .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -179,7 +171,7 @@ module.exports = {
                     if(user.bot) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} You cannot make a bot a developer!`)
+                            .setDescription(`${emoji.cross} You cannot make a bot a developer!`)
 
                         await interaction.editReply({ embeds: [error], ephemeral: true });
                         return;
@@ -188,7 +180,7 @@ module.exports = {
                     if(await devSchema.exists({ _id: user.id })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is already a developer!`)
+                            .setDescription(`${emoji.cross} ${user} is already a developer!`)
 
                         await interaction.editReply({ embeds: [error], ephemeral: true });
                         return;
@@ -198,7 +190,7 @@ module.exports = {
 
                     const added = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} ${user} has been added to the developer role.`)
+                        .setDescription(`${emoji.tick} ${user} has been added to the developer role.`)
 
                     await interaction.editReply({ embeds: [added] });
 
@@ -220,7 +212,7 @@ module.exports = {
                     if(!await devSchema.exists({ _id: user.id })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is not a developer!`)
+                            .setDescription(`${emoji.cross} ${user} is not a developer!`)
 
                         await interaction.editReply({ embeds: [error], ephemeral: true });
                         return;
@@ -230,7 +222,7 @@ module.exports = {
 
                     const removed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} ${user} has been removed from the developer role.`)
+                        .setDescription(`${emoji.tick} ${user} has been removed from the developer role.`)
 
                     await interaction.editReply({ embeds: [removed] });
 
@@ -258,7 +250,7 @@ module.exports = {
                     if(user.bot) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} You cannot make a bot a moderator!`)
+                            .setDescription(`${emoji.cross} You cannot make a bot a moderator!`)
 
                         await interaction.editReply({ embeds: [error], ephemeral: true });
                         return;
@@ -267,7 +259,7 @@ module.exports = {
                     if(await modSchema.exists({ _id: user.id })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is already a moderator!`)
+                            .setDescription(`${emoji.cross} ${user} is already a moderator!`)
 
                         await interaction.editReply({ embeds: [error], ephemeral: true });
                         return;
@@ -277,7 +269,7 @@ module.exports = {
 
                     const added = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} ${user} has been added to the moderator role.`)
+                        .setDescription(`${emoji.tick} ${user} has been added to the moderator role.`)
 
                     await interaction.editReply({ embeds: [added] });
 
@@ -299,7 +291,7 @@ module.exports = {
                     if(!await modSchema.exists({ _id: user.id })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} ${user} is not a moderator!`)
+                            .setDescription(`${emoji.cross} ${user} is not a moderator!`)
 
                         await interaction.editReply({ embeds: [error], ephemeral: true });
                         return;
@@ -309,7 +301,7 @@ module.exports = {
 
                     const removed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} ${user} has been removed from the moderator role.`)
+                        .setDescription(`${emoji.tick} ${user} has been removed from the moderator role.`)
 
                     await interaction.editReply({ embeds: [removed] });
 
@@ -361,7 +353,7 @@ module.exports = {
 
                     const sent = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The appeal menu has been sent.`)
+                        .setDescription(`${emoji.tick} The appeal menu has been sent.`)
 
                     await interaction.editReply({ embeds: [sent] });
                 } catch(err) {
@@ -369,7 +361,7 @@ module.exports = {
 
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} The appeal menu could not be sent.`)
+                        .setDescription(`${emoji.cross} The appeal menu could not be sent.`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -437,7 +429,7 @@ module.exports = {
 
                     const sent = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The list has been sent.`)
+                        .setDescription(`${emoji.tick} The list has been sent.`)
 
                     await interaction.editReply({ embeds: [sent] });
                 } catch(err) {
@@ -445,7 +437,7 @@ module.exports = {
 
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} The list could not be sent.`)
+                        .setDescription(`${emoji.cross} The list could not be sent.`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -460,7 +452,7 @@ module.exports = {
                 if(!await verifiedSchema.exists({ _id: user.id })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} ${user} is not verified!`)
+                        .setDescription(`${emoji.cross} ${user} is not verified!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -470,7 +462,7 @@ module.exports = {
 
                 const unverified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} ${user} has been unverified!`)
+                    .setDescription(`${emoji.tick} ${user} has been unverified!`)
 
                 await interaction.editReply({ embeds: [unverified] });
 
@@ -500,7 +492,7 @@ module.exports = {
                 if(!users.length) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no verified users!`)
+                        .setDescription(`${emoji.cross} There are no verified users!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -521,7 +513,7 @@ module.exports = {
                 if(user.bot) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} You cannot verify bots!`)
+                        .setDescription(`${emoji.cross} You cannot verify bots!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -530,7 +522,7 @@ module.exports = {
                 if(await verifiedSchema.exists({ _id: user.id })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} ${user} is already verified!`)
+                        .setDescription(`${emoji.cross} ${user} is already verified!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -540,7 +532,7 @@ module.exports = {
 
                 const verified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} ${user} has been verified.`)
+                    .setDescription(`${emoji.tick} ${user} has been verified.`)
 
                 await interaction.editReply({ embeds: [verified] });
 

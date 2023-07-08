@@ -35,7 +35,7 @@ module.exports = {
                     if(!await appealSchema.exists({ _id: id })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} That appeal does not exist!`)
+                            .setDescription(`${emoji.cross} That appeal does not exist!`)
 
                         await i.reply({ embeds: [error], ephemeral: true });
                         return;
@@ -46,7 +46,7 @@ module.exports = {
                     if(data.id !== interaction.user.id) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.error} That appeal is not for your account!`)
+                            .setDescription(`${emoji.cross} That appeal is not for your account!`)
 
                         await i.reply({ embeds: [error], ephemeral: true });
                         return;

@@ -2,8 +2,8 @@ const emoji = require("../../config.json").emojis;
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
 const devSchema = require("../../models/devSchema");
+const immuneSchema = require("../../models/immuneSchema");
 const modSchema = require("../../models/modSchema");
-const verifiedSchema = require("../../models/verifiedSchema");
 
 module.exports = {
     name: "message-ban",
@@ -16,7 +16,7 @@ module.exports = {
             if(!mod && !dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
+                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -27,16 +27,16 @@ module.exports = {
             if(id === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You cannot ban yourself!`)
+                    .setDescription(`${emoji.cross} You cannot ban yourself!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
 
-            if(id === client.config_default.owner) {
+            if(await immuneSchema.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You cannot ban that user!`)
+                    .setDescription(`${emoji.cross} You cannot ban that user!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
 
@@ -49,7 +49,7 @@ module.exports = {
             if(await bannedUserSchema.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} That user is already banned!`)
+                    .setDescription(`${emoji.cross} That user is already banned!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
 
@@ -120,10 +120,6 @@ module.exports = {
                                 mod: interaction.user.id
                             }).save()
 
-                            await devSchema.findOneAndDelete({ _id: id });
-                            await modSchema.findOneAndDelete({ _id: id });
-                            await verifiedSchema.findOneAndDelete({ _id: id });
-
                             const ban = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.error)
                                 .setTitle("Banned")
@@ -163,7 +159,7 @@ module.exports = {
 
                             const banned = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.default)
-                                .setDescription(`${emoji.successful} ${user} has been banned.`)
+                                .setDescription(`${emoji.tick} ${user} has been banned.`)
 
                             await i.editReply({ embeds: [banned], components: [] });
 

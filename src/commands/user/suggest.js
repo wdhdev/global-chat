@@ -14,9 +14,11 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 120,
+    requiredRoles: [],
+    cooldown: 60,
     enabled: true,
     hidden: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
         	const text = interaction.options.getString("text");
@@ -51,7 +53,7 @@ module.exports = {
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} An error occurred while submitting the suggestion.`)
+                    .setDescription(`${emoji.cross} An error occurred while submitting the suggestion.`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -59,7 +61,7 @@ module.exports = {
 
             const submitted = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.successful} Your suggestion has been sent.`)
+                .setDescription(`${emoji.tick} Your suggestion has been sent.`)
 
             await interaction.editReply({ embeds: [submitted], ephemeral: true });
         } catch(err) {

@@ -15,9 +15,10 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 10,
+    requiredRoles: [],
+    cooldown: 5,
     enabled: true,
-    hidden: false,
+    ephemeral: true,
     async execute(interaction, client, Discord) {
         try {
             const cmd = interaction.options.getString("command");

@@ -13,7 +13,7 @@ module.exports = {
             if(!dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
+                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -47,7 +47,7 @@ module.exports = {
 
                     const sent = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.successful} The announcement has been sent!`)
+                        .setDescription(`${emoji.tick} The announcement has been sent!`)
 
                     await interaction.message.edit({ embeds: [sent], components: [], ephemeral: true });
 

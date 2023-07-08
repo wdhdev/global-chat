@@ -3,6 +3,7 @@ const send = require("../../util/send");
 
 module.exports = {
 	name: "messageCreate",
+    ephemeral: false,
 	async execute(client, Discord, message) {
         try {
             const requiredPerms = ["SendMessages", "EmbedLinks", "ManageMessages"];

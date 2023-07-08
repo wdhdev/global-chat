@@ -8,9 +8,11 @@ module.exports = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["dev"],
     cooldown: 60,
     enabled: true,
     hidden: true,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const dev = await devSchema.exists({ _id: interaction.user.id });
@@ -18,7 +20,7 @@ module.exports = {
             if(!dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
+                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;

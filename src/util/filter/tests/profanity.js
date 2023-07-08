@@ -56,10 +56,6 @@ module.exports = async function(message, client, Discord) {
                 mod: client.user.id
             }).save()
 
-            await devSchema.findOneAndDelete({ _id: message.author.id });
-            await modSchema.findOneAndDelete({ _id: message.author.id });
-            await verifiedSchema.findOneAndDelete({ _id: message.author.id });
-
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
                 .setTitle("Banned")

@@ -7,7 +7,9 @@ const modSchema = require("../../models/modSchema");
 module.exports = {
 	name: "Message Info",
     type: 3,
+    default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: [],
     cooldown: 3,
     enabled: true,
     hidden: false,
@@ -18,7 +20,7 @@ module.exports = {
             if(!await messageSchema.exists({ messages: message.url })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} No message was found with that ID!`)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -33,7 +35,7 @@ module.exports = {
                 const info = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .addFields (
-                        { name: "🕰️ Timestamp", value: `<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}>` },
+                        { name: "🕰️ Timestamp", value: `<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}> (<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}:R>)` },
                         { name: "👤 User ID", value: `${data.user}` }
                     )
 

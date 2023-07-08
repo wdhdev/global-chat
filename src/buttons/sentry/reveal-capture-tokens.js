@@ -12,7 +12,7 @@ module.exports = {
         if(!dev) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} You do not have permission to perform this action!`)
+                .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -29,7 +29,7 @@ module.exports = {
         if(!tokens.length) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} There are no tokens!`)
+                .setDescription(`${emoji.cross} There are no tokens!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;

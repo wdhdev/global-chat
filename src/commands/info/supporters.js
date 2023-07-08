@@ -6,9 +6,11 @@ module.exports = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 0,
+    requiredRoles: [],
+    cooldown: 5,
     enabled: true,
-    hidden: true,
+    hidden: false,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
             const guild = await client.guilds.fetch(client.config_default.guild);
@@ -24,7 +26,7 @@ module.exports = {
             if(!users.length) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} There are no supporters!`)
+                    .setDescription(`${emoji.cross} There are no supporters!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;

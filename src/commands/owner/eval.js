@@ -14,20 +14,13 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["owner"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
-            if(interaction.user.id !== client.config_default.owner) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             const input = interaction.options.getString("code");
 
             async function isSecret(input) {
@@ -44,7 +37,7 @@ module.exports = {
                 if(await isSecret(output)) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} You cannot retrieve secret values!`)
+                        .setDescription(`${emoji.cross} You cannot retrieve secret values!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;

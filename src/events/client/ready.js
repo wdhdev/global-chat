@@ -1,6 +1,7 @@
 module.exports = {
 	name: "ready",
 	once: true,
+    ephemeral: false,
 	async execute(client, Discord) {
         try {
 			// Login Message

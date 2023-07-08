@@ -22,7 +22,7 @@ module.exports = {
             } else {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to perform this action!`)
+                    .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -33,7 +33,7 @@ module.exports = {
             if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} This appeal does not exist!`)
+                    .setDescription(`${emoji.cross} This appeal does not exist!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -42,7 +42,7 @@ module.exports = {
             if(data.id === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You cannot manage your own appeal!`)
+                    .setDescription(`${emoji.cross} You cannot manage your own appeal!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -51,7 +51,7 @@ module.exports = {
             if(data.status !== "NOT_REVIEWED") {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} This appeal has already had a response!`)
+                    .setDescription(`${emoji.cross} This appeal has already had a response!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;

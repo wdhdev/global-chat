@@ -1,11 +1,9 @@
-const emoji = require("../../config.json").emojis;
 const getRoles = require("../../util/roles/get");
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
 const blockedSchema = require("../../models/blockedSchema");
-const devSchema = require("../../models/devSchema");
+const immuneSchema = require("../../models/immuneSchema");
 const messageSchema = require("../../models/messageSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
     name: "user",
@@ -20,6 +18,7 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["mod"],
     cooldown: 0,
     enabled: true,
     hidden: true,
@@ -27,36 +26,28 @@ module.exports = {
         try {
             const user = interaction.options.getUser("user");
 
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
+            // Roles
+            const role = await getRoles(user.id, client);
 
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
+            const roles = [];
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
+            if(role.owner) roles.push("👑 Owner");
+            if(role.dev) roles.push("💻 Developer");
+            if(role.mod) roles.push("🔨 Moderator");
+            if(role.verified) roles.push("✅ Verified");
+            if(role.supporter) roles.push("💖 Supporter");
+
+            // Immunity
+            const immune = await immuneSchema.exists({ _id: user.id });
 
             // Banned
-            let banned = false;
+            const banned = false;
 
             const banInfo = await bannedUserSchema.findOne({ _id: user.id });
 
             if(banInfo) banned = true;
 
             const banData = `${banned ? "" : "❌"}\n${banned && banInfo.timestamp ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}>` : ""}\n${banned ? `📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `🔨 <@${banInfo.mod}>` : ""}`;
-
-            // Roles
-            const role = await getRoles(user, client);
-
-            const roles = [];
-
-            if(role.dev) roles.push("💻 Developer");
-            if(role.mod) roles.push("🔨 Moderator");
-            if(role.verified) roles.push("✅ Verified");
-            if(role.supporter) roles.push("💖 Supporter");
 
             // Stats
             const blocked = (await blockedSchema.find({ user: user.id })).length;
@@ -75,6 +66,7 @@ module.exports = {
                 .setTitle("User Information")
                 .addFields (
                     { name: "Roles", value: roles.join("\n") || "*None*" },
+                    { name: "Immunity", value: immune ? "✅" : "❌" },
                     { name: "Banned", value: banData },
                     { name: "Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}` }
                 )

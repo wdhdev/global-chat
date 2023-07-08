@@ -12,7 +12,7 @@ module.exports = {
         if(!dev) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} You do not have permission to perform this action!`)
+                .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -23,7 +23,7 @@ module.exports = {
         if(todoData.length >= 25) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} There cannot be more than 25 tasks!`)
+                .setDescription(`${emoji.cross} There cannot be more than 25 tasks!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -118,7 +118,7 @@ module.exports = {
 
                         const added = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} The task has been added to the list.`)
+                            .setDescription(`${emoji.tick} The task has been added to the list.`)
 
                         await i.editReply({ embeds: [added], components: [], ephemeral: true });
 

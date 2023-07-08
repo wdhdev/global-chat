@@ -5,8 +5,10 @@ const messageSchema = require("../../models/messageSchema");
 module.exports = {
 	name: "Report Message",
     type: 3,
+    default_member_permissions: null,
     botPermissions: [],
-    cooldown: 30,
+    requiredRoles: [],
+    cooldown: 10,
     enabled: true,
     hidden: false,
 	async execute(interaction, client, Discord) {
@@ -16,7 +18,7 @@ module.exports = {
             if(!await messageSchema.exists({ messages: message.url })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} No message was found with that ID!`)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -28,7 +30,7 @@ module.exports = {
             if(data.user === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You can't report yourself!`)
+                    .setDescription(`${emoji.cross} You can't report yourself!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -80,7 +82,7 @@ module.exports = {
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} An error occurred while submitting the report.`)
+                    .setDescription(`${emoji.cross} An error occurred while submitting the report.`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -88,7 +90,7 @@ module.exports = {
 
             const submitted = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.successful} Your report has been submitted.`)
+                .setDescription(`${emoji.tick} Your report has been submitted.`)
 
             await interaction.editReply({ embeds: [submitted], ephemeral: true });
         } catch(err) {

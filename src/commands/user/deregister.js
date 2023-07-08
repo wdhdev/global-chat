@@ -9,9 +9,11 @@ module.exports = {
     options: [],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
+    requiredRoles: [],
     cooldown: 60,
     enabled: true,
     hidden: false,
+    ephemeral: false,
     async execute(interaction, client, Discord) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
@@ -20,7 +22,7 @@ module.exports = {
 
             const deregistered = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.successful} The global chat channel has been deregistered.`)
+                .setDescription(`${emoji.tick} The global chat channel has been deregistered.`)
 
             await interaction.editReply({ embeds: [deregistered] });
 

@@ -11,7 +11,7 @@ module.exports = {
             if(!await bannedUserSchema.exists({ _id: interaction.user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You are not banned!`)
+                    .setDescription(`${emoji.cross} You are not banned!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -20,7 +20,7 @@ module.exports = {
             if(await bannedUserSchema.exists({ _id: interaction.user.id, allowAppeal: false }) || await appealSchema.exists({ id: interaction.user.id, status: "DENIED" })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You are allowed to submit an appeal!`)
+                    .setDescription(`${emoji.cross} You are allowed to submit an appeal!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -29,7 +29,7 @@ module.exports = {
             if(await appealSchema.exists({ id: interaction.user.id, status: "NOT_REVIEWED" })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You already have created an appeal!`)
+                    .setDescription(`${emoji.cross} You already have created an appeal!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -113,7 +113,7 @@ module.exports = {
                     const created = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setTitle("Appeal Created")
-                        .setDescription(`${emoji.successful} Your appeal has been created.`)
+                        .setDescription(`${emoji.tick} Your appeal has been created.`)
                         .addFields (
                             { name: "📄 ID", value: id }
                         )

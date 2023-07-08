@@ -1,8 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
 const appealSchema = require("../../models/appealSchema");
-const devSchema = require("../../models/devSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
 	name: "appeals",
@@ -17,29 +15,19 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["mod"],
     cooldown: 10,
     enabled: true,
     hidden: true,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             const user = interaction.options.getUser("user");
 
             if(!await appealSchema.exists({ id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} ${user} has no appeals!`)
+                    .setDescription(`${emoji.cross} ${user} has no appeals!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;

@@ -1,4 +1,5 @@
 const emoji = require("../../config.json").emojis;
+const getRoles = require("../roles/get");
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
 
@@ -9,7 +10,7 @@ module.exports = async (client, Discord, interaction) => {
         if(await bannedUserSchema.exists({ _id: interaction.user.id })) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} You are banned from using the bot!`)
+                .setDescription(`${emoji.cross} You are banned from using the bot!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -19,14 +20,32 @@ module.exports = async (client, Discord, interaction) => {
 
         if(!command) return;
 
-        await interaction.deferReply();
+        const requiredRoles = command.requiredRoles;
+        const userRoles = await getRoles(interaction.user.id, client);
+
+        if(requiredRoles.length) {
+            const hasRoles = [];
+
+            for(const role of requiredRoles) {
+                if(userRoles[role]) hasRoles.push(role);
+            }
+
+            if(requiredRoles.length !== hasRoles.length) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
+
+                await interaction.reply({ embeds: [error], ephemeral: true });
+                return;
+            }
+        }
 
         if(!command.enabled) {
             const disabled = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} This command has been disabled!`)
+                .setDescription(`${emoji.cross} This command has been disabled!`)
 
-            await interaction.editReply({ embeds: [disabled], ephemeral: true });
+            await interaction.reply({ embeds: [disabled], ephemeral: true });
             return;
         }
 
@@ -48,10 +67,12 @@ module.exports = async (client, Discord, interaction) => {
                     .setColor(client.config_embeds.error)
                     .setDescription(`I am missing these permissions: \`${invalidPerms.join("\`, \`")}\``)
 
-                await interaction.editReply({ embeds: [permError], ephemeral: true });
+                await interaction.reply({ embeds: [permError], ephemeral: true });
                 return;
             }
         }
+
+        command.ephemeral ? await interaction.deferReply({ ephemeral: true }) : await interaction.deferReply();
 
         if(interaction.user.id === client.config_default.owner) {
             try {
@@ -62,7 +83,7 @@ module.exports = async (client, Discord, interaction) => {
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} There was an error while executing that command!`)
+                    .setDescription(`${emoji.cross} There was an error while executing that command!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -103,7 +124,7 @@ module.exports = async (client, Discord, interaction) => {
 
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} There was an error while executing that command!`)
+                .setDescription(`${emoji.cross} There was an error while executing that command!`)
 
             await interaction.editReply({ embeds: [error], ephemeral: true });
         }

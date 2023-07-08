@@ -1,9 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
-const devSchema = require("../../models/devSchema");
-const modSchema = require("../../models/modSchema");
-const verifiedSchema = require("../../models/verifiedSchema");
+const immuneSchema = require("../../models/immuneSchema");
 
 module.exports = {
     name: "ban",
@@ -33,23 +31,14 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["mod"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
 
             const user = interaction.options.getUser("user");
             const reason = interaction.options.getString("reason");
@@ -58,7 +47,7 @@ module.exports = {
             if(user.id === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You cannot ban yourself!`)
+                    .setDescription(`${emoji.cross} You cannot ban yourself!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -67,16 +56,16 @@ module.exports = {
             if(user.bot) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You cannot ban bots!`)
+                    .setDescription(`${emoji.cross} You cannot ban bots!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
             }
 
-            if(user.id === client.config_default.owner) {
+            if(await immuneSchema.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You cannot ban that user!`)
+                    .setDescription(`${emoji.cross} You cannot ban that user!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -85,7 +74,7 @@ module.exports = {
             if(await bannedUserSchema.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} ${user} is already banned!`)
+                    .setDescription(`${emoji.cross} ${user} is already banned!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -98,10 +87,6 @@ module.exports = {
                 reason: reason,
                 mod: interaction.user.id
             }).save()
-
-            await devSchema.findOneAndDelete({ _id: user.id });
-            await modSchema.findOneAndDelete({ _id: user.id });
-            await verifiedSchema.findOneAndDelete({ _id: user.id });
 
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
@@ -128,7 +113,7 @@ module.exports = {
 
             const banned = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.successful} ${user} has been banned.`)
+                .setDescription(`${emoji.tick} ${user} has been banned.`)
 
             await interaction.editReply({ embeds: [banned] });
 

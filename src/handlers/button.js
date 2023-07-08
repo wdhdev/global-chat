@@ -10,7 +10,7 @@ module.exports = (client) => {
 
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.error} An error occurred!`)
+            .setDescription(`${emoji.cross} An error occurred!`)
 
         await interaction.reply({ embeds: [error], ephemeral: true });
     }

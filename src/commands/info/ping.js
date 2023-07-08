@@ -6,14 +6,16 @@ module.exports = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    cooldown: 5,
+    requiredRoles: [],
+    cooldown: 10,
     enabled: true,
     hidden: false,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
             const pinging = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.pingpong} Pinging...`)
+                .setDescription(`${emoji.ping} Pinging...`)
 
             const i = await interaction.editReply({ embeds: [pinging], fetchReply: true });
 

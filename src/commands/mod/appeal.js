@@ -2,8 +2,6 @@ const emoji = require("../../config.json").emojis;
 
 const appealSchema = require("../../models/appealSchema");
 const bannedUserSchema = require("../../models/bannedUserSchema");
-const devSchema = require("../../models/devSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
 	name: "appeal",
@@ -43,23 +41,14 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["mod"],
     cooldown: 5,
     enabled: true,
     hidden: true,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
 
             const id = interaction.options.getString("id");
 
@@ -67,7 +56,7 @@ module.exports = {
                 if(!await appealSchema.exists({ _id: id })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} Please specify a valid appeal ID!`)
+                        .setDescription(`${emoji.cross} Please specify a valid appeal ID!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -77,7 +66,7 @@ module.exports = {
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} The appeal has been deleted!`)
+                    .setDescription(`${emoji.tick} The appeal has been deleted!`)
 
                 await interaction.editReply({ embeds: [deleted] });
 
@@ -98,7 +87,7 @@ module.exports = {
                 if(!await appealSchema.exists({ _id: id })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} Please specify a valid appeal ID!`)
+                        .setDescription(`${emoji.cross} Please specify a valid appeal ID!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;

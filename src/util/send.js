@@ -1,7 +1,7 @@
 module.exports = async function (message, client, Discord) {
     const assignRoles = require("./roles/assign");
     const emoji = require("../config.json").emojis;
-    const role = await require("./roles/get")(message.author, client);
+    const role = await require("./roles/get")(message.author.id, client);
     const test = require("./filter/test");
 
     const bannedUserSchema = require("../models/bannedUserSchema");
@@ -19,7 +19,7 @@ module.exports = async function (message, client, Discord) {
     if(await bannedUserSchema.exists({ _id: message.author.id })) {
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.error} You are banned from using the bot!`)
+            .setDescription(`${emoji.cross} You are banned from using the bot!`)
 
         try {
             await message.author.send({ embeds: [error] });
@@ -48,14 +48,23 @@ module.exports = async function (message, client, Discord) {
             }
         }
 
-        blockedChannel.send({ embeds: [blocked] });
+        const info = new Discord.EmbedBuilder()
+            .setColor(client.config_embeds.default)
+            .addFields (
+                { name: "🕰️ Timestamp", value: `<t:${Date.now().toString().slice(0, -3)}>` },
+                { name: "💬 Message ID", value: `${message.id}` },
+                { name: "👤 User ID", value: `${message.author.id}` },
+                { name: "🗄️ Guild ID", value: `${message.guild.id}` }
+            )
+
+        blockedChannel.send({ embeds: [blocked, info] });
         return;
     }
 
     if(!message.content.length) {
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.error} Your media was not processed as the CDN is down.`)
+            .setDescription(`${emoji.cross} Your media was not processed as the CDN is down.`)
 
         try {
             await message.author.send({ embeds: [error] });
@@ -67,7 +76,7 @@ module.exports = async function (message, client, Discord) {
     if(message.content.length >= 2048) {
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.error} Your message can only contain less than 2048 characters!`)
+            .setDescription(`${emoji.cross} Your message can only contain less than 2048 characters!`)
 
         try {
             await message.author.send({ embeds: [error] });
@@ -86,7 +95,6 @@ module.exports = async function (message, client, Discord) {
     let reply = false;
 
     const replyEmbed = new Discord.EmbedBuilder()
-        .setTitle("Reference Message")
 
     isReply:
     if(reference) {
@@ -159,16 +167,6 @@ module.exports = async function (message, client, Discord) {
                     if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
                     if(!chatChannel) return resolve();
-
-                    if(reply) {
-                        replyEmbed.setURL(null);
-
-                        for(const url of (await messageSchema.findOne({ messages: reference.url })).messages) {
-                            const info = url.replace("https://discord.com/channels/", "").split("/");
-
-                            if(info[0] === guildId) replyEmbed.setURL(url);
-                        }
-                    }
 
                     try {
                         if(data.webhook) {

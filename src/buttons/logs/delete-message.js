@@ -15,7 +15,7 @@ module.exports = {
             if(!mod && !dev) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
+                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -27,7 +27,7 @@ module.exports = {
             if(!await messageSchema.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} No message was found with that ID!`)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;

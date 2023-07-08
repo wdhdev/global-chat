@@ -1,8 +1,6 @@
 const emoji = require("../../config.json").emojis;
 const mongoose = require("mongoose");
 
-const devSchema = require("../../models/devSchema");
-
 module.exports = {
 	name: "database",
 	description: "Manage the bot's database.",
@@ -49,22 +47,14 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["dev"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
-
-            if(!dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
 
             if(interaction.options.getSubcommand() === "cleanup") {
                 const collection = interaction.options.getString("collection");
@@ -158,7 +148,7 @@ module.exports = {
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} Reconnected to the database!`)
+                    .setDescription(`${emoji.tick} Reconnected to the database!`)
 
                 await interaction.editReply({ embeds: [result] });
                 return;

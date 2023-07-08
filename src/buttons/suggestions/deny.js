@@ -15,7 +15,7 @@ module.exports = {
             } else {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to perform this action!`)
+                    .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;

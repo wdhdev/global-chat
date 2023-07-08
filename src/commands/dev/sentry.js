@@ -1,7 +1,6 @@
 const emoji = require("../../config.json").emojis;
 const fetch = require("node-fetch");
 
-const devSchema = require("../../models/devSchema");
 const sentrySchema = require("../../models/sentrySchema");
 
 module.exports = {
@@ -62,22 +61,13 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["dev"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-
-            if(!dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             if(interaction.options.getSubcommand() === "capture-info") {
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (
@@ -106,7 +96,7 @@ module.exports = {
                 if(!tokens.length) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no tokens!`)
+                        .setDescription(`${emoji.cross} There are no tokens!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -135,7 +125,7 @@ module.exports = {
                 if(!await sentrySchema.exists({ _id: token })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} That capture URL does not exist!`)
+                        .setDescription(`${emoji.cross} That capture URL does not exist!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -145,7 +135,7 @@ module.exports = {
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} That capture URL has been deleted!`)
+                    .setDescription(`${emoji.tick} That capture URL has been deleted!`)
 
                 await interaction.editReply({ embeds: [deleted] });
                 return;
@@ -161,7 +151,7 @@ module.exports = {
                 if(!result.length) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no unresolved issues!`)
+                        .setDescription(`${emoji.cross} There are no unresolved issues!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -196,7 +186,7 @@ module.exports = {
 
                 const registered = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} A new capture URL has been registered!`)
+                    .setDescription(`${emoji.tick} A new capture URL has been registered!`)
 
                 const actions = new Discord.ActionRowBuilder()
                     .addComponents (

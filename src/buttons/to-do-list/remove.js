@@ -12,7 +12,7 @@ module.exports = {
         if(!dev) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} You do not have permission to perform this action!`)
+                .setDescription(`${emoji.cross} You do not have permission to perform this action!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -30,7 +30,7 @@ module.exports = {
         if(!data.length) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setDescription(`${emoji.error} There are no tasks!`)
+                .setDescription(`${emoji.cross} There are no tasks!`)
 
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
@@ -65,7 +65,7 @@ module.exports = {
                 if(!todo) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} That task does not exist!`)
+                        .setDescription(`${emoji.cross} That task does not exist!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -75,7 +75,7 @@ module.exports = {
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} That task has been removed from the list.`)
+                    .setDescription(`${emoji.tick} That task has been removed from the list.`)
 
                 await interaction.editReply({ embeds: [removed], components: [], ephemeral: true });
 

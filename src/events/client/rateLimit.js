@@ -1,6 +1,7 @@
 module.exports = {
 	name: "rateLimit",
 	once: false,
+    ephemeral: false,
 	async execute(client, Discord) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);

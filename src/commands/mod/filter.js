@@ -1,8 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const devSchema = require("../../models/devSchema");
 const filterSchema = require("../../models/filterSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
 	name: "filter",
@@ -109,23 +107,13 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["mod"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: false,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
             if(interaction.options.getSubcommand() === "add") {
                 const word = interaction.options.getString("word");
                 const filter = interaction.options.getString("filter");
@@ -135,7 +123,7 @@ module.exports = {
                         if(data.words.includes(word.toLowerCase())) {
                             const error = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.error} That word is already on the filter!`)
+                                .setDescription(`${emoji.cross} That word is already on the filter!`)
 
                             await interaction.editReply({ embeds: [error], ephemeral: true });
                             return;
@@ -147,7 +135,7 @@ module.exports = {
 
                         const added = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} That word has been added to the filter!`)
+                            .setDescription(`${emoji.tick} That word has been added to the filter!`)
 
                         await interaction.editReply({ embeds: [added] });
                         return;
@@ -161,7 +149,7 @@ module.exports = {
 
                         const added = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} That word has been added to the filter!`)
+                            .setDescription(`${emoji.tick} That word has been added to the filter!`)
 
                         await interaction.editReply({ embeds: [added] });
                         return;
@@ -179,7 +167,7 @@ module.exports = {
                 if(!data.words.length) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} There are no words on the filter!`)
+                        .setDescription(`${emoji.cross} There are no words on the filter!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -203,7 +191,7 @@ module.exports = {
                 } catch {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.error} I could not DM you!`)
+                        .setDescription(`${emoji.cross} I could not DM you!`)
 
                     await interaction.editReply({ embeds: [error], ephemeral: true });
                     return;
@@ -226,7 +214,7 @@ module.exports = {
                         if(!data.words.includes(word.toLowerCase())) {
                             const error = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.error} That word is not on the filter!`)
+                                .setDescription(`${emoji.cross} That word is not on the filter!`)
 
                             await interaction.editReply({ embeds: [error], ephemeral: true });
                             return;
@@ -238,7 +226,7 @@ module.exports = {
 
                         const removed = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} That word has been removed from the filter!`)
+                            .setDescription(`${emoji.tick} That word has been removed from the filter!`)
 
                         await interaction.editReply({ embeds: [removed] });
                         return;
@@ -247,7 +235,7 @@ module.exports = {
                     if(!data) {
                         const none = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.successful} There are no words on the filter!`)
+                            .setDescription(`${emoji.tick} There are no words on the filter!`)
 
                         await interaction.editReply({ embeds: [none] });
                         return;

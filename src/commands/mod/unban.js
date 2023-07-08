@@ -1,8 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
-const devSchema = require("../../models/devSchema");
-const modSchema = require("../../models/modSchema");
 
 module.exports = {
     name: "unban",
@@ -25,23 +23,14 @@ module.exports = {
     ],
     default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: ["mod"],
     cooldown: 0,
     enabled: true,
     hidden: true,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
-
-            if(!mod && !dev) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error], ephemeral: true });
-                return;
-            }
 
             const user = interaction.options.getUser("user");
             const reason = interaction.options.getString("reason");
@@ -49,7 +38,7 @@ module.exports = {
             if(!await bannedUserSchema.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} ${user} is not banned!`)
+                    .setDescription(`${emoji.cross} ${user} is not banned!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -60,7 +49,7 @@ module.exports = {
             const userDM = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.green)
                 .setTitle("Unbanned")
-                .setDescription(`${emoji.successful} You have been unbanned from Global Chat.`)
+                .setDescription(`${emoji.tick} You have been unbanned from Global Chat.`)
                 .addFields (
                     { name: "❓ Reason", value: `${reason}` }
                 )
@@ -76,7 +65,7 @@ module.exports = {
 
             const unbanned = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.successful} ${user} has been unbanned.`)
+                .setDescription(`${emoji.tick} ${user} has been unbanned.`)
 
             await interaction.editReply({ embeds: [unbanned] });
 

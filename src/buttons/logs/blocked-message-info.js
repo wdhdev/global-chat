@@ -12,7 +12,7 @@ module.exports = {
             if(!await blockedSchema.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} No message was found with that ID!`)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
@@ -23,7 +23,7 @@ module.exports = {
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .addFields (
-                    { name: "🕰️ Timestamp", value: `<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}>` },
+                    { name: "🕰️ Timestamp", value: `<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}> (<t:${Number((BigInt(data._id) >> 22n) + 1420070400000n).toString().slice(0, -3)}:R>)` },
                     { name: "💬 Message ID", value: `${data._id}` },
                     { name: "👤 User ID", value: `${data.user}` },
                     { name: "🗄️ Guild ID", value: `${data.guild}` }

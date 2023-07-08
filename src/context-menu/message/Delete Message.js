@@ -7,7 +7,9 @@ const modSchema = require("../../models/modSchema");
 module.exports = {
 	name: "Delete Message",
     type: 3,
+    default_member_permissions: null,
     botPermissions: [],
+    requiredRoles: [],
     cooldown: 5,
     enabled: true,
     hidden: false,
@@ -19,7 +21,7 @@ module.exports = {
             if(!await messageSchema.exists({ messages: message.url })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} No message was found with that ID!`)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -33,7 +35,7 @@ module.exports = {
             if(!mod && !dev && data.user !== interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.error} You do not have permission to run this command!`)
+                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
@@ -65,7 +67,7 @@ module.exports = {
             Promise.all(promises).then(async () => {
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.successful} The message has been deleted!`)
+                    .setDescription(`${emoji.tick} The message has been deleted!`)
 
                 await interaction.editReply({ embeds: [result], ephemeral: true });
 
