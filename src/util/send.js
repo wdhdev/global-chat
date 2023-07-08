@@ -41,7 +41,6 @@ module.exports = async function (message, client, Discord) {
         }
 
         const info = new Discord.EmbedBuilder()
-            .setColor(client.config_embeds.default)
             .addFields (
                 { name: "🕰️ Timestamp", value: `<t:${Date.now().toString().slice(0, -3)}> (<t:${Date.now().toString().slice(0, -3)}:R>)` },
                 { name: "💬 Message ID", value: `${message.id}` },
