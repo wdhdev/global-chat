@@ -40,7 +40,7 @@ module.exports = async function(message, client, Discord) {
             await message.author.send({ embeds: [error] });
         } catch {}
 
-        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
 
         const actions = new Discord.ActionRowBuilder()
             .addComponents (

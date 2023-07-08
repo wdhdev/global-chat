@@ -76,7 +76,7 @@ module.exports = {
                     await interaction.editReply({ embeds: [result] });
 
                     if(res.removed.length) {
-                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
                         result.setTimestamp();
 
                         logsChannel.send({ embeds: [result] });
@@ -102,7 +102,7 @@ module.exports = {
                     await interaction.editReply({ embeds: [result] });
 
                     if(res.modified.length || res.removed.length) {
-                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
                         result.setTimestamp();
 
                         logsChannel.send({ embeds: [result] });
@@ -128,7 +128,7 @@ module.exports = {
                     await interaction.editReply({ embeds: [result] });
 
                     if(res.removed.length) {
-                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
+                        result.setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` });
                         result.setTimestamp();
 
                         logsChannel.send({ embeds: [result] });

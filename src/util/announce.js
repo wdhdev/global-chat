@@ -5,7 +5,7 @@ module.exports = async function (text, interaction, client, Discord) {
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
     const msg = new Discord.EmbedBuilder()
-        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
         .setTitle("Announcement")
         .setDescription(`${text}`)
         .setTimestamp()

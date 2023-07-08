@@ -32,16 +32,8 @@ module.exports = async (client) => {
 
     const routes = require("./routes");
 
-    app.delete("/:secret", async (req, res) => {
-        routes.delete(req, res);
-    })
-
-    app.get("/:secret", async (req, res) => {
-        routes.get(req, res);
-    })
-
     app.post("/:secret", async (req, res) => {
-        routes.post(req, res, client);
+        routes.index(req, res, client);
     })
 
     app.use(Sentry.Handlers.errorHandler());

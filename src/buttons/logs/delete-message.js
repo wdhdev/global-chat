@@ -56,7 +56,7 @@ module.exports = {
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.red)
-                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle(`🗑️ Message Deleted`)
                     .addFields (
                         { name: "📄 Result", value: `Deleted ${deleted} of ${total} messages.` }
@@ -69,7 +69,7 @@ module.exports = {
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? `@${interaction.user.username}` : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle(`🗑️ Message Deleted`)
                     .addFields (
                         { name: "💬 Message", value: `${id}` },
@@ -86,7 +86,7 @@ module.exports = {
                 const message = new Discord.EmbedBuilder()
                     .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
 
-                if(user) message.setAuthor({ name: user.tag.endsWith("#0") ? `@${user.username}` : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+                if(user) message.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
                 if(data.content) message.setDescription(data.content);
                 if(data.attachment) message.setImage(data.attachment);
 

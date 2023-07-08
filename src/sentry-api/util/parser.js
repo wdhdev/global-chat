@@ -1,5 +1,3 @@
-// https://github.com/IanMitchell/sentrydiscord.dev/blob/867b889e15c6b101d619610d07b4663c6a73fe6a/lib/message.ts
-
 module.exports.getColor = function (level) {
     switch (level) {
         case "debug":

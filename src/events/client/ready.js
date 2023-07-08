@@ -4,13 +4,13 @@ module.exports = {
 	async execute(client, Discord) {
         try {
 			// Login Message
-			console.log(`Logged in as: ${client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag}`);
+			console.log(`Logged in as: ${client.user.tag.endsWith("#0") ? client.user.username : client.user.tag}`);
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
 			const online = new Discord.EmbedBuilder()
 				.setColor(client.config_embeds.green)
-				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+				.setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
 				.setTitle("🟢 Bot is Online")
                 .setTimestamp()
 
@@ -22,7 +22,7 @@ module.exports = {
 
 			const registered = new Discord.EmbedBuilder()
 				.setColor(client.config_embeds.green)
-				.setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+				.setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
 				.setTitle("📝 Registered Commands")
                 .setTimestamp()
 

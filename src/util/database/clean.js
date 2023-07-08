@@ -7,7 +7,7 @@ module.exports = async function (client, Discord) {
 
     const bannedUsersResult = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
-        .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+        .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
         .setTitle("🧹 Collection Cleanup")
         .setDescription("`banned-users`")
         .addFields (
@@ -23,7 +23,7 @@ module.exports = async function (client, Discord) {
 
     const channelsResult = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
-        .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+        .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
         .setTitle("🧹 Collection Cleanup")
         .setDescription("`channels`")
         .addFields (
@@ -40,7 +40,7 @@ module.exports = async function (client, Discord) {
 
     const filterResult = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
-        .setAuthor({ name: client.user.tag.endsWith("#0") ? `@${client.user.username}` : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+        .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
         .setTitle("🧹 Collection Cleanup")
         .setDescription("`filter`")
         .addFields (

@@ -18,7 +18,7 @@ module.exports = async function (message, client, Discord) {
 
     if(await bannedUserSchema.exists({ _id: message.author.id })) {
         const blocked = new Discord.EmbedBuilder()
-            .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+            .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
             .setTitle("⛔ Message Blocked")
             .addFields (
                 { name: "❓ Reason", value: "🔨 Banned User" }
@@ -103,7 +103,7 @@ module.exports = async function (message, client, Discord) {
             referenceUser = await client.users.fetch(data.user);
         } catch {}
 
-        if(referenceUser) replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? `@${referenceUser.username}` : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });;
+        if(referenceUser) replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? referenceUser.username : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });;
         if(data.content) replyEmbed.setDescription(data.content);
         if(data.attachment) replyEmbed.setImage(data.attachment);
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
@@ -111,7 +111,7 @@ module.exports = async function (message, client, Discord) {
 
     // Embed message
     const chat = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     if(message.content.length) chat.setDescription(`${message.content}`);
@@ -122,7 +122,7 @@ module.exports = async function (message, client, Discord) {
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
 
     const messageLog = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     const actions = new Discord.ActionRowBuilder()
@@ -163,7 +163,7 @@ module.exports = async function (message, client, Discord) {
                             try {
                                 const webhook = new Discord.WebhookClient({ url: data.webhook });
 
-                                const username = message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag;
+                                const username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
                                 let webhookUsername = username;
 
                                 if(role.supporter) webhookUsername = `${username} 💖`;
