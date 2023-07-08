@@ -17,14 +17,6 @@ module.exports = async function (message, client, Discord) {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
     if(await bannedUserSchema.exists({ _id: message.author.id })) {
-        const error = new Discord.EmbedBuilder()
-            .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.cross} You are banned from using the bot!`)
-
-        try {
-            await message.author.send({ embeds: [error] });
-        } catch {}
-
         const blocked = new Discord.EmbedBuilder()
             .setAuthor({ name: message.author.tag.endsWith("#0") ? `@${message.author.username}` : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
             .setTitle("⛔ Message Blocked")
@@ -51,7 +43,7 @@ module.exports = async function (message, client, Discord) {
         const info = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
             .addFields (
-                { name: "🕰️ Timestamp", value: `<t:${Date.now().toString().slice(0, -3)}>` },
+                { name: "🕰️ Timestamp", value: `<t:${Date.now().toString().slice(0, -3)}> (<t:${Date.now().toString().slice(0, -3)}:R>)` },
                 { name: "💬 Message ID", value: `${message.id}` },
                 { name: "👤 User ID", value: `${message.author.id}` },
                 { name: "🗄️ Guild ID", value: `${message.guild.id}` }

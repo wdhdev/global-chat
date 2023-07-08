@@ -60,7 +60,7 @@ module.exports = {
                     .addFields (
                         { name: "🔑 Token", value: token },
                         { name: "#️⃣ Channel", value: `<#${data.channel}>` },
-                        { name: "🕰️ Registered", value: `<t:${data.registered.slice(0, -3)}>` },
+                        { name: "🕰️ Registered", value: `<t:${data.registered.slice(0, -3)}> (<t:${data.registered.slice(0, -3)}:R>)` },
                         { name: "👤 Registered By", value: `<@${data.user}>` }
                     )
 
