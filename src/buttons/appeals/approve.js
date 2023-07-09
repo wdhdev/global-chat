@@ -73,7 +73,7 @@ module.exports = {
                         .setColor(client.config_embeds.green)
                         .setTitle("✅ Appeal Approved")
                         .addFields (
-                            { name: "❓ Reason", value: `${reason}` }
+                            { name: "❓ Reason", value: reason }
                         )
                         .setTimestamp()
 
@@ -90,7 +90,7 @@ module.exports = {
                         .setColor(client.config_embeds.green)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                         .setTitle("✅ Approved")
-                        .setDescription(`${reason}`)
+                        .setDescription(reason)
                         .setTimestamp()
 
                     interaction.message.embeds.push(approved);
@@ -106,7 +106,7 @@ module.exports = {
                         .addFields (
                             { name: "📄 Appeal", value: id },
                             { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
-                            { name: "❓ Reason", value: `${reason}` }
+                            { name: "❓ Reason", value: reason }
                         )
                         .setTimestamp()
 

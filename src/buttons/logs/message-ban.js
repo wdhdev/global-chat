@@ -112,7 +112,7 @@ module.exports = {
                                 .setTitle("Banned")
                                 .setDescription("ℹ️ You have been banned from using Global Chat.")
                                 .addFields (
-                                    { name: "❓ Reason", value: `${reason}` },
+                                    { name: "❓ Reason", value: reason },
                                     { name: "📜 Appealable", value: appealable ? "✅" : "❌" }
                                 )
                                 .setTimestamp()
@@ -134,7 +134,7 @@ module.exports = {
                                 .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                                 .setTitle("Banned")
                                 .addFields (
-                                    { name: "❓ Reason", value: `${reason}` },
+                                    { name: "❓ Reason", value: reason },
                                     { name: "📜 Appealable", value: appealable === "true" ? "✅" : "❌" }
                                 )
                                 .setTimestamp()
@@ -157,7 +157,7 @@ module.exports = {
                                 .addFields (
                                     { name: "👤 User", value: `${user}` },
                                     { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
-                                    { name: "❓ Reason", value: `${reason}` },
+                                    { name: "❓ Reason", value: reason },
                                     { name: "📜 Appealable", value: appealable === "true" ? "✅" : "❌" }
                                 )
                                 .setTimestamp()

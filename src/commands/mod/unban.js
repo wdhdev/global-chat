@@ -52,7 +52,7 @@ module.exports = {
                 .setTitle("Unbanned")
                 .setDescription(`${emoji.tick} You have been unbanned from Global Chat.`)
                 .addFields (
-                    { name: "❓ Reason", value: `${reason}` }
+                    { name: "❓ Reason", value: reason }
                 )
                 .setTimestamp()
 
@@ -77,7 +77,7 @@ module.exports = {
                 .addFields (
                     { name: "👤 User", value: `${user}` },
                     { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
-                    { name: "❓ Reason", value: `${reason}` }
+                    { name: "❓ Reason", value: reason }
                 )
                 .setTimestamp()
 
