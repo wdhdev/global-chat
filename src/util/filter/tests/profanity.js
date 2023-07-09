@@ -1,9 +1,6 @@
 module.exports = async function(message, client, Discord) {
     const bannedUserSchema = require("../../../models/bannedUserSchema");
     const blockedSchema = require("../../../models/blockedSchema");
-    const devSchema = require("../../../models/devSchema");
-    const modSchema = require("../../../models/modSchema");
-    const verifiedSchema = require("../../../models/verifiedSchema");
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -22,18 +19,20 @@ module.exports = async function(message, client, Discord) {
 
         const blocked = new Discord.EmbedBuilder()
             .setTitle("⛔ Message Blocked")
-            .setDescription(`${message.content}`)
+            .setDescription(message.content)
             .addFields (
                 { name: "🚩 Filter", value: `🤬 Profanity (${profanityResult.filter.autoban ? "autoban" : "blacklist"})` },
-                { name: "❓ Reason", value: `⚠️ \`${profanityResult.words.join("\`\n⚠️ \`")}\`` }
+                { name: "❓ Reason", value: `- \`${profanityResult.words.join("\`\n- \`")}\`` }
             )
+
+        let attachment = null;
 
         if(message.attachments.first()) {
             const fileExt = path.extname(message.attachments.first().url.toLowerCase());
-            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+            const allowedExtensions = ["gif", "jpeg", "jpg", "png", "svg", "webp"];
 
             if(allowedExtensions.includes(fileExt.split(".").join(""))) {
-                const attachment = await new Discord.AttachmentBuilder(attachment.url).fetch();
+                attachment = new Discord.AttachmentBuilder(message.attachments.first().url, { name: `attachment${fileExt}` });
 
                 blocked.setImage(`attachment://${attachment.name}`);
             }
@@ -70,7 +69,7 @@ module.exports = async function(message, client, Discord) {
             let sentDM = false;
 
             try {
-                await message.author.send({ embeds: [blocked] });
+                await message.author.send({ embeds: [blocked], files: attachment ? [attachment] : [] });
                 await message.author.send({ embeds: [ban] });
                 sentDM = true;
             } catch {}
@@ -94,7 +93,7 @@ module.exports = async function(message, client, Discord) {
             modLogsChannel.send({ embeds: [banLog] });
         } else {
             try {
-                await message.author.send({ embeds: [blocked] });
+                await message.author.send({ embeds: [blocked], files: attachment ? [attachment] : [] });
             } catch {}
 
             actions.addComponents (
@@ -107,7 +106,7 @@ module.exports = async function(message, client, Discord) {
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
 
-        blockedChannel.send({ embeds: [blocked], components: [actions] });
+        blockedChannel.send({ embeds: [blocked], files: attachment ? [attachment] : [], components: [actions] });
         return true;
     }
 

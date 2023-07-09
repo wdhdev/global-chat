@@ -1,6 +1,8 @@
 module.exports = async function (message, client, Discord) {
     const assignRoles = require("./roles/assign");
+    const cap = require("./cap");
     const emoji = require("../config.json").emojis;
+    const path = require("path");
     const role = await require("./roles/get")(message.author.id, client);
     const test = require("./filter/test");
 
@@ -16,29 +18,36 @@ module.exports = async function (message, client, Discord) {
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
-    if(await bannedUserSchema.exists({ _id: message.author.id })) {
+    if(await bannedUserSchema.exists({ _id: message.author.id })) return
+
+    if(message.content.length > 2000) {
         const blocked = new Discord.EmbedBuilder()
             .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
             .setTitle("⛔ Message Blocked")
+            .setDescription(cap(message.content, 2000))
             .addFields (
-                { name: "❓ Reason", value: "🔨 Banned User" }
+                { name: "❓ Reason", value: "Message is too long." }
             )
             .setTimestamp()
 
-        if(message.content.length) blocked.setDescription(message.content);
+        let attachment = null;
 
         if(message.attachments.first()) {
             const fileExt = path.extname(message.attachments.first().url.toLowerCase());
-            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+            const allowedExtensions = ["gif", "jpeg", "jpg", "png", "svg", "webp"];
 
             if(allowedExtensions.includes(fileExt.split(".").join(""))) {
-                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
+                attachment = new Discord.AttachmentBuilder(message.attachments.first().url, { name: `attachment${fileExt}` });
 
                 blocked.setImage(`attachment://${attachment.name}`);
-            } else if(!message.content.length) {
-                return;
             }
         }
+
+        try {
+            await message.author.send({ embeds: [blocked], files: attachment ? [attachment] : [] });
+        } catch {}
+
+        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
 
         const info = new Discord.EmbedBuilder()
             .addFields (
@@ -48,31 +57,7 @@ module.exports = async function (message, client, Discord) {
                 { name: "🗄️ Guild ID", value: `${message.guild.id}` }
             )
 
-        blockedChannel.send({ embeds: [blocked, info] });
-        return;
-    }
-
-    if(!message.content.length) {
-        const error = new Discord.EmbedBuilder()
-            .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.cross} Your media was not processed as the CDN is down.`)
-
-        try {
-            await message.author.send({ embeds: [error] });
-        } catch {}
-
-        return;
-    }
-
-    if(message.content.length >= 2048) {
-        const error = new Discord.EmbedBuilder()
-            .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.cross} Your message can only contain less than 2048 characters!`)
-
-        try {
-            await message.author.send({ embeds: [error] });
-        } catch {}
-
+        blockedChannel.send({ embeds: [blocked, info], files: attachment ? [attachment] : [] });
         return;
     }
 
@@ -114,7 +99,7 @@ module.exports = async function (message, client, Discord) {
         .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
-    if(message.content.length) chat.setDescription(`${message.content}`);
+    if(message.content.length) chat.setDescription(message.content);
 
     await assignRoles(message.author, client, chat);
 
@@ -143,7 +128,7 @@ module.exports = async function (message, client, Discord) {
                 .setEmoji("🔨")
         )
 
-    if(message.content.length >= 1) messageLog.setDescription(`${message.content}`);
+    if(message.content.length >= 1) messageLog.setDescription(message.content);
 
     // Send Global Message
     const messages = [];

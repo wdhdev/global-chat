@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-const cap = require("../util/cap");
+const cap = require("../../util/cap");
 const parser = require("../util/parser");
 
 const schema = require("../../models/sentrySchema");

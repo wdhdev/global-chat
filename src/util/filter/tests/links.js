@@ -19,25 +19,27 @@ module.exports = async function(message, client, Discord) {
 
         const blocked = new Discord.EmbedBuilder()
             .setTitle("⛔ Message Blocked")
-            .setDescription(`${message.content}`)
+            .setDescription(message.content)
             .addFields (
                 { name: "🚩 Filter", value: "🔗 Links" },
-                { name: "❓ Reason", value: `⚠️ \`${linkResult.links.join("\`\n⚠️ \`")}\`` }
+                { name: "❓ Reason", value: `- \`${linkResult.links.join("\`\n- \`")}\`` }
             )
+
+        let attachment = null;
 
         if(message.attachments.first()) {
             const fileExt = path.extname(message.attachments.first().url.toLowerCase());
-            const allowedExtensions = ["jpeg", "jpg", "png", "svg", "webp"];
+            const allowedExtensions = ["gif", "jpeg", "jpg", "png", "svg", "webp"];
 
             if(allowedExtensions.includes(fileExt.split(".").join(""))) {
-                const attachment = await new Discord.MessageAttachment(attachment.url).fetch();
+                attachment = new Discord.AttachmentBuilder(message.attachments.first().url, { name: `attachment${fileExt}` });
 
                 blocked.setImage(`attachment://${attachment.name}`);
             }
         }
 
         try {
-            await message.author.send({ embeds: [error] });
+            await message.author.send({ embeds: [blocked], files: attachment ? [attachment] : [] });
         } catch {}
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
@@ -55,7 +57,7 @@ module.exports = async function(message, client, Discord) {
                     .setEmoji("🔨")
             )
 
-        blockedChannel.send({ embeds: [blocked], components: [actions] });
+        blockedChannel.send({ embeds: [blocked], components: [actions], files: attachment ? [attachment] : [] });
         return true;
     }
 
