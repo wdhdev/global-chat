@@ -44,7 +44,7 @@ module.exports = {
             const stat_developers = `💻 ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
             const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
             const stat_verified = `✅ ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
-            const stat_donators = `💸 ${donators.length} Donator${boosters.size === 1 ? "" : "s"}`;
+            const stat_donators = `💸 ${donators.length} Donator${donators.length === 1 ? "" : "s"}`;
             const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
 
             const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
