@@ -37,6 +37,7 @@ module.exports = {
             if(role.dev) roles.push("💻 Developer");
             if(role.mod) roles.push("🔨 Moderator");
             if(role.verified) roles.push("✅ Verified");
+            if(role.donator) roles.push("💸 Donator");
             if(role.supporter) roles.push("💖 Supporter");
 
             // Immunity

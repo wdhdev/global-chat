@@ -1,4 +1,5 @@
 const devSchema = require("../../models/devSchema");
+const donatorSchema = require("../../models/donatorSchema");
 const modSchema = require("../../models/modSchema");
 const verifiedSchema = require("../../models/verifiedSchema");
 
@@ -17,6 +18,7 @@ module.exports = async function (userId, client) {
         "dev": await devSchema.exists({ _id: userId }) ? true : false,
         "mod": await modSchema.exists({ _id: userId }) ? true : false,
         "verified": await verifiedSchema.exists({ _id: userId }) ? true : false,
+        "donator": await donatorSchema.exists({ _id: userId }) ? true : false,
         "supporter": supporter
     }
 }

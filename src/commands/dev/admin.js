@@ -1,6 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
 const devSchema = require("../../models/devSchema");
+const donatorSchema = require("../../models/donatorSchema");
 const immuneSchema = require("../../models/immuneSchema");
 const modSchema = require("../../models/modSchema");
 const todoSchema = require("../../models/todoSchema");
@@ -43,6 +44,13 @@ module.exports = {
                     ]
                 }
             ]
+        },
+
+        {
+            type: 1,
+            name: "donators",
+            description: "[DEVELOPER ONLY] Get a list of all the donators.",
+            options: []
         },
 
         {
@@ -115,6 +123,13 @@ module.exports = {
                     required: true
                 }
             ]
+        },
+
+        {
+            type: 1,
+            name: "supporters",
+            description: "[DEVELOPER ONLY] Get a list of all the supporters.",
+            options: []
         },
 
         {
@@ -252,12 +267,39 @@ module.exports = {
                 return;
             }
 
-            if(interaction.options.getSubcommand() === "immune") {
-                const immune = await immuneSchema.find();
+            if(interaction.options.getSubcommand() === "donators") {
+                const data = await donatorSchema.find();
 
                 const users = [];
 
-                for(const user of immune) {
+                for(const user of data) {
+                    users.push(user._id);
+                }
+
+                if(!users.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.cross} There are no donators!`)
+
+                    await interaction.editReply({ embeds: [error] });
+                    return;
+                }
+
+                const donators = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                	.setTitle("💸 Donators")
+                    .setDescription(`<@${users.join(">, <@")}>`)
+
+                await interaction.editReply({ embeds: [donators] });
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "immune") {
+                const data = await immuneSchema.find();
+
+                const users = [];
+
+                for(const user of data) {
                     users.push(user._id);
                 }
 
@@ -479,6 +521,35 @@ module.exports = {
                     return;
                 }
 
+                return;
+            }
+
+            if(interaction.options.getSubcommand() === "supporters") {
+                const guild = await client.guilds.fetch(client.config_default.guild);
+                const members = await guild.members.fetch();
+                const boosters = members.filter(member => member.premiumSinceTimestamp);
+
+                const users = [];
+
+                for(const [userId, guildMember] of boosters) {
+                    users.push(userId);
+                }
+
+                if(!users.length) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.cross} There are no supporters!`)
+
+                    await interaction.editReply({ embeds: [error] });
+                    return;
+                }
+
+                const supporters = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setTitle("💖 Supporters")
+                    .setDescription(`<@${users.join(">, <@")}>`)
+
+                await interaction.editReply({ embeds: [supporters] });
                 return;
             }
 

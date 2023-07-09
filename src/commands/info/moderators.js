@@ -16,11 +16,11 @@ module.exports = {
     ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
-            const mods = await modSchema.find();
+            const data = await modSchema.find();
 
             const users = [];
 
-            for(const user of mods) {
+            for(const user of data) {
                 users.push(user._id);
             }
 
