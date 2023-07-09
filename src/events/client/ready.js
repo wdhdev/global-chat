@@ -9,10 +9,6 @@ module.exports = {
             // Register Commands
             const register = require("../../scripts/client-register");
             await register(client);
-
-            // Cleanup Database
-            const cleanDB = require("../../util/database/clean");
-            await cleanDB(client, Discord);
         } catch(err) {
             client.logEventError(err);
         }
