@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const userSchema = require("../../models/userSchema");
+const User = require("../../models/User");
 
 module.exports = {
 	name: "dev",
@@ -58,7 +58,7 @@ module.exports = {
                     return;
                 }
 
-                if(await userSchema.exists({ _id: user.id, dev: true })) {
+                if(await User.exists({ _id: user.id, dev: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already a developer!`)
@@ -67,10 +67,10 @@ module.exports = {
                     return;
                 }
 
-                if(!await userSchema.exists({ _id: user.id })) {
-                    new userSchema({ _id: user.id, dev: true }).save();
+                if(!await User.exists({ _id: user.id })) {
+                    new User({ _id: user.id, dev: true }).save();
                 } else {
-                    userSchema.findOneAndUpdate({ _id: user.id }, { dev: true }, (err, data) => {});
+                    User.findOneAndUpdate({ _id: user.id }, { dev: true }, (err, data) => {});
                 }
 
                 const added = new Discord.EmbedBuilder()
@@ -94,7 +94,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "remove") {
-                if(!await userSchema.exists({ _id: user.id, dev: true })) {
+                if(!await User.exists({ _id: user.id, dev: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not a developer!`)
@@ -103,7 +103,7 @@ module.exports = {
                     return;
                 }
 
-                await userSchema.findOneAndUpdate({ _id: user.id }, { dev: false });
+                await User.findOneAndUpdate({ _id: user.id }, { dev: false });
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

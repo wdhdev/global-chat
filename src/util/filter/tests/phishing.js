@@ -1,6 +1,6 @@
 module.exports = async function(message, client, Discord) {
-    const bannedUserSchema = require("../../../models/bannedUserSchema");
-    const blockedSchema = require("../../../models/blockedSchema");
+    const BannedUser = require("../../../models/BannedUser");
+    const BlockedMessage = require("../../../models/BlockedMessage");
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -9,7 +9,7 @@ module.exports = async function(message, client, Discord) {
     const phishingResult = await phishingFilter(message);
 
     if(phishingResult) {
-        new blockedSchema({
+        new BlockedMessage({
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
@@ -17,7 +17,7 @@ module.exports = async function(message, client, Discord) {
             reason: "Phishing link detected."
         }).save()
 
-        new bannedUserSchema({
+        new BannedUser({
             _id: message.author.id,
             timestamp: Date.now(),
             allowAppeal: true,

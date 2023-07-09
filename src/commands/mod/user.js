@@ -1,9 +1,9 @@
 const getRoles = require("../../util/roles/get");
 
-const bannedUserSchema = require("../../models/bannedUserSchema");
-const blockedSchema = require("../../models/blockedSchema");
-const messageSchema = require("../../models/messageSchema");
-const userSchema = require("../../models/userSchema");
+const BannedUser = require("../../models/BannedUser");
+const BlockedMessage = require("../../models/BlockedMessage");
+const Message = require("../../models/Message");
+const User = require("../../models/User");
 
 module.exports = {
     name: "user",
@@ -41,21 +41,21 @@ module.exports = {
             if(role.supporter) roles.push("💖 Supporter");
 
             // Immunity
-            const immune = await userSchema.exists({ _id: user.id, immune: true });
+            const immune = await User.exists({ _id: user.id, immune: true });
 
             // Banned
             let banned = false;
 
-            const banInfo = await bannedUserSchema.findOne({ _id: user.id });
+            const banInfo = await BannedUser.findOne({ _id: user.id });
 
             if(banInfo) banned = true;
 
             const banData = `${banned ? "" : "❌"}\n${banned && banInfo.timestamp ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}> (<t:${banInfo.timestamp.slice(0, -3)}:R>)` : ""}\n${banned ? `📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `🔨 <@${banInfo.mod}>` : ""}`;
 
             // Stats
-            const blocked = (await blockedSchema.find({ user: user.id })).length;
-            const images = (await messageSchema.find({ user: user.id, attachment: { $ne: null } })).length;
-            const messages = (await messageSchema.find({ user: user.id })).length;
+            const blocked = (await BlockedMessage.find({ user: user.id })).length;
+            const images = (await Message.find({ user: user.id, attachment: { $ne: null } })).length;
+            const messages = (await Message.find({ user: user.id })).length;
 
             const stats = {
                 "blocked": `⛔ ${blocked} ${blocked === 1 ? "Blocked Message" : "Blocked Messages"}`,

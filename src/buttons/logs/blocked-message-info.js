@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const blockedSchema = require("../../models/blockedSchema");
+const BlockedMessage = require("../../models/BlockedMessage");
 
 module.exports = {
     name: "blocked-message-info",
@@ -10,7 +10,7 @@ module.exports = {
         try {
             const id = interaction.customId.replace("blocked-message-info-", "");
 
-            if(!await blockedSchema.exists({ _id: id })) {
+            if(!await BlockedMessage.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -19,7 +19,7 @@ module.exports = {
                 return;
             }
 
-            const data = await blockedSchema.findOne({ _id: id });
+            const data = await BlockedMessage.findOne({ _id: id });
 
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

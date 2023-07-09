@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const messageSchema = require("../../models/messageSchema");
-const userSchema = require("../../models/userSchema");
+const Message = require("../../models/Message");
+const User = require("../../models/User");
 
 module.exports = {
 	name: "Delete Message",
@@ -16,7 +16,7 @@ module.exports = {
             const message = interaction.targetMessage;
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-            if(!await messageSchema.exists({ messages: message.url })) {
+            if(!await Message.exists({ messages: message.url })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -25,10 +25,10 @@ module.exports = {
                 return;
             }
 
-            const data = await messageSchema.findOne({ messages: message.url });
+            const data = await Message.findOne({ messages: message.url });
 
-            const dev = await userSchema.exists({ _id: interaction.user.id, dev: true });
-            const mod = await userSchema.exists({ _id: interaction.user.id, mod: true });
+            const dev = await User.exists({ _id: interaction.user.id, dev: true });
+            const mod = await User.exists({ _id: interaction.user.id, mod: true });
 
             if(!mod && !dev && data.user !== interaction.user.id) {
                 const error = new Discord.EmbedBuilder()

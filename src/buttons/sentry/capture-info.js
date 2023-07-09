@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const sentrySchema = require("../../models/sentrySchema");
+const SentryCapture = require("../../models/SentryCapture");
 
 module.exports = {
     name: "sentry-capture-info",
@@ -32,7 +32,7 @@ module.exports = {
             if(i.customId === `modal-${interaction.id}`) {
                 const token = i.fields.getTextInputValue(`modal-token-${interaction.id}`);
 
-                if(!await sentrySchema.exists({ _id: token })) {
+                if(!await SentryCapture.exists({ _id: token })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} That token does not exist!`)
@@ -41,7 +41,7 @@ module.exports = {
                     return;
                 }
 
-                const data = await sentrySchema.findOne({ _id: token });
+                const data = await SentryCapture.findOne({ _id: token });
 
                 const tokenInfo = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

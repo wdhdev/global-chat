@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const bannedUserSchema = require("../../models/bannedUserSchema");
-const userSchema = require("../../models/userSchema");
+const BannedUser = require("../../models/BannedUser");
+const User = require("../../models/User");
 
 module.exports = {
     name: "ban",
@@ -63,7 +63,7 @@ module.exports = {
                 return;
             }
 
-            if(await userSchema.exists({ _id: user.id, immune: true })) {
+            if(await User.exists({ _id: user.id, immune: true })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You cannot ban that user!`)
@@ -72,7 +72,7 @@ module.exports = {
                 return;
             }
 
-            if(await bannedUserSchema.exists({ _id: user.id })) {
+            if(await BannedUser.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} ${user} is already banned!`)
@@ -81,7 +81,7 @@ module.exports = {
                 return;
             }
 
-            new bannedUserSchema({
+            new BannedUser({
                 _id: user.id,
                 timestamp: Date.now(),
                 allowAppeal: appealable,

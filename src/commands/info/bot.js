@@ -1,7 +1,7 @@
 const bot = require("../../../package.json");
 
-const messageSchema = require("../../models/messageSchema");
-const userSchema = require("../../models/userSchema");
+const Message = require("../../models/Message");
+const User = require("../../models/User");
 
 module.exports = {
     name: "bot",
@@ -26,13 +26,13 @@ module.exports = {
                     { name: "🟢 Online Since", value: `<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:f> (<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:R>)`, inline: true }
                 )
 
-            const developers = await userSchema.find({ dev: true });
-            const moderators = await userSchema.find({ mod: true });
-            const verified = await userSchema.find({ verified: true });
-            const donators = await userSchema.find({ donator: true });
+            const developers = await User.find({ dev: true });
+            const moderators = await User.find({ mod: true });
+            const verified = await User.find({ verified: true });
+            const donators = await User.find({ donator: true });
 
-            const messages = await messageSchema.find();
-            const images = await messageSchema.find({ attachment: { $ne: null } });
+            const messages = await Message.find();
+            const images = await Message.find({ attachment: { $ne: null } });
 
             const guild = await client.guilds.fetch(client.config_default.guild);
             const members = await guild.members.fetch();

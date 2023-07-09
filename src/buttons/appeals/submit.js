@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const appealSchema = require("../../models/appealSchema");
-const bannedUserSchema = require("../../models/bannedUserSchema");
+const Appeal = require("../../models/Appeal");
+const BannedUser = require("../../models/BannedUser");
 
 module.exports = {
     name: "submit-appeal",
@@ -9,7 +9,7 @@ module.exports = {
     requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
-            if(!await bannedUserSchema.exists({ _id: interaction.user.id })) {
+            if(!await BannedUser.exists({ _id: interaction.user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You are not banned!`)
@@ -18,7 +18,7 @@ module.exports = {
                 return;
             }
 
-            if(await bannedUserSchema.exists({ _id: interaction.user.id, allowAppeal: false }) || await appealSchema.exists({ id: interaction.user.id, status: "DENIED" })) {
+            if(await BannedUser.exists({ _id: interaction.user.id, allowAppeal: false }) || await Appeal.exists({ id: interaction.user.id, status: "DENIED" })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You are allowed to submit an appeal!`)
@@ -27,7 +27,7 @@ module.exports = {
                 return;
             }
 
-            if(await appealSchema.exists({ id: interaction.user.id, status: "NOT_REVIEWED" })) {
+            if(await Appeal.exists({ id: interaction.user.id, status: "NOT_REVIEWED" })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You already have created an appeal!`)
@@ -74,7 +74,7 @@ module.exports = {
                     const banReason = i.fields.getTextInputValue(`modal-banreason-${id}`);
                     const unbanReason = i.fields.getTextInputValue(`modal-unbanreason-${id}`);
 
-                    const banData = await bannedUserSchema.findOne({ _id: interaction.user.id });
+                    const banData = await BannedUser.findOne({ _id: interaction.user.id });
 
                     const embed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -86,7 +86,7 @@ module.exports = {
                             { name: "🔓 Unban Reason (*user provided*)", value: `${unbanReason}` }
                         )
 
-                    new appealSchema({
+                    new Appeal({
                         _id: id,
                         id: interaction.user.id,
                         ban_reason: banReason,

@@ -1,7 +1,7 @@
 module.exports = async function(message, client, Discord) {
     const role = await require("../../roles/get")(message.author.id, client);
 
-    const blockedSchema = require("../../../models/blockedSchema");
+    const BlockedMessage = require("../../../models/BlockedMessage");
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
@@ -9,7 +9,7 @@ module.exports = async function(message, client, Discord) {
     const linkResult = await linkFilter(message, role);
 
     if(linkResult.result) {
-        new blockedSchema({
+        new BlockedMessage({
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,

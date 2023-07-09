@@ -1,4 +1,4 @@
-const userSchema = require("../../models/userSchema");
+const User = require("../../models/User");
 
 module.exports = async function (userId, client) {
     let supporter = false;
@@ -10,7 +10,7 @@ module.exports = async function (userId, client) {
         supporter = member.premiumSinceTimestamp ? true : false;
     } catch {}
 
-    const data = await userSchema.findOne({ _id: userId }) || {
+    const data = await User.findOne({ _id: userId }) || {
         dev: false,
         mod: false,
         verified: false,

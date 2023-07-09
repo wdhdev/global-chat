@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const filterSchema = require("../../models/filterSchema");
+const Filter = require("../../models/Filter");
 
 module.exports = {
 	name: "filter",
@@ -119,7 +119,7 @@ module.exports = {
                 const word = interaction.options.getString("word");
                 const filter = interaction.options.getString("filter");
 
-                filterSchema.findOne({ _id: filter }, async (err, data) => {
+                Filter.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
                         if(data.words.includes(word.toLowerCase())) {
                             const error = new Discord.EmbedBuilder()
@@ -143,7 +143,7 @@ module.exports = {
                     }
 
                     if(!data) {
-                        new filterSchema({
+                        new Filter({
                             _id: filter,
                             words: [word.toLowerCase()]
                         }).save()
@@ -163,7 +163,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "list") {
                 const filter = interaction.options.getString("filter");
 
-                const data = await filterSchema.findOne({ _id: filter }) || { words: [] };
+                const data = await Filter.findOne({ _id: filter }) || { words: [] };
 
                 if(!data.words.length) {
                     const error = new Discord.EmbedBuilder()
@@ -192,7 +192,7 @@ module.exports = {
                 const word = interaction.options.getString("word");
                 const filter = interaction.options.getString("filter");
 
-                filterSchema.findOne({ _id: filter }, async (err, data) => {
+                Filter.findOne({ _id: filter }, async (err, data) => {
                     if(data) {
                         if(!data.words.includes(word.toLowerCase())) {
                             const error = new Discord.EmbedBuilder()

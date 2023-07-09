@@ -3,12 +3,12 @@ const Discord = require("discord.js");
 const cap = require("../../util/cap");
 const parser = require("../util/parser");
 
-const sentrySchema = require("../../models/sentrySchema");
+const SentryCapture = require("../../models/SentryCapture");
 
 module.exports = async (req, res, client) => {
-    if(!await sentrySchema.exists({ _id: req.params.secret })) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });
+    if(!await SentryCapture.exists({ _id: req.params.secret })) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });
 
-    const data = await sentrySchema.findOne({ _id: req.params.secret });
+    const data = await SentryCapture.findOne({ _id: req.params.secret });
 
     const event = req.body;
 

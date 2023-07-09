@@ -1,11 +1,11 @@
-const todoSchema = require("../../models/todoSchema");
+const Task = require("../../models/Task");
 
 module.exports = {
     name: "refresh-task-list",
     startsWith: false,
     requiredRoles: [],
     async execute(interaction, client, Discord) {
-        const data = await todoSchema.find();
+        const data = await Task.find();
 
         const todoList = [];
 

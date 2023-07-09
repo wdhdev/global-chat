@@ -1,13 +1,13 @@
 const emoji = require("../../config.json").emojis;
 
-const todoSchema = require("../../models/todoSchema");
+const Task = require("../../models/Task");
 
 module.exports = {
     name: "remove-task",
     startsWith: false,
     requiredRoles: ["dev"],
     async execute(interaction, client, Discord) {
-        const data = await todoSchema.find();
+        const data = await Task.find();
 
         const priority = {
             high: "🔴",
@@ -48,7 +48,7 @@ module.exports = {
             if(i.customId === `select-menu-${interaction.id}`) {
                 const value = i.values[0];
 
-                const todo = await todoSchema.findOne({ _id: value });
+                const todo = await Task.findOne({ _id: value });
                 const message = interaction.message;
 
                 if(!todo) {
@@ -68,7 +68,7 @@ module.exports = {
 
                 await interaction.editReply({ embeds: [removed], components: [], ephemeral: true });
 
-                const newData = await todoSchema.find();
+                const newData = await Task.find();
 
                 const todoList = [];
 

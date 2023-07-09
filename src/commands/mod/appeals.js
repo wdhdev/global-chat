@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const appealSchema = require("../../models/appealSchema");
+const Appeal = require("../../models/Appeal");
 
 module.exports = {
 	name: "appeals",
@@ -25,7 +25,7 @@ module.exports = {
         try {
             const user = interaction.options.getUser("user");
 
-            if(!await appealSchema.exists({ id: user.id })) {
+            if(!await Appeal.exists({ id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} ${user} has no appeals!`)
@@ -40,7 +40,7 @@ module.exports = {
                 "NOT_REVIEWED": "🟠"
             }
 
-            const data = await appealSchema.find({ id: user.id });
+            const data = await Appeal.find({ id: user.id });
 
             const appeals = [];
 

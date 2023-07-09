@@ -1,13 +1,13 @@
 const emoji = require("../../config.json").emojis;
 const getRoles = require("../roles/get");
 
-const bannedUserSchema = require("../../models/bannedUserSchema");
+const BannedUser = require("../../models/BannedUser");
 
 const cooldowns = new Map();
 
 module.exports = async (client, Discord, interaction) => {
     try {
-        if(await bannedUserSchema.exists({ _id: interaction.user.id })) {
+        if(await BannedUser.exists({ _id: interaction.user.id })) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
                 .setDescription(`${emoji.cross} You are banned from using the bot!`)

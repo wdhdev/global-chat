@@ -5,9 +5,9 @@ module.exports = async function (message, client, Discord) {
     const role = await require("./roles/get")(message.author.id, client);
     const test = require("./filter/test");
 
-    const bannedUserSchema = require("../models/bannedUserSchema");
-    const guildSchema = require("../models/guildSchema");
-    const messageSchema = require("../models/messageSchema");
+    const BannedUser = require("../models/BannedUser");
+    const Guild = require("../models/Guild");
+    const Message = require("../models/Message");
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
@@ -17,7 +17,7 @@ module.exports = async function (message, client, Discord) {
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
-    if(await bannedUserSchema.exists({ _id: message.author.id })) return
+    if(await BannedUser.exists({ _id: message.author.id })) return
 
     if(message.content.length > 2000) {
         const blocked = new Discord.EmbedBuilder()
@@ -73,7 +73,7 @@ module.exports = async function (message, client, Discord) {
 
     isReply:
     if(reference) {
-        const data = await messageSchema.findOne({ messages: reference.url });
+        const data = await Message.findOne({ messages: reference.url });
 
         if(data) {
             reply = true;
@@ -135,7 +135,7 @@ module.exports = async function (message, client, Discord) {
 
     for(const [guildId, guild] of client.guilds.cache) {
         promises.push(new Promise(async resolve => {
-            await guildSchema.findOne({ _id: guildId }, async (err, data) => {
+            await Guild.findOne({ _id: guildId }, async (err, data) => {
                 if(data && data.channel) {
                     const chatChannel = client.channels.cache.get(data.channel);
 
@@ -227,7 +227,7 @@ module.exports = async function (message, client, Discord) {
     }
 
     Promise.all(promises).then(async () => {
-        new messageSchema({
+        new Message({
             _id: id,
             user: message.author.id,
             guild: message.guild.id,

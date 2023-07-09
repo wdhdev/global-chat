@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const appealSchema = require("../../models/appealSchema");
-const bannedUserSchema = require("../../models/bannedUserSchema");
+const Appeal = require("../../models/Appeal");
+const BannedUser = require("../../models/BannedUser");
 
 module.exports = {
     name: "appeal-approve",
@@ -12,7 +12,7 @@ module.exports = {
             const id = interaction.customId.replace("appeal-approve-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-            const data = await appealSchema.findOne({ _id: id });
+            const data = await Appeal.findOne({ _id: id });
 
             if(!data) {
                 const error = new Discord.EmbedBuilder()
@@ -66,8 +66,8 @@ module.exports = {
                 if(i.customId === `modal-${interaction.id}`) {
                     const reason = i.fields.getTextInputValue(`modal-reason-${interaction.id}`);
 
-                    await bannedUserSchema.findOneAndDelete({ _id: data.id });
-                    await appealSchema.findOneAndUpdate({ _id: id }, { status: "APPROVED", mod: interaction.user.id, reason: reason });
+                    await BannedUser.findOneAndDelete({ _id: data.id });
+                    await Appeal.findOneAndUpdate({ _id: id }, { status: "APPROVED", mod: interaction.user.id, reason: reason });
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)

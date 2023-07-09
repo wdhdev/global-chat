@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const userSchema = require("../../models/userSchema");
+const User = require("../../models/User");
 
 module.exports = {
 	name: "donator",
@@ -57,7 +57,7 @@ module.exports = {
                     return;
                 }
 
-                if(await userSchema.exists({ _id: user.id, donator: true })) {
+                if(await User.exists({ _id: user.id, donator: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already a donator!`)
@@ -66,10 +66,10 @@ module.exports = {
                     return;
                 }
 
-                if(!await userSchema.exists({ _id: user.id })) {
-                    new userSchema({ _id: user.id, donator: true }).save();
+                if(!await User.exists({ _id: user.id })) {
+                    new User({ _id: user.id, donator: true }).save();
                 } else {
-                    userSchema.findOneAndUpdate({ _id: user.id }, { donator: true }, (err, data) => {});
+                    User.findOneAndUpdate({ _id: user.id }, { donator: true }, (err, data) => {});
                 }
 
                 const added = new Discord.EmbedBuilder()
@@ -93,7 +93,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "remove") {
-                if(!await userSchema.exists({ _id: user.id, donator: true })) {
+                if(!await User.exists({ _id: user.id, donator: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not a donator!`)
@@ -102,7 +102,7 @@ module.exports = {
                     return;
                 }
 
-                await userSchema.findOneAndUpdate({ _id: user.id }, { donator: false });
+                await User.findOneAndUpdate({ _id: user.id }, { donator: false });
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

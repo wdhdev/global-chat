@@ -1,20 +1,20 @@
 const checkWebhook = require("../../util/checkWebhook");
 const fetch = require("node-fetch");
 
-const guildSchema = require("../../models/guildSchema");
+const Guild = require("../../models/Guild");
 
 module.exports = {
 	name: "guildDelete",
 	async execute(client, Discord, guild) {
         try {
-            if(await guildSchema.exists({ _id: guild.id })) {
-                const data = await guildSchema.findOne({ _id: guild.id });
+            if(await Guild.exists({ _id: guild.id })) {
+                const data = await Guild.findOne({ _id: guild.id });
                 const valid = await checkWebhook(data.webhook);
 
                 if(valid) await fetch(data.webhook, { method: "DELETE" });
             }
 
-            await guildSchema.findOneAndDelete({ _id: guild.id });
+            await Guild.findOneAndDelete({ _id: guild.id });
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 

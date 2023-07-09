@@ -1,5 +1,5 @@
 module.exports = async function (text, interaction, client, Discord) {
-    const guildSchema = require("../models/guildSchema");
+    const Guild = require("../models/Guild");
     const checkWebhook = require("./checkWebhook");
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
@@ -20,7 +20,7 @@ module.exports = async function (text, interaction, client, Discord) {
         )
 
     for(const [guildId, guild] of client.guilds.cache) {
-        await guildSchema.findOne({ _id: guildId }, async (err, data) => {
+        await Guild.findOne({ _id: guildId }, async (err, data) => {
             if(data && data.channel) {
                 const chatChannel = client.channels.cache.get(data.channel);
 

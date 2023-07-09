@@ -1,13 +1,13 @@
 const emoji = require("../../config.json").emojis;
 
-const todoSchema = require("../../models/todoSchema");
+const Task = require("../../models/Task");
 
 module.exports = {
     name: "get-task",
     startsWith: false,
     requiredRoles: [],
     async execute(interaction, client, Discord) {
-        const data = await todoSchema.find();
+        const data = await Task.find();
 
         const priority = {
             high: "🔴",
@@ -54,7 +54,7 @@ module.exports = {
             if(i.customId === `select-menu-${interaction.id}`) {
                 const value = i.values[0];
 
-                const todo = await todoSchema.findOne({ _id: value });
+                const todo = await Task.findOne({ _id: value });
 
                 if(!todo) {
                     const error = new Discord.EmbedBuilder()

@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const messageSchema = require("../../models/messageSchema");
+const Message = require("../../models/Message");
 
 module.exports = {
     name: "message-info",
@@ -10,7 +10,7 @@ module.exports = {
         try {
             const id = interaction.customId.replace("message-info-", "");
 
-            if(!await messageSchema.exists({ _id: id })) {
+            if(!await Message.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -19,7 +19,7 @@ module.exports = {
                 return;
             }
 
-            const data = await messageSchema.findOne({ _id: id });
+            const data = await Message.findOne({ _id: id });
 
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

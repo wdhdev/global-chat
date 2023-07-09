@@ -1,9 +1,9 @@
 module.exports = async function profanity(message) {
-    const filterSchema = require("../../../models/filterSchema");
+    const Filter = require("../../../models/Filter");
     const replaceContent = require("../replaceContent");
 
-    const autobanFilter = await filterSchema.findOne({ _id: "autoban" }) || { words: [] };
-    const blacklistFilter = await filterSchema.findOne({ _id: "blacklist" }) || { words: [] };
+    const autobanFilter = await Filter.findOne({ _id: "autoban" }) || { words: [] };
+    const blacklistFilter = await Filter.findOne({ _id: "blacklist" }) || { words: [] };
 
     const content = replaceContent(message.content.toLowerCase());
 

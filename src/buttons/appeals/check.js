@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const appealSchema = require("../../models/appealSchema");
+const Appeal = require("../../models/Appeal");
 
 module.exports = {
     name: "check-appeal",
@@ -33,7 +33,7 @@ module.exports = {
                 if(i.customId === `modal-${interaction.id}`) {
                     const id = i.fields.getTextInputValue(`modal-appealid-${interaction.id}`);
 
-                    if(!await appealSchema.exists({ _id: id })) {
+                    if(!await Appeal.exists({ _id: id })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} That appeal does not exist!`)
@@ -42,7 +42,7 @@ module.exports = {
                         return;
                     }
 
-                    const data = await appealSchema.findOne({ _id: id });
+                    const data = await Appeal.findOne({ _id: id });
 
                     if(data.id !== interaction.user.id) {
                         const error = new Discord.EmbedBuilder()

@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const bannedUserSchema = require("../../models/bannedUserSchema");
+const BannedUser = require("../../models/BannedUser");
 
 module.exports = {
     name: "unban",
@@ -36,7 +36,7 @@ module.exports = {
             const user = interaction.options.getUser("user");
             const reason = interaction.options.getString("reason");
 
-            if(!await bannedUserSchema.exists({ _id: user.id })) {
+            if(!await BannedUser.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} ${user} is not banned!`)
@@ -45,7 +45,7 @@ module.exports = {
                 return;
             }
 
-            await bannedUserSchema.findOneAndDelete({ _id: user.id });
+            await BannedUser.findOneAndDelete({ _id: user.id });
 
             const userDM = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.green)

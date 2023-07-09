@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const messageSchema = require("../../models/messageSchema");
+const Message = require("../../models/Message");
 
 module.exports = {
 	name: "Report Message",
@@ -14,7 +14,7 @@ module.exports = {
         try {
             const message = interaction.targetMessage;
 
-            if(!await messageSchema.exists({ messages: message.url })) {
+            if(!await Message.exists({ messages: message.url })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -23,7 +23,7 @@ module.exports = {
                 return;
             }
 
-            const data = await messageSchema.findOne({ messages: message.url });
+            const data = await Message.findOne({ messages: message.url });
             const reportChannel = client.channels.cache.get(client.config_channels.reports);
 
             if(data.user === interaction.user.id) {
@@ -59,7 +59,7 @@ module.exports = {
                             .setEmoji("🗑️")
                     )
 
-                const msgData = await messageSchema.findOne({ messages: message.url });
+                const msgData = await Message.findOne({ messages: message.url });
 
                 let user = null;
 

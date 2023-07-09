@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const todoSchema = require("../../models/todoSchema");
-const userSchema = require("../../models/userSchema");
+const Task = require("../../models/Task");
+const User = require("../../models/User");
 
 module.exports = {
 	name: "admin",
@@ -141,7 +141,7 @@ module.exports = {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             if(interaction.options.getSubcommand() === "donators") {
-                const data = await userSchema.find({ donator: true });
+                const data = await User.find({ donator: true });
 
                 const users = [];
 
@@ -168,7 +168,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "immune") {
-                const data = await userSchema.find({ immune: true });
+                const data = await User.find({ immune: true });
 
                 const users = [];
 
@@ -207,7 +207,7 @@ module.exports = {
                         return;
                     }
 
-                    if(await userSchema.exists({ _id: user.id, mod: true })) {
+                    if(await User.exists({ _id: user.id, mod: true })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is already a moderator!`)
@@ -216,10 +216,10 @@ module.exports = {
                         return;
                     }
 
-                    if(!await userSchema.exists({ _id: user.id })) {
-                        new userSchema({ _id: user.id, mod: true }).save();
+                    if(!await User.exists({ _id: user.id })) {
+                        new User({ _id: user.id, mod: true }).save();
                     } else {
-                        userSchema.findOneAndUpdate({ _id: user.id }, { mod: true }, (err, data) => {});
+                        User.findOneAndUpdate({ _id: user.id }, { mod: true }, (err, data) => {});
                     }
 
                     const added = new Discord.EmbedBuilder()
@@ -243,7 +243,7 @@ module.exports = {
                 }
 
                 if(interaction.options.getSubcommand() === "remove") {
-                    if(!await userSchema.exists({ _id: user.id, mod: true })) {
+                    if(!await User.exists({ _id: user.id, mod: true })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is not a moderator!`)
@@ -252,7 +252,7 @@ module.exports = {
                         return;
                     }
 
-                    await userSchema.findOneAndUpdate({ _id: user.id }, { mod: false });
+                    await User.findOneAndUpdate({ _id: user.id }, { mod: false });
 
                     const removed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -329,7 +329,7 @@ module.exports = {
                 const channel = interaction.options.getChannel("channel");
                 const appealChannel = client.channels.cache.get(channel.id);
 
-                const data = await todoSchema.find();
+                const data = await Task.find();
 
                 const todoList = [];
 
@@ -433,7 +433,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "unverify") {
                 const user = interaction.options.getUser("user");
 
-                if(!await userSchema.exists({ _id: user.id, verified: true })) {
+                if(!await User.exists({ _id: user.id, verified: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not verified!`)
@@ -442,7 +442,7 @@ module.exports = {
                     return;
                 }
 
-                userSchema.findOneAndUpdate({ _id: user.id }, { verified: false });
+                User.findOneAndUpdate({ _id: user.id }, { verified: false });
 
                 const unverified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -465,7 +465,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "verified") {
-                const verified = await userSchema.find({ verified: true });
+                const verified = await User.find({ verified: true });
 
                 const users = [];
 
@@ -503,7 +503,7 @@ module.exports = {
                     return;
                 }
 
-                if(await userSchema.exists({ _id: user.id, verified: true })) {
+                if(await User.exists({ _id: user.id, verified: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already verified!`)
@@ -512,10 +512,10 @@ module.exports = {
                     return;
                 }
 
-                if(!await userSchema.exists({ _id: user.id })) {
-                    new userSchema({ _id: user.id, verified: true }).save();
+                if(!await User.exists({ _id: user.id })) {
+                    new User({ _id: user.id, verified: true }).save();
                 } else {
-                    userSchema.findOneAndUpdate({ _id: user.id }, { verified: true }, (err, data) => {});
+                    User.findOneAndUpdate({ _id: user.id }, { verified: true }, (err, data) => {});
                 }
 
                 const verified = new Discord.EmbedBuilder()

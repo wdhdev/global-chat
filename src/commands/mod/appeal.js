@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const appealSchema = require("../../models/appealSchema");
-const bannedUserSchema = require("../../models/bannedUserSchema");
+const Appeal = require("../../models/Appeal");
+const BannedUser = require("../../models/BannedUser");
 
 module.exports = {
 	name: "appeal",
@@ -54,7 +54,7 @@ module.exports = {
             const id = interaction.options.getString("id");
 
             if(interaction.options.getSubcommand() === "delete") {
-                if(!await appealSchema.exists({ _id: id })) {
+                if(!await Appeal.exists({ _id: id })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} Please specify a valid appeal ID!`)
@@ -63,7 +63,7 @@ module.exports = {
                     return;
                 }
 
-                await appealSchema.findOneAndDelete({ _id: id });
+                await Appeal.findOneAndDelete({ _id: id });
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -85,7 +85,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "get") {
-                if(!await appealSchema.exists({ _id: id })) {
+                if(!await Appeal.exists({ _id: id })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} Please specify a valid appeal ID!`)
@@ -94,8 +94,8 @@ module.exports = {
                     return;
                 }
 
-                const data = await appealSchema.findOne({ _id: id });
-                const banData = await bannedUserSchema.findOne({ _id: data.id });
+                const data = await Appeal.findOne({ _id: id });
+                const banData = await BannedUser.findOne({ _id: data.id });
 
                 const state = {
                     "APPROVED": "🟢 Approved",

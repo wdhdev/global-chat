@@ -1,13 +1,13 @@
 const emoji = require("../../config.json").emojis;
 
-const todoSchema = require("../../models/todoSchema");
+const Task = require("../../models/Task");
 
 module.exports = {
     name: "add-task",
     startsWith: false,
     requiredRoles: ["dev"],
     async execute(interaction, client, Discord) {
-        const todoData = await todoSchema.find();
+        const todoData = await Task.find();
 
         if(todoData.length >= 25) {
             const error = new Discord.EmbedBuilder()
@@ -96,7 +96,7 @@ module.exports = {
                         const message = interaction.message;
                         const taskId = require("crypto").randomUUID();
 
-                        data = new todoSchema({
+                        data = new Task({
                             _id: taskId,
                             timestamp: Date.now(),
                             added_by: interaction.user.id,
@@ -111,7 +111,7 @@ module.exports = {
 
                         await i.editReply({ embeds: [added], components: [], ephemeral: true });
 
-                        const newData = await todoSchema.find();
+                        const newData = await Task.find();
 
                         const todoList = [];
 

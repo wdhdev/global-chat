@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const appealSchema = require("../../models/appealSchema");
+const Appeal = require("../../models/Appeal");
 
 module.exports = {
     name: "appeal-deny",
@@ -11,7 +11,7 @@ module.exports = {
             const id = interaction.customId.replace("appeal-deny-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-            const data = await appealSchema.findOne({ _id: id });
+            const data = await Appeal.findOne({ _id: id });
 
             if(!data) {
                 const error = new Discord.EmbedBuilder()
@@ -65,7 +65,7 @@ module.exports = {
                 if(i.customId === `modal-${interaction.id}`) {
                     const reason = i.fields.getTextInputValue(`modal-reason-${interaction.id}`);
 
-                    await appealSchema.findOneAndUpdate({ _id: id }, { status: "DENIED", mod: interaction.user.id, reason: reason });
+                    await Appeal.findOneAndUpdate({ _id: id }, { status: "DENIED", mod: interaction.user.id, reason: reason });
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)

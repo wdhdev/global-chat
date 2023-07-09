@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 const fetch = require("node-fetch");
 
-const sentrySchema = require("../../models/sentrySchema");
+const SentryCapture = require("../../models/SentryCapture");
 
 module.exports = {
 	name: "sentry",
@@ -84,7 +84,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "capture-tokens") {
-                const data = await sentrySchema.find();
+                const data = await SentryCapture.find();
 
                 const tokens = [];
 
@@ -113,7 +113,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "deregister") {
                 const token = interaction.options.getString("token");
 
-                if(!await sentrySchema.exists({ _id: token })) {
+                if(!await SentryCapture.exists({ _id: token })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} That capture token does not exist!`)
@@ -122,7 +122,7 @@ module.exports = {
                     return;
                 }
 
-                await sentrySchema.findOneAndDelete({ _id: token });
+                await SentryCapture.findOneAndDelete({ _id: token });
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -168,7 +168,7 @@ module.exports = {
 
                 const id = require("crypto").randomUUID();
 
-                new sentrySchema({
+                new SentryCapture({
                     _id: id,
                     channel: channel.id,
                     registered: Date.now(),
