@@ -1,7 +1,7 @@
 const { PermissionFlagsBits } = require("discord.js");
 
 const emoji = require("../../config.json").emojis;
-const schema = require("../../models/channelSchema");
+const guildSchema = require("../../models/guildSchema");
 
 module.exports = {
     name: "register",
@@ -34,8 +34,8 @@ module.exports = {
                 avatar: "https://avatars.githubusercontent.com/u/126386097"
             })
 
-            if(!await schema.findOne({ _id: interaction.guild.id })) {
-                new schema({
+            if(!await guildSchema.exists({ _id: interaction.guild.id })) {
+                new guildSchema({
                     _id: interaction.guild.id,
                     channel: channel.id,
                     webhook: webhook.url
@@ -61,7 +61,7 @@ module.exports = {
                 return;
             }
 
-            await schema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
+            await guildSchema.findOneAndUpdate({ _id: interaction.guild.id }, { channel: channel.id, webhook: webhook.url });
 
             const channelChanged = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

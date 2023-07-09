@@ -1,8 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
-const devSchema = require("../../models/devSchema");
 const messageSchema = require("../../models/messageSchema");
-const modSchema = require("../../models/modSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
 	name: "Delete Message",
@@ -28,8 +27,8 @@ module.exports = {
 
             const data = await messageSchema.findOne({ messages: message.url });
 
-            const dev = await devSchema.exists({ _id: interaction.user.id });
-            const mod = await modSchema.exists({ _id: interaction.user.id });
+            const dev = await userSchema.exists({ _id: interaction.user.id, dev: true });
+            const mod = await userSchema.exists({ _id: interaction.user.id, mod: true });
 
             if(!mod && !dev && data.user !== interaction.user.id) {
                 const error = new Discord.EmbedBuilder()

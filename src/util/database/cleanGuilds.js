@@ -1,8 +1,8 @@
 module.exports = async function cleanChannels(client) {
-    const schema = require("../../models/channelSchema");
+    const guildSchema = require("../../models/guildSchema");
     const checkWebhook = require("../checkWebhook");
 
-    const data = await schema.find();
+    const data = await guildSchema.find();
 
     const promises = [];
 
@@ -23,7 +23,7 @@ module.exports = async function cleanChannels(client) {
         promises.push(new Promise(async resolve => {
             if(validGuilds.includes(document._id)) return resolve();
 
-            await schema.findOneAndDelete({ _id: document._id });
+            await guildSchema.findOneAndDelete({ _id: document._id });
 
             removedData.push(document._id);
             resolve(`Deleted: ${document._id}`);
@@ -35,7 +35,7 @@ module.exports = async function cleanChannels(client) {
         promises.push(new Promise(async resolve => {
             if(document.webhook) {
                 if(!(await checkWebhook(document.webhook))) {
-                    await schema.findOneAndUpdate({ _id: document._id }, { webhook: null });
+                    await guildSchema.findOneAndUpdate({ _id: document._id }, { webhook: null });
 
                     modifiedData.push(document._id);
                     resolve(`Modified: ${document._id}`);

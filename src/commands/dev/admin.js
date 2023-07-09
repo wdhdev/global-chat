@@ -1,51 +1,12 @@
 const emoji = require("../../config.json").emojis;
 
-const devSchema = require("../../models/devSchema");
-const donatorSchema = require("../../models/donatorSchema");
-const immuneSchema = require("../../models/immuneSchema");
-const modSchema = require("../../models/modSchema");
 const todoSchema = require("../../models/todoSchema");
-const verifiedSchema = require("../../models/verifiedSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
 	name: "admin",
 	description: "Admin Commands",
     options: [
-        {
-            type: 2,
-            name: "dev",
-            description: "Manage the developer role.",
-            options: [
-                {
-                    type: 1,
-                    name: "add",
-                    description: "[OWNER ONLY] Promote a user to a developer.",
-                    options: [
-                        {
-                            type: 6,
-                            name: "user",
-                            description: "The user to promote.",
-                            required: true
-                        }
-                    ]
-                },
-
-                {
-                    type: 1,
-                    name: "remove",
-                    description: "[OWNER ONLY] Demote a user from a developer.",
-                    options: [
-                        {
-                            type: 6,
-                            name: "user",
-                            description: "The user to demote.",
-                            required: true
-                        }
-                    ]
-                }
-            ]
-        },
-
         {
             type: 1,
             name: "donators",
@@ -179,96 +140,8 @@ module.exports = {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
-            if(interaction.options.getSubcommandGroup() === "dev") {
-                const user = interaction.options.getUser("user");
-
-                if(interaction.user.id !== client.config_default.owner) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} You do not have permission to run this command!`)
-
-                    await interaction.editReply({ embeds: [error] });
-                    return;
-                }
-
-                if(interaction.options.getSubcommand() === "add") {
-                    if(user.bot) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.cross} You cannot make a bot a developer!`)
-
-                        await interaction.editReply({ embeds: [error] });
-                        return;
-                    }
-
-                    if(await devSchema.exists({ _id: user.id })) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.cross} ${user} is already a developer!`)
-
-                        await interaction.editReply({ embeds: [error] });
-                        return;
-                    }
-
-                    new devSchema({ _id: user.id }).save();
-
-                    const added = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.tick} ${user} has been added to the developer role.`)
-
-                    await interaction.editReply({ embeds: [added] });
-
-                    const log = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("Role Added")
-                        .addFields (
-                            { name: "🎭 Role", value: "💻 Developer" },
-                            { name: "👤 User", value: `${user}` }
-                        )
-                        .setTimestamp()
-
-                    logsChannel.send({ embeds: [log] });
-                    return;
-                }
-
-                if(interaction.options.getSubcommand() === "remove") {
-                    if(!await devSchema.exists({ _id: user.id })) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.cross} ${user} is not a developer!`)
-
-                        await interaction.editReply({ embeds: [error] });
-                        return;
-                    }
-
-                    await devSchema.findOneAndDelete({ _id: user.id });
-
-                    const removed = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setDescription(`${emoji.tick} ${user} has been removed from the developer role.`)
-
-                    await interaction.editReply({ embeds: [removed] });
-
-                    const log = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.default)
-                        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                        .setTitle("Role Removed")
-                        .addFields (
-                            { name: "🎭 Role", value: "💻 Developer" },
-                            { name: "👤 User", value: `${user}` }
-                        )
-                        .setTimestamp()
-
-                    logsChannel.send({ embeds: [log] });
-                    return;
-                }
-
-                return;
-            }
-
             if(interaction.options.getSubcommand() === "donators") {
-                const data = await donatorSchema.find();
+                const data = await userSchema.find({ donator: true });
 
                 const users = [];
 
@@ -295,7 +168,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "immune") {
-                const data = await immuneSchema.find();
+                const data = await userSchema.find({ immune: true });
 
                 const users = [];
 
@@ -334,7 +207,7 @@ module.exports = {
                         return;
                     }
 
-                    if(await modSchema.exists({ _id: user.id })) {
+                    if(await userSchema.exists({ _id: user.id, mod: true })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is already a moderator!`)
@@ -343,7 +216,11 @@ module.exports = {
                         return;
                     }
 
-                    new modSchema({ _id: user.id }).save();
+                    if(!await userSchema.exists({ _id: user.id })) {
+                        new userSchema({ _id: user.id, mod: true }).save();
+                    } else {
+                        userSchema.findOneAndUpdate({ _id: user.id }, { mod: true }, (err, data) => {});
+                    }
 
                     const added = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -366,7 +243,7 @@ module.exports = {
                 }
 
                 if(interaction.options.getSubcommand() === "remove") {
-                    if(!await modSchema.exists({ _id: user.id })) {
+                    if(!await userSchema.exists({ _id: user.id, mod: true })) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is not a moderator!`)
@@ -375,7 +252,7 @@ module.exports = {
                         return;
                     }
 
-                    await modSchema.findOneAndDelete({ _id: user.id });
+                    await userSchema.findOneAndUpdate({ _id: user.id }, { mod: false });
 
                     const removed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -556,7 +433,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "unverify") {
                 const user = interaction.options.getUser("user");
 
-                if(!await verifiedSchema.exists({ _id: user.id })) {
+                if(!await userSchema.exists({ _id: user.id, verified: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not verified!`)
@@ -565,11 +442,11 @@ module.exports = {
                     return;
                 }
 
-                await verifiedSchema.findOneAndDelete({ _id: user.id });
+                userSchema.findOneAndUpdate({ _id: user.id }, { verified: false });
 
                 const unverified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.tick} ${user} has been unverified!`)
+                    .setDescription(`${emoji.tick} ${user} has been unverified.`)
 
                 await interaction.editReply({ embeds: [unverified] });
 
@@ -588,7 +465,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "verified") {
-                const verified = await verifiedSchema.find();
+                const verified = await userSchema.find({ verified: true });
 
                 const users = [];
 
@@ -626,7 +503,7 @@ module.exports = {
                     return;
                 }
 
-                if(await verifiedSchema.exists({ _id: user.id })) {
+                if(await userSchema.exists({ _id: user.id, verified: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already verified!`)
@@ -635,7 +512,11 @@ module.exports = {
                     return;
                 }
 
-                new verifiedSchema({ _id: user.id }).save();
+                if(!await userSchema.exists({ _id: user.id })) {
+                    new userSchema({ _id: user.id, verified: true }).save();
+                } else {
+                    userSchema.findOneAndUpdate({ _id: user.id }, { verified: true }, (err, data) => {});
+                }
 
                 const verified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

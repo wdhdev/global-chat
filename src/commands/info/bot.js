@@ -1,10 +1,7 @@
 const bot = require("../../../package.json");
 
-const devSchema = require("../../models/devSchema");
-const donatorSchema = require("../../models/donatorSchema");
 const messageSchema = require("../../models/messageSchema");
-const modSchema = require("../../models/modSchema");
-const verifiedSchema = require("../../models/verifiedSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
     name: "bot",
@@ -29,10 +26,10 @@ module.exports = {
                     { name: "🟢 Online Since", value: `<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:f> (<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:R>)`, inline: true }
                 )
 
-            const developers = await devSchema.find();
-            const moderators = await modSchema.find();
-            const verified = await verifiedSchema.find();
-            const donators = await donatorSchema.find();
+            const developers = await userSchema.find({ dev: true });
+            const moderators = await userSchema.find({ mod: true });
+            const verified = await userSchema.find({ verified: true });
+            const donators = await userSchema.find({ donator: true });
 
             const messages = await messageSchema.find();
             const images = await messageSchema.find({ attachment: { $ne: null } });

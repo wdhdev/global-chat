@@ -1,7 +1,7 @@
 const emoji = require("../../config.json").emojis;
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
-const immuneSchema = require("../../models/immuneSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
     name: "ban",
@@ -63,7 +63,7 @@ module.exports = {
                 return;
             }
 
-            if(await immuneSchema.exists({ _id: user.id })) {
+            if(await userSchema.exists({ _id: user.id, immune: true })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You cannot ban that user!`)

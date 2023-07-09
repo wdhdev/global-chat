@@ -1,7 +1,7 @@
 module.exports = async function cleanChannels(client) {
-    const schema = require("../../models/bannedUserSchema");
+    const bannedUserSchema = require("../../models/bannedUserSchema");
 
-    const data = await schema.find();
+    const data = await bannedUserSchema.find();
 
     const promises = [];
 
@@ -14,7 +14,7 @@ module.exports = async function cleanChannels(client) {
                 await client.users.fetch(document._id);
                 resolve();
             } catch {
-                await schema.findOneAndDelete({ _id: document._id });
+                await bannedUserSchema.findOneAndDelete({ _id: document._id });
 
                 removedData.push(document._id);
                 resolve(`Deleted: ${document._id}`);

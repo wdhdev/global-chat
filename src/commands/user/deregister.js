@@ -1,7 +1,7 @@
 const { PermissionFlagsBits } = require("discord.js");
 
 const emoji = require("../../config.json").emojis;
-const schema = require("../../models/channelSchema");
+const guildSchema = require("../../models/guildSchema");
 
 module.exports = {
     name: "deregister",
@@ -19,7 +19,7 @@ module.exports = {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
-            await schema.findOneAndDelete({ _id: interaction.guild.id });
+            await guildSchema.findOneAndDelete({ _id: interaction.guild.id });
 
             const deregistered = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const devSchema = require("../../models/devSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
 	name: "developers",
@@ -16,7 +16,7 @@ module.exports = {
     ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
-            const data = await devSchema.find();
+            const data = await userSchema.find({ dev: true });
 
             const users = [];
 

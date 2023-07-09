@@ -1,7 +1,4 @@
-const devSchema = require("../../models/devSchema");
-const donatorSchema = require("../../models/donatorSchema");
-const modSchema = require("../../models/modSchema");
-const verifiedSchema = require("../../models/verifiedSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = async function (userId, client) {
     let supporter = false;
@@ -13,12 +10,19 @@ module.exports = async function (userId, client) {
         supporter = member.premiumSinceTimestamp ? true : false;
     } catch {}
 
+    const data = await userSchema.findOne({ _id: userId }) || {
+        dev: false,
+        mod: false,
+        verified: false,
+        donator: false
+    }
+
     return {
         "owner": client.config_default.owner === userId,
-        "dev": await devSchema.exists({ _id: userId }) ? true : false,
-        "mod": await modSchema.exists({ _id: userId }) ? true : false,
-        "verified": await verifiedSchema.exists({ _id: userId }) ? true : false,
-        "donator": await donatorSchema.exists({ _id: userId }) ? true : false,
+        "dev": data.dev,
+        "mod": data.mod,
+        "verified": data.verified,
+        "donator": data.donator,
         "supporter": supporter
     }
 }

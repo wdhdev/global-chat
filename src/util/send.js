@@ -1,13 +1,12 @@
 module.exports = async function (message, client, Discord) {
     const assignRoles = require("./roles/assign");
     const cap = require("./cap");
-    const emoji = require("../config.json").emojis;
     const path = require("path");
     const role = await require("./roles/get")(message.author.id, client);
     const test = require("./filter/test");
 
     const bannedUserSchema = require("../models/bannedUserSchema");
-    const channelSchema = require("../models/channelSchema");
+    const guildSchema = require("../models/guildSchema");
     const messageSchema = require("../models/messageSchema");
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
@@ -136,7 +135,7 @@ module.exports = async function (message, client, Discord) {
 
     for(const [guildId, guild] of client.guilds.cache) {
         promises.push(new Promise(async resolve => {
-            await channelSchema.findOne({ _id: guildId }, async (err, data) => {
+            await guildSchema.findOne({ _id: guildId }, async (err, data) => {
                 if(data && data.channel) {
                     const chatChannel = client.channels.cache.get(data.channel);
 

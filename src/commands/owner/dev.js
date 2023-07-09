@@ -3,18 +3,18 @@ const emoji = require("../../config.json").emojis;
 const userSchema = require("../../models/userSchema");
 
 module.exports = {
-	name: "donator",
-	description: "Manage the donator role.",
+	name: "dev",
+	description: "Manage the developer role.",
     options: [
         {
             type: 1,
             name: "add",
-            description: "[OWNER ONLY] Add a user to the donator role.",
+            description: "[OWNER ONLY] Promote a user to a developer.",
             options: [
                 {
                     type: 6,
                     name: "user",
-                    description: "The user to add.",
+                    description: "The user to promote.",
                     required: true
                 }
             ]
@@ -23,12 +23,12 @@ module.exports = {
         {
             type: 1,
             name: "remove",
-            description: "[OWNER ONLY] Remove a user from the donator role.",
+            description: "[OWNER ONLY] Demote a user from a developer.",
             options: [
                 {
                     type: 6,
                     name: "user",
-                    description: "The user to remove.",
+                    description: "The user to demote.",
                     required: true
                 }
             ]
@@ -45,36 +45,37 @@ module.exports = {
 	async execute(interaction, client, Discord) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
+
             const user = interaction.options.getUser("user");
 
             if(interaction.options.getSubcommand() === "add") {
                 if(user.bot) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} You cannot make a bot a donator!`)
+                        .setDescription(`${emoji.cross} You cannot make a bot a developer!`)
 
                     await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
-                if(await userSchema.exists({ _id: user.id, donator: true })) {
+                if(await userSchema.exists({ _id: user.id, dev: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} ${user} is already a donator!`)
+                        .setDescription(`${emoji.cross} ${user} is already a developer!`)
 
                     await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
                 if(!await userSchema.exists({ _id: user.id })) {
-                    new userSchema({ _id: user.id, donator: true }).save();
+                    new userSchema({ _id: user.id, dev: true }).save();
                 } else {
-                    userSchema.findOneAndUpdate({ _id: user.id }, { donator: true }, (err, data) => {});
+                    userSchema.findOneAndUpdate({ _id: user.id }, { dev: true }, (err, data) => {});
                 }
 
                 const added = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.tick} ${user} has been added to the donator role.`)
+                    .setDescription(`${emoji.tick} ${user} has been added to the developer role.`)
 
                 await interaction.editReply({ embeds: [added] });
 
@@ -83,7 +84,7 @@ module.exports = {
                     .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle("Role Added")
                     .addFields (
-                        { name: "🎭 Role", value: "💸 Donator" },
+                        { name: "🎭 Role", value: "💻 Developer" },
                         { name: "👤 User", value: `${user}` }
                     )
                     .setTimestamp()
@@ -93,20 +94,20 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "remove") {
-                if(!await userSchema.exists({ _id: user.id, donator: true })) {
+                if(!await userSchema.exists({ _id: user.id, dev: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} ${user} is not a donator!`)
+                        .setDescription(`${emoji.cross} ${user} is not a developer!`)
 
                     await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
-                await userSchema.findOneAndUpdate({ _id: user.id }, { donator: false });
+                await userSchema.findOneAndUpdate({ _id: user.id }, { dev: false });
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.tick} ${user} has been removed from the donator role.`)
+                    .setDescription(`${emoji.tick} ${user} has been removed from the developer role.`)
 
                 await interaction.editReply({ embeds: [removed] });
 
@@ -115,7 +116,7 @@ module.exports = {
                     .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle("Role Removed")
                     .addFields (
-                        { name: "🎭 Role", value: "💸 Donator" },
+                        { name: "🎭 Role", value: "💻 Developer" },
                         { name: "👤 User", value: `${user}` }
                     )
                     .setTimestamp()

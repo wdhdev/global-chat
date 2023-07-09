@@ -2,8 +2,8 @@ const getRoles = require("../../util/roles/get");
 
 const bannedUserSchema = require("../../models/bannedUserSchema");
 const blockedSchema = require("../../models/blockedSchema");
-const immuneSchema = require("../../models/immuneSchema");
 const messageSchema = require("../../models/messageSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
 	name: "User Info",
@@ -30,7 +30,7 @@ module.exports = {
             if(role.supporter) roles.push("💖 Supporter");
 
             // Immunity
-            const immune = await immuneSchema.exists({ _id: user.id });
+            const immune = await userSchema.exists({ _id: user.id, immune: true });
 
             // Banned
             let banned = false;

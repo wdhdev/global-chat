@@ -1,10 +1,11 @@
 module.exports = async function (text, interaction, client, Discord) {
-    const channelSchema = require("../models/channelSchema");
+    const guildSchema = require("../models/guildSchema");
     const checkWebhook = require("./checkWebhook");
 
     const requiredPerms = ["SendMessages", "EmbedLinks"];
 
     const msg = new Discord.EmbedBuilder()
+        .setColor(client.config_embeds.default)
         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
         .setTitle("Announcement")
         .setDescription(`${text}`)
@@ -19,7 +20,7 @@ module.exports = async function (text, interaction, client, Discord) {
         )
 
     for(const [guildId, guild] of client.guilds.cache) {
-        await channelSchema.findOne({ _id: guildId }, async (err, data) => {
+        await guildSchema.findOne({ _id: guildId }, async (err, data) => {
             if(data && data.channel) {
                 const chatChannel = client.channels.cache.get(data.channel);
 

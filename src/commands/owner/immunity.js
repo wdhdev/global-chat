@@ -1,6 +1,6 @@
 const emoji = require("../../config.json").emojis;
 
-const immuneSchema = require("../../models/immuneSchema");
+const userSchema = require("../../models/userSchema");
 
 module.exports = {
 	name: "immunity",
@@ -41,7 +41,7 @@ module.exports = {
     enabled: true,
     hidden: true,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const user = interaction.options.getUser("user");
@@ -57,7 +57,7 @@ module.exports = {
                     return;
                 }
 
-                if(await immuneSchema.exists({ _id: user.id })) {
+                if(await userSchema.exists({ _id: user.id, immune: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already immune!`)
@@ -66,7 +66,11 @@ module.exports = {
                     return;
                 }
 
-                new immuneSchema({ _id: user.id }).save();
+                if(!await userSchema.exists({ _id: user.id })) {
+                    new userSchema({ _id: user.id, immune: true }).save();
+                } else {
+                    userSchema.findOneAndUpdate({ _id: user.id }, { immune: true }, (err, data) => {});
+                }
 
                 const added = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -88,7 +92,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "remove") {
-                if(!await immuneSchema.exists({ _id: user.id })) {
+                if(!await userSchema.exists({ _id: user.id, immune: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is not immune!`)
@@ -97,7 +101,7 @@ module.exports = {
                     return;
                 }
 
-                await immuneSchema.findOneAndDelete({ _id: user.id });
+                await userSchema.findOneAndUpdate({ _id: user.id }, { immune: false });
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
