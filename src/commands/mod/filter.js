@@ -112,7 +112,7 @@ module.exports = {
     enabled: true,
     hidden: true,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             if(interaction.options.getSubcommand() === "add") {
@@ -179,30 +179,12 @@ module.exports = {
                     blacklist: "Blacklist"
                 }
 
-                const embed = new Discord.EmbedBuilder()
+                const list = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setTitle(`${filters[filter]} Filter`)
                     .setDescription(`\`${data.words.sort().join("\`, \`")}\``)
 
-                let msgURL = null;
-
-                try {
-                    await interaction.user.send({ embeds: [embed] })
-                        .then(msg => msgURL = `https://discord.com/channels/@me/${msg.channelId}/${msg.id}`)
-                } catch {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} I could not DM you!`)
-
-                    await interaction.editReply({ embeds: [error] });
-                    return;
-                }
-
-                const sent = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setDescription(`💬 ${msgURL}`)
-
-                await interaction.editReply({ embeds: [sent] });
+                await interaction.editReply({ embeds: [list] });
                 return;
             }
 
