@@ -31,7 +31,7 @@ module.exports = {
 
             const developers = await devSchema.find();
             const moderators = await modSchema.find();
-            const verifiedUsers = await verifiedSchema.find();
+            const verified = await verifiedSchema.find();
             const donators = await donatorSchema.find();
 
             const messages = await messageSchema.find();
@@ -46,7 +46,7 @@ module.exports = {
 
             const stat_developers = `💻 ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
             const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
-            const stat_verified = `✅ ${verifiedUsers.length} Verified User${verifiedUsers.length === 1 ? "" : "s"}`;
+            const stat_verified = `✅ ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
             const stat_donators = `💸 ${donators.length} Donator${boosters.size === 1 ? "" : "s"}`;
             const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
 
