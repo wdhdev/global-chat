@@ -1,4 +1,5 @@
 const checkWebhook = require("../../util/checkWebhook");
+const fetch = require("node-fetch");
 
 const channelSchema = require("../../models/channelSchema");
 
@@ -10,7 +11,7 @@ module.exports = {
                 const data = await channelSchema.findOne({ _id: guild.id });
                 const valid = await checkWebhook(data.webhook);
 
-                if(valid) await axios.delete(data.webhook);
+                if(valid) await fetch(data.webhook, { method: "DELETE" });
             }
 
             await channelSchema.findOneAndDelete({ _id: guild.id });

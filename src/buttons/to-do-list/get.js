@@ -3,7 +3,7 @@ const emoji = require("../../config.json").emojis;
 const todoSchema = require("../../models/todoSchema");
 
 module.exports = {
-    name: "get-todo",
+    name: "get-task",
     startsWith: false,
     requiredRoles: [],
     async execute(interaction, client, Discord) {

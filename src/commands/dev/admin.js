@@ -159,7 +159,7 @@ module.exports = {
     enabled: true,
     hidden: true,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
@@ -272,7 +272,7 @@ module.exports = {
 
                 const immuneUsers = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                	.setTitle("🚫 Immune Users")
+                	.setTitle("🔒 Immune Users")
                     .setDescription(`<@${users.join(">, <@")}>`)
 
                 await interaction.editReply({ embeds: [immuneUsers] });
@@ -437,27 +437,27 @@ module.exports = {
                 const row1 = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Primary)
+                            .setCustomId("get-task")
+                            .setLabel("Get"),
+
+                        new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Success)
-                            .setCustomId("add-todo")
-                            .setLabel("Add Task"),
+                            .setCustomId("add-task")
+                            .setLabel("Add"),
 
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Danger)
-                            .setCustomId("remove-todo")
-                            .setLabel("Remove Task"),
-
-                        new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Primary)
-                            .setCustomId("get-todo")
-                            .setLabel("Get Task")
+                            .setCustomId("remove-task")
+                            .setLabel("Remove")
                     )
 
                 const row2 = new Discord.ActionRowBuilder()
                     .addComponents (
                         new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Secondary)
-                            .setCustomId("refresh-todo-list")
-                            .setEmoji("🔃")
+                            .setCustomId("refresh-task-list")
+                            .setLabel("Refresh")
                     )
 
                 try {

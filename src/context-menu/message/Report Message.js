@@ -10,7 +10,6 @@ module.exports = {
     requiredRoles: [],
     cooldown: 10,
     enabled: true,
-    hidden: false,
 	async execute(interaction, client, Discord) {
         try {
             const message = interaction.targetMessage;

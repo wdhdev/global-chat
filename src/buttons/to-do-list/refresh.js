@@ -1,7 +1,7 @@
 const todoSchema = require("../../models/todoSchema");
 
 module.exports = {
-    name: "refresh-todo-list",
+    name: "refresh-task-list",
     startsWith: false,
     requiredRoles: [],
     async execute(interaction, client, Discord) {

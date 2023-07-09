@@ -11,7 +11,7 @@ module.exports = {
     enabled: true,
     hidden: false,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const guild = await client.guilds.fetch(client.config_default.guild);

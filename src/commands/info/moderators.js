@@ -13,7 +13,7 @@ module.exports = {
     enabled: true,
     hidden: false,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const mods = await modSchema.find();
