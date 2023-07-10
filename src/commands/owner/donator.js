@@ -72,6 +72,13 @@ module.exports = {
                     User.findOneAndUpdate({ _id: user.id }, { donator: true }, (err, data) => {});
                 }
 
+                const guild = await client.guilds.fetch(client.config_default.guild);
+
+                const member = await guild.members.cache.get(user.id);
+                const role = await guild.roles.cache.get(client.config_roles.donator);
+
+                if(member) member.roles.add(role);
+
                 const added = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setDescription(`${emoji.tick} ${user} has been added to the donator role.`)
@@ -103,6 +110,13 @@ module.exports = {
                 }
 
                 await User.findOneAndUpdate({ _id: user.id }, { donator: false });
+
+                const guild = await client.guilds.fetch(client.config_default.guild);
+
+                const member = await guild.members.cache.get(user.id);
+                const role = await guild.roles.cache.get(client.config_roles.donator);
+
+                if(member) member.roles.remove(role);
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

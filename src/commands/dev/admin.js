@@ -222,6 +222,13 @@ module.exports = {
                         User.findOneAndUpdate({ _id: user.id }, { mod: true }, (err, data) => {});
                     }
 
+                    const guild = await client.guilds.fetch(client.config_default.guild);
+
+                    const member = await guild.members.cache.get(user.id);
+                    const role = await guild.roles.cache.get(client.config_roles.mod);
+
+                    if(member) member.roles.add(role);
+
                     const added = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
                         .setDescription(`${emoji.tick} ${user} has been added to the moderator role.`)
@@ -253,6 +260,13 @@ module.exports = {
                     }
 
                     await User.findOneAndUpdate({ _id: user.id }, { mod: false });
+
+                    const guild = await client.guilds.fetch(client.config_default.guild);
+
+                    const member = await guild.members.cache.get(user.id);
+                    const role = await guild.roles.cache.get(client.config_roles.mod);
+
+                    if(member) member.roles.remove(role);
 
                     const removed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
@@ -444,6 +458,13 @@ module.exports = {
 
                 User.findOneAndUpdate({ _id: user.id }, { verified: false });
 
+                const guild = await client.guilds.fetch(client.config_default.guild);
+
+                const member = await guild.members.cache.get(user.id);
+                const role = await guild.roles.cache.get(client.config_roles.verified);
+
+                if(member) member.roles.remove(role);
+
                 const unverified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setDescription(`${emoji.tick} ${user} has been unverified.`)
@@ -517,6 +538,13 @@ module.exports = {
                 } else {
                     User.findOneAndUpdate({ _id: user.id }, { verified: true }, (err, data) => {});
                 }
+
+                const guild = await client.guilds.fetch(client.config_default.guild);
+
+                const member = await guild.members.cache.get(user.id);
+                const role = await guild.roles.cache.get(client.config_roles.verified);
+
+                if(member) member.roles.add(role);
 
                 const verified = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

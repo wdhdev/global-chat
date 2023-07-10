@@ -30,13 +30,16 @@
     },
 
     "presence": {
-        "activity": "wdh.gg/globalchat",
-        "activityType": 0,
+        "activity": "for messages",
+        "activityType": 3,
         "status": "ONLINE"
     },
 
     "roles": {
         "booster": "1115056722042703942",
-        "mod": "1082167230357307402"
+        "dev": "1067023529305976898",
+        "donator": "1127426331286712320",
+        "mod": "1082167230357307402",
+        "verified": "1067415526491561984"
     }
 }

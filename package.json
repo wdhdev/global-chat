@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "deregister": "node src/scripts/deregister.js",
-    "start": "node src/index.js",
+    "start": "npm run deregister && node src/index.js",
     "register": "node src/scripts/register.js"
   },
   "author": "William Harrison",
