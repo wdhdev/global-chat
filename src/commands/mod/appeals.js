@@ -20,7 +20,7 @@ module.exports = {
     enabled: true,
     hidden: true,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const user = interaction.options.getUser("user");

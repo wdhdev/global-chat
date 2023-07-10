@@ -11,7 +11,7 @@ module.exports = {
     enabled: true,
     hidden: false,
     deferReply: true,
-    ephemeral: false,
+    ephemeral: true,
 	async execute(interaction, client, Discord) {
         try {
             const pinging = new Discord.EmbedBuilder()
@@ -23,11 +23,31 @@ module.exports = {
             const botLatency = i.createdTimestamp - interaction.createdTimestamp;
             const apiLatency = Math.round(client.ws.ping);
 
+            let botLatencyValue;
+            let apiLatencyValue;
+
+            if(botLatency >= 0 && botLatency <= 99) {
+                botLatencyValue = `🟢 ${botLatency}ms`;
+            } else if(botLatency >= 100 && botLatency <= 199) {
+                botLatencyValue = `🟠 ${botLatency}ms`;
+            } else {
+                botLatencyValue = `🔴 ${botLatency}ms`;
+            }
+
+            if(apiLatency >= 0 && apiLatency <= 99) {
+                apiLatencyValue = `🟢 ${apiLatency}ms`;
+            } else if(apiLatency >= 100 && apiLatency <= 199) {
+                apiLatencyValue = `🟠 ${apiLatency}ms`;
+            } else {
+                apiLatencyValue = `🔴 ${apiLatency}ms`;
+            }
+
             const ping = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
+                .setTitle("🏓 Pong!")
                 .addFields (
-                    { name: "Bot Latency", value: `${botLatency}ms` },
-                    { name: "API Latency", value: `${apiLatency}ms` }
+                    { name: "Bot Latency", value: botLatencyValue, inline: true },
+                    { name: "API Latency", value: apiLatencyValue, inline: true }
                 )
 
             await interaction.editReply({ embeds: [ping] });
