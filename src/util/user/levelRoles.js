@@ -5,7 +5,7 @@ module.exports = async function (user, client, Discord) {
     const messages = (await Message.find({ user: user.id })).length;
     const userData = await User.findOne({ _id: user.id });
 
-    if(userData.verified) return;
+    if(userData?.verified) return;
 
     // 1,000+ Messages
     if(messages >= 1000) {
