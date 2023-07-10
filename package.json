@@ -4,9 +4,8 @@
   "description": "A Discord bot that connects multiple servers together in one channel!",
   "main": "src/index.js",
   "scripts": {
-    "deregister": "node src/scripts/deregister.js",
-    "start": "node src/index.js",
-    "register": "node src/scripts/register.js"
+    "register": "node src/scripts/register.js",
+    "start": "node src/index.js"
   },
   "author": "William Harrison",
   "license": "MIT",
@@ -20,8 +19,5 @@
     "mongoose": "^6.11.2",
     "node-fetch": "^2.6.9",
     "stop-discord-phishing": "^0.3.3"
-  },
-  "devDependencies": {
-    "eslint": "^8.44.0"
   }
 }
