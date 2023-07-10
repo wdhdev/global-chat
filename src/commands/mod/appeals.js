@@ -25,7 +25,9 @@ module.exports = {
         try {
             const user = interaction.options.getUser("user");
 
-            if(!await Appeal.exists({ id: user.id })) {
+            const data = await Appeal.find({ id: user.id });
+
+            if(!data.length) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} ${user} has no appeals!`)
@@ -39,8 +41,6 @@ module.exports = {
                 "DENIED": "🔴",
                 "NOT_REVIEWED": "🟠"
             }
-
-            const data = await Appeal.find({ id: user.id });
 
             const appeals = [];
 

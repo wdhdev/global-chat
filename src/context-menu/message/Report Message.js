@@ -14,7 +14,9 @@ module.exports = {
         try {
             const message = interaction.targetMessage;
 
-            if(!await Message.exists({ messages: message.url })) {
+            const data = await Message.findOne({ messages: message.url });
+
+            if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -22,9 +24,6 @@ module.exports = {
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
             }
-
-            const data = await Message.findOne({ messages: message.url });
-            const reportChannel = client.channels.cache.get(client.config_channels.reports);
 
             if(data.user === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
@@ -34,6 +33,8 @@ module.exports = {
                 await interaction.editReply({ embeds: [error], ephemeral: true });
                 return;
             }
+
+            const reportChannel = client.channels.cache.get(client.config_channels.reports);
 
             try {
                 const report = new Discord.EmbedBuilder()
@@ -59,19 +60,17 @@ module.exports = {
                             .setEmoji("🗑️")
                     )
 
-                const msgData = await Message.findOne({ messages: message.url });
-
                 let user = null;
 
                 try {
-                    user = await client.users.fetch(msgData.user);
+                    user = await client.users.fetch(data.user);
                 } catch {}
 
                 const messageEmbed = new Discord.EmbedBuilder()
-                    .setTimestamp(new Date(Number((BigInt(msgData._id) >> 22n) + 1420070400000n)))
+                    .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
 
                 if(user) messageEmbed.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
-                if(msgData.content) messageEmbed.setDescription(msgData.content);
+                if(data.content) messageEmbed.setDescription(data.content);
 
                 reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report, messageEmbed], components: [actions] });
             } catch(err) {

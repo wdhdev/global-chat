@@ -53,8 +53,10 @@ module.exports = {
 
             const id = interaction.options.getString("id");
 
+            const appeal = await Appeal.findOne({ _id: id });
+
             if(interaction.options.getSubcommand() === "delete") {
-                if(!await Appeal.exists({ _id: id })) {
+                if(!appeal) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} Please specify a valid appeal ID!`)
@@ -63,7 +65,7 @@ module.exports = {
                     return;
                 }
 
-                await Appeal.findOneAndDelete({ _id: id });
+                await appeal.delete();
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -85,7 +87,7 @@ module.exports = {
             }
 
             if(interaction.options.getSubcommand() === "get") {
-                if(!await Appeal.exists({ _id: id })) {
+                if(!appeal) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} Please specify a valid appeal ID!`)
@@ -94,8 +96,7 @@ module.exports = {
                     return;
                 }
 
-                const data = await Appeal.findOne({ _id: id });
-                const banData = await BannedUser.findOne({ _id: data.id });
+                const banData = await BannedUser.findOne({ _id: appeal.id });
 
                 const state = {
                     "APPROVED": "🟢 Approved",
@@ -107,11 +108,11 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .addFields (
                         { name: "📄 Appeal", value: id },
-                        { name: "👤 User", value: `<@${data.id}>` },
+                        { name: "👤 User", value: `<@${appeal.id}>` },
                         { name: "🔨 Ban Reason (*actual reason*)", value: banData.reason ? `${banData.reason}` : "*None*" },
-                        { name: "🔨 Ban Reason (*user provided*)", value: `${data.ban_reason}` },
-                        { name: "🔓 Unban Reason (*user provided*)", value: `${data.unban_reason}` },
-                        { name: "📝 Status", value: `${state[data.status]}${data.status !== "NOT_REVIEWED" ? `\n❓ ${data.reason}\n🔨 <@${data.mod}>` : ""}` }
+                        { name: "🔨 Ban Reason (*user provided*)", value: `${appeal.ban_reason}` },
+                        { name: "🔓 Unban Reason (*user provided*)", value: `${appeal.unban_reason}` },
+                        { name: "📝 Status", value: `${state[appeal.status]}${appeal.status !== "NOT_REVIEWED" ? `\n❓ ${appeal.reason}\n🔨 <@${appeal.mod}>` : ""}` }
                     )
 
                 await interaction.editReply({ embeds: [appealData] });

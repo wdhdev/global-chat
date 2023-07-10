@@ -10,7 +10,9 @@ module.exports = {
         try {
             const id = interaction.customId.replace("message-info-", "");
 
-            if(!await Message.exists({ _id: id })) {
+            const data = await Message.findOne({ _id: id });
+
+            if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -18,8 +20,6 @@ module.exports = {
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
-
-            const data = await Message.findOne({ _id: id });
 
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

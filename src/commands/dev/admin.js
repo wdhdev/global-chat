@@ -207,7 +207,9 @@ module.exports = {
                         return;
                     }
 
-                    if(await User.exists({ _id: user.id, mod: true })) {
+                    const userData = await User.findOne({ _id: user.id });
+
+                    if(userData.mod) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is already a moderator!`)
@@ -216,7 +218,7 @@ module.exports = {
                         return;
                     }
 
-                    if(!await User.exists({ _id: user.id })) {
+                    if(!userData) {
                         new User({ _id: user.id, mod: true }).save();
                     } else {
                         User.findOneAndUpdate({ _id: user.id }, { mod: true }, (err, data) => {});
@@ -524,7 +526,9 @@ module.exports = {
                     return;
                 }
 
-                if(await User.exists({ _id: user.id, verified: true })) {
+                const userData = await User.findOne({ _id: user.id });
+
+                if(userData.verified) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already verified!`)
@@ -533,7 +537,7 @@ module.exports = {
                     return;
                 }
 
-                if(!await User.exists({ _id: user.id })) {
+                if(!userData) {
                     new User({ _id: user.id, verified: true }).save();
                 } else {
                     User.findOneAndUpdate({ _id: user.id }, { verified: true }, (err, data) => {});

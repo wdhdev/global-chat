@@ -133,75 +133,49 @@ module.exports = async function (message, client, Discord) {
 
     for(const [guildId, guild] of client.guilds.cache) {
         promises.push(new Promise(async resolve => {
-            await Guild.findOne({ _id: guildId }, async (err, data) => {
-                if(data && data.channel) {
-                    const chatChannel = client.channels.cache.get(data.channel);
+            if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
-                    if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
-                    if(!chatChannel) return resolve();
+            const data = await Guild.findOne({ _id: guildId });
 
-                    try {
-                        if(data.webhook) {
-                            try {
-                                const webhook = new Discord.WebhookClient({ url: data.webhook });
+            if(!data) return;
 
-                                const username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
-                                let webhookUsername = username;
+            if(!data.blockedUsers.includes(message.author.id) || guildId === message.guild.id) {
+                const chatChannel = client.channels.cache.get(data.channel);
+                if(!chatChannel) return resolve();
 
-                                if(role.supporter) webhookUsername = `${username} 💖`;
-                                if(role.donator) webhookUsername = `${username} 💸`;
-                                if(role.verified) webhookUsername = `${username} ✅`;
-                                if(role.mod) webhookUsername = `${username} 🔨`;
-                                if(role.dev) webhookUsername = `${username} 💻`;
+                try {
+                    if(data.webhook) {
+                        try {
+                            const webhook = new Discord.WebhookClient({ url: data.webhook });
 
-                                webhook.on("error", async err => {
-                                    client.logEventError(err);
+                            const username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
+                            let webhookUsername = username;
 
-                                    try {
-                                        if(reply) {
-                                            await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
-                                        } else {
-                                            await chatChannel.send({ embeds: [chat] })
-                                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
-                                        }
-                                    } catch {
-                                        resolve();
-                                    }
-                                })
+                            if(role.supporter) webhookUsername = `${username} 💖`;
+                            if(role.donator) webhookUsername = `${username} 💸`;
+                            if(role.verified) webhookUsername = `${username} ✅`;
+                            if(role.mod) webhookUsername = `${username} 🔨`;
+                            if(role.dev) webhookUsername = `${username} 💻`;
 
-                                if(reply) {
-                                    await webhook.send({
-                                        username: webhookUsername,
-                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                        content: message.content,
-                                        embeds: [replyEmbed],
-                                        allowedMentions: { parse: [] }
-                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                                } else {
-                                    await webhook.send({
-                                        username: webhookUsername,
-                                        avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                        content: message.content,
-                                        allowedMentions: { parse: [] }
-                                    }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
-                                }
-                            } catch(err) {
-                                client.logEventError(err);
-
-                                try {
-                                    if(reply) {
-                                        await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
-                                    } else {
-                                        await chatChannel.send({ embeds: [chat] })
-                                            .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
-                                    }
-                                } catch {
-                                    resolve();
-                                }
+                            if(reply) {
+                                await webhook.send({
+                                    username: webhookUsername,
+                                    avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                    content: message.content,
+                                    embeds: [replyEmbed],
+                                    allowedMentions: { parse: [] }
+                                }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                            } else {
+                                await webhook.send({
+                                    username: webhookUsername,
+                                    avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                    content: message.content,
+                                    allowedMentions: { parse: [] }
+                                }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                             }
-                        } else {
+                        } catch(err) {
+                            client.logEventError(err);
+
                             try {
                                 if(reply) {
                                     await chatChannel.send({ embeds: [replyEmbed, chat] })
@@ -214,13 +188,25 @@ module.exports = async function (message, client, Discord) {
                                 resolve();
                             }
                         }
-                    } catch {
-                        resolve();
+                    } else {
+                        try {
+                            if(reply) {
+                                await chatChannel.send({ embeds: [replyEmbed, chat] })
+                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
+                            } else {
+                                await chatChannel.send({ embeds: [chat] })
+                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
+                            }
+                        } catch {
+                            resolve();
+                        }
                     }
-                } else {
+                } catch {
                     resolve();
                 }
-            }).clone()
+            } else {
+                resolve();
+            }
         }))
     }
 

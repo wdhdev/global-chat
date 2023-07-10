@@ -11,7 +11,9 @@ module.exports = {
             const id = interaction.customId.replace("delete-message-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-            if(!await Message.exists({ _id: id })) {
+            const data = await Message.findOne({ _id: id });
+
+            if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -19,8 +21,6 @@ module.exports = {
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
-
-            const data = await Message.findOne({ _id: id });
 
             const total = data.messages.length;
             let deleted = 0;

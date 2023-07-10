@@ -33,7 +33,9 @@ module.exports = {
                 if(i.customId === `modal-${interaction.id}`) {
                     const id = i.fields.getTextInputValue(`modal-appealid-${interaction.id}`);
 
-                    if(!await Appeal.exists({ _id: id })) {
+                    const data = await Appeal.findOne({ _id: id });
+
+                    if(!data) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} That appeal does not exist!`)
@@ -41,8 +43,6 @@ module.exports = {
                         await i.reply({ embeds: [error], ephemeral: true });
                         return;
                     }
-
-                    const data = await Appeal.findOne({ _id: id });
 
                     if(data.id !== interaction.user.id) {
                         const error = new Discord.EmbedBuilder()

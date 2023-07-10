@@ -6,9 +6,9 @@ const parser = require("../util/parser");
 const SentryCapture = require("../../models/SentryCapture");
 
 module.exports = async (req, res, client) => {
-    if(!await SentryCapture.exists({ _id: req.params.secret })) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });
-
     const data = await SentryCapture.findOne({ _id: req.params.secret });
+
+    if(!data) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });
 
     const event = req.body;
 

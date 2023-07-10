@@ -57,7 +57,9 @@ module.exports = {
                     return;
                 }
 
-                if(await User.exists({ _id: user.id, donator: true })) {
+                const userData = await User.findOne({ _id: user.id });
+
+                if(userData.donator) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already a donator!`)
@@ -66,7 +68,7 @@ module.exports = {
                     return;
                 }
 
-                if(!await User.exists({ _id: user.id })) {
+                if(!userData) {
                     new User({ _id: user.id, donator: true }).save();
                 } else {
                     User.findOneAndUpdate({ _id: user.id }, { donator: true }, (err, data) => {});

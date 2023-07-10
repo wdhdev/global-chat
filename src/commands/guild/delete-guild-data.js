@@ -20,7 +20,9 @@ module.exports = {
     ephemeral: true,
     async execute(interaction, client, Discord) {
         try {
-            if(!await Guild.exists({ _id: interaction.guild.id })) {
+            const data = await Guild.findOne({ _id: interaction.guild.id });
+
+            if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There is no data associated with this guild!`)
@@ -29,7 +31,7 @@ module.exports = {
                 return;
             }
 
-            const embed = new Discord.EmbedBuilder()
+            const confirmation = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("Confirmation")
                 .setDescription("Are you sure you want to delete all data associated with this guild?\n\nThe global chat channel will be **deregistered** and any webhooks will be **deleted**.\n**This cannot be undone.**")
@@ -48,7 +50,7 @@ module.exports = {
                         .setLabel("Cancel")
                 )
 
-            await interaction.editReply({ embeds: [embed], components: [actions] })
+            await interaction.editReply({ embeds: [confirmation], components: [actions] })
             const collector = interaction.channel.createMessageComponentCollector({ componentType: Discord.ComponentType.Button, time: 30000 });
 
             collector.on("collect", async c => {
@@ -63,8 +65,6 @@ module.exports = {
 
                 if(c.customId === `delete-${interaction.id}`) {
                     collector.stop();
-
-                    const data = await Guild.findOne({ _id: interaction.guild.id });
 
                     if(data.webhook) {
                         if(await checkWebhook(data.webhook)) fetch(data.webhook, { method: "DELETE" });

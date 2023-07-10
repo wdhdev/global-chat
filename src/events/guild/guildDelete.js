@@ -7,14 +7,15 @@ module.exports = {
 	name: "guildDelete",
 	async execute(client, Discord, guild) {
         try {
-            if(await Guild.exists({ _id: guild.id })) {
-                const data = await Guild.findOne({ _id: guild.id });
+            const data = await Guild.findOne({ _id: guild.id });
+
+            if(data) {
                 const valid = await checkWebhook(data.webhook);
 
                 if(valid) await fetch(data.webhook, { method: "DELETE" });
             }
 
-            await Guild.findOneAndDelete({ _id: guild.id });
+            await data.delete();
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 

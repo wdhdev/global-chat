@@ -113,7 +113,9 @@ module.exports = {
             if(interaction.options.getSubcommand() === "deregister") {
                 const token = interaction.options.getString("token");
 
-                if(!await SentryCapture.exists({ _id: token })) {
+                const data = await SentryCapture.findOne({ _id: token });
+
+                if(!data) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} That capture token does not exist!`)
@@ -122,7 +124,7 @@ module.exports = {
                     return;
                 }
 
-                await SentryCapture.findOneAndDelete({ _id: token });
+                await data.delete();
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

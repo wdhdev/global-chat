@@ -16,7 +16,10 @@ module.exports = {
             const message = interaction.targetMessage;
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-            if(!await Message.exists({ messages: message.url })) {
+            const data = await Message.findOne({ messages: message.url });
+            const userData = await User.findOne({ _id: interaction.user.id });
+
+            if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -25,12 +28,7 @@ module.exports = {
                 return;
             }
 
-            const data = await Message.findOne({ messages: message.url });
-
-            const dev = await User.exists({ _id: interaction.user.id, dev: true });
-            const mod = await User.exists({ _id: interaction.user.id, mod: true });
-
-            if(!mod && !dev && data.user !== interaction.user.id) {
+            if(!userData.mod && !userData.dev && data.user !== interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You do not have permission to run this command!`)

@@ -119,44 +119,40 @@ module.exports = {
                 const word = interaction.options.getString("word");
                 const filter = interaction.options.getString("filter");
 
-                Filter.findOne({ _id: filter }, async (err, data) => {
-                    if(data) {
-                        if(data.words.includes(word.toLowerCase())) {
-                            const error = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.cross} That word is already on the filter!`)
+                const data = await Filter.findOne({ _id: filter });
 
-                            await interaction.editReply({ embeds: [error] });
-                            return;
-                        }
+                if(!data) {
+                    new Filter({
+                        _id: filter,
+                        words: [word.toLowerCase()]
+                    }).save()
 
-                        data.words.push(word.toLowerCase());
+                    const added = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.tick} That word has been added to the filter!`)
 
-                        await data.save();
+                    await interaction.editReply({ embeds: [added] });
+                    return;
+                }
 
-                        const added = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.tick} That word has been added to the filter!`)
+                if(data.words.includes(word.toLowerCase())) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.cross} That word is already on the filter!`)
 
-                        await interaction.editReply({ embeds: [added] });
-                        return;
-                    }
+                    await interaction.editReply({ embeds: [error] });
+                    return;
+                }
 
-                    if(!data) {
-                        new Filter({
-                            _id: filter,
-                            words: [word.toLowerCase()]
-                        }).save()
+                data.words.push(word.toLowerCase());
 
-                        const added = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.tick} That word has been added to the filter!`)
+                await data.save();
 
-                        await interaction.editReply({ embeds: [added] });
-                        return;
-                    }
-                })
+                const added = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.tick} That word has been added to the filter!`)
 
+                await interaction.editReply({ embeds: [added] });
                 return;
             }
 
@@ -192,39 +188,35 @@ module.exports = {
                 const word = interaction.options.getString("word");
                 const filter = interaction.options.getString("filter");
 
-                Filter.findOne({ _id: filter }, async (err, data) => {
-                    if(data) {
-                        if(!data.words.includes(word.toLowerCase())) {
-                            const error = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.cross} That word is not on the filter!`)
+                const data = await Filter.findOne({ _id: filter });
 
-                            await interaction.editReply({ embeds: [error] });
-                            return;
-                        }
+                if(!data) {
+                    const none = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.default)
+                        .setDescription(`${emoji.tick} There are no words on the filter!`)
 
-                        data.words = data.words.filter(item => item !== word.toLowerCase());
+                    await interaction.editReply({ embeds: [none] });
+                    return;
+                }
 
-                        await data.save();
+                if(!data.words.includes(word.toLowerCase())) {
+                    const error = new Discord.EmbedBuilder()
+                        .setColor(client.config_embeds.error)
+                        .setDescription(`${emoji.cross} That word is not on the filter!`)
 
-                        const removed = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.tick} That word has been removed from the filter!`)
+                    await interaction.editReply({ embeds: [error] });
+                    return;
+                }
 
-                        await interaction.editReply({ embeds: [removed] });
-                        return;
-                    }
+                data.words = data.words.filter(item => item !== word.toLowerCase());
 
-                    if(!data) {
-                        const none = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.default)
-                            .setDescription(`${emoji.tick} There are no words on the filter!`)
+                await data.save();
 
-                        await interaction.editReply({ embeds: [none] });
-                        return;
-                    }
-                })
+                const removed = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.tick} That word has been removed from the filter!`)
 
+                await interaction.editReply({ embeds: [removed] });
                 return;
             }
         } catch(err) {

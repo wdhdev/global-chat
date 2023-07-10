@@ -9,7 +9,9 @@ module.exports = {
     requiredRoles: [],
     async execute(interaction, client, Discord) {
         try {
-            if(!await BannedUser.exists({ _id: interaction.user.id })) {
+            const banData = await BannedUser.findOne({ _id: interaction.user.id });
+
+            if(!banData) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You are not banned!`)
@@ -18,7 +20,7 @@ module.exports = {
                 return;
             }
 
-            if(await BannedUser.exists({ _id: interaction.user.id, allowAppeal: false }) || await Appeal.exists({ id: interaction.user.id, status: "DENIED" })) {
+            if(!banData.allowAppeal || await Appeal.exists({ id: interaction.user.id, status: "DENIED" })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You are allowed to submit an appeal!`)
@@ -73,8 +75,6 @@ module.exports = {
                 if(i.customId === `modal-${id}`) {
                     const banReason = i.fields.getTextInputValue(`modal-banreason-${id}`);
                     const unbanReason = i.fields.getTextInputValue(`modal-unbanreason-${id}`);
-
-                    const banData = await BannedUser.findOne({ _id: interaction.user.id });
 
                     const embed = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)

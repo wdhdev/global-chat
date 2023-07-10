@@ -32,7 +32,9 @@ module.exports = {
             if(i.customId === `modal-${interaction.id}`) {
                 const token = i.fields.getTextInputValue(`modal-token-${interaction.id}`);
 
-                if(!await SentryCapture.exists({ _id: token })) {
+                const data = await SentryCapture.findOne({ _id: token });
+
+                if(!data) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} That token does not exist!`)
@@ -40,8 +42,6 @@ module.exports = {
                     await i.reply({ embeds: [error], ephemeral: true });
                     return;
                 }
-
-                const data = await SentryCapture.findOne({ _id: token });
 
                 const tokenInfo = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

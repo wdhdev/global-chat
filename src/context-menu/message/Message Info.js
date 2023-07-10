@@ -15,6 +15,9 @@ module.exports = {
         try {
             const message = interaction.targetMessage;
 
+            const data = await Message.findOne({ messages: message.url });
+            const userData = await User.findOne({ _id: interaction.user.id });
+
             if(!await Message.exists({ messages: message.url })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
@@ -24,12 +27,7 @@ module.exports = {
                 return;
             }
 
-            const data = await Message.findOne({ messages: message.url });
-
-            const dev = await User.exists({ _id: interaction.user.id, dev: true });
-            const mod = await User.exists({ _id: interaction.user.id, mod: true });
-
-            if(!mod && !dev) {
+            if(!userData.mod && !userData.dev) {
                 const info = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .addFields (

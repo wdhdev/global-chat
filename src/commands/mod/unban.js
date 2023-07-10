@@ -36,7 +36,9 @@ module.exports = {
             const user = interaction.options.getUser("user");
             const reason = interaction.options.getString("reason");
 
-            if(!await BannedUser.exists({ _id: user.id })) {
+            const data = await BannedUser.findOne({ _id: user.id });
+
+            if(!data) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} ${user} is not banned!`)
@@ -45,7 +47,7 @@ module.exports = {
                 return;
             }
 
-            await BannedUser.findOneAndDelete({ _id: user.id });
+            await data.delete();
 
             const userDM = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.green)
