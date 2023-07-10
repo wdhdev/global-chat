@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "register": "node scripts/register.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test-request": "node tests/request.js"
   },
   "author": "William Harrison",
   "license": "MIT",
