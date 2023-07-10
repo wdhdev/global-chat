@@ -22,11 +22,11 @@ module.exports = async (client, Discord) => {
 
     (await getDirs("./src/events")).forEach(dir => loadDir(dir));
 
-    client.logError = async function(err) {
+    client.logError = async function (err) {
         client.sentry.captureException(err);
     }
 
-    client.logEventError = async function(err) {
+    client.logEventError = async function (err) {
         client.sentry.captureException(err);
     }
 

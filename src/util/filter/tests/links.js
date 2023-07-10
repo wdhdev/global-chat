@@ -1,4 +1,4 @@
-module.exports = async function(message, client, Discord) {
+module.exports = async function (message, client, Discord) {
     const role = await require("../../roles/get")(message.author.id, client);
 
     const BlockedMessage = require("../../../models/BlockedMessage");

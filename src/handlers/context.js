@@ -31,7 +31,7 @@ module.exports = async (client) => {
 
     const emoji = require("../config.json").emojis;
 
-    client.logContextError = async function(err, interaction, Discord) {
+    client.logContextError = async function (err, interaction, Discord) {
         client.sentry.captureException(err);
 
         const error = new Discord.EmbedBuilder()

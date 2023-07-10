@@ -7,7 +7,7 @@ module.exports = {
             console.log(`Logged in as: ${client.user.tag.endsWith("#0") ? client.user.username : client.user.tag}`);
 
             // Register Commands
-            const register = require("../../scripts/client-register");
+            const register = require("../../util/client/register");
             await register(client);
         } catch(err) {
             client.logEventError(err);

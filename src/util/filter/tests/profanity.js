@@ -1,4 +1,4 @@
-module.exports = async function(message, client, Discord) {
+module.exports = async function (message, client, Discord) {
     const BannedUser = require("../../../models/BannedUser");
     const BlockedMessage = require("../../../models/BlockedMessage");
 

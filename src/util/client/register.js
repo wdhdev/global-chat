@@ -1,7 +1,7 @@
-module.exports = async function(client) {
+module.exports = async function (client) {
     const { REST, Routes } = require("discord.js");
     const fs = require("fs");
-    const getDirs = require("../util/getDirs");
+    const getDirs = require("../getDirs");
 
     require("dotenv").config();
 
@@ -40,7 +40,7 @@ module.exports = async function(client) {
         const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../commands/${file}`);
+            const command = require(`../../commands/${file}`);
             commands.push(command);
         }
     }
@@ -49,7 +49,7 @@ module.exports = async function(client) {
         const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../commands/${dir}/${file}`);
+            const command = require(`../../commands/${dir}/${file}`);
             commands.push(command);
         }
     }
@@ -59,7 +59,7 @@ module.exports = async function(client) {
         const files = fs.readdirSync(`./src/context-menu`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../context-menu/${file}`);
+            const command = require(`../../context-menu/${file}`);
             commands.push(command);
         }
     }
@@ -68,7 +68,7 @@ module.exports = async function(client) {
         const files = fs.readdirSync(`./src/context-menu/${dir}`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../context-menu/${dir}/${file}`);
+            const command = require(`../../context-menu/${dir}/${file}`);
             commands.push(command);
         }
     }

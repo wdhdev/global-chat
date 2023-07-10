@@ -1,6 +1,6 @@
 const { REST, Routes } = require("discord.js");
 const fs = require("fs");
-const getDirs = require("../util/getDirs");
+const getDirs = require("../src/util/getDirs");
 
 require("dotenv").config();
 
@@ -37,7 +37,7 @@ async function pushCommandsRoot() {
     const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
 
     for(const file of files) {
-        const command = require(`../commands/${file}`);
+        const command = require(`../src/commands/${file}`);
         commands.push(command);
     }
 }
@@ -46,7 +46,7 @@ async function pushCommandsDir(dir) {
     const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
 
     for(const file of files) {
-        const command = require(`../commands/${dir}/${file}`);
+        const command = require(`../src/commands/${dir}/${file}`);
         commands.push(command);
     }
 }
@@ -56,7 +56,7 @@ async function pushContextMenuRoot() {
     const files = fs.readdirSync(`./src/context-menu`).filter(file => file.endsWith(".js"));
 
     for(const file of files) {
-        const command = require(`../context-menu/${file}`);
+        const command = require(`../src/context-menu/${file}`);
         commands.push(command);
     }
 }
@@ -65,7 +65,7 @@ async function pushContextMenuDir(dir) {
     const files = fs.readdirSync(`./src/context-menu/${dir}`).filter(file => file.endsWith(".js"));
 
     for(const file of files) {
-        const command = require(`../context-menu/${dir}/${file}`);
+        const command = require(`../src/context-menu/${dir}/${file}`);
         commands.push(command);
     }
 }
