@@ -1,15 +1,17 @@
+const assignRoles = require("./roles/assign");
+const cap = require("./cap");
+const levelRoles = require("./user/levelRoles");
+const path = require("path");
+const test = require("./filter/test");
+
+const BannedUser = require("../models/BannedUser");
+const Guild = require("../models/Guild");
+const Message = require("../models/Message");
+
+const requiredPerms = ["SendMessages", "EmbedLinks"];
+
 module.exports = async function (message, client, Discord) {
-    const assignRoles = require("./roles/assign");
-    const cap = require("./cap");
-    const path = require("path");
     const role = await require("./roles/get")(message.author.id, client);
-    const test = require("./filter/test");
-
-    const BannedUser = require("../models/BannedUser");
-    const Guild = require("../models/Guild");
-    const Message = require("../models/Message");
-
-    const requiredPerms = ["SendMessages", "EmbedLinks"];
 
     try {
         message.delete();
@@ -221,4 +223,6 @@ module.exports = async function (message, client, Discord) {
 
         messagesChannel.send({ embeds: [messageLog], components: [actions] });
     })
+
+    await levelRoles(message.author, client, Discord);
 }
