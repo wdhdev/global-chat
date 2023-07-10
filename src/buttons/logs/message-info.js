@@ -32,7 +32,7 @@ module.exports = {
 
             if(!interaction.message.components[0].components[1].data.disabled) {
                 info.addFields (
-                    { name: "📤 Sent To", value: `${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}` }
+                    { name: "📤 Sent To", value: `${data.messages.length} Guild${data.messages.length === 1 ? "" : "s"}` }
                 )
             }
 
