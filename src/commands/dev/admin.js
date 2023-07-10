@@ -221,7 +221,7 @@ module.exports = {
                     if(!userData) {
                         new User({ _id: user.id, mod: true }).save();
                     } else {
-                        User.findOneAndUpdate({ _id: user.id }, { mod: true }, (err, data) => {});
+                        await User.findOneAndUpdate({ _id: user.id }, { mod: true });
                     }
 
                     const guild = await client.guilds.fetch(client.config_default.guild);
@@ -458,7 +458,7 @@ module.exports = {
                     return;
                 }
 
-                User.findOneAndUpdate({ _id: user.id }, { verified: false });
+                await User.findOneAndUpdate({ _id: user.id }, { verified: false });
 
                 const guild = await client.guilds.fetch(client.config_default.guild);
 
@@ -540,7 +540,7 @@ module.exports = {
                 if(!userData) {
                     new User({ _id: user.id, verified: true }).save();
                 } else {
-                    User.findOneAndUpdate({ _id: user.id }, { verified: true }, (err, data) => {});
+                    await User.findOneAndUpdate({ _id: user.id }, { verified: true });
                 }
 
                 const guild = await client.guilds.fetch(client.config_default.guild);

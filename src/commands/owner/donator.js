@@ -71,7 +71,7 @@ module.exports = {
                 if(!userData) {
                     new User({ _id: user.id, donator: true }).save();
                 } else {
-                    User.findOneAndUpdate({ _id: user.id }, { donator: true }, (err, data) => {});
+                    await User.findOneAndUpdate({ _id: user.id }, { donator: true });
                 }
 
                 const guild = await client.guilds.fetch(client.config_default.guild);

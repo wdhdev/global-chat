@@ -71,7 +71,7 @@ module.exports = {
                 if(!userData) {
                     new User({ _id: user.id, immune: true }).save();
                 } else {
-                    User.findOneAndUpdate({ _id: user.id }, { immune: true }, (err, data) => {});
+                    await User.findOneAndUpdate({ _id: user.id }, { immune: true });
                 }
 
                 const added = new Discord.EmbedBuilder()
