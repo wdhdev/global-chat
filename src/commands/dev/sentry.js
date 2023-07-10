@@ -4,8 +4,8 @@ const fetch = require("node-fetch");
 const SentryCapture = require("../../models/SentryCapture");
 
 module.exports = {
-	name: "sentry",
-	description: "Manage Sentry",
+    name: "sentry",
+    description: "Manage Sentry",
     options: [
         {
             type: 1,
@@ -67,7 +67,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             if(interaction.options.getSubcommand() === "capture-info") {
                 const actions = new Discord.ActionRowBuilder()

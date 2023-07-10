@@ -37,7 +37,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 

@@ -1,6 +1,6 @@
 module.exports = {
-	name: "guildCreate",
-	async execute(client, Discord, guild) {
+    name: "guildCreate",
+    async execute(client, Discord, guild) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
@@ -19,7 +19,7 @@ module.exports = {
 
             logsChannel.send({ embeds: [log] });
         } catch(err) {
-			client.logEventError(err);
+            client.logEventError(err);
         }
     }
 }

@@ -2,8 +2,8 @@ const Guild = require("../../models/Guild");
 const send = require("../../util/send");
 
 module.exports = {
-	name: "messageCreate",
-	async execute(client, Discord, message) {
+    name: "messageCreate",
+    async execute(client, Discord, message) {
         try {
             const requiredPerms = ["SendMessages", "EmbedLinks", "ManageMessages"];
 

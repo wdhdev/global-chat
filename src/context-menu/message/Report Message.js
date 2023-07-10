@@ -3,14 +3,14 @@ const emoji = require("../../config.json").emojis;
 const Message = require("../../models/Message");
 
 module.exports = {
-	name: "Report Message",
+    name: "Report Message",
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: [],
     cooldown: 10,
     enabled: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const message = interaction.targetMessage;
 

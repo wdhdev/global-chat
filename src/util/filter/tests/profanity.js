@@ -110,5 +110,5 @@ module.exports = async function(message, client, Discord) {
         return true;
     }
 
-	return false;
+    return false;
 }

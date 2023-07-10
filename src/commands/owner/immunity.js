@@ -3,8 +3,8 @@ const emoji = require("../../config.json").emojis;
 const User = require("../../models/User");
 
 module.exports = {
-	name: "immunity",
-	description: "Manage immunity to moderator commands.",
+    name: "immunity",
+    description: "Manage immunity to moderator commands.",
     options: [
         {
             type: 1,
@@ -42,7 +42,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const user = interaction.options.getUser("user");
             const logsChannel = client.channels.cache.get(client.config_channels.logs);

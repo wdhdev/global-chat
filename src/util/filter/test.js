@@ -14,5 +14,5 @@ module.exports = async (message, client, Discord) => {
     // Links
     if(await links(message, client, Discord)) return true;
 
-	return false;
+    return false;
 }

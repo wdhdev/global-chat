@@ -4,14 +4,14 @@ const Message = require("../../models/Message");
 const User = require("../../models/User");
 
 module.exports = {
-	name: "Delete Message",
+    name: "Delete Message",
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: [],
     cooldown: 5,
     enabled: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const message = interaction.targetMessage;
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);

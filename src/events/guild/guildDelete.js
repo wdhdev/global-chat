@@ -4,8 +4,8 @@ const fetch = require("node-fetch");
 const Guild = require("../../models/Guild");
 
 module.exports = {
-	name: "guildDelete",
-	async execute(client, Discord, guild) {
+    name: "guildDelete",
+    async execute(client, Discord, guild) {
         try {
             const data = await Guild.findOne({ _id: guild.id });
 
@@ -34,7 +34,7 @@ module.exports = {
 
             logsChannel.send({ embeds: [log] });
         } catch(err) {
-			client.logEventError(err);
+            client.logEventError(err);
         }
     }
 }

@@ -6,14 +6,14 @@ const Message = require("../../models/Message");
 const User = require("../../models/User");
 
 module.exports = {
-	name: "User Info",
+    name: "User Info",
     type: 2,
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
     cooldown: 3,
     enabled: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const user = interaction.targetUser;
 

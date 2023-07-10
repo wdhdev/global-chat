@@ -4,8 +4,8 @@ const Appeal = require("../../models/Appeal");
 const BannedUser = require("../../models/BannedUser");
 
 module.exports = {
-	name: "appeal",
-	description: "Appeal Management Commands",
+    name: "appeal",
+    description: "Appeal Management Commands",
     options: [
         {
             type: 1,
@@ -47,7 +47,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 

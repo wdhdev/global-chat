@@ -3,8 +3,8 @@ const emoji = require("../../config.json").emojis;
 const Appeal = require("../../models/Appeal");
 
 module.exports = {
-	name: "appeals",
-	description: "[MODERATOR ONLY] Get all appeals related to a user.",
+    name: "appeals",
+    description: "[MODERATOR ONLY] Get all appeals related to a user.",
     options: [
         {
             type: 6,
@@ -21,7 +21,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const user = interaction.options.getUser("user");
 

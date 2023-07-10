@@ -1,6 +1,6 @@
 module.exports = {
-	name: "guildMemberUpdate",
-	async execute(client, Discord, oldMember, newMember) {
+    name: "guildMemberUpdate",
+    async execute(client, Discord, oldMember, newMember) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
@@ -37,7 +37,7 @@ module.exports = {
                 }
             }
         } catch(err) {
-			client.logEventError(err);
+            client.logEventError(err);
         }
     }
 }

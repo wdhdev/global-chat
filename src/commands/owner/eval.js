@@ -1,8 +1,8 @@
 const emoji = require("../../config.json").emojis;
 
 module.exports = {
-	name: "eval",
-	description: "[OWNER ONLY] Evaluate code on the bot.",
+    name: "eval",
+    description: "[OWNER ONLY] Evaluate code on the bot.",
     options: [
         {
             type: 3,
@@ -20,7 +20,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: false,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const input = interaction.options.getString("code");
 

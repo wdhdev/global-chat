@@ -3,8 +3,8 @@ const emoji = require("../../config.json").emojis;
 const Filter = require("../../models/Filter");
 
 module.exports = {
-	name: "filter",
-	description: "Manage the bot's filters.",
+    name: "filter",
+    description: "Manage the bot's filters.",
     options: [
         {
             type: 1,
@@ -113,7 +113,7 @@ module.exports = {
     hidden: true,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             if(interaction.options.getSubcommand() === "add") {
                 const word = interaction.options.getString("word");

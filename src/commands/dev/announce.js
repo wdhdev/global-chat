@@ -2,8 +2,8 @@ const announce = require("../../util/announce");
 const emoji = require("../../config.json").emojis;
 
 module.exports = {
-	name: "announce",
-	description: "[DEVELOPER ONLY] Make an announcement.",
+    name: "announce",
+    description: "[DEVELOPER ONLY] Make an announcement.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
@@ -13,7 +13,7 @@ module.exports = {
     hidden: true,
     deferReply: false,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)

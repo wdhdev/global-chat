@@ -86,7 +86,7 @@ module.exports = {
                     .setTimestamp()
 
                 try {
-                	await message.edit({ embeds: [list] });
+                    await message.edit({ embeds: [list] });
                 } catch {}
             }
         })

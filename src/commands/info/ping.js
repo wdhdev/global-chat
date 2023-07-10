@@ -1,8 +1,8 @@
 const emoji = require("../../config.json").emojis;
 
 module.exports = {
-	name: "ping",
-	description: "Check the bot's latency.",
+    name: "ping",
+    description: "Check the bot's latency.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
@@ -12,7 +12,7 @@ module.exports = {
     hidden: false,
     deferReply: true,
     ephemeral: true,
-	async execute(interaction, client, Discord) {
+    async execute(interaction, client, Discord) {
         try {
             const pinging = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
