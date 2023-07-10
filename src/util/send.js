@@ -139,7 +139,7 @@ module.exports = async function (message, client, Discord) {
 
             const data = await Guild.findOne({ _id: guildId });
 
-            if(!data) return;
+            if(!data) return resolve();
 
             if(!data.blockedUsers.includes(message.author.id) || guildId === message.guild.id) {
                 const chatChannel = client.channels.cache.get(data.channel);
