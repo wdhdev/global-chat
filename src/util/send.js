@@ -17,7 +17,8 @@ module.exports = async function (message, client, Discord) {
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
-    if(await BannedUser.exists({ _id: message.author.id })) return
+    if(await BannedUser.exists({ _id: message.author.id })) return;
+    if(!message.content.length) return;
 
     if(message.content.length > 2000) {
         const blocked = new Discord.EmbedBuilder()
@@ -60,9 +61,7 @@ module.exports = async function (message, client, Discord) {
         return;
     }
 
-    if(message.content.length) {
-    	if(await test(message, client, Discord)) return;
-    }
+    if(await test(message, client, Discord)) return;
 
     const id = message.id;
 
@@ -89,7 +88,6 @@ module.exports = async function (message, client, Discord) {
 
         if(referenceUser) replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? referenceUser.username : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });;
         if(data.content) replyEmbed.setDescription(data.content);
-        if(data.attachment) replyEmbed.setImage(data.attachment);
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
     }
 
@@ -232,7 +230,6 @@ module.exports = async function (message, client, Discord) {
             user: message.author.id,
             guild: message.guild.id,
             content: message.content,
-            attachment: null,
             messages: messages
         }).save()
 

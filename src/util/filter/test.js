@@ -3,6 +3,8 @@ module.exports = async (message, client, Discord) => {
     const phishing = require("./tests/phishing");
     const profanity = require("./tests/profanity");
 
+    if(!message.content.length) return false;
+
     // Phishing
     if(await phishing(message, client, Discord)) return true;
 

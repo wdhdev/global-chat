@@ -89,9 +89,7 @@ module.exports = {
                     .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
 
                 if(user) message.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
-
                 if(data.content) message.setDescription(data.content);
-                if(data.attachment) message.setImage(data.attachment);
 
                 modLogsChannel.send({ embeds: [log, message] });
             })
