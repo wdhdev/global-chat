@@ -59,7 +59,7 @@ module.exports = {
 
                 const userData = await User.findOne({ _id: user.id });
 
-                if(userData.immune) {
+                if(userData?.immune) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already immune!`)

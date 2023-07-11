@@ -60,7 +60,7 @@ module.exports = {
 
                 const userData = await User.findOne({ _id: user.id });
 
-                if(userData.dev) {
+                if(userData?.dev) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already a developer!`)

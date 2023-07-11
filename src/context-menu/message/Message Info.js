@@ -27,7 +27,7 @@ module.exports = {
                 return;
             }
 
-            if(!userData.mod && !userData.dev) {
+            if(!userData?.mod && !userData?.dev) {
                 const info = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .addFields (

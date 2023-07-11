@@ -28,7 +28,7 @@ module.exports = {
                 return;
             }
 
-            if(!userData.mod && !userData.dev && data.user !== interaction.user.id) {
+            if(!userData?.mod && !userData?.dev && data.user !== interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You do not have permission to run this command!`)

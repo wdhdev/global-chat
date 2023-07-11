@@ -59,7 +59,7 @@ module.exports = {
 
                 const userData = await User.findOne({ _id: user.id });
 
-                if(userData.donator) {
+                if(userData?.donator) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already a donator!`)

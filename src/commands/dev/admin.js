@@ -209,7 +209,7 @@ module.exports = {
 
                     const userData = await User.findOne({ _id: user.id });
 
-                    if(userData.mod) {
+                    if(userData?.mod) {
                         const error = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.error)
                             .setDescription(`${emoji.cross} ${user} is already a moderator!`)
@@ -528,7 +528,7 @@ module.exports = {
 
                 const userData = await User.findOne({ _id: user.id });
 
-                if(userData.verified) {
+                if(userData?.verified) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} ${user} is already verified!`)

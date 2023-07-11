@@ -49,7 +49,7 @@ module.exports = {
                 return;
             }
 
-            if(userData.dev || userData.mod) {
+            if(userData?.dev || userData?.mod) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You cannot block Global Chat staff!`)
