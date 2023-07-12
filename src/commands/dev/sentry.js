@@ -1,4 +1,4 @@
-const emoji = require("../../config.json").emojis;
+const emoji = require("../../config").emojis;
 const fetch = require("node-fetch");
 
 const SentryCapture = require("../../models/SentryCapture");

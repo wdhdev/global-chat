@@ -29,7 +29,7 @@ module.exports = async (client) => {
     await loadRoot();
     (await getDirs("./src/context-menu")).forEach(dir => loadDir(dir));
 
-    const emoji = require("../config.json").emojis;
+    const emoji = require("../config").emojis;
 
     client.logContextError = async function (err, interaction, Discord) {
         const id = client.sentry.captureException(err);

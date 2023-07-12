@@ -1,5 +1,5 @@
 const announce = require("../../util/announce");
-const emoji = require("../../config.json").emojis;
+const emoji = require("../../config").emojis;
 
 module.exports = {
     name: "announce",

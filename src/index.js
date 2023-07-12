@@ -7,7 +7,7 @@ Sentry.init({
     tracesSampleRate: 1.0
 })
 
-const config = require("./config.json");
+const config = require("./config");
 
 const Discord = require("discord.js");
 const client = new Discord.Client({

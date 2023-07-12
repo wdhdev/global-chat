@@ -1,6 +1,6 @@
 const { PermissionFlagsBits } = require("discord.js");
 
-const emoji = require("../../config.json").emojis;
+const emoji = require("../../config").emojis;
 
 const Guild = require("../../models/Guild");
 const User = require("../../models/User");

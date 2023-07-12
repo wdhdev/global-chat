@@ -1,4 +1,4 @@
-const emoji = require("../../config.json").emojis;
+const emoji = require("../../config").emojis;
 const getRoles = require("../roles/get");
 
 module.exports = async (client, Discord, interaction) => {

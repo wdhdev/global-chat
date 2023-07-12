@@ -1,4 +1,4 @@
-const emoji = require("../../config.json").emojis;
+const emoji = require("../../config").emojis;
 const fs = require("fs");
 const getDirs = require("../../util/getDirs");
 
