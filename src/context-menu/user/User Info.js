@@ -13,6 +13,7 @@ module.exports = {
     requiredRoles: ["mod"],
     cooldown: 3,
     enabled: true,
+    guildOnly: true,
     async execute(interaction, client, Discord) {
         try {
             const user = interaction.targetUser;

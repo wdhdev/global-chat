@@ -10,6 +10,7 @@ module.exports = {
     cooldown: 10,
     enabled: true,
     hidden: false,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction, client, Discord) {

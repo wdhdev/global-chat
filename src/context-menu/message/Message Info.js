@@ -11,6 +11,7 @@ module.exports = {
     requiredRoles: [],
     cooldown: 3,
     enabled: true,
+    guildOnly: false,
     async execute(interaction, client, Discord) {
         try {
             const message = interaction.targetMessage;

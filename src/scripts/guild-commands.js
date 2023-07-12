@@ -1,10 +1,11 @@
+const { REST, Routes } = require("discord.js");
+
+const fs = require("fs");
+const getDirs = require("../util/getDirs");
+
+require("dotenv").config();
+
 module.exports = async function (client) {
-    const { REST, Routes } = require("discord.js");
-    const fs = require("fs");
-    const getDirs = require("../getDirs");
-
-    require("dotenv").config();
-
     const commands = [];
 
     const rest = new REST({ version: "9" }).setToken(process.env.token);
@@ -19,21 +20,20 @@ module.exports = async function (client) {
 
     (async () => {
         try {
-            console.log("Registering commands...");
+            console.log("Registering guild commands...");
 
-            const applicationCommands = await rest.put(Routes.applicationCommands(process.env.clientId), { body: commands });
+            const applicationCommands = await rest.put(Routes.applicationGuildCommands(process.env.clientId, client.config_default.guild), { body: commands });
 
             for(const command of applicationCommands) {
                 client.commandIds.set(command.name, command.id);
-                console.log(`Registered Command: ${command.name}`);
             }
 
-            console.log("Registered commands!");
+            console.log("Registered guild commands!");
         } catch(err) {
             client.sentry.captureException(err);
             console.error(err);
 
-            console.error("Failed to register commands!");
+            console.error("Failed to register guild commands!");
         }
     })()
 
@@ -42,8 +42,8 @@ module.exports = async function (client) {
         const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../../commands/${file}`);
-            commands.push(command);
+            const command = require(`../commands/${file}`);
+            if(command.enabled && command.guildOnly) commands.push(command);
         }
     }
 
@@ -51,8 +51,8 @@ module.exports = async function (client) {
         const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../../commands/${dir}/${file}`);
-            commands.push(command);
+            const command = require(`../commands/${dir}/${file}`);
+            if(command.enabled && command.guildOnly) commands.push(command);
         }
     }
 
@@ -61,8 +61,8 @@ module.exports = async function (client) {
         const files = fs.readdirSync(`./src/context-menu`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../../context-menu/${file}`);
-            commands.push(command);
+            const command = require(`../context-menu/${file}`);
+            if(command.enabled && command.guildOnly) commands.push(command);
         }
     }
 
@@ -70,8 +70,8 @@ module.exports = async function (client) {
         const files = fs.readdirSync(`./src/context-menu/${dir}`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
-            const command = require(`../../context-menu/${dir}/${file}`);
-            commands.push(command);
+            const command = require(`../context-menu/${dir}/${file}`);
+            if(command.enabled && command.guildOnly) commands.push(command);
         }
     }
 }
