@@ -23,6 +23,7 @@ client.on("ready", async () => {
                 const botWebhooks = webhooks.filter(webhook => webhook.owner.id === client.user.id);
 
                 const webhookList = botWebhooks.map(webhook => ({
+                    created: webhook.createdTimestamp,
                     url: webhook.url,
                     id: webhook.id,
                     channel: {
@@ -37,11 +38,7 @@ client.on("ready", async () => {
 
                 guildWebhooks[guild.id] = webhookList;
 
-                if(guildWebhooks[guild.id].length) {
-                    saveWebhooksToFile(guildWebhooks, guild.id, resolve);
-                } else {
-                    resolve();
-                }
+                saveWebhooksToFile(guildWebhooks, guild.id, resolve);
             }).catch(err => resolve(console.log(`Failed to fetch data from ${guild.id}!\nERROR: ${err.message}`)))
         }))
     })
