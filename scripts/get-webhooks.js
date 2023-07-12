@@ -23,14 +23,21 @@ client.on("ready", async () => {
                 const botWebhooks = webhooks.filter(webhook => webhook.owner.id === client.user.id);
 
                 const webhookList = botWebhooks.map(webhook => ({
-                    id: webhook.id,
                     url: webhook.url,
-                    channel: webhook.channel.id
+                    id: webhook.id,
+                    channel: {
+                        name: webhook.channel.name,
+                        id: webhook.channelId
+                    },
+                    guild: {
+                        name: guild.name,
+                        id: guild.id
+                    }
                 }))
 
                 guildWebhooks[guild.id] = webhookList;
 
-                if(webhookList.length) {
+                if(guildWebhooks[guild.id].length) {
                     saveWebhooksToFile(guildWebhooks, guild.id, resolve);
                 } else {
                     resolve();
