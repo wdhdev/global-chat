@@ -1,6 +1,6 @@
 const assignRoles = require("./roles/assign");
 const cap = require("./cap");
-const levelRoles = require("./user/levelRoles");
+const levelRoles = require("./roles/levelRoles");
 const path = require("path");
 const test = require("./filter/test");
 
@@ -10,7 +10,7 @@ const Message = require("../models/Message");
 
 const requiredPerms = ["SendMessages", "EmbedLinks"];
 
-module.exports = async function (message, client, Discord) {
+module.exports = async (message, client, Discord) => {
     const role = await require("./roles/get")(message.author.id, client);
 
     try {

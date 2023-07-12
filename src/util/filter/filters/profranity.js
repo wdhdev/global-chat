@@ -1,5 +1,6 @@
-module.exports = async function profanity(message) {
-    const Filter = require("../../../models/Filter");
+const Filter = require("../../../models/Filter");
+
+module.exports = async function (message) {
     const replaceContent = require("../replaceContent");
 
     const autobanFilter = await Filter.findOne({ _id: "autoban" }) || { words: [] };

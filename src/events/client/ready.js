@@ -10,7 +10,7 @@ module.exports = {
             const register = require("../../util/client/register");
             await register(client);
         } catch(err) {
-            client.logEventError(err);
+            client.logError(err);
         }
     }
 }

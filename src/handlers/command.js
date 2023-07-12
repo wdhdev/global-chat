@@ -32,11 +32,14 @@ module.exports = async (client) => {
     const emoji = require("../config.json").emojis;
 
     client.logCommandError = async function (err, interaction, Discord) {
-        client.sentry.captureException(err);
+        const id = client.sentry.captureException(err);
+        console.error(err);
 
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
             .setDescription(`${emoji.cross} An error occurred!`)
+            .setFooter(id)
+            .setTimestamp()
 
         await interaction.editReply({ embeds: [error], ephemeral: true });
     }

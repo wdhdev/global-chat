@@ -1,5 +1,6 @@
-const Guild = require("../../models/Guild");
 const send = require("../../util/send");
+
+const Guild = require("../../models/Guild");
 
 module.exports = {
     name: "messageCreate",
@@ -14,7 +15,7 @@ module.exports = {
                 await send(message, client, Discord);
             }
         } catch(err) {
-            client.logEventError(err);
+            client.logError(err);
         }
     }
 }

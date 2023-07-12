@@ -24,10 +24,7 @@ module.exports = async (client, Discord) => {
 
     client.logError = async function (err) {
         client.sentry.captureException(err);
-    }
-
-    client.logEventError = async function (err) {
-        client.sentry.captureException(err);
+        console.error(err);
     }
 
     require("dotenv").config();

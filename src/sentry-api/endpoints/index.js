@@ -125,6 +125,8 @@ module.exports = async (req, res, client) => {
         res.status(200).json({ "success": true });
     } catch(err) {
         client.sentry.captureException(err);
+        console.error(err);
+
         res.status(500).json({ "success": false });
     }
 }

@@ -19,7 +19,7 @@ module.exports = {
 
             logsChannel.send({ embeds: [log] });
         } catch(err) {
-            client.logEventError(err);
+            client.logError(err);
         }
     }
 }

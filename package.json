@@ -1,11 +1,13 @@
 {
   "name": "global-chat",
-  "version": "2.4.1",
-  "description": "A Discord bot that connects multiple servers together in one channel!",
-  "main": "src/index.js",
+  "version": "2.4.2",
+  "description": "A Discord bot which connects many servers together using a text channel!",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "cd src && npx tsc",
     "register": "node scripts/register.js",
-    "start": "node src/index.js",
+    "run": "node dist/index.js",
+    "start": "npm run build && node dist/index.js",
     "test-request": "node tests/request.js"
   },
   "author": "William Harrison",

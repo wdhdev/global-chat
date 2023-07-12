@@ -15,6 +15,8 @@ module.exports = async function () {
         console.log("Connected to Database!");
     }).catch(err => {
         Sentry.captureException(err);
+        console.error(err);
+
         process.exit(1);
     })
 }

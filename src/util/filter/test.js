@@ -1,8 +1,8 @@
-module.exports = async (message, client, Discord) => {
-    const links = require("./tests/links");
-    const phishing = require("./tests/phishing");
-    const profanity = require("./tests/profanity");
+const links = require("./tests/links");
+const phishing = require("./tests/phishing");
+const profanity = require("./tests/profanity");
 
+module.exports = async function (message, client, Discord) {
     if(!message.content.length) return false;
 
     // Phishing

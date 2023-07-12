@@ -1,4 +1,4 @@
-const checkWebhook = require("../../util/checkWebhook");
+import checkWebhook from "../../util/checkWebhook";
 const fetch = require("node-fetch");
 
 const Guild = require("../../models/Guild");
@@ -34,7 +34,7 @@ module.exports = {
 
             logsChannel.send({ embeds: [log] });
         } catch(err) {
-            client.logEventError(err);
+            client.logError(err);
         }
     }
 }

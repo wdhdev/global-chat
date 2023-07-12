@@ -1,7 +1,7 @@
+const BlockedMessage = require("../../../models/BlockedMessage");
+
 module.exports = async function (message, client, Discord) {
     const role = await require("../../roles/get")(message.author.id, client);
-
-    const BlockedMessage = require("../../../models/BlockedMessage");
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 

@@ -37,7 +37,7 @@ module.exports = {
                 }
             }
         } catch(err) {
-            client.logEventError(err);
+            client.logError(err);
         }
     }
 }

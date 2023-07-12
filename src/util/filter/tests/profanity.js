@@ -1,7 +1,7 @@
-module.exports = async function (message, client, Discord) {
-    const BannedUser = require("../../../models/BannedUser");
-    const BlockedMessage = require("../../../models/BlockedMessage");
+const BannedUser = require("../../../models/BannedUser");
+const BlockedMessage = require("../../../models/BlockedMessage");
 
+module.exports = async function (message, client, Discord) {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 

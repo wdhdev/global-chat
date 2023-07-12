@@ -1,5 +1,3 @@
-const bot = require("../../../package.json");
-
 const Message = require("../../models/Message");
 const User = require("../../models/User");
 
@@ -20,9 +18,9 @@ module.exports = {
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
-                .setDescription(bot.description)
+                .setDescription("A Discord bot which connects many servers together using a text channel!")
                 .addFields (
-                    { name: "📈 Version", value: bot.version, inline: true },
+                    { name: "📈 Version", value: "2.4.2", inline: true },
                     { name: "🟢 Online Since", value: `<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:f> (<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:R>)`, inline: true }
                 )
 

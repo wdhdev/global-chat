@@ -29,7 +29,7 @@ module.exports = async (client, Discord, interaction) => {
             try {
                 await button.execute(interaction, client, Discord);
             } catch(err) {
-                client.logEventError(err);
+                client.logError(err);
 
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
@@ -66,7 +66,7 @@ module.exports = async (client, Discord, interaction) => {
                 try {
                     await btn[1].execute(interaction, client, Discord);
                 } catch(err) {
-                    client.logEventError(err);
+                    client.logError(err);
 
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
@@ -79,6 +79,6 @@ module.exports = async (client, Discord, interaction) => {
             }
         }
     } catch(err) {
-        client.logEventError(err);
+        client.logError(err);
     }
 }

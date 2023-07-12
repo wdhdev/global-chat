@@ -31,6 +31,8 @@ module.exports = async function (client) {
             console.log("Registered commands!");
         } catch(err) {
             client.sentry.captureException(err);
+            console.error(err);
+
             console.error("Failed to register commands!");
         }
     })()

@@ -15,7 +15,7 @@ module.exports = {
             if(interaction.isCommand() && !interaction.isMessageContextMenuCommand() && !interaction.isUserContextMenuCommand()) return await commandHandler(client, Discord, interaction);
             if(interaction.isMessageContextMenuCommand() || interaction.isUserContextMenuCommand()) return await contextCommandHandler(client, Discord, interaction);
         } catch(err) {
-            client.logEventError(err);
+            client.logError(err);
         }
     }
 }
