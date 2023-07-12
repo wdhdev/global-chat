@@ -47,9 +47,10 @@ module.exports = {
                     channel: data.channel_id,
                     webhook: webhook
                 }).save()
+
                 const added = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.green)
-                    .setDescription(`${emoji.tick} The guild \`${data.guild_id}\` is now registered!`)
+                    .setColor(client.config_embeds.default)
+                    .setDescription(`${emoji.tick} The guild \`${data.guild_id}\` has been registered with the specified webhook!`)
 
                 await interaction.editReply({ embeds: [added] });
             } else {

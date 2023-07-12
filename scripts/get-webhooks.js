@@ -42,7 +42,7 @@ client.on("ready", async () => {
                 } else {
                     resolve();
                 }
-            }).catch(err => resolve(console.error(err)))
+            }).catch(err => resolve(console.log(`Failed to fetch data from ${guild.id}!\nERROR: ${err.message}`)))
         }))
     })
 
@@ -51,17 +51,17 @@ client.on("ready", async () => {
     })
 })
 
-async function saveWebhooksToFile(guildWebhooks, guild, resolve) {
-    const jsonData = JSON.stringify(guildWebhooks, null, 4);
+async function saveWebhooksToFile(webhooks, guild, resolve) {
+    const json = JSON.stringify(webhooks, null, 4);
 
-    fs.writeFile("webhooks.json", jsonData, (err) => {
+    fs.writeFile("webhooks.json", json, (err) => {
         if(err) {
             console.error("Error saving webhooks to file:", err);
             resolve();
         }
 
         console.log(`Saved data from ${guild} to webhooks.json!`);
-        resolve(jsonData);
+        resolve(json);
     })
 }
 

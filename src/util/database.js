@@ -3,7 +3,7 @@ const Sentry = require("@sentry/node");
 
 require("dotenv").config();
 
-module.exports = async function () {
+module.exports = async () => {
     // Supress Deprecation Warning
     mongoose.set("strictQuery", true);
 

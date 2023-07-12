@@ -29,7 +29,7 @@ client.on("warn", (warn) => Sentry.captureMessage(warn));
 process.on("unhandledRejection", (err) => Sentry.captureException(err));
 
 // Connect to Database
-const database = require("./util/database/connect");
+const database = require("./util/database");
 database();
 
 // Configs
