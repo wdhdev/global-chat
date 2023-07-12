@@ -1,4 +1,4 @@
-const checkWebhook = require("../../util/checkWebhook");
+const checkWebhook = require("../../util/webhooks/check");
 const fetch = require("node-fetch");
 
 const Guild = require("../../models/Guild");

@@ -1,6 +1,6 @@
 const { PermissionFlagsBits } = require("discord.js");
 
-const checkWebhook = require("../../util/checkWebhook");
+const checkWebhook = require("../../util/webhooks/check");
 const emoji = require("../../config").emojis;
 const fetch = require("node-fetch");
 
