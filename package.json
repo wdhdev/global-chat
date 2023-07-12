@@ -4,6 +4,7 @@
   "description": "A Discord bot which connects many servers together using a text channel!",
   "main": "src/index.js",
   "scripts": {
+    "get-webhooks": "node scripts/get-webhooks.js",
     "register": "node scripts/register.js",
     "start": "node src/index.js",
     "test-request": "node tests/request.js"
