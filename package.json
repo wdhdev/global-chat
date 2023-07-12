@@ -2,12 +2,10 @@
   "name": "global-chat",
   "version": "2.4.2",
   "description": "A Discord bot which connects many servers together using a text channel!",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "build": "cd src && npx tsc",
     "register": "node scripts/register.js",
-    "run": "node dist/index.js",
-    "start": "npm run build && node dist/index.js",
+    "start": "node src/index.js",
     "test-request": "node tests/request.js"
   },
   "author": "William Harrison",

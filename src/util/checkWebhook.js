@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
 
-export default async function (webhook: URL): Promise<boolean> {
+module.exports = async function (webhook) {
     return (await fetch(webhook)).ok || true;
 }

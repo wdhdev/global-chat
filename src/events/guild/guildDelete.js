@@ -1,4 +1,4 @@
-import checkWebhook from "../../util/checkWebhook";
+const checkWebhook = require("../../util/checkWebhook");
 const fetch = require("node-fetch");
 
 const Guild = require("../../models/Guild");
