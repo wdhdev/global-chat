@@ -12,6 +12,8 @@
   "author": "William Harrison",
   "license": "MIT",
   "dependencies": {
+    "@octokit/auth-oauth-device": "^6.0.0",
+    "@octokit/core": "^5.0.0",
     "@sentry/node": "^7.53.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

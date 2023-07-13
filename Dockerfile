@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-ENV port $port
-EXPOSE $port
+ENV sentry_api_port $sentry_api_port
+EXPOSE $sentry_api_port
 
 CMD ["npm", "start"]

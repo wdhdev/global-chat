@@ -21,6 +21,7 @@ module.exports.default = {
 module.exports.embeds = {
     default: "#E87F2A",
     error: "#E74C3C",
+    github: "#171515",
     gray: "#80838D",
     green: "#57F287",
     red: "#ED4245"
