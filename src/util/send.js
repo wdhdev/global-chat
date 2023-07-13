@@ -1,6 +1,6 @@
 const assignRoles = require("./roles/assign");
 const cap = require("./cap");
-const easterEggs = require("./messages/easter-eggs");
+const easterEggs = require("./easter-eggs");
 const levelRoles = require("./roles/levelRoles");
 const path = require("path");
 const test = require("./filter/test");
