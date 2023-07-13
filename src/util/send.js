@@ -1,5 +1,6 @@
 const assignRoles = require("./roles/assign");
 const cap = require("./cap");
+const easterEggs = require("./messages/easter-eggs");
 const levelRoles = require("./roles/levelRoles");
 const path = require("path");
 const test = require("./filter/test");
@@ -65,10 +66,13 @@ module.exports = async (message, client, Discord) => {
 
     if(await test(message, client, Discord)) return;
 
+    const content = await easterEggs(message.content);
+
     const reference = message.type === 19 ? await message.fetchReference() : null;
     let reply = false;
 
     const replyEmbed = new Discord.EmbedBuilder()
+        .setTitle("Reference Message")
 
     isReply:
     if(reference) {
@@ -96,7 +100,7 @@ module.exports = async (message, client, Discord) => {
         .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
-    if(message.content.length) chat.setDescription(message.content);
+    if(content.length) chat.setDescription(content);
 
     await assignRoles(message.author, client, chat);
 
@@ -125,7 +129,7 @@ module.exports = async (message, client, Discord) => {
                 .setEmoji("🔨")
         )
 
-    if(message.content.length >= 1) messageLog.setDescription(message.content);
+    if(content.length >= 1) messageLog.setDescription(content);
 
     // Send Global Message
     const messages = [];
@@ -142,6 +146,16 @@ module.exports = async (message, client, Discord) => {
             if(!data.blockedUsers.includes(message.author.id) || guildId === message.guild.id) {
                 const chatChannel = client.channels.cache.get(data.channel);
                 if(!chatChannel) return resolve();
+
+                if(reply) {
+                    replyEmbed.setURL(null);
+
+                    for(const url of (await Message.findOne({ messages: reference.url })).messages) {
+                        const info = url.replace("https://discord.com/channels/", "").split("/");
+
+                        if(info[0] === guildId) replyEmbed.setURL(url);
+                    }
+                }
 
                 if(data.webhook) {
                     try {
@@ -160,7 +174,7 @@ module.exports = async (message, client, Discord) => {
                             await webhook.send({
                                 username: webhookUsername,
                                 avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                content: message.content,
+                                content: content,
                                 embeds: [replyEmbed],
                                 allowedMentions: { parse: [] }
                             }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
@@ -168,7 +182,7 @@ module.exports = async (message, client, Discord) => {
                             await webhook.send({
                                 username: webhookUsername,
                                 avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-                                content: message.content,
+                                content: content,
                                 allowedMentions: { parse: [] }
                             }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                         }
@@ -209,7 +223,7 @@ module.exports = async (message, client, Discord) => {
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
-            content: message.content,
+            content: content,
             messages: messages
         }).save()
 
