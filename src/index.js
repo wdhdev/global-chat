@@ -36,8 +36,6 @@ database();
 client.config_channels = config.channels;
 client.config_default = config.default;
 client.config_embeds = config.embeds;
-client.config_emojis = config.emojis;
-client.config_presence = config.presence;
 client.config_roles = config.roles;
 
 // Handlers

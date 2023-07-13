@@ -32,7 +32,7 @@ module.exports = {
 
             const messages = await Message.find();
 
-            const guild = await client.guilds.fetch(client.config_default.guild);
+            const guild = await client.guilds.fetch(client.config_default.ownerGuild);
             const members = await guild.members.fetch();
             const boosters = members.filter(member => member.premiumSinceTimestamp);
 

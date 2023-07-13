@@ -17,7 +17,7 @@ module.exports = async function (user, client, Discord) {
             await User.findOneAndUpdate({ _id: user.id }, { verified: true });
         }
 
-        const guild = await client.guilds.fetch(client.config_default.guild);
+        const guild = await client.guilds.fetch(client.config_default.ownerGuild);
 
         const member = await guild.members.cache.get(user.id);
         const role = await guild.roles.cache.get(client.config_roles.verified);

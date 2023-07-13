@@ -7,7 +7,7 @@ module.exports = {
             const oldPremium = oldMember.premiumSince;
             const newPremium = newMember.premiumSince;
 
-            if(oldMember.guild.id === client.config_default.guild && oldPremium !== newPremium) {
+            if(oldMember.guild.id === client.config_default.ownerGuild && oldPremium !== newPremium) {
                 if(!oldPremium && newPremium) {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)

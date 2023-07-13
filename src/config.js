@@ -8,8 +8,14 @@ module.exports.channels = {
 }
 
 module.exports.default = {
-    guild: "1067023529226293248",
-    owner: "853158265466257448"
+    hasGuildOnlyCommands: [
+        "853159104956334100", // William's World
+        "1067023529226293248", // Global Chat Support
+        "1101152111187734649", // Batema Development
+        "1114420523150102588" // Testing
+    ],
+    owner: "853158265466257448", // william.harrison
+    ownerGuild: "1067023529226293248" // Global Chat Support
 }
 
 module.exports.embeds = {

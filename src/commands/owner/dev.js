@@ -76,7 +76,7 @@ module.exports = {
                     await User.findOneAndUpdate({ _id: user.id }, { dev: true });
                 }
 
-                const guild = await client.guilds.fetch(client.config_default.guild);
+                const guild = await client.guilds.fetch(client.config_default.ownerGuild);
 
                 const member = await guild.members.cache.get(user.id);
                 const role = await guild.roles.cache.get(client.config_roles.dev);
@@ -115,7 +115,7 @@ module.exports = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { dev: false });
 
-                const guild = await client.guilds.fetch(client.config_default.guild);
+                const guild = await client.guilds.fetch(client.config_default.ownerGuild);
 
                 const member = await guild.members.cache.get(user.id);
                 const role = await guild.roles.cache.get(client.config_roles.dev);
