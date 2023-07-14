@@ -142,19 +142,20 @@ module.exports = {
                     }
                 })
 
-                const octoAuth = await auth({ type: "oauth" });
+                const userAuth = await auth({ type: "oauth" });
 
                 completed = true;
 
-                const octokit = new Octokit({ auth: octoAuth.token });
+                const octokit = new Octokit({ auth: userAuth.token });
                 const user = (await octokit.request("GET /user", {})).data;
 
                 new GitHubUser({
                     _id: interaction.user.id,
+                    id: user.id,
                     avatar_url: user.avatar_url,
                     username: user.login,
                     email: user.email,
-                    token: octoAuth.token,
+                    token: userAuth.token,
                     linked: Date.now(),
                     lastUpdated: Date.now()
                 }).save()
