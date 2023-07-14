@@ -118,7 +118,7 @@ module.exports = {
                 const auth = createOAuthDeviceAuth({
                     clientType: "oauth-app",
                     clientId: process.env.github_client_id,
-                    scopes: ["user, repo"],
+                    scopes: ["read:user, user:email, repo:invite"],
                     async onVerification(verify) {
                         const login = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.github)
@@ -147,14 +147,22 @@ module.exports = {
                 completed = true;
 
                 const octokit = new Octokit({ auth: userAuth.token });
+
                 const user = (await octokit.request("GET /user", {})).data;
+                const emails = (await octokit.request("GET /user/emails", {})).data;
+
+                let userEmail = "";
+
+                emails.forEach(e => {
+                    if(e.primary) userEmail = e.email;
+                })
 
                 new GitHubUser({
                     _id: interaction.user.id,
                     id: user.id,
                     avatar_url: user.avatar_url,
                     username: user.login,
-                    email: user.email,
+                    email: userEmail,
                     token: userAuth.token,
                     linked: Date.now(),
                     lastUpdated: Date.now()
@@ -166,7 +174,7 @@ module.exports = {
                     .setTitle("GitHub Account Linked")
                     .addFields (
                         { name: "Username", value: user.login },
-                        { name: "Email", value: user.email }
+                        { name: "Email", value: userEmail }
                     )
                     .setTimestamp()
 
