@@ -41,7 +41,7 @@ module.exports = {
     async execute(interaction, client, Discord) {
         try {
             if(interaction.options.getSubcommand() === "account") {
-                const data = await GitHubUser.findOne({ _id: interaction.user.id });
+                let data = await GitHubUser.findOne({ _id: interaction.user.id });
 
                 if(!data) {
                     const error = new Discord.EmbedBuilder()
@@ -52,13 +52,41 @@ module.exports = {
                     return;
                 }
 
+                const octokit = new Octokit({ auth: data.token });
+                const user = (await octokit.request("GET /user", {})).data;
+
+                const oldData = {
+                    id: data.id,
+                    avatar_url: data.avatar_url,
+                    username: data.username,
+                    email: data.email
+                }
+
+                const newData = {
+                    id: user.id,
+                    avatar_url: user.avatar_url,
+                    username: user.login,
+                    email: user.email
+                }
+
+                if(oldData.id !== newData.id || oldData.avatar_url !== newData.avatar_url || oldData.username !== newData.username || oldData.email !== newData.email) {
+                    data = await GitHubUser.findOneAndUpdate({ _id: interaction.user.id }, {
+                        id: user.id,
+                        avatar_url: user.avatar_url,
+                        username: user.login,
+                        email: user.email,
+                        lastUpdated: Date.now()
+                    }, { returnOriginal: false })
+                }
+
                 const account = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.github)
                     .setThumbnail(data.avatar_url)
                     .setTitle("Your GitHub Account")
                     .addFields (
                         { name: "Username", value: data.username },
-                        { name: "Email", value: data.email }
+                        { name: "Email", value: data.email },
+                        { name: "Linked", value: `<t:${data.linked.toString().slice(0, -3)}> (<t:${data.linked.toString().slice(0, -3)}:R>)` }
                     )
 
                 const actions = new Discord.ActionRowBuilder()
@@ -90,7 +118,7 @@ module.exports = {
                 const auth = createOAuthDeviceAuth({
                     clientType: "oauth-app",
                     clientId: process.env.github_client_id,
-                    scopes: ["user"],
+                    scopes: ["user, repo"],
                     async onVerification(verify) {
                         const login = new Discord.EmbedBuilder()
                             .setColor(client.config_embeds.github)
@@ -119,16 +147,16 @@ module.exports = {
                 completed = true;
 
                 const octokit = new Octokit({ auth: octoAuth.token });
-
                 const user = (await octokit.request("GET /user", {})).data;
 
                 new GitHubUser({
                     _id: interaction.user.id,
-                    linked: Date.now(),
                     avatar_url: user.avatar_url,
                     username: user.login,
                     email: user.email,
-                    token: octoAuth.token
+                    token: octoAuth.token,
+                    linked: Date.now(),
+                    lastUpdated: Date.now()
                 }).save()
 
                 const linked = new Discord.EmbedBuilder()
