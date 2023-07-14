@@ -4,14 +4,21 @@ const BannedUser = require("../../models/BannedUser");
 const User = require("../../models/User");
 
 module.exports = {
-    name: "message-ban",
-    startsWith: true,
+    name: "Ban User",
+    type: 2,
+    default_member_permissions: null,
+    botPermissions: [],
     requiredRoles: ["mod"],
+    cooldown: 3,
+    enabled: true,
+    staffOnly: false,
+    deferReply: false,
+    ephemeral: true,
     async execute(interaction, client, Discord) {
         try {
-            const id = interaction.customId.replace("message-ban-", "");
+            const user = interaction.targetUser;
 
-            if(id === interaction.user.id) {
+            if(user.id === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You cannot ban yourself!`)
@@ -20,29 +27,21 @@ module.exports = {
                 return;
             }
 
-            if(await User.exists({ _id: id, immune: true })) {
+            if(await User.exists({ _id: user.id, immune: true })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You cannot ban that user!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
-
-                interaction.message.components[0].components[2].data.disabled = true;
-
-                await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
                 return;
             }
 
-            if(await BannedUser.exists({ _id: id })) {
+            if(await BannedUser.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} That user is already banned!`)
+                    .setDescription(`${emoji.cross} ${user} is already banned!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
-
-                interaction.message.components[0].components[2].data.disabled = true;
-
-                await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
                 return;
             }
 
@@ -97,10 +96,8 @@ module.exports = {
                         if(i2.customId === `select-menu-${interaction.id}`) {
                             const appealable = i2.values[0];
 
-                            const user = await client.users.fetch(id);
-
                             new BannedUser({
-                                _id: id,
+                                _id: user.id,
                                 timestamp: Date.now(),
                                 allowAppeal: appealable === "true" ? true : false,
                                 reason: reason,
@@ -130,20 +127,6 @@ module.exports = {
                                 sentDM = true;
                             } catch {}
 
-                            const banInfo = new Discord.EmbedBuilder()
-                                .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
-                                .setTitle("Banned")
-                                .addFields (
-                                    { name: "❓ Reason", value: reason },
-                                    { name: "📜 Appealable", value: appealable === "true" ? "✅" : "❌" }
-                                )
-                                .setTimestamp()
-
-                            interaction.message.embeds.push(banInfo);
-                            interaction.message.components[0].components[2].data.disabled = true;
-
-                            await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
-
                             const banned = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.default)
                                 .setDescription(`${emoji.tick} ${user} has been banned.`)
@@ -168,7 +151,7 @@ module.exports = {
                 }
             })
         } catch(err) {
-            client.logButtonError(err, interaction, Discord);
+            client.logContextError(err, interaction, Discord);
         }
     }
 }

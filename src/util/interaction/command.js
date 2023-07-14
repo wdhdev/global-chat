@@ -85,7 +85,7 @@ module.exports = async (client, Discord, interaction) => {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There was an error while executing that command!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                command.deferReply ? await interaction.editReply({ embeds: [error], ephemeral: true }) : await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
         }
@@ -106,7 +106,7 @@ module.exports = async (client, Discord, interaction) => {
                     .setColor(client.config_embeds.error)
                     .setDescription(`⏰ Please wait ${timeLeft} second${timeLeft === 1 ? "" : "s"} before running that command again!`)
 
-                await interaction.editReply({ embeds: [cooldown], ephemeral: true });
+                command.deferReply ? await interaction.editReply({ embeds: [cooldown], ephemeral: true }) : await interaction.reply({ embeds: [cooldown], ephemeral: true });
                 return;
             }
         }
@@ -126,7 +126,7 @@ module.exports = async (client, Discord, interaction) => {
                 .setColor(client.config_embeds.error)
                 .setDescription(`${emoji.cross} There was an error while executing that command!`)
 
-            await interaction.editReply({ embeds: [error], ephemeral: true });
+            command.deferReply ? await interaction.editReply({ embeds: [error], ephemeral: true }) : await interaction.reply({ embeds: [error], ephemeral: true });
         }
     } catch(err) {
         client.logError(err);

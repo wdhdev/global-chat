@@ -17,8 +17,7 @@ module.exports = {
     requiredRoles: ["owner"],
     cooldown: 0,
     enabled: true,
-    hidden: true,
-    guildOnly: true,
+    staffOnly: true,
     deferReply: true,
     ephemeral: false,
     async execute(interaction, client, Discord) {

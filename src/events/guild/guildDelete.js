@@ -10,12 +10,10 @@ module.exports = {
             const data = await Guild.findOne({ _id: guild.id });
 
             if(data) {
-                const valid = await checkWebhook(data.webhook);
+                if(await checkWebhook(data.webhook)) await fetch(data.webhook, { method: "DELETE" });
 
-                if(valid) await fetch(data.webhook, { method: "DELETE" });
+                await data.delete();
             }
-
-            await data.delete();
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 

@@ -4,7 +4,7 @@ const getDirs = require("../../util/getDirs");
 
 module.exports = {
     name: "help",
-    description: "Displays a list of all of my commands.",
+    description: "Displays a list of all of Global Chat's commands.",
     options: [
         {
             type: 3,
@@ -18,8 +18,7 @@ module.exports = {
     requiredRoles: [],
     cooldown: 5,
     enabled: true,
-    hidden: false,
-    guildOnly: false,
+    staffOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction, client, Discord) {
@@ -35,7 +34,7 @@ module.exports = {
                     const command = require(`../${file}`);
 
                     if(command.name) {
-                        if(!command.enabled || command.hidden) continue;
+                        if(!command.enabled || command.staffOnly) continue;
 
                         if(command.default_member_permissions) {
                             if(!interaction.member.permissions.has(command.default_member_permissions)) continue;
@@ -55,7 +54,7 @@ module.exports = {
                     const command = require(`../${dir}/${file}`);
 
                     if(command.name) {
-                        if(!command.enabled || command.hidden) continue;
+                        if(!command.enabled || command.staffOnly) continue;
 
                         if(command.default_member_permissions) {
                             if(!interaction.member.permissions.has(command.default_member_permissions)) continue;
@@ -76,7 +75,7 @@ module.exports = {
             for(const cmd of commands) {
                 const info = client.commands.get(cmd);
 
-                cmds.push(`</${cmd}:${client.commandIds.get(cmd)}>\n${emoji.reply} ${info.description}`);
+                cmds.push(`</${cmd}:${client.commandIds.get(cmd)}> - ${info.description}`);
             }
 
             cmds = cmds.sort();

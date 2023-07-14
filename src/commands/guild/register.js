@@ -20,8 +20,7 @@ module.exports = {
     requiredRoles: [],
     cooldown: 120,
     enabled: true,
-    hidden: false,
-    guildOnly: false,
+    staffOnly: false,
     deferReply: true,
     ephemeral: false,
     async execute(interaction, client, Discord) {

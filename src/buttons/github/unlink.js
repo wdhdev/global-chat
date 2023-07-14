@@ -36,7 +36,7 @@ module.exports = {
                 .setColor(client.config_embeds.github)
                 .setDescription(`${emoji.tick} Your GitHub account has been unlinked.`)
 
-            await interaction.reply({ embeds: [unlinked] });
+            await interaction.reply({ embeds: [unlinked], ephemeral: true });
         } catch(err) {
             client.logButtonError(err, interaction, Discord);
         }

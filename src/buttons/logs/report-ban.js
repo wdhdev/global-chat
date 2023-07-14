@@ -102,7 +102,7 @@ module.exports = {
                             new BannedUser({
                                 _id: id,
                                 timestamp: Date.now(),
-                                allowAppeal: appealable === "false" ? false : true,
+                                allowAppeal: appealable === "true" ? true : false,
                                 reason: reason,
                                 mod: interaction.user.id
                             }).save()

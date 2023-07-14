@@ -48,7 +48,7 @@ module.exports = async function (client) {
 
         for(const file of files) {
             const command = require(`../commands/${file}`);
-            if(command.enabled && command.guildOnly) commands.push(command);
+            if(command.enabled && command.staffOnly) commands.push(command);
         }
     }
 
@@ -57,7 +57,7 @@ module.exports = async function (client) {
 
         for(const file of files) {
             const command = require(`../commands/${dir}/${file}`);
-            if(command.enabled && command.guildOnly) commands.push(command);
+            if(command.enabled && command.staffOnly) commands.push(command);
         }
     }
 
@@ -67,7 +67,7 @@ module.exports = async function (client) {
 
         for(const file of files) {
             const command = require(`../context-menu/${file}`);
-            if(command.enabled && command.guildOnly) commands.push(command);
+            if(command.enabled && command.staffOnly) commands.push(command);
         }
     }
 
@@ -76,7 +76,7 @@ module.exports = async function (client) {
 
         for(const file of files) {
             const command = require(`../context-menu/${dir}/${file}`);
-            if(command.enabled && command.guildOnly) commands.push(command);
+            if(command.enabled && command.staffOnly) commands.push(command);
         }
     }
 }
