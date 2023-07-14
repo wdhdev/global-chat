@@ -29,16 +29,17 @@ module.exports = async (client) => {
     await loadRoot();
     (await getDirs("./src/commands")).forEach(dir => loadDir(dir));
 
-    const emoji = require("../config").emojis;
-
     client.logCommandError = async function (err, interaction, Discord) {
         const id = client.sentry.captureException(err);
         console.error(err);
 
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setDescription(`${emoji.cross} An error occurred!`)
-            .setFooter(id)
+            .setTitle("💥 An error occurred")
+            .setDescription(`\`\`\`${err.message}\`\`\``)
+            .addFields (
+                { name: "Error ID", value: id }
+            )
             .setTimestamp()
 
         await interaction.editReply({ embeds: [error], ephemeral: true });

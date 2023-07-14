@@ -29,6 +29,7 @@ module.exports.embeds = {
 
 module.exports.emojis = {
     cross: "<:cross:1127043491642478592>",
+    github: "<:github:1129227804693774346>",
     ping: "<a:ping:1127044182352072786>",
     reply: "<:reply:1111102420714537012>",
     tick: "<:tick:1127043494981161081>"

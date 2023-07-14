@@ -1,3 +1,4 @@
+const BlockedMessage = require("../../models/BlockedMessage");
 const Message = require("../../models/Message");
 const User = require("../../models/User");
 
@@ -30,6 +31,7 @@ module.exports = {
             const donators = await User.find({ donator: true });
 
             const messages = await Message.find();
+            const blockedMessages = await BlockedMessage.find();
 
             const guild = await client.guilds.fetch(client.config_default.ownerGuild);
             const members = await guild.members.fetch();
@@ -45,13 +47,15 @@ module.exports = {
             const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
 
             const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
+            const stat_blocked_messages = `⛔ ${blockedMessages.length} Blocked Message${messages.length === 1 ? "" : "s"}`;
 
             const statistics = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
+                .setTitle("Statistics")
                 .addFields (
                     { name: "🤖 Bot", value: `${stat_guilds}\n${stat_users}`, inline: true },
                     { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_verified}\n${stat_donators}\n${stat_supporters}`, inline: true },
-                    { name: "🌐 Global Chat", value: `${stat_messages}`, inline: true }
+                    { name: "🌐 Global Chat", value: `${stat_messages}\n${stat_blocked_messages}`, inline: true }
                 )
 
             const buttons = new Discord.ActionRowBuilder()

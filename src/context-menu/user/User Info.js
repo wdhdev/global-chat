@@ -1,9 +1,10 @@
+const emoji = require("../../config").emojis;
 const getRoles = require("../../util/roles/get");
 
 const BannedUser = require("../../models/BannedUser");
 const BlockedMessage = require("../../models/BlockedMessage");
+const GitHubUser = require("../../models/GitHubUser");
 const Message = require("../../models/Message");
-const User = require("../../models/User");
 
 module.exports = {
     name: "User Info",
@@ -20,6 +21,15 @@ module.exports = {
         try {
             const user = interaction.targetUser;
 
+            // Banned
+            let banned = false;
+
+            const banInfo = await BannedUser.findOne({ _id: user.id });
+
+            if(banInfo) banned = true;
+
+            const banData = banned ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}> (<t:${banInfo.timestamp.slice(0, -3)}:R>)\n📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}\n❓ ${banInfo.reason}\n🔨 <@${banInfo.mod}>` : null;
+
             // Roles
             const role = await getRoles(user.id, client);
 
@@ -31,40 +41,42 @@ module.exports = {
             if(role.verified) roles.push("✅ Verified");
             if(role.donator) roles.push("💸 Donator");
             if(role.supporter) roles.push("💖 Supporter");
+            if(role.immunity) roles.push("😇 Immunity");
 
-            // Immunity
-            const immune = await User.exists({ _id: user.id, immune: true });
+            // Linked Accounts
+            const accounts = [];
 
-            // Banned
-            let banned = false;
+            const github = await GitHubUser.findOne({ _id: user.id });
 
-            const banInfo = await BannedUser.findOne({ _id: user.id });
+            if(github) {
+                accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
+            }
 
-            if(banInfo) banned = true;
-
-            const banData = `${banned ? "" : "❌"}\n${banned && banInfo.timestamp ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}> (<t:${banInfo.timestamp.slice(0, -3)}:R>)` : ""}\n${banned ? `📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}` : ""}\n${banned && banInfo.reason ? `❓ ${banInfo.reason}` : ""}\n${banned && banInfo.mod ? `🔨 <@${banInfo.mod}>` : ""}`;
-
-            // Stats
+            // Statistics
             const blocked = (await BlockedMessage.find({ user: user.id })).length;
             const images = (await Message.find({ user: user.id, attachment: { $ne: null } })).length;
             const messages = (await Message.find({ user: user.id })).length;
 
             const stats = {
-                "blocked": `⛔ ${blocked} ${blocked === 1 ? "Blocked Message" : "Blocked Messages"}`,
-                "images": `📷 ${images} ${images === 1 ? "Image" : "Images"}`,
-                "messages": `💬 ${messages} ${messages === 1 ? "Message" : "Messages"}`
+                blocked: `⛔ ${blocked} ${blocked === 1 ? "Blocked Message" : "Blocked Messages"}`,
+                images: `📷 ${images} ${images === 1 ? "Image" : "Images"}`,
+                messages: `💬 ${messages} ${messages === 1 ? "Message" : "Messages"}`
             }
 
             const userInfo = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
-                .setTitle("User Information")
-                .addFields (
-                    { name: "Roles", value: roles.join("\n") || "*None*" },
-                    { name: "Immunity", value: immune ? "✅" : "❌" },
-                    { name: "Banned", value: banData },
-                    { name: "Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}` }
-                )
+                .setDescription("*There is no information about this user.*")
+
+            if(banned || accounts.length || roles.length || blocked || images || messages) {
+                userInfo.setTitle("User Information");
+                userInfo.setDescription(null);
+            }
+
+            if(banned) userInfo.addFields({ name: "🔨 Ban Info", value: banData, inline: true });
+            if(roles.length) userInfo.addFields({ name: "🎭 Roles", value: roles.join("\n"), inline: true });
+            if(blocked || images || messages) userInfo.addFields({ name: "📊 Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}`, inline: true });
+            if(accounts.length) userInfo.addFields({ name: "🔗 Linked Accounts", value: accounts.join("\n"), inline: true });
 
             await interaction.editReply({ embeds: [userInfo], ephemeral: true });
         } catch(err) {
