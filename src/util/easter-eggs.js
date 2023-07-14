@@ -29,6 +29,11 @@ module.exports = async function (content) {
         return "Luni = best moderator";
     }
 
+    // never gonna give you up
+    if(content.toLowerCase() === "never gonna give you up") {
+        return "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you";
+    }
+
     // OwO
     if(content === "OwO") {
         return "OwO What's This?";
