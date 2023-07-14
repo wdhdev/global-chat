@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         client_id: process.env.github_client_id,
         client_secret: process.env.github_client_secret,
         code: code,
-        redirect_uri: `htts://gc-auth.wdh.gg/github/callback?user=${user}&token=${token}`
+        redirect_uri: `https://gc-auth.wdh.gg/github/callback?user=${user}&token=${token}`
     })
 
     try {
