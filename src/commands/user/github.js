@@ -53,7 +53,15 @@ module.exports = {
                 }
 
                 const octokit = new Octokit({ auth: data.token });
+
                 const user = (await octokit.request("GET /user", {})).data;
+                const emails = (await octokit.request("GET /user/emails", {})).data;
+
+                let userEmail = "";
+
+                emails.forEach(e => {
+                    if(e.primary) userEmail = e.email;
+                })
 
                 const oldData = {
                     id: data.id,
@@ -66,7 +74,7 @@ module.exports = {
                     id: user.id,
                     avatar_url: user.avatar_url,
                     username: user.login,
-                    email: user.email
+                    email: userEmail
                 }
 
                 if(oldData.id !== newData.id || oldData.avatar_url !== newData.avatar_url || oldData.username !== newData.username || oldData.email !== newData.email) {
@@ -74,7 +82,7 @@ module.exports = {
                         id: user.id,
                         avatar_url: user.avatar_url,
                         username: user.login,
-                        email: user.email,
+                        email: userEmail,
                         lastUpdated: Date.now()
                     }, { returnOriginal: false })
                 }
@@ -85,7 +93,7 @@ module.exports = {
                     .setTitle("Your GitHub Account")
                     .addFields (
                         { name: "Username", value: data.username },
-                        { name: "Email", value: data.email },
+                        { name: "Email", value: userEmail },
                         { name: "Linked", value: `<t:${data.linked.toString().slice(0, -3)}> (<t:${data.linked.toString().slice(0, -3)}:R>)` }
                     )
 
