@@ -102,6 +102,10 @@ client.validPermissions = [
     "SendVoiceMessages"
 ]
 
+// Start Auth API
+const authAPI = require("./auth-api/index");
+authAPI();
+
 // Start Sentry API
 const sentryAPI = require("./sentry-api/index");
 sentryAPI(client);

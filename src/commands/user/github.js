@@ -1,8 +1,8 @@
-const { createOAuthDeviceAuth } = require("@octokit/auth-oauth-device");
 const { Octokit } = require("@octokit/core");
 
 const emoji = require("../../config").emojis;
 
+const AuthToken = require("../../models/AuthToken");
 const GitHubUser = require("../../models/GitHubUser");
 
 module.exports = {
@@ -121,72 +121,24 @@ module.exports = {
                     return;
                 }
 
-                let completed = false;
+                const token = require("crypto").randomUUID();
 
-                const auth = createOAuthDeviceAuth({
-                    clientType: "oauth-app",
-                    clientId: process.env.github_client_id,
-                    scopes: ["read:user, user:email, repo:invite"],
-                    async onVerification(verify) {
-                        const login = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.github)
-                            .setThumbnail("https://avatars.githubusercontent.com/u/9919")
-                            .setTitle("Link your GitHub account")
-                            .setDescription(`1. Open the URL: ${verify.verification_uri}\n2. Enter the code: \`${verify.user_code}\``)
-                            .setFooter({ text: `This prompt will expire in ${Math.round(verify.expires_in / 60)} minutes.` })
-                            .setTimestamp()
-
-                        await interaction.editReply({ embeds: [login] });
-
-                        setTimeout(async () => {
-                            if(completed) return;
-
-                            const cancelled = new Discord.EmbedBuilder()
-                                .setColor(client.config_embeds.error)
-                                .setDescription(`${emoji.cross} Your GitHub login prompt has expired.`)
-
-                            await interaction.editReply({ embeds: [cancelled] });
-                        }, verify.expires_in * 1000);
-                    }
-                })
-
-                const userAuth = await auth({ type: "oauth" });
-
-                completed = true;
-
-                const octokit = new Octokit({ auth: userAuth.token });
-
-                const user = (await octokit.request("GET /user", {})).data;
-                const emails = (await octokit.request("GET /user/emails", {})).data;
-
-                let userEmail = "";
-
-                emails.forEach(e => {
-                    if(e.primary) userEmail = e.email;
-                })
-
-                new GitHubUser({
-                    _id: interaction.user.id,
-                    id: user.id,
-                    avatar_url: user.avatar_url,
-                    username: user.login,
-                    email: userEmail,
-                    token: userAuth.token,
-                    linked: Date.now(),
-                    lastUpdated: Date.now()
+                new AuthToken({
+                    _id: token,
+                    user: interaction.user.id,
+                    service: "github"
                 }).save()
 
-                const linked = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.github)
-                    .setThumbnail(user.avatar_url)
-                    .setTitle("GitHub Account Linked")
-                    .addFields (
-                        { name: "Username", value: user.login },
-                        { name: "Email", value: userEmail }
+                const button = new Discord.ActionRowBuilder()
+                    .addComponents (
+                        new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Link)
+                            .setEmoji(emoji.github)
+                            .setLabel("Sign in with GitHub")
+                            .setURL(`https://gc-auth.wdh.gg/github?user=${interaction.user.id}&token=${token}`)
                     )
-                    .setTimestamp()
 
-                await interaction.editReply({ embeds: [linked] });
+                await interaction.editReply({ components: [button] });
                 return;
             }
 
