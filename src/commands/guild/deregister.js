@@ -31,8 +31,8 @@ module.exports = {
                 .setColor(client.config_embeds.default)
                 .setTitle("❌ Guild Deregistered")
                 .addFields (
-                    { name: "Name", value: `${interaction.guild.name}`, inline: true },
-                    { name: "ID", value: `${interaction.guild.id}`, inline: true },
+                    { name: "Name", value: interaction.guild.name, inline: true },
+                    { name: "ID", value: interaction.guild.id.toString(), inline: true },
                     { name: "Responsible User", value: `${interaction.user}`, inline: true }
                 )
                 .setTimestamp()

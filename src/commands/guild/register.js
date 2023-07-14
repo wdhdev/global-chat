@@ -52,7 +52,7 @@ module.exports = {
                     .setTitle("📝 Guild Registered")
                     .addFields (
                         { name: "Name", value: `${interaction.guild.name}`, inline: true },
-                        { name: "ID", value: `${interaction.guild.id}`, inline: true },
+                        { name: "ID", value: interaction.guild.id.toString(), inline: true },
                         { name: "Responsible User", value: `${interaction.user}`, inline: true }
                     )
                     .setTimestamp()
@@ -74,7 +74,7 @@ module.exports = {
                 .setTitle("🔄️ Guild Re-registered")
                 .addFields (
                     { name: "Name", value: `${interaction.guild.name}`, inline: true },
-                    { name: "ID", value: `${interaction.guild.id}`, inline: true },
+                    { name: "ID", value: interaction.guild.id.toString(), inline: true },
                     { name: "Responsible User", value: `${interaction.user}`, inline: true }
                 )
                 .setTimestamp()

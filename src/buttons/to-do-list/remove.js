@@ -32,8 +32,8 @@ module.exports = {
         for(const todo of data) {
             menu.addOptions (
                 new Discord.StringSelectMenuOptionBuilder()
-                    .setEmoji(`${priority[todo.priority]}`)
-                    .setLabel(`${todo.name}`)
+                    .setEmoji(priority[todo.priority])
+                    .setLabel(todo.name)
                     .setValue(todo._id)
             )
         }
