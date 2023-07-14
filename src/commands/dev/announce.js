@@ -24,7 +24,7 @@ module.exports = {
                 .setStyle(Discord.TextInputStyle.Paragraph)
                 .setLabel("Content")
                 .setMinLength(10)
-                .setMaxLength(1000)
+                .setMaxLength(2000)
                 .setRequired(true)
 
             const row = new Discord.ActionRowBuilder().addComponents(modalText);
