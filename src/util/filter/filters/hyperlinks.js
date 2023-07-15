@@ -1,5 +1,5 @@
 module.exports = async function (message, role) {
-    const regex = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi);
+    const regex = new RegExp(/\[(.*?)\]\(.*?\)/g);
 
     const matches = message.content.match(regex) || [];
 

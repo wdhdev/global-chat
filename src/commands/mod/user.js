@@ -74,7 +74,7 @@ module.exports = {
             const userInfo = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
-                .setDescription("*There is no information about this user.*")
+                .setDescription("*There is no information available about this user.*")
 
             if(banned || accounts.length || roles.length || blocked || images || messages) {
                 userInfo.setTitle("User Information");

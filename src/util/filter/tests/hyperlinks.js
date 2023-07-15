@@ -13,7 +13,7 @@ module.exports = async function (message, client, Discord) {
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
-            filter: "LINKS",
+            filter: "HYPERLINKS",
             reason: filterResult.matches
         }).save()
 
@@ -21,7 +21,7 @@ module.exports = async function (message, client, Discord) {
             .setTitle("⛔ Message Blocked")
             .setDescription(message.content)
             .addFields (
-                { name: "🚩 Filter", value: "🔗 Links" },
+                { name: "🚩 Filter", value: "🔗 Hyperlinks" },
                 { name: "❓ Reason", value: `- \`${filterResult.matches.join("\`\n- \`")}\`` }
             )
 

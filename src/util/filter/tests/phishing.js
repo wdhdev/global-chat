@@ -5,10 +5,10 @@ module.exports = async function (message, client, Discord) {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-    const phishingFilter = require("../filters/phishing");
-    const phishingResult = await phishingFilter(message);
+    const filter = require("../filters/phishing");
+    const filterResult = await filter(message);
 
-    if(phishingResult) {
+    if(filterResult) {
         new BlockedMessage({
             _id: message.id,
             user: message.author.id,

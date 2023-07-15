@@ -11,6 +11,9 @@ module.exports = async function (message, client, Discord) {
     // Profanity
     if(await profanity(message, client, Discord)) return true;
 
+    // Hyperlinks
+    if(await hyperlink(message, client, Discord)) return true;
+
     // Links
     if(await links(message, client, Discord)) return true;
 

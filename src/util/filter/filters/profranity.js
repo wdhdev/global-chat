@@ -8,29 +8,29 @@ module.exports = async function (message) {
 
     const content = replaceContent(message.content.toLowerCase());
 
-    const blockedWords = [];
+    const matches = [];
 
     let autoban = false;
     let blacklist = false;
 
     autobanFilter.words.some(word => {
         if(content.includes(word)) {
-            blockedWords.push(word);
+            matches.push(word);
             autoban = true;
         }
     })
 
     blacklistFilter.words.some(word => {
         if(content.includes(word)) {
-            blockedWords.push(word);
+            matches.push(word);
             blacklist = true;
         }
     })
 
-    if(blockedWords.length) {
+    if(matches.length) {
         return {
             "result": true,
-            "words": blockedWords,
+            "matches": matches,
             "filter": {
                 "autoban": autoban,
                 "blacklist": blacklist

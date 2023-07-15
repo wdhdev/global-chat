@@ -5,24 +5,24 @@ module.exports = async function (message, client, Discord) {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
-    const profanityFilter = require("../filters/profranity");
-    const profanityResult = await profanityFilter(message);
+    const filter = require("../filters/profranity");
+    const filterResult = await filter(message);
 
-    if(profanityResult.result) {
+    if(filterResult.result) {
         new BlockedMessage({
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
             filter: "PROFANITY",
-            reason: profanityResult.words
+            reason: filterResult.matches
         }).save()
 
         const blocked = new Discord.EmbedBuilder()
             .setTitle("⛔ Message Blocked")
             .setDescription(message.content)
             .addFields (
-                { name: "🚩 Filter", value: `🤬 Profanity (${profanityResult.filter.autoban ? "autoban" : "blacklist"})` },
-                { name: "❓ Reason", value: `- \`${profanityResult.words.join("\`\n- \`")}\`` }
+                { name: "🚩 Filter", value: `🤬 Profanity (${filterResult.filter.autoban ? "autoban" : "blacklist"})` },
+                { name: "❓ Reason", value: `- \`${filterResult.matches.join("\`\n- \`")}\`` }
             )
 
         let attachment = null;
@@ -46,7 +46,7 @@ module.exports = async function (message, client, Discord) {
                     .setEmoji("ℹ️")
             )
 
-        if(profanityResult.filter.autoban) {
+        if(filterResult.filter.autoban) {
             new BannedUser({
                 _id: message.author.id,
                 timestamp: Date.now(),
