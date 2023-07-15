@@ -5,7 +5,7 @@ module.exports = async function (message, client, Discord) {
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
-    const filter = require("../filters/links");
+    const filter = require("../filters/markdown");
     const filterResult = await filter(message, role);
 
     if(filterResult.result) {
@@ -13,7 +13,7 @@ module.exports = async function (message, client, Discord) {
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
-            filter: "HYPERLINKS",
+            filter: "MARKDOWN",
             reason: filterResult.matches
         }).save()
 
@@ -21,7 +21,7 @@ module.exports = async function (message, client, Discord) {
             .setTitle("⛔ Message Blocked")
             .setDescription(message.content)
             .addFields (
-                { name: "🚩 Filter", value: "🔗 Hyperlinks" },
+                { name: "🚩 Filter", value: "📝 Markdown" },
                 { name: "❓ Reason", value: `- \`${filterResult.matches.join("\`\n- \`")}\`` }
             )
 
