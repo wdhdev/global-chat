@@ -1,4 +1,7 @@
+const emoji = require("../../config").emojis;
+
 const BlockedMessage = require("../../models/BlockedMessage");
+const GitHubUser = require("../../models/GitHubUser");
 const Message = require("../../models/Message");
 const User = require("../../models/User");
 
@@ -30,6 +33,8 @@ module.exports = {
             const verified = await User.find({ verified: true });
             const donators = await User.find({ donator: true });
 
+            const githubUsers = await GitHubUser.find();
+
             const messages = await Message.find();
             const blockedMessages = await BlockedMessage.find();
 
@@ -46,6 +51,8 @@ module.exports = {
             const stat_donators = `💸 ${donators.length} Donator${donators.length === 1 ? "" : "s"}`;
             const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
 
+            const stat_github = `${emoji.github} ${githubUsers.length}`;
+
             const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
             const stat_blocked_messages = `⛔ ${blockedMessages.length} Blocked Message${messages.length === 1 ? "" : "s"}`;
 
@@ -55,6 +62,7 @@ module.exports = {
                 .addFields (
                     { name: "🤖 Bot", value: `${stat_guilds}\n${stat_users}`, inline: true },
                     { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_verified}\n${stat_donators}\n${stat_supporters}`, inline: true },
+                    { name: "🔗 Linked Accounts", value: `${stat_github}`, inline: true },
                     { name: "🌐 Global Chat", value: `${stat_messages}\n${stat_blocked_messages}`, inline: true }
                 )
 
