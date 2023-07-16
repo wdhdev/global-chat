@@ -1,4 +1,4 @@
-const announce = require("../../util/announce");
+const announce = require("../../util/send").announce;
 const emoji = require("../../config").emojis;
 
 module.exports = {

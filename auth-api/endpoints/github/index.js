@@ -1,6 +1,6 @@
 const querystring = require("node:querystring");
 
-const AuthToken = require("../../../models/AuthToken");
+const AuthToken = require("../../../src/models/AuthToken");
 
 module.exports = async (req, res) => {
     const user = req.query.user;

@@ -103,7 +103,7 @@ client.validPermissions = [
 ]
 
 // Start Auth API
-const authAPI = require("./auth-api/index");
+const authAPI = require("../auth-api/index");
 authAPI();
 
 // Start Sentry API

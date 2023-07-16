@@ -2,8 +2,8 @@ const Sentry = require("@sentry/node");
 const axios = require("axios");
 const querystring = require("node:querystring");
 
-const AuthToken = require("../../../models/AuthToken");
-const GitHubUser = require("../../../models/GitHubUser");
+const AuthToken = require("../../../src/models/AuthToken");
+const GitHubUser = require("../../../src/models/GitHubUser");
 
 module.exports = async (req, res) => {
     const code = req.query.code;
