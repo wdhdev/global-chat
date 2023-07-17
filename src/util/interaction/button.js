@@ -41,7 +41,7 @@ module.exports = async (client, Discord, interaction) => {
             return;
         }
 
-        for (const btn of client.buttons) {
+        for(const btn of client.buttons) {
             if(interaction.customId.startsWith(btn[0]) && btn[1].startsWith) {
                 const requiredRoles = btn[1].requiredRoles;
                 const userRoles = await getRoles(interaction.user.id, client);

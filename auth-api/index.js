@@ -29,6 +29,7 @@ module.exports = async (client) => {
 
     app.engine("html", require("ejs").renderFile);
     app.set("view engine", "ejs");
+    app.set("views", "auth-api/views");
 
     const routes = require("./routes");
 

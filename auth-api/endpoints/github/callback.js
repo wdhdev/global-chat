@@ -78,11 +78,11 @@ module.exports = async (req, res) => {
             }).save()
         }
 
-        res.render("auth/success");
+        res.render("github/success");
     } catch(err) {
         Sentry.captureException(err);
         console.error(err);
 
-        res.render("auth/error");
+        res.render("github/error");
     }
 }
