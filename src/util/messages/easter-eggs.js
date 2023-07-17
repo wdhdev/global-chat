@@ -1,24 +1,24 @@
-const fs = require("fs");
+const Sentry = require("@sentry/node");
+const fetch = require("node-fetch");
 
-const data = fs.readFileSync("src/resources/easter-eggs.json", "utf8");
-const easterEggs = JSON.parse(data);
+module.exports = async function (content) {
+    try {
+        const insensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/insensitive.json").then(res => res.json());
+        const sensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/sensitive.json").then(res => res.json());
 
-module.exports = function (content) {
-    let returnedContent = content;
-
-    for(const [key, value] of Object.entries(easterEggs.insensitive)) {
-        if(content.toLowerCase() === key) {
-            returnedContent = value;
-            break;
+        for(const [key, value] of Object.entries(insensitive)) {
+            if(content.toLowerCase() === key) return value;
         }
-    }
 
-    for(const [key, value] of Object.entries(easterEggs.sensitive)) {
-        if(content === key) {
-            returnedContent = value;
-            break;
+        for(const [key, value] of Object.entries(sensitive)) {
+            if(content === key) return value;
         }
-    }
 
-    return returnedContent;
+        return content;
+    } catch(err) {
+        Sentry.captureException(err);
+        console.error(err);
+
+        return content;
+    }
 }
