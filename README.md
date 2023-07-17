@@ -1,11 +1,11 @@
 # 🌐 Global Chat
 A Discord bot which connects many servers together using a text channel!
 
-- [🤝 Contributing](https://github.com/Global-Chat-Bot/bot/blob/main/CONTRIBUTING.md)
+🤝 [Contributing](https://github.com/Global-Chat-Bot/bot/blob/main/CONTRIBUTING.md)
 
-![Languages](https://skillicons.dev/icons?i=nodejs,mongodb,sentry)
+![Languages](https://skillicons.dev/icons?i=nodejs,express,mongodb,sentry,github)
 
-# ⛔ Prohibited Usage
+## ⛔ Prohibited Usage
 - Hosting a public bot using this source code.
   - Hosting a **private** bot is allowed if it is only being used for small servers.
     - All servers must have less than 25 members (excluding bots).
