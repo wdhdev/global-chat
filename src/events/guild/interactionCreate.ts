@@ -1,5 +1,5 @@
-import CustomClient from "../../classes/CustomClient";
-import { Interaction } from "discord.js";
+import ExtendedClient from "../../classes/ExtendedClient";
+import { Interaction, PermissionResolvable } from "discord.js";
 
 import buttonHandler from "../../util/interaction/button";
 import commandHandler from "../../util/interaction/command";
@@ -7,9 +7,9 @@ import contextCommandHandler from "../../util/interaction/context-menu";
 
 export = {
     name: "interactionCreate",
-    async execute(client: CustomClient, Discord: any, interaction: Interaction) {
+    async execute(client: ExtendedClient, Discord: any, interaction: Interaction) {
         try {
-            const requiredPerms: Array<any> = ["SendMessages", "EmbedLinks"];
+            const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 
             if(!interaction.guild) return;
             if(!interaction.guild.members.me.permissions.has(requiredPerms)) return;

@@ -1,11 +1,12 @@
-const { PermissionFlagsBits } = require("discord.js");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
-const emoji = require("../../config").emojis;
+import { emojis as emoji } from "../../config";
 
-const Guild = require("../../models/Guild");
-const User = require("../../models/User");
+import Guild from "../../models/Guild";
+import User from "../../models/User";
 
-module.exports = {
+export = {
     name: "block",
     description: "Block a user's messages sending to this guild.",
     options: [
@@ -24,7 +25,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const user = interaction.options.getUser("user");
 
@@ -77,7 +78,7 @@ module.exports = {
             }
 
             if(!data.blockedUsers) {
-                Guild.findOneAndUpdate({ _id: interaction.guild.id }, { blockedUsers: [user.id] }, (err, data) => {});
+                await Guild.findOneAndUpdate({ _id: interaction.guild.id }, { blockedUsers: [user.id] });
             } else {
                 data.blockedUsers.push(user.id);
                 await data.save();

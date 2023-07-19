@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction } from "discord.js";
 
-const Appeal = require("../../models/Appeal");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Appeal from "../../models/Appeal";
+
+export = {
     name: "check-appeal",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
@@ -53,10 +56,10 @@ module.exports = {
                         return;
                     }
 
-                    const state = {
-                        "APPROVED": "🟢 Approved",
-                        "DENIED": "🔴 Denied",
-                        "NOT_REVIEWED": "🟠 Pending Review"
+                    const state: any = {
+                        APPROVED: "🟢 Approved",
+                        DENIED: "🔴 Denied",
+                        NOT_REVIEWED: "🟠 Pending Review"
                     }
 
                     const appealData = new Discord.EmbedBuilder()

@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import BlockedMessage from "../../models/BlockedMessage";
@@ -16,7 +16,7 @@ export = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const messages = await Message.find({ user: interaction.user.id });
             const blockedMessages = await BlockedMessage.find({ user: interaction.user.id });

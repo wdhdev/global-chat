@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import Discord from "discord.js";
 import { Request, Response } from "express";
 
@@ -7,7 +7,7 @@ const parser = require("../util/parser");
 
 const SentryCapture = require("../../models/SentryCapture");
 
-export default async (req: Request & any, res: Response, client: CustomClient & any) => {
+export default async (req: Request & any, res: Response, client: ExtendedClient & any) => {
     const data = await SentryCapture.findOne({ _id: req.params.secret });
 
     if(!data) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });

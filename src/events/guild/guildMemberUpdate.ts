@@ -1,9 +1,9 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { GuildMember } from "discord.js";
 
 export = {
     name: "guildMemberUpdate",
-    async execute(client: CustomClient & any, Discord: any, oldMember: GuildMember & any, newMember: GuildMember) {
+    async execute(client: ExtendedClient & any, Discord: any, oldMember: GuildMember & any, newMember: GuildMember) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
@@ -14,7 +14,7 @@ export = {
                 if(!oldPremium && newPremium) {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ format: "png", dynamic: true }) })
+                        .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ extension: "png", forceStatic: false }) })
                         .setTitle("Role Added")
                         .addFields (
                             { name: "🎭 Role", value: "💖 Supporter" },
@@ -28,7 +28,7 @@ export = {
                 if(!newPremium) {
                     const log = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
-                        .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ format: "png", dynamic: true }) })
+                        .setAuthor({ name: oldMember.guild.name, iconURL: oldMember.guild.iconURL({ extension: "png", forceStatic: false }) })
                         .setTitle("Role Removed")
                         .addFields (
                             { name: "🎭 Role", value: "💖 Supporter" },

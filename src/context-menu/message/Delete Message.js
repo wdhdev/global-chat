@@ -72,7 +72,7 @@ module.exports = {
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle(`🗑️ Message Deleted`)
                     .addFields (
                         { name: "💬 Message", value: `${data._id}` },
@@ -89,7 +89,7 @@ module.exports = {
                 const message = new Discord.EmbedBuilder()
                     .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
 
-                if(user) message.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+                if(user) message.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` });
                 if(data.content) message.setDescription(data.content);
 
                 modLogsChannel.send({ embeds: [log, message] });

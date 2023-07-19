@@ -1,16 +1,16 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { Guild } from "discord.js";
 
 export = {
     name: "guildCreate",
-    async execute(client: CustomClient & any, Discord: any, guild: Guild & any) {
+    async execute(client: ExtendedClient & any, Discord: any, guild: Guild & any) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             const log = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("Joined Guild")
-                .setThumbnail(guild.iconURL({ format: "png", dynamic: true }))
+                .setThumbnail(guild.iconURL({ extension: "png", forceStatic: false }))
                 .addFields (
                     { name: "Name", value: `${guild.name}`, inline: true },
                     { name: "ID", value: guild.id, inline: true },

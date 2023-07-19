@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -20,7 +20,7 @@ export = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             // Roles
             const role = await getRoles(interaction.user.id, client);

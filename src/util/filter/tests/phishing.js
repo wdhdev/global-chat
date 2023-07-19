@@ -65,7 +65,7 @@ module.exports = async function (message, client, Discord) {
             sentDM = true;
         } catch {}
 
-        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` });
         blocked.addFields (
             { name: "⚒️ Action", value: "🔨 Ban" }
         )
@@ -82,7 +82,7 @@ module.exports = async function (message, client, Discord) {
 
         const banLog = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.default)
-            .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+            .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${client.user.id}` })
             .setTitle("User Banned")
             .addFields (
                 { name: "👤 User", value: `${message.author}` },

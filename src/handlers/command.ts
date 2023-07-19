@@ -1,10 +1,10 @@
-import CustomClient from "../classes/CustomClient";
+import ExtendedClient from "../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import fs from "fs";
 import getDirs from "../util/getDirs";
 
-export = async (client: CustomClient) => {
+export = async (client: ExtendedClient) => {
     async function loadRoot() {
         const files = fs.readdirSync(`./dist/commands`).filter((file: String) => file.endsWith(".js"));
 

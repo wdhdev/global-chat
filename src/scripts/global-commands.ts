@@ -1,4 +1,4 @@
-import CustomClient from "../classes/CustomClient";
+import ExtendedClient from "../classes/ExtendedClient";
 import { REST, Routes } from "discord.js";
 
 import fs from "fs";
@@ -6,7 +6,7 @@ import getDirs from "../util/getDirs";
 
 require("dotenv").config();
 
-export default async function (client: CustomClient) {
+export default async function (client: ExtendedClient) {
     const commands: any[] = [];
 
     const rest = new REST({ version: "9" }).setToken(process.env.token);

@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 
 const emoji = require("../../config").emojis;
 
@@ -15,7 +15,7 @@ export = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const pinging = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

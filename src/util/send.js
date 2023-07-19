@@ -25,7 +25,7 @@ module.exports = async (message, client, Discord) => {
 
     if(message.content.length > 2000) {
         const blocked = new Discord.EmbedBuilder()
-            .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+            .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
             .setTitle("⛔ Message Blocked")
             .setDescription(cap(message.content, 2000))
             .addFields (
@@ -50,7 +50,7 @@ module.exports = async (message, client, Discord) => {
             await message.author.send({ embeds: [blocked], files: attachment ? [attachment] : [] });
         } catch {}
 
-        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` });
+        blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` });
 
         const info = new Discord.EmbedBuilder()
             .addFields (
@@ -90,14 +90,14 @@ module.exports = async (message, client, Discord) => {
             referenceUser = await client.users.fetch(data.user);
         } catch {}
 
-        if(referenceUser) replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? referenceUser.username : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${referenceUser.id}` });;
+        if(referenceUser) replyEmbed.setAuthor({ name: referenceUser.tag.endsWith("#0") ? referenceUser.username : referenceUser.tag, iconURL: referenceUser.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${referenceUser.id}` });;
         if(data.content) replyEmbed.setDescription(data.content);
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
     }
 
     // Embed message
     const chat = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     if(content.length) chat.setDescription(content);
@@ -108,7 +108,7 @@ module.exports = async (message, client, Discord) => {
     const messagesChannel = client.channels.cache.get(client.config_channels.messages);
 
     const messageLog = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     const actions = new Discord.ActionRowBuilder()
@@ -173,7 +173,7 @@ module.exports = async (message, client, Discord) => {
                         if(reply) {
                             await webhook.send({
                                 username: webhookUsername,
-                                avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 embeds: [replyEmbed],
                                 allowedMentions: { parse: [] }
@@ -181,7 +181,7 @@ module.exports = async (message, client, Discord) => {
                         } else {
                             await webhook.send({
                                 username: webhookUsername,
-                                avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                                avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 allowedMentions: { parse: [] }
                             }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
@@ -236,7 +236,7 @@ module.exports = async (message, client, Discord) => {
 module.exports.announce = async function (text, interaction, client, Discord) {
     const msg = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
-        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
         .setTitle("Announcement")
         .setDescription(text)
         .setTimestamp()
@@ -246,7 +246,7 @@ module.exports.announce = async function (text, interaction, client, Discord) {
 
     const messageLog = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
-        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+        .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
         .setTitle("Announcement")
         .setDescription(text)
         .setTimestamp()

@@ -1,9 +1,9 @@
-import CustomClient from "../classes/CustomClient";
+import ExtendedClient from "../classes/ExtendedClient";
 
 import fs from "fs";
 import getDirs from "../util/getDirs";
 
-export = async (client: CustomClient, Discord: any) => {
+export = async (client: ExtendedClient, Discord: any) => {
     async function loadDir(dir: String) {
         const files = fs.readdirSync(`./dist/events/${dir}`).filter((file: String) => file.endsWith(".js"));
 

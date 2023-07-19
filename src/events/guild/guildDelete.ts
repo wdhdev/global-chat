@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { Guild as GuildType } from "discord.js";
 
 import checkWebhook from "../../util/webhooks/check";
@@ -8,7 +8,7 @@ import Guild from "../../models/Guild";
 
 export = {
     name: "guildDelete",
-    async execute(client: CustomClient & any, Discord: any, guild: GuildType & any) {
+    async execute(client: ExtendedClient & any, Discord: any, guild: GuildType & any) {
         try {
             const data = await Guild.findOne({ _id: guild.id });
 
@@ -23,7 +23,7 @@ export = {
             const log = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("Left Guild")
-                .setThumbnail(guild.iconURL({ format: "png", dynamic: true }))
+                .setThumbnail(guild.iconURL({ extension: "png", forceStatic: false }))
                 .addFields (
                     { name: "Name", value: `${guild.name}`, inline: true },
                     { name: "ID", value: guild.id, inline: true },

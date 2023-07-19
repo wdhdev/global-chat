@@ -1,10 +1,10 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { ButtonInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 import getRoles from "../roles/get";
 
-export = async (client: CustomClient, Discord: any, interaction: ButtonInteraction) => {
+export = async (client: ExtendedClient, Discord: any, interaction: ButtonInteraction) => {
     try {
         const button = client.buttons.get(interaction.customId);
 

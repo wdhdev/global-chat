@@ -1,8 +1,10 @@
-const emoji = require("../../config").emojis;
-const fs = require("fs");
-const getDirs = require("../../util/getDirs");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction } from "discord.js";
 
-module.exports = {
+import fs from "fs";
+import getDirs from "../../util/getDirs";
+
+export = {
     name: "help",
     description: "Displays a list of all of Global Chat's commands.",
     options: [
@@ -21,11 +23,11 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
         try {
-            const cmd = interaction.options.getString("command");
+            const cmd: any = interaction.options.get("command")?.value;
 
-            const commands = [];
+            const commands: string[] = [];
 
             async function pushRoot() {
                 const files = fs.readdirSync(`./dist/commands`).filter(file => file.endsWith(".js"));
@@ -47,7 +49,7 @@ module.exports = {
                 }
             }
 
-            async function pushDir(dir) {
+            async function pushDir(dir: String) {
                 const files = fs.readdirSync(`./dist/commands/${dir}`).filter(file => file.endsWith(".js"));
 
                 for(const file of files) {
@@ -82,7 +84,7 @@ module.exports = {
 
             const help = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
+                .setThumbnail(client.user.displayAvatarURL({ extension: "png", forceStatic: false }))
                 .setTitle("Commands")
                 .setDescription(cmds.join("\n"))
                 .setTimestamp()

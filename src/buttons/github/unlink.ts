@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { ButtonInteraction } from "discord.js";
 
 import { Octokit } from "@octokit/core";
@@ -10,7 +10,7 @@ export = {
     name: "github-unlink",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction: ButtonInteraction, client: CustomClient, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const data = await GitHubUser.findOne({ _id: interaction.user.id });
 

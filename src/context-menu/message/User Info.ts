@@ -1,33 +1,40 @@
-const emoji = require("../../config").emojis;
-const getRoles = require("../../util/roles/get");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { MessageContextMenuCommandInteraction } from "discord.js";
 
-const BannedUser = require("../../models/BannedUser");
-const BlockedMessage = require("../../models/BlockedMessage");
-const GitHubUser = require("../../models/GitHubUser");
-const Message = require("../../models/Message");
+import { emojis as emoji } from "../../config";
+import getRoles from "../../util/roles/get";
 
-module.exports = {
-    name: "user",
-    description: "[MODERATOR ONLY] Get information about a user.",
-    options: [
-        {
-            type: 6,
-            name: "user",
-            description: "The user who's information to get.",
-            required: true
-        }
-    ],
+import BannedUser from "../../models/BannedUser";
+import BlockedMessage from "../../models/BlockedMessage";
+import GitHubUser from "../../models/GitHubUser";
+import Message from "../../models/Message";
+
+export = {
+    name: "User Info",
+    type: 3,
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
-    cooldown: 0,
+    cooldown: 3,
     enabled: true,
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: MessageContextMenuCommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            const user = interaction.options.getUser("user");
+            const message = interaction.targetMessage;
+            const messageData = await Message.findOne({ messages: message.url });
+
+            if(!messageData) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
+
+                await interaction.editReply({ embeds: [error] });
+                return;
+            }
+
+            const user = await client.users.fetch(messageData.user);
 
             // Banned
             let banned = false;
@@ -73,7 +80,7 @@ module.exports = {
 
             const userInfo = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
+                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` })
                 .setDescription("*There is no information available about this user.*")
 
             if(banned || accounts.length || roles.length || blocked || images || messages) {
@@ -88,7 +95,7 @@ module.exports = {
 
             await interaction.editReply({ embeds: [userInfo] });
         } catch(err) {
-            client.logCommandError(err, interaction, Discord);
+            client.logContextError(err, interaction, Discord);
         }
     }
 }

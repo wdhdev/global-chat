@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -8,7 +8,7 @@ import BannedUser from "../../models/BannedUser";
 
 const cooldowns = new Map();
 
-export = async (client: CustomClient, Discord: any, interaction: CommandInteraction) => {
+export = async (client: ExtendedClient, Discord: any, interaction: CommandInteraction) => {
     try {
         if(await BannedUser.exists({ _id: interaction.user.id })) {
             const error = new Discord.EmbedBuilder()

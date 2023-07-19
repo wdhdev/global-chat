@@ -50,7 +50,7 @@ module.exports = {
 
             const appealData = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
+                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` })
                 .setTitle("📄 Appeals")
                 .setDescription(appeals.join("\n"))
 

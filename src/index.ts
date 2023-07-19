@@ -10,9 +10,9 @@ Sentry.init({
 import config from "./config";
 import Discord, { PresenceStatusData } from "discord.js";
 
-import CustomClient from "./classes/CustomClient";
+import ExtendedClient from "./classes/ExtendedClient";
 
-const client = new CustomClient({
+const client = new ExtendedClient({
     intents: 3276799,
     presence: {
         activities: [

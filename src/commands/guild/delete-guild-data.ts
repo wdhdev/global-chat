@@ -1,12 +1,13 @@
-const { PermissionFlagsBits } = require("discord.js");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
-const checkWebhook = require("../../util/webhooks/check");
-const emoji = require("../../config").emojis;
-const fetch = require("node-fetch");
+import checkWebhook from "../../util/webhooks/check";
+import { emojis as emoji } from "../../config";
+import fetch from "node-fetch";
 
-const Guild = require("../../models/Guild");
+import Guild from "../../models/Guild";
 
-module.exports = {
+export = {
     name: "delete-guild-data",
     description: "Delete all data associated with the current guild.",
     options: [],
@@ -18,7 +19,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const data = await Guild.findOne({ _id: interaction.guild.id });
 

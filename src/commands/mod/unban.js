@@ -74,7 +74,7 @@ module.exports = {
 
             const banLog = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
                 .setTitle("User Unbanned")
                 .addFields (
                     { name: "👤 User", value: `${user}` },

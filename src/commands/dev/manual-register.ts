@@ -1,9 +1,12 @@
-const emoji = require("../../config").emojis;
-const getWebhook = require("../../util/webhooks/get");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction } from "discord.js";
 
-const Guild = require("../../models/Guild");
+import { emojis as emoji } from "../../config";
+import getWebhook from "../../util/webhooks/get";
 
-module.exports = {
+import Guild from "../../models/Guild";
+
+export = {
     name: "manual-register",
     description: "[DEVELOPER ONLY] Manually register a Global Chat channel using a webhook URL.",
     options: [
@@ -24,9 +27,9 @@ module.exports = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            const webhook = interaction.options.getString("webhook");
+            const webhook: any = interaction.options.get("webhook").value;
 
             const data = await getWebhook(webhook);
 

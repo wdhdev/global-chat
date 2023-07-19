@@ -1,4 +1,4 @@
-import CustomClient from "../../classes/CustomClient";
+import ExtendedClient from "../../classes/ExtendedClient";
 import { ButtonInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -9,7 +9,7 @@ export = {
     name: "message-info",
     startsWith: true,
     requiredRoles: [],
-    async execute(interaction: ButtonInteraction, client: CustomClient, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const id = interaction.customId.replace("message-info-", "");
 

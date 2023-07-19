@@ -1,7 +1,10 @@
-const emoji = require("../../config").emojis;
-const deleteWebhook = require("../../util/webhooks/delete");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction } from "discord.js";
 
-module.exports = {
+import { emojis as emoji } from "../../config";
+import deleteWebhook from "../../util/webhooks/delete";
+
+export = {
     name: "delete-webhook",
     description: "[DEVELOPER ONLY] Delete a webhook.",
     options: [
@@ -22,9 +25,9 @@ module.exports = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            const webhook = interaction.options.getString("webhook");
+            const webhook: any = interaction.options.get("webhook").value;
 
             const data = await deleteWebhook(webhook);
 

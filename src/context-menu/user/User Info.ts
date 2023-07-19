@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
-const getRoles = require("../../util/roles/get");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { UserContextMenuCommandInteraction } from "discord.js";
 
-const BannedUser = require("../../models/BannedUser");
-const BlockedMessage = require("../../models/BlockedMessage");
-const GitHubUser = require("../../models/GitHubUser");
-const Message = require("../../models/Message");
+import { emojis as emoji } from "../../config";
+import getRoles from "../../util/roles/get";
 
-module.exports = {
+import BannedUser from "../../models/BannedUser";
+import BlockedMessage from "../../models/BlockedMessage";
+import GitHubUser from "../../models/GitHubUser";
+import Message from "../../models/Message";
+
+export = {
     name: "User Info",
     type: 2,
     default_member_permissions: null,
@@ -17,7 +20,7 @@ module.exports = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: UserContextMenuCommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const user = interaction.targetUser;
 
@@ -65,7 +68,7 @@ module.exports = {
 
             const userInfo = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
+                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` })
                 .setDescription("*There is no information available about this user.*")
 
             if(banned || accounts.length || roles.length || blocked || images || messages) {

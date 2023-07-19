@@ -42,7 +42,7 @@ module.exports = {
             try {
                 const report = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${interaction.user.id}` })
+                    .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
                     .setTitle("Report")
                     .addFields (
                         { name: "👤 User", value: `<@${data.user}>` },
@@ -72,7 +72,7 @@ module.exports = {
                 const messageEmbed = new Discord.EmbedBuilder()
                     .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
 
-                if(user) messageEmbed.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` });
+                if(user) messageEmbed.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` });
                 if(data.content) messageEmbed.setDescription(data.content);
 
                 reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report, messageEmbed], components: [actions] });

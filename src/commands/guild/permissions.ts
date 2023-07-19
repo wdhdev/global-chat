@@ -1,8 +1,9 @@
-const { PermissionFlagsBits } = require("discord.js");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, PermissionFlagsBits, PermissionResolvable } from "discord.js";
 
-const emoji = require("../../config").emojis;
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+export = {
     name: "permissions",
     description: "Check if the bot has the required permissions.",
     options: [],
@@ -14,9 +15,9 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
         try {
-            const permissions = {
+            const permissions: any = {
                 AttachFiles: "Attach Files",
                 EmbedLinks: "Embed Links",
                 ManageMessages: "Manage Messages",

@@ -1,11 +1,14 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, GuildMember } from "discord.js";
 
-const BlockedMessage = require("../../models/BlockedMessage");
-const GitHubUser = require("../../models/GitHubUser");
-const Message = require("../../models/Message");
-const User = require("../../models/User");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import BlockedMessage from "../../models/BlockedMessage";
+import GitHubUser from "../../models/GitHubUser";
+import Message from "../../models/Message";
+import User from "../../models/User";
+
+export = {
     name: "bot",
     description: "Different information about the bot.",
     options: [],
@@ -17,11 +20,11 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}` })
+                .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${client.user.id}` })
                 .setDescription("A Discord bot which connects many servers together using a text channel!")
                 .addFields (
                     { name: "📈 Version", value: "2.4.2", inline: true },
@@ -40,7 +43,7 @@ module.exports = {
 
             const guild = await client.guilds.fetch(client.config_default.ownerGuild);
             const members = await guild.members.fetch();
-            const boosters = members.filter(member => member.premiumSinceTimestamp);
+            const boosters = members.filter((member: GuildMember) => member.premiumSinceTimestamp);
 
             const stat_guilds = `🗄️ ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
             const stat_users = `👤 ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
