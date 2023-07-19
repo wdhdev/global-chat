@@ -1,12 +1,15 @@
-const send = require("../../util/send");
+import CustomClient from "../../classes/CustomClient";
+import { Message } from "discord.js";
 
-const Guild = require("../../models/Guild");
+import send from "../../util/send";
+
+import Guild from "../../models/Guild";
 
 module.exports = {
     name: "messageCreate",
-    async execute(client, Discord, message) {
+    async execute(client: CustomClient, Discord: any, message: Message) {
         try {
-            const requiredPerms = ["SendMessages", "EmbedLinks", "ManageMessages"];
+            const requiredPerms: any = ["SendMessages", "EmbedLinks", "ManageMessages"];
 
             if(message.author.bot || !message.guild) return;
             if(!message.guild.members.me.permissions.has(requiredPerms)) return;

@@ -24,7 +24,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -33,7 +33,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You can't report yourself!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -83,7 +83,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} An error occurred while submitting the report.`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -91,7 +91,7 @@ module.exports = {
                 .setColor(client.config_embeds.default)
                 .setDescription(`${emoji.tick} Your report has been submitted.`)
 
-            await interaction.editReply({ embeds: [submitted], ephemeral: true });
+            await interaction.editReply({ embeds: [submitted] });
         } catch(err) {
             client.logContextError(err, interaction, Discord);
         }

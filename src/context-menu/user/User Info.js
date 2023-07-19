@@ -78,7 +78,7 @@ module.exports = {
             if(blocked || images || messages) userInfo.addFields({ name: "📊 Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}`, inline: true });
             if(accounts.length) userInfo.addFields({ name: "🔗 Linked Accounts", value: accounts.join("\n"), inline: true });
 
-            await interaction.editReply({ embeds: [userInfo], ephemeral: true });
+            await interaction.editReply({ embeds: [userInfo] });
         } catch(err) {
             client.logContextError(err, interaction, Discord);
         }

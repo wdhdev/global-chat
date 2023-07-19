@@ -1,11 +1,14 @@
-const emoji = require("../../config").emojis;
-const getRoles = require("../roles/get");
+import CustomClient from "../../classes/CustomClient";
+import { ContextMenuCommandInteraction } from "discord.js";
 
-const BannedUser = require("../../models/BannedUser");
+import { emojis as emoji } from "../../config";
+import getRoles from "../roles/get";
+
+import BannedUser from "../../models/BannedUser";
 
 const cooldowns = new Map();
 
-module.exports = async (client, Discord, interaction) => {
+export = async (client: CustomClient, Discord: any, interaction: ContextMenuCommandInteraction) => {
     try {
         if(await BannedUser.exists({ _id: interaction.user.id })) {
             const error = new Discord.EmbedBuilder()
@@ -16,12 +19,12 @@ module.exports = async (client, Discord, interaction) => {
             return;
         }
 
-        const command = client.commands.get(interaction.commandName);
+        const command = client.contextCommands.get(`${interaction.commandType}-${interaction.commandName}`);
 
         if(!command) return;
 
         const requiredRoles = command.requiredRoles;
-        const userRoles = await getRoles(interaction.user.id, client);
+        const userRoles: any = await getRoles(interaction.user.id, client);
 
         if(requiredRoles.length) {
             const hasRoles = [];
@@ -85,7 +88,7 @@ module.exports = async (client, Discord, interaction) => {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There was an error while executing that command!`)
 
-                command.deferReply ? await interaction.editReply({ embeds: [error], ephemeral: true }) : await interaction.reply({ embeds: [error], ephemeral: true });
+                command.deferReply ? await interaction.editReply({ embeds: [error] }) : await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
             }
         }
@@ -97,16 +100,16 @@ module.exports = async (client, Discord, interaction) => {
         const cooldownAmount = command.cooldown * 1000;
 
         if(timeStamps.has(interaction.user.id)) {
-            const expirationTime = timeStamps.get(interaction.member.id) + cooldownAmount;
+            const expirationTime = timeStamps.get(interaction.user.id) + cooldownAmount;
 
             if(currentTime < expirationTime) {
-                const timeLeft = ((expirationTime - currentTime) / 1000).toFixed(0);
+                const timeLeft: any = ((expirationTime - currentTime) / 1000).toFixed(0);
 
                 const cooldown = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`⏰ Please wait ${timeLeft} second${timeLeft === 1 ? "" : "s"} before running that command again!`)
 
-                command.deferReply ? await interaction.editReply({ embeds: [cooldown], ephemeral: true }) : await interaction.reply({ embeds: [cooldown], ephemeral: true });
+                command.deferReply ? await interaction.editReply({ embeds: [cooldown] }) : await interaction.reply({ embeds: [cooldown], ephemeral: true });
                 return;
             }
         }
@@ -126,7 +129,7 @@ module.exports = async (client, Discord, interaction) => {
                 .setColor(client.config_embeds.error)
                 .setDescription(`${emoji.cross} There was an error while executing that command!`)
 
-            command.deferReply ? await interaction.editReply({ embeds: [error], ephemeral: true }) : await interaction.reply({ embeds: [error], ephemeral: true });
+            command.deferReply ? await interaction.editReply({ embeds: [error] }) : await interaction.reply({ embeds: [error], ephemeral: true });
         }
     } catch(err) {
         client.logError(err);

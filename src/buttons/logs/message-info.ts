@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
+import CustomClient from "../../classes/CustomClient";
+import { ButtonInteraction } from "discord.js";
 
-const Message = require("../../models/Message");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Message from "../../models/Message";
+
+export = {
     name: "message-info",
     startsWith: true,
     requiredRoles: [],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: CustomClient, Discord: any) {
         try {
             const id = interaction.customId.replace("message-info-", "");
 

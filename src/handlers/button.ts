@@ -1,9 +1,12 @@
-const fs = require("fs");
-const getDirs = require("../util/getDirs");
+import CustomClient from "../classes/CustomClient";
+import { ButtonInteraction } from "discord.js";
 
-module.exports = async (client) => {
+import fs from "fs";
+import getDirs from "../util/getDirs";
+
+export = async (client: CustomClient) => {
     async function loadRoot() {
-        const files = fs.readdirSync(`./src/buttons`).filter(file => file.endsWith(".js"));
+        const files = fs.readdirSync(`./dist/buttons`).filter((file: String) => file.endsWith(".js"));
 
         for(const file of files) {
             const button = require(`../buttons/${file}`);
@@ -14,8 +17,8 @@ module.exports = async (client) => {
         }
     }
 
-    async function loadDir(dir) {
-        const files = fs.readdirSync(`./src/buttons/${dir}`).filter(file => file.endsWith(".js"));
+    async function loadDir(dir: String) {
+        const files = fs.readdirSync(`./dist/buttons/${dir}`).filter((file: String) => file.endsWith(".js"));
 
         for(const file of files) {
             const button = require(`../buttons/${dir}/${file}`);
@@ -27,9 +30,9 @@ module.exports = async (client) => {
     }
 
     await loadRoot();
-    (await getDirs("./src/buttons")).forEach(dir => loadDir(dir));
+    (await getDirs("./dist/buttons")).forEach((dir: String) => loadDir(dir));
 
-    client.logButtonError = async function (err, interaction, Discord) {
+    client.logButtonError = async function (err: Error, interaction: ButtonInteraction, Discord: any) {
         const id = client.sentry.captureException(err);
         console.error(err);
 

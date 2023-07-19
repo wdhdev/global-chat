@@ -1,14 +1,16 @@
-const { Octokit } = require("@octokit/core");
+import CustomClient from "../../classes/CustomClient";
+import { ButtonInteraction } from "discord.js";
 
-const emoji = require("../../config").emojis;
+import { Octokit } from "@octokit/core";
+import { emojis as emoji } from "../../config";
 
-const GitHubUser = require("../../models/GitHubUser");
+import GitHubUser from "../../models/GitHubUser";
 
-module.exports = {
+export = {
     name: "github-unlink",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: CustomClient, Discord: any) {
         try {
             const data = await GitHubUser.findOne({ _id: interaction.user.id });
 

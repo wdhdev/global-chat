@@ -1,10 +1,13 @@
-const emoji = require("../../config").emojis;
+import CustomClient from "../../classes/CustomClient";
+import { CommandInteraction } from "discord.js";
 
-const User = require("../../models/User");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
-    name: "moderators",
-    description: "Get a list of all the moderators.",
+import User from "../../models/User";
+
+export = {
+    name: "developers",
+    description: "Get a list of all the developers.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
@@ -14,9 +17,9 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
         try {
-            const data = await User.find({ mod: true });
+            const data = await User.find({ dev: true });
 
             const users = [];
 
@@ -27,18 +30,18 @@ module.exports = {
             if(!users.length) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} There are no moderators!`)
+                    .setDescription(`${emoji.cross} There are no developers!`)
 
                 await interaction.editReply({ embeds: [error] });
                 return;
             }
 
-            const moderators = new Discord.EmbedBuilder()
+            const developers = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setTitle("🔨 Moderators")
+                .setTitle("💻 Developers")
                 .setDescription(`<@${users.join(">, <@")}>`)
 
-            await interaction.editReply({ embeds: [moderators] });
+            await interaction.editReply({ embeds: [developers] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }

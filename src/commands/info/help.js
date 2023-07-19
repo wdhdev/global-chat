@@ -28,7 +28,7 @@ module.exports = {
             const commands = [];
 
             async function pushRoot() {
-                const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
+                const files = fs.readdirSync(`./dist/commands`).filter(file => file.endsWith(".js"));
 
                 for(const file of files) {
                     const command = require(`../${file}`);
@@ -48,7 +48,7 @@ module.exports = {
             }
 
             async function pushDir(dir) {
-                const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
+                const files = fs.readdirSync(`./dist/commands/${dir}`).filter(file => file.endsWith(".js"));
 
                 for(const file of files) {
                     const command = require(`../${dir}/${file}`);
@@ -68,7 +68,7 @@ module.exports = {
             }
 
             await pushRoot();
-            (await getDirs("./src/commands")).forEach(dir => pushDir(dir));
+            (await getDirs("./dist/commands")).forEach(dir => pushDir(dir));
 
             let cmds = [];
 

@@ -1,11 +1,14 @@
-const emoji = require("../../config").emojis;
-const getRoles = require("../../util/roles/get");
+import CustomClient from "../../classes/CustomClient";
+import { CommandInteraction } from "discord.js";
 
-const BlockedMessage = require("../../models/BlockedMessage");
-const GitHubUser = require("../../models/GitHubUser");
-const Message = require("../../models/Message");
+import { emojis as emoji } from "../../config";
+import getRoles from "../../util/roles/get";
 
-module.exports = {
+import BlockedMessage from "../../models/BlockedMessage";
+import GitHubUser from "../../models/GitHubUser";
+import Message from "../../models/Message";
+
+export = {
     name: "me",
     description: "Get Global Chat's information about you.",
     options: [],
@@ -17,7 +20,7 @@ module.exports = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
         try {
             // Roles
             const role = await getRoles(interaction.user.id, client);

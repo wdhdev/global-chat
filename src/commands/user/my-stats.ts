@@ -1,7 +1,10 @@
-const BlockedMessage = require("../../models/BlockedMessage");
-const Message = require("../../models/Message");
+import CustomClient from "../../classes/CustomClient";
+import { CommandInteraction } from "discord.js";
 
-module.exports = {
+import BlockedMessage from "../../models/BlockedMessage";
+import Message from "../../models/Message";
+
+export = {
     name: "my-stats",
     description: "Get your Global Chat statistics.",
     options: [],
@@ -13,7 +16,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
         try {
             const messages = await Message.find({ user: interaction.user.id });
             const blockedMessages = await BlockedMessage.find({ user: interaction.user.id });

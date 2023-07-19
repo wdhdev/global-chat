@@ -1,22 +1,23 @@
-const { REST, Routes } = require("discord.js");
+import CustomClient from "../classes/CustomClient";
+import { REST, Routes } from "discord.js";
 
-const fs = require("fs");
-const getDirs = require("../util/getDirs");
+import fs from "fs";
+import getDirs from "../util/getDirs";
 
 require("dotenv").config();
 
-module.exports = async function (client) {
-    const commands = [];
+export default async function (client: CustomClient) {
+    const commands: any[] = [];
 
     const rest = new REST({ version: "9" }).setToken(process.env.token);
 
     // Push Slash Commands
     await pushCommandsRoot();
-    (await getDirs("./src/commands")).forEach(dir => pushCommandsDir(dir));
+    (await getDirs("./dist/commands")).forEach(dir => pushCommandsDir(dir));
 
     // Push Context Menu Commands
     await pushContextMenuRoot();
-    (await getDirs("./src/context-menu")).forEach(dir => pushContextMenuDir(dir));
+    (await getDirs("./dist/context-menu")).forEach(dir => pushContextMenuDir(dir));
 
     (async () => {
         try {
@@ -39,7 +40,7 @@ module.exports = async function (client) {
 
     // Slash Commands
     async function pushCommandsRoot() {
-        const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
+        const files = fs.readdirSync(`./dist/commands`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
             const command = require(`../commands/${file}`);
@@ -47,8 +48,8 @@ module.exports = async function (client) {
         }
     }
 
-    async function pushCommandsDir(dir) {
-        const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
+    async function pushCommandsDir(dir: String) {
+        const files = fs.readdirSync(`./dist/commands/${dir}`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
             const command = require(`../commands/${dir}/${file}`);
@@ -58,7 +59,7 @@ module.exports = async function (client) {
 
     // Context Menu Commands
     async function pushContextMenuRoot() {
-        const files = fs.readdirSync(`./src/context-menu`).filter(file => file.endsWith(".js"));
+        const files = fs.readdirSync(`./dist/context-menu`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
             const command = require(`../context-menu/${file}`);
@@ -66,8 +67,8 @@ module.exports = async function (client) {
         }
     }
 
-    async function pushContextMenuDir(dir) {
-        const files = fs.readdirSync(`./src/context-menu/${dir}`).filter(file => file.endsWith(".js"));
+    async function pushContextMenuDir(dir: String) {
+        const files = fs.readdirSync(`./dist/context-menu/${dir}`).filter(file => file.endsWith(".js"));
 
         for(const file of files) {
             const command = require(`../context-menu/${dir}/${file}`);

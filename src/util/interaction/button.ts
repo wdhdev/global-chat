@@ -1,13 +1,16 @@
-const emoji = require("../../config").emojis;
-const getRoles = require("../roles/get");
+import CustomClient from "../../classes/CustomClient";
+import { ButtonInteraction } from "discord.js";
 
-module.exports = async (client, Discord, interaction) => {
+import { emojis as emoji } from "../../config";
+import getRoles from "../roles/get";
+
+export = async (client: CustomClient, Discord: any, interaction: ButtonInteraction) => {
     try {
         const button = client.buttons.get(interaction.customId);
 
         if(button) {
             const requiredRoles = button.requiredRoles;
-            const userRoles = await getRoles(interaction.user.id, client);
+            const userRoles: any = await getRoles(interaction.user.id, client);
 
             if(requiredRoles.length) {
                 const hasRoles = [];
@@ -44,7 +47,7 @@ module.exports = async (client, Discord, interaction) => {
         for(const btn of client.buttons) {
             if(interaction.customId.startsWith(btn[0]) && btn[1].startsWith) {
                 const requiredRoles = btn[1].requiredRoles;
-                const userRoles = await getRoles(interaction.user.id, client);
+                const userRoles: any = await getRoles(interaction.user.id, client);
 
                 if(requiredRoles.length) {
                     const hasRoles = [];

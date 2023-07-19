@@ -61,7 +61,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} That task does not exist!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -75,7 +75,7 @@ module.exports = {
                         { name: "👤 Added By", value: `<@${todo.added_by}>` }
                     )
 
-                await interaction.editReply({ embeds: [info], components: [], ephemeral: true });
+                await interaction.editReply({ embeds: [info], components: [] });
             }
         })
     }

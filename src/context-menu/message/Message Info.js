@@ -26,7 +26,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -38,7 +38,7 @@ module.exports = {
                         { name: "👤 User ID", value: `${data.user}` }
                     )
 
-                await interaction.editReply({ embeds: [info], ephemeral: true });
+                await interaction.editReply({ embeds: [info] });
                 return;
             }
 
@@ -52,7 +52,7 @@ module.exports = {
                     { name: "📤 Sent To", value: `${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}` }
                 )
 
-            await interaction.editReply({ embeds: [info], ephemeral: true });
+            await interaction.editReply({ embeds: [info] });
         } catch(err) {
             client.logContextError(err, interaction, Discord);
         }

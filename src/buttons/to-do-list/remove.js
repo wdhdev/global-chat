@@ -56,7 +56,7 @@ module.exports = {
                         .setColor(client.config_embeds.error)
                         .setDescription(`${emoji.cross} That task does not exist!`)
 
-                    await interaction.editReply({ embeds: [error], ephemeral: true });
+                    await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
@@ -66,7 +66,7 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .setDescription(`${emoji.tick} That task has been removed from the list.`)
 
-                await interaction.editReply({ embeds: [removed], components: [], ephemeral: true });
+                await interaction.editReply({ embeds: [removed], components: [] });
 
                 const newData = await Task.find();
 

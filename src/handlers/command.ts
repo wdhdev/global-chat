@@ -1,9 +1,12 @@
-const fs = require("fs");
-const getDirs = require("../util/getDirs");
+import CustomClient from "../classes/CustomClient";
+import { CommandInteraction } from "discord.js";
 
-module.exports = async (client) => {
+import fs from "fs";
+import getDirs from "../util/getDirs";
+
+export = async (client: CustomClient) => {
     async function loadRoot() {
-        const files = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(".js"));
+        const files = fs.readdirSync(`./dist/commands`).filter((file: String) => file.endsWith(".js"));
 
         for(const file of files) {
             const command = require(`../commands/${file}`);
@@ -14,8 +17,8 @@ module.exports = async (client) => {
         }
     }
 
-    async function loadDir(dir) {
-        const files = fs.readdirSync(`./src/commands/${dir}`).filter(file => file.endsWith(".js"));
+    async function loadDir(dir: String) {
+        const files = fs.readdirSync(`./dist/commands/${dir}`).filter((file: String) => file.endsWith(".js"));
 
         for(const file of files) {
             const command = require(`../commands/${dir}/${file}`);
@@ -27,9 +30,9 @@ module.exports = async (client) => {
     }
 
     await loadRoot();
-    (await getDirs("./src/commands")).forEach(dir => loadDir(dir));
+    (await getDirs("./dist/commands")).forEach((dir: String) => loadDir(dir));
 
-    client.logCommandError = async function (err, interaction, Discord) {
+    client.logCommandError = async function (err: Error, interaction: CommandInteraction, Discord: any) {
         const id = client.sentry.captureException(err);
         console.error(err);
 
@@ -42,7 +45,7 @@ module.exports = async (client) => {
             )
             .setTimestamp()
 
-        await interaction.editReply({ embeds: [error], ephemeral: true });
+        await interaction.editReply({ embeds: [error] });
     }
 
     require("dotenv").config();

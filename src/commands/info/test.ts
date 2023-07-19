@@ -1,7 +1,10 @@
+import { CommandInteraction } from "discord.js";
+import CustomClient from "../../classes/CustomClient";
+
 const emoji = require("../../config").emojis;
 
-module.exports = {
-    name: "ping",
+export = {
+    name: "test",
     description: "Check the bot's latency.",
     options: [],
     default_member_permissions: null,
@@ -12,13 +15,13 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
         try {
             const pinging = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setDescription(`${emoji.ping} Pinging...`)
 
-            const i = await interaction.editReply({ embeds: [pinging], fetchReply: true });
+            const i = await interaction.editReply({ embeds: [pinging] });
 
             const botLatency = i.createdTimestamp - interaction.createdTimestamp;
             const apiLatency = Math.round(client.ws.ping);

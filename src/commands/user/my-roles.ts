@@ -1,6 +1,9 @@
-const getRoles = require("../../util/roles/get");
+import CustomClient from "../../classes/CustomClient";
+import { CommandInteraction } from "discord.js";
 
-module.exports = {
+import getRoles from "../../util/roles/get";
+
+export = {
     name: "my-roles",
     description: "Get your Global Chat roles.",
     options: [],
@@ -12,7 +15,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: CustomClient, Discord: any) {
         try {
             const role = await getRoles(interaction.user.id, client);
 

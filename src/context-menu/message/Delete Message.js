@@ -27,7 +27,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} No message was found with that ID!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -36,7 +36,7 @@ module.exports = {
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
-                await interaction.editReply({ embeds: [error], ephemeral: true });
+                await interaction.editReply({ embeds: [error] });
                 return;
             }
 
@@ -68,7 +68,7 @@ module.exports = {
                     .setColor(client.config_embeds.default)
                     .setDescription(`${emoji.tick} The message has been deleted!`)
 
-                await interaction.editReply({ embeds: [result], ephemeral: true });
+                await interaction.editReply({ embeds: [result] });
 
                 const log = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
