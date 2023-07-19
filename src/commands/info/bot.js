@@ -47,8 +47,8 @@ module.exports = {
 
             const stat_developers = `💻 ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
             const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
-            const stat_verified = `✅ ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
             const stat_donators = `💸 ${donators.length} Donator${donators.length === 1 ? "" : "s"}`;
+            const stat_verified = `✅ ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
             const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
 
             const stat_github = `${emoji.github} ${githubUsers.length}`;
@@ -61,7 +61,7 @@ module.exports = {
                 .setTitle("Statistics")
                 .addFields (
                     { name: "🤖 Bot", value: `${stat_guilds}\n${stat_users}`, inline: true },
-                    { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_verified}\n${stat_donators}\n${stat_supporters}`, inline: true },
+                    { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_donators}\n${stat_verified}\n${stat_supporters}`, inline: true },
                     { name: "🔗 Linked Accounts", value: `${stat_github}`, inline: true },
                     { name: "🌐 Global Chat", value: `${stat_messages}\n${stat_blocked_messages}`, inline: true }
                 )

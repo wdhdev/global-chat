@@ -165,8 +165,8 @@ module.exports = async (message, client, Discord) => {
                         let webhookUsername = username;
 
                         if(role.supporter) webhookUsername = `${username} 💖`;
-                        if(role.donator) webhookUsername = `${username} 💸`;
                         if(role.verified) webhookUsername = `${username} ✅`;
+                        if(role.donator) webhookUsername = `${username} 💸`;
                         if(role.mod) webhookUsername = `${username} 🔨`;
                         if(role.dev) webhookUsername = `${username} 💻`;
 

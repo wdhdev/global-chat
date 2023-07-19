@@ -38,8 +38,8 @@ module.exports = {
             if(role.owner) roles.push("👑 Owner");
             if(role.dev) roles.push("💻 Developer");
             if(role.mod) roles.push("🔨 Moderator");
-            if(role.verified) roles.push("✅ Verified");
             if(role.donator) roles.push("💸 Donator");
+            if(role.verified) roles.push("✅ Verified");
             if(role.supporter) roles.push("💖 Supporter");
             if(role.immunity) roles.push("😇 Immunity");
 
