@@ -1,37 +1,26 @@
 const emoji = require("../../config").emojis;
 const getRoles = require("../../util/roles/get");
 
-const BannedUser = require("../../models/BannedUser");
 const BlockedMessage = require("../../models/BlockedMessage");
 const GitHubUser = require("../../models/GitHubUser");
 const Message = require("../../models/Message");
 
 module.exports = {
-    name: "User Info",
-    type: 2,
+    name: "me",
+    description: "Get Global Chat's information about you.",
+    options: [],
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
-    cooldown: 3,
+    cooldown: 0,
     enabled: true,
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
     async execute(interaction, client, Discord) {
         try {
-            const user = interaction.targetUser;
-
-            // Banned
-            let banned = false;
-
-            const banInfo = await BannedUser.findOne({ _id: user.id });
-
-            if(banInfo) banned = true;
-
-            const banData = banned ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}> (<t:${banInfo.timestamp.slice(0, -3)}:R>)\n📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}\n❓ ${banInfo.reason}\n🔨 <@${banInfo.mod}>` : null;
-
             // Roles
-            const role = await getRoles(user.id, client);
+            const role = await getRoles(interaction.user.id, client);
 
             const roles = [];
 
@@ -46,16 +35,16 @@ module.exports = {
             // Linked Accounts
             const accounts = [];
 
-            const github = await GitHubUser.findOne({ _id: user.id });
+            const github = await GitHubUser.findOne({ _id: interaction.user.id });
 
             if(github) {
                 accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
             }
 
             // Statistics
-            const blocked = (await BlockedMessage.find({ user: user.id })).length;
-            const images = (await Message.find({ user: user.id, attachment: { $ne: null } })).length;
-            const messages = (await Message.find({ user: user.id })).length;
+            const blocked = (await BlockedMessage.find({ user: interaction.user.id })).length;
+            const images = (await Message.find({ user: interaction.user.id, attachment: { $ne: null } })).length;
+            const messages = (await Message.find({ user: interaction.user.id })).length;
 
             const stats = {
                 blocked: `⛔ ${blocked} ${blocked === 1 ? "Blocked Message" : "Blocked Messages"}`,
@@ -65,22 +54,20 @@ module.exports = {
 
             const userInfo = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${user.id}` })
-                .setDescription("*There is no information available about this user.*")
+                .setDescription("*There is no information available about you.*")
 
-            if(banned || accounts.length || roles.length || blocked || images || messages) {
+            if(accounts.length || roles.length || blocked || images || messages) {
                 userInfo.setTitle("User Information");
                 userInfo.setDescription(null);
             }
 
-            if(banned) userInfo.addFields({ name: "🔨 Ban Info", value: banData, inline: true });
             if(roles.length) userInfo.addFields({ name: "🎭 Roles", value: roles.join("\n"), inline: true });
             if(blocked || images || messages) userInfo.addFields({ name: "📊 Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}`, inline: true });
             if(accounts.length) userInfo.addFields({ name: "🔗 Linked Accounts", value: accounts.join("\n"), inline: true });
 
-            await interaction.editReply({ embeds: [userInfo], ephemeral: true });
+            await interaction.editReply({ embeds: [userInfo] });
         } catch(err) {
-            client.logContextError(err, interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

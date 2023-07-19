@@ -8,7 +8,7 @@ module.exports = async (client) => {
         for(const file of files) {
             const command = require(`../context-menu/${file}`);
 
-            client.contextCommands.set(command.name, command);
+            client.contextCommands.set(`${command.type}-${command.name}`, command);
 
             console.log(`Loaded Context Command: ${command.name}`);
         }
@@ -20,7 +20,7 @@ module.exports = async (client) => {
         for(const file of files) {
             const command = require(`../context-menu/${dir}/${file}`);
 
-            client.contextCommands.set(command.name, command);
+            client.contextCommands.set(`${command.type}-${command.name}`, command);
 
             console.log(`Loaded Context Command: ${command.name}`);
         }

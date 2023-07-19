@@ -8,7 +8,7 @@ const Message = require("../../models/Message");
 
 module.exports = {
     name: "User Info",
-    type: 2,
+    type: 3,
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
@@ -19,7 +19,19 @@ module.exports = {
     ephemeral: true,
     async execute(interaction, client, Discord) {
         try {
-            const user = interaction.targetUser;
+            const message = interaction.targetMessage;
+            const messageData = await Message.findOne({ messages: message.url });
+
+            if(!messageData) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.cross} No message was found with that ID!`)
+
+                await interaction.editReply({ embeds: [error], ephemeral: true });
+                return;
+            }
+
+            const user = await client.users.fetch(messageData.user);
 
             // Banned
             let banned = false;

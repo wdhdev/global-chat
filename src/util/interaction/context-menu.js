@@ -16,7 +16,7 @@ module.exports = async (client, Discord, interaction) => {
             return;
         }
 
-        const command = client.contextCommands.get(interaction.commandName);
+        const command = client.contextCommands.get(`${interaction.commandType}-${interaction.commandName}`);
 
         if(!command) return;
 
