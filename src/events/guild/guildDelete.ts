@@ -1,12 +1,28 @@
-module.exports = {
-    name: "guildCreate",
-    async execute(client, Discord, guild) {
+import CustomClient from "../../classes/CustomClient";
+import { Guild as GuildType } from "discord.js";
+
+import checkWebhook from "../../util/webhooks/check";
+import fetch from "node-fetch";
+
+import Guild from "../../models/Guild";
+
+export = {
+    name: "guildDelete",
+    async execute(client: CustomClient & any, Discord: any, guild: GuildType & any) {
         try {
+            const data = await Guild.findOne({ _id: guild.id });
+
+            if(data) {
+                if(await checkWebhook(data.webhook)) await fetch(data.webhook, { method: "DELETE" });
+
+                await data.delete();
+            }
+
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             const log = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setTitle("Joined Guild")
+                .setTitle("Left Guild")
                 .setThumbnail(guild.iconURL({ format: "png", dynamic: true }))
                 .addFields (
                     { name: "Name", value: `${guild.name}`, inline: true },

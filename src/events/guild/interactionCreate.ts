@@ -1,12 +1,15 @@
-const buttonHandler = require("../../util/interaction/button");
-const commandHandler = require("../../util/interaction/command");
-const contextCommandHandler = require("../../util/interaction/context-menu");
+import CustomClient from "../../classes/CustomClient";
+import { Interaction } from "discord.js";
 
-module.exports = {
+import buttonHandler from "../../util/interaction/button";
+import commandHandler from "../../util/interaction/command";
+import contextCommandHandler from "../../util/interaction/context-menu";
+
+export = {
     name: "interactionCreate",
-    async execute(client, Discord, interaction) {
+    async execute(client: CustomClient, Discord: any, interaction: Interaction) {
         try {
-            const requiredPerms = ["SendMessages", "EmbedLinks"];
+            const requiredPerms: Array<any> = ["SendMessages", "EmbedLinks"];
 
             if(!interaction.guild) return;
             if(!interaction.guild.members.me.permissions.has(requiredPerms)) return;

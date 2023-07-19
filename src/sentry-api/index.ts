@@ -1,12 +1,14 @@
-module.exports = async (client) => {
-    const express = require("express");
+import { Client } from "discord.js";
+
+import * as Sentry from "@sentry/node";
+import express, { Request, Response } from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+
+export default async (client: Client & any) => {
     const app = express();
 
     require("dotenv").config();
-
-    const Sentry = require("@sentry/node");
-    const bodyParser = require("body-parser");
-    const cors = require("cors");
 
     Sentry.init({
         dsn: process.env.sentry_dsn,
@@ -32,7 +34,7 @@ module.exports = async (client) => {
 
     const routes = require("./routes");
 
-    app.post("/:secret", async (req, res) => {
+    app.post("/:secret", async (req: Request, res: Response) => {
         routes.index(req, res, client);
     })
 

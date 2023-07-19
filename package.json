@@ -2,11 +2,10 @@
   "name": "global-chat",
   "version": "2.4.3",
   "description": "A Discord bot which connects many servers together using a text channel!",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "get-webhooks": "node scripts/get-webhooks.js",
-    "register": "node scripts/register.js",
-    "start": "node src/index.js"
+    "build": "npx tsc",
+    "start": "npm run build && node dist/index.js"
   },
   "author": "William Harrison",
   "license": "MIT",
@@ -21,5 +20,15 @@
     "mongoose": "^6.11.2",
     "node-fetch": "^2.6.9",
     "stop-discord-phishing": "^0.3.3"
+  },
+  "devDependencies": {
+    "@sentry/types": "^7.58.0",
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.4.2",
+    "@types/node-fetch": "^2.6.4",
+    "typescript": "^5.1.6"
   }
 }

@@ -1,7 +1,7 @@
 module.exports = {
     name: "ready",
     once: true,
-    async execute(client, Discord) {
+    async execute(client) {
         try {
             // Login Message
             console.log(`Logged in as: ${client.user.tag.endsWith("#0") ? client.user.username : client.user.tag}`);

@@ -1,6 +1,9 @@
-module.exports = {
+import CustomClient from "../../classes/CustomClient";
+import { GuildMember } from "discord.js";
+
+export = {
     name: "guildMemberUpdate",
-    async execute(client, Discord, oldMember, newMember) {
+    async execute(client: CustomClient & any, Discord: any, oldMember: GuildMember & any, newMember: GuildMember) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 

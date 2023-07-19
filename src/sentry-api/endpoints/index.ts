@@ -1,11 +1,13 @@
-const Discord = require("discord.js");
+import CustomClient from "../../classes/CustomClient";
+import Discord from "discord.js";
+import { Request, Response } from "express";
 
 const cap = require("../../util/cap");
 const parser = require("../util/parser");
 
 const SentryCapture = require("../../models/SentryCapture");
 
-module.exports = async (req, res, client) => {
+export default async (req: Request & any, res: Response, client: CustomClient & any) => {
     const data = await SentryCapture.findOne({ _id: req.params.secret });
 
     if(!data) return res.status(401).json({ "message": "Invalid capture ID.", "code": "INVALID_ID" });
@@ -58,7 +60,7 @@ module.exports = async (req, res, client) => {
         })
     }
 
-    const tags = parser.getTags(event);
+    const tags: Array<any> = parser.getTags(event);
 
     if(Object.keys(tags).length > 0) {
         fields.push({

@@ -1,35 +1,35 @@
-const Sentry = require("@sentry/node");
-
 require("dotenv").config();
+
+import * as Sentry from "@sentry/node";
 
 Sentry.init({
     dsn: process.env.sentry_dsn,
-    tracesSampleRate: 1.0
+    tracesSampleRate: 1.0,
 })
 
-const config = require("./config");
+import config from "./config";
+import Discord, { PresenceStatusData } from "discord.js";
 
-const Discord = require("discord.js");
-const client = new Discord.Client({
+import CustomClient from "./classes/CustomClient";
+
+const client = new CustomClient({
     intents: 3276799,
     presence: {
         activities: [
             {
                 name: config.presence.activity,
-                type: config.presence.activityType,
+                type: config.presence.activityType
             }
         ],
-        status: config.presence.status
+        status: config.presence.status as PresenceStatusData
     }
 })
 
 // Error Handling
-client.on("error", (err) => Sentry.captureException(err));
-client.on("warn", (warn) => Sentry.captureMessage(warn));
 process.on("unhandledRejection", (err) => Sentry.captureException(err));
 
 // Connect to Database
-const database = require("./util/database");
+import database from "./util/database";
 database();
 
 // Configs
@@ -44,9 +44,9 @@ client.commands = new Discord.Collection();
 client.contextCommands = new Discord.Collection();
 client.events = new Discord.Collection();
 
-["button", "command", "context", "event"].forEach(handler => {
-    require(`./handlers/${handler}`) (client, Discord);
-})
+["button", "command", "context", "event"].forEach((handler) => {
+    require(`./handlers/${handler}`)(client, Discord);
+});
 
 // Login
 client.login(process.env.token);
@@ -103,5 +103,5 @@ client.validPermissions = [
 ]
 
 // Start Sentry API
-const sentryAPI = require("./sentry-api/index");
+import sentryAPI from "./sentry-api/index";
 sentryAPI(client);

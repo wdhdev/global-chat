@@ -20,20 +20,15 @@ module.exports = async function (client) {
 
     (async () => {
         try {
-            console.log("Registering guild commands...");
-
             for(const guild of client.config_default.hasGuildOnlyCommands) {
                 try {
                     await rest.put(Routes.applicationGuildCommands(process.env.clientId, guild), { body: commands });
+                    console.log(`Registered guild commands to ${guild}!`);
                 } catch(err) {
                     console.log(`Failed to register guild commands to ${guild}!`);
                     continue;
                 }
-
-                console.log(`Registered guild commands to ${guild}!`);
             }
-
-            console.log("Registered guild commands!");
         } catch(err) {
             client.sentry.captureException(err);
             console.error(err);
