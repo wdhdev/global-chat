@@ -1,13 +1,16 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction, Interaction } from "discord.js";
 
-const Appeal = require("../../models/Appeal");
-const BannedUser = require("../../models/BannedUser");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Appeal from "../../models/Appeal";
+import BannedUser from "../../models/BannedUser";
+
+export = {
     name: "submit-appeal",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const banData = await BannedUser.findOne({ _id: interaction.user.id });
 
@@ -69,7 +72,7 @@ module.exports = {
 
             await interaction.showModal(modal);
 
-            client.on("interactionCreate", async i => {
+            client.on("interactionCreate", async (i: Interaction) => {
                 if(!i.isModalSubmit()) return;
 
                 if(i.customId === `modal-${id}`) {

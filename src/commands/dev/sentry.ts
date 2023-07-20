@@ -1,9 +1,12 @@
-const emoji = require("../../config").emojis;
-const fetch = require("node-fetch");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction } from "discord.js";
 
-const SentryCapture = require("../../models/SentryCapture");
+import { emojis as emoji } from "../../config";
+import fetch from "node-fetch";
 
-module.exports = {
+import SentryCapture from "../../models/SentryCapture";
+
+export = {
     name: "sentry",
     description: "Manage Sentry",
     options: [
@@ -67,7 +70,7 @@ module.exports = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
         try {
             if(interaction.options.getSubcommand() === "capture-info") {
                 const actions = new Discord.ActionRowBuilder()

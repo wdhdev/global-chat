@@ -1,9 +1,11 @@
-const { PermissionFlagsBits } = require("discord.js");
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
-const Guild = require("../../models/Guild");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Guild from "../../models/Guild";
+
+export = {
     name: "register",
     description: "Set the global chat channel.",
     options: [
@@ -23,7 +25,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const channel = interaction.options.getChannel("channel");
 

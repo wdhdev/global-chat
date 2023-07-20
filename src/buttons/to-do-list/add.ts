@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction, Interaction } from "discord.js";
 
-const Task = require("../../models/Task");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Task from "../../models/Task";
+
+export = {
     name: "add-task",
     startsWith: false,
     requiredRoles: ["dev"],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const todoData = await Task.find();
 
         if(todoData.length >= 25) {
@@ -18,7 +21,7 @@ module.exports = {
             return;
         }
 
-        const priorityIcons = {
+        const priorityIcons: any = {
             high: "🔴",
             medium: "🟠",
             low: "🟢",
@@ -51,7 +54,7 @@ module.exports = {
 
         await interaction.showModal(modal);
 
-        client.on("interactionCreate", async i => {
+        client.on("interactionCreate", async (i: Interaction) => {
             if(!i.isModalSubmit()) return;
 
             if(i.customId === `modal-${interaction.id}`) {
@@ -87,7 +90,7 @@ module.exports = {
 
                 await i.reply({ components: [row], ephemeral: true });
 
-                client.on("interactionCreate", async i2 => {
+                client.on("interactionCreate", async (i2: Interaction) => {
                     if(!i2.isStringSelectMenu()) return;
 
                     if(i2.customId === `select-menu-${interaction.id}`) {
@@ -96,7 +99,7 @@ module.exports = {
                         const message = interaction.message;
                         const taskId = require("crypto").randomUUID();
 
-                        data = new Task({
+                        new Task({
                             _id: taskId,
                             timestamp: Date.now(),
                             added_by: interaction.user.id,
@@ -109,7 +112,7 @@ module.exports = {
                             .setColor(client.config_embeds.default)
                             .setDescription(`${emoji.tick} The task has been added to the list.`)
 
-                        await i.editReply({ embeds: [added], components: [], ephemeral: true });
+                        await i.editReply({ embeds: [added], components: [] });
 
                         const newData = await Task.find();
 

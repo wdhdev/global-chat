@@ -1,7 +1,10 @@
-const announce = require("../../util/send").announce;
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction } from "discord.js";
 
-module.exports = {
+import { announce } from "../../util/send";
+import { emojis as emoji } from "../../config";
+
+export = {
     name: "announce",
     description: "[DEVELOPER ONLY] Make an announcement.",
     options: [],
@@ -13,7 +16,7 @@ module.exports = {
     staffOnly: true,
     deferReply: false,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)

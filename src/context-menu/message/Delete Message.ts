@@ -1,9 +1,12 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { MessageContextMenuCommandInteraction } from "discord.js";
 
-const Message = require("../../models/Message");
-const User = require("../../models/User");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Message from "../../models/Message";
+import User from "../../models/User";
+
+export = {
     name: "Delete Message",
     type: 3,
     default_member_permissions: null,
@@ -14,7 +17,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: MessageContextMenuCommandInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const message = interaction.targetMessage;
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -46,11 +49,11 @@ module.exports = {
             const promises = [];
 
             for(const message of data.messages) {
-                promises.push(new Promise(async resolve => {
+                promises.push(new Promise(async (resolve: any) => {
                     const info = message.replace("https://discord.com/channels/", "").split("/");
 
                     try {
-                        const channel = await client.channels.fetch(info[1]);
+                        const channel: any = await client.channels.fetch(info[1]);
                         const message = await channel.messages.fetch(info[2]);
 
                         await message.delete();

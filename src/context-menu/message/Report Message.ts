@@ -1,8 +1,11 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { MessageContextMenuCommandInteraction } from "discord.js";
 
-const Message = require("../../models/Message");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Message from "../../models/Message";
+
+export = {
     name: "Report Message",
     type: 3,
     default_member_permissions: null,
@@ -13,7 +16,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: MessageContextMenuCommandInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const message = interaction.targetMessage;
 

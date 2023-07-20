@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction, Interaction } from "discord.js";
 
-const Appeal = require("../../models/Appeal");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Appeal from "../../models/Appeal";
+
+export = {
     name: "appeal-deny",
     startsWith: true,
     requiredRoles: ["mod"],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("appeal-deny-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -59,7 +62,7 @@ module.exports = {
 
             await interaction.showModal(modal);
 
-            client.on("interactionCreate", async i => {
+            client.on("interactionCreate", async (i: Interaction) => {
                 if(!i.isModalSubmit()) return;
 
                 if(i.customId === `modal-${interaction.id}`) {

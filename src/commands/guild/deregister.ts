@@ -1,9 +1,11 @@
-const { PermissionFlagsBits } = require("discord.js");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
-const emoji = require("../../config").emojis;
-const Guild = require("../../models/Guild");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Guild from "../../models/Guild";
+
+export = {
     name: "deregister",
     description: "Remove the global chat channel.",
     options: [],
@@ -15,7 +17,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 

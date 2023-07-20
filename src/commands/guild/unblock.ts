@@ -1,10 +1,11 @@
-const { PermissionFlagsBits } = require("discord.js");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
-const emoji = require("../../config").emojis;
+import { emojis as emoji } from "../../config";
 
-const Guild = require("../../models/Guild");
+import Guild from "../../models/Guild";
 
-module.exports = {
+export = {
     name: "unblock",
     description: "Unblock a user's messages sending to this guild.",
     options: [
@@ -23,7 +24,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const user = interaction.options.getUser("user");
 

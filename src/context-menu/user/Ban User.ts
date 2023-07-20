@@ -1,9 +1,12 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
-const BannedUser = require("../../models/BannedUser");
-const User = require("../../models/User");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import BannedUser from "../../models/BannedUser";
+import User from "../../models/User";
+
+export = {
     name: "Ban User",
     type: 2,
     default_member_permissions: null,
@@ -14,7 +17,7 @@ module.exports = {
     staffOnly: true,
     deferReply: false,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: UserContextMenuCommandInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const user = interaction.targetUser;
 
@@ -65,7 +68,7 @@ module.exports = {
 
             await interaction.showModal(modal);
 
-            client.on("interactionCreate", async i => {
+            client.on("interactionCreate", async (i: Interaction) => {
                 if(!i.isModalSubmit()) return;
 
                 if(i.customId === `modal-${interaction.id}`) {
@@ -90,7 +93,7 @@ module.exports = {
 
                     await i.reply({ components: [row], ephemeral: true });
 
-                    client.on("interactionCreate", async i2 => {
+                    client.on("interactionCreate", async (i2: Interaction) => {
                         if(!i2.isStringSelectMenu()) return;
 
                         if(i2.customId === `select-menu-${interaction.id}`) {

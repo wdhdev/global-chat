@@ -1,15 +1,18 @@
-const Task = require("../../models/Task");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction } from "discord.js";
 
-module.exports = {
+import Task from "../../models/Task";
+
+export = {
     name: "refresh-task-list",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const data = await Task.find();
 
         const todoList = [];
 
-        const priority = {
+        const priority: any = {
             high: "🔴",
             medium: "🟠",
             low: "🟢",

@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction } from "discord.js";
 
-const Message = require("../../models/Message");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Message from "../../models/Message";
+
+export = {
     name: "delete-message",
     startsWith: true,
     requiredRoles: ["mod"],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("delete-message-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);

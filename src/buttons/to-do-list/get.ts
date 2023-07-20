@@ -1,19 +1,28 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction, Interaction } from "discord.js";
 
-const Task = require("../../models/Task");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
-    name: "remove-task",
+import Task from "../../models/Task";
+
+export = {
+    name: "get-task",
     startsWith: false,
-    requiredRoles: ["dev"],
-    async execute(interaction, client, Discord) {
+    requiredRoles: [],
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const data = await Task.find();
 
-        const priority = {
+        const priority: any = {
             high: "🔴",
             medium: "🟠",
             low: "🟢",
-            none: "⚪"
+            none: "⚪",
+            text: {
+                high: "🔴 High",
+                medium: "🟠 Medium",
+                low: "🟢 Low",
+                none: "⚪ None"
+            }
         }
 
         if(!data.length) {
@@ -27,13 +36,13 @@ module.exports = {
 
         const menu = new Discord.StringSelectMenuBuilder()
             .setCustomId(`select-menu-${interaction.id}`)
-            .setPlaceholder("Select a task to remove")
+            .setPlaceholder("Select a task")
 
         for(const todo of data) {
             menu.addOptions (
                 new Discord.StringSelectMenuOptionBuilder()
-                    .setEmoji(priority[todo.priority])
-                    .setLabel(todo.name)
+                    .setEmoji(`${priority[todo.priority]}`)
+                    .setLabel(`${todo.name}`)
                     .setValue(todo._id)
             )
         }
@@ -42,14 +51,13 @@ module.exports = {
 
         await interaction.reply({ components: [row], ephemeral: true });
 
-        client.on("interactionCreate", async i => {
+        client.on("interactionCreate", async (i : Interaction) => {
             if(!i.isStringSelectMenu()) return;
 
             if(i.customId === `select-menu-${interaction.id}`) {
                 const value = i.values[0];
 
                 const todo = await Task.findOne({ _id: value });
-                const message = interaction.message;
 
                 if(!todo) {
                     const error = new Discord.EmbedBuilder()
@@ -60,34 +68,17 @@ module.exports = {
                     return;
                 }
 
-                await todo.delete();
-
-                const removed = new Discord.EmbedBuilder()
+                const info = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
-                    .setDescription(`${emoji.tick} That task has been removed from the list.`)
-
-                await interaction.editReply({ embeds: [removed], components: [] });
-
-                const newData = await Task.find();
-
-                const todoList = [];
-
-                for(const task of newData) {
-                    todoList.push(`${priority[task.priority]} ${task.name}`);
-                }
-
-                const list = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setTitle("📝 To-Do List")
-                    .setDescription(todoList.length ? todoList.join("\n") : "*There are no tasks.*")
+                    .setTitle(`${todo.name}`)
+                    .setDescription(`${todo.description || "*No description provided.*"}`)
                     .addFields (
-                        { name: "❗ Priority", value: `🔴 High\n🟠 Medium\n🟢 Low\n⚪ None` }
+                        { name: "❗ Priority", value: priority.text[todo.priority] },
+                        { name: "🕰️ Created", value: `<t:${todo.timestamp.slice(0, -3)}> (<t:${todo.timestamp.slice(0, -3)}:R>)` },
+                        { name: "👤 Added By", value: `<@${todo.added_by}>` }
                     )
-                    .setTimestamp()
 
-                try {
-                    await message.edit({ embeds: [list] });
-                } catch {}
+                await interaction.editReply({ embeds: [info], components: [] });
             }
         })
     }

@@ -1,12 +1,15 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction, Interaction } from "discord.js";
 
-const SentryCapture = require("../../models/SentryCapture");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import SentryCapture from "../../models/SentryCapture";
+
+export = {
     name: "sentry-capture-info",
     startsWith: false,
     requiredRoles: ["dev"],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const modal = new Discord.ModalBuilder()
             .setCustomId(`modal-${interaction.id}`)
             .setTitle("Get Token")
@@ -26,7 +29,7 @@ module.exports = {
 
         await interaction.showModal(modal);
 
-        client.on("interactionCreate", async i => {
+        client.on("interactionCreate", async (i: Interaction) => {
             if(!i.isModalSubmit()) return;
 
             if(i.customId === `modal-${interaction.id}`) {

@@ -1,9 +1,12 @@
-const { Octokit } = require("@octokit/core");
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction } from "discord.js";
 
-const GitHubUser = require("../../models/GitHubUser");
+import { Octokit } from "@octokit/core";
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import GitHubUser from "../../models/GitHubUser";
+
+export = {
     name: "suggest",
     description: "Suggest something.",
     options: [
@@ -58,7 +61,7 @@ module.exports = {
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
         try {
             let data = await GitHubUser.findOne({ _id: interaction.user.id });
 

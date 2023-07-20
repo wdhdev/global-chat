@@ -1,9 +1,12 @@
-const emoji = require("../../config").emojis;
+import ExtendedClient from "../../classes/ExtendedClient";
+import { CommandInteraction, GuildMember } from "discord.js";
 
-const Task = require("../../models/Task");
-const User = require("../../models/User");
+import { emojis as emoji } from "../../config";
 
-module.exports = {
+import Task from "../../models/Task";
+import User from "../../models/User";
+
+export = {
     name: "admin",
     description: "Admin Commands",
     options: [
@@ -136,7 +139,7 @@ module.exports = {
     staffOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction, client, Discord) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
@@ -349,7 +352,7 @@ module.exports = {
 
                 const todoList = [];
 
-                const priority = {
+                const priority: any = {
                     high: "🔴",
                     medium: "🟠",
                     low: "🟢",
@@ -420,7 +423,7 @@ module.exports = {
             if(interaction.options.getSubcommand() === "supporters") {
                 const guild = await client.guilds.fetch(client.config_default.ownerGuild);
                 const members = await guild.members.fetch();
-                const boosters = members.filter(member => member.premiumSinceTimestamp);
+                const boosters = members.filter((member: GuildMember) => member.premiumSinceTimestamp);
 
                 const users = [];
 

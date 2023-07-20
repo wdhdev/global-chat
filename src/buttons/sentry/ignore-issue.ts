@@ -1,10 +1,13 @@
-const fetch = require("node-fetch");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { ButtonInteraction } from "discord.js";
 
-module.exports = {
+import fetch from "node-fetch";
+
+export = {
     name: "sentry-ignore",
     startsWith: true,
     requiredRoles: ["dev"],
-    async execute(interaction, client, Discord) {
+    async execute(interaction: ButtonInteraction & any, client: ExtendedClient, Discord: any) {
         const id = interaction.customId.replace("sentry-ignore-", "");
 
         try {
