@@ -1,7 +1,10 @@
-const Message = require("../../models/Message");
-const User = require("../../models/User");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { User as UserType } from "discord.js";
 
-module.exports = async function (user, client, Discord) {
+import Message from "../../models/Message";
+import User from "../../models/User";
+
+export default async function (user: UserType, client: ExtendedClient & any, Discord: any) {
     const messages = (await Message.find({ user: user.id })).length;
     const userData = await User.findOne({ _id: user.id });
 
@@ -19,8 +22,8 @@ module.exports = async function (user, client, Discord) {
 
         const guild = await client.guilds.fetch(client.config_default.ownerGuild);
 
-        const member = await guild.members.cache.get(user.id);
-        const role = await guild.roles.cache.get(client.config_roles.verified);
+        const member = guild.members.cache.get(user.id);
+        const role = guild.roles.cache.get(client.config_roles.verified);
 
         if(member) member.roles.add(role);
 
