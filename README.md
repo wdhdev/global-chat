@@ -1,8 +1,6 @@
 # 🌐 Global Chat
 A Discord bot which connects many servers together using a text channel!
 
-🤝 [Contributing](https://github.com/Global-Chat-Bot/bot/blob/main/CONTRIBUTING.md)
-
 ![Languages](https://skillicons.dev/icons?i=nodejs,express,mongodb,sentry,github)
 
 ## ⛔ Prohibited Usage
