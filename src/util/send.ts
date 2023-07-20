@@ -1,17 +1,20 @@
-const assignRoles = require("./roles/assign");
-const cap = require("./cap");
-const easterEggs = require("./messages/easter-eggs");
-const levelRoles = require("./roles/levelRoles");
-const path = require("path");
-const test = require("./filter/test");
+import ExtendedClient from "../classes/ExtendedClient";
+import { CommandInteraction, Message as MessageType, PermissionResolvable } from "discord.js";
 
-const BannedUser = require("../models/BannedUser");
-const Guild = require("../models/Guild");
-const Message = require("../models/Message");
+import assignRoles from "./roles/assign";
+import cap from "./cap";
+import easterEggs from "./messages/easter-eggs";
+import levelRoles from "./roles/levelRoles";
+import path from "path";
+import test from "./filter/test";
 
-const requiredPerms = ["SendMessages", "EmbedLinks"];
+import BannedUser from "../models/BannedUser";
+import Guild from "../models/Guild";
+import Message from "../models/Message";
 
-module.exports = async (message, client, Discord) => {
+const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
+
+export default async (message: MessageType, client: ExtendedClient & any, Discord: any) => {
     const role = await require("./roles/get")(message.author.id, client);
 
     try {
@@ -66,7 +69,7 @@ module.exports = async (message, client, Discord) => {
 
     if(await test(message, client, Discord)) return;
 
-    const content = await easterEggs(message.content);
+    const content: any = await easterEggs(message.content);
 
     const reference = message.type === 19 ? await message.fetchReference() : null;
     let reply = false;
@@ -132,11 +135,11 @@ module.exports = async (message, client, Discord) => {
     if(content.length >= 1) messageLog.setDescription(content);
 
     // Send Global Message
-    const messages = [];
+    const messages: string[] = [];
     const promises = [];
 
     for(const [guildId, guild] of client.guilds.cache) {
-        promises.push(new Promise(async resolve => {
+        promises.push(new Promise(async (resolve: any) => {
             if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
             const data = await Guild.findOne({ _id: guildId });
@@ -177,23 +180,23 @@ module.exports = async (message, client, Discord) => {
                                 content: content,
                                 embeds: [replyEmbed],
                                 allowedMentions: { parse: [] }
-                            }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                            }).then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                         } else {
                             await webhook.send({
                                 username: webhookUsername,
                                 avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 allowedMentions: { parse: [] }
-                            }).then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
+                            }).then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                         }
                     } catch(err) {
                         try {
                             if(reply) {
                                 await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
+                                    .then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                             } else {
                                 await chatChannel.send({ embeds: [chat] })
-                                    .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
+                                    .then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                             }
                         } catch {
                             resolve();
@@ -203,10 +206,10 @@ module.exports = async (message, client, Discord) => {
                     try {
                         if(reply) {
                             await chatChannel.send({ embeds: [replyEmbed, chat] })
-                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
+                                .then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                         } else {
                             await chatChannel.send({ embeds: [chat] })
-                                .then(msg => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
+                                .then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channelId}/${msg.id}`)))
                         }
                     } catch {
                         resolve();
@@ -233,7 +236,7 @@ module.exports = async (message, client, Discord) => {
     await levelRoles(message.author, client, Discord);
 }
 
-module.exports.announce = async function (text, interaction, client, Discord) {
+export async function announce(text: String, interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
     const msg = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
@@ -265,11 +268,11 @@ module.exports.announce = async function (text, interaction, client, Discord) {
         )
 
     // Send Global Message
-    const messages = [];
+    const messages: string[] = [];
     const promises = [];
 
     for(const [guildId, guild] of client.guilds.cache) {
-        promises.push(new Promise(async resolve => {
+        promises.push(new Promise(async (resolve: any) => {
             if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
             const data = await Guild.findOne({ _id: guildId });
@@ -287,12 +290,12 @@ module.exports.announce = async function (text, interaction, client, Discord) {
                         username: "Announcements",
                         avatar: "https://avatars.githubusercontent.com/u/126386097",
                         embeds: [msg]
-                    }).then(message => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channel_id}/${message.id}`)))
+                    }).then((message: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channel_id}/${message.id}`)))
                 } catch(err) {
                     console.error(err)
                     try {
                         await chatChannel.send({ embeds: [msg] })
-                            .then(message => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channelId}/${message.id}`)))
+                            .then((message: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channelId}/${message.id}`)))
                     } catch {
                         resolve();
                     }
@@ -300,7 +303,7 @@ module.exports.announce = async function (text, interaction, client, Discord) {
             } else {
                 try {
                     await chatChannel.send({ embeds: [msg] })
-                        .then(message => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channelId}/${message.id}`)))
+                        .then((message: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channelId}/${message.id}`)))
                 } catch {
                     resolve();
                 }

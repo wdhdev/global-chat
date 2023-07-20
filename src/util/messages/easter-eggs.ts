@@ -1,7 +1,7 @@
-const Sentry = require("@sentry/node");
-const fetch = require("node-fetch");
+import * as Sentry from "@sentry/node";
+import fetch from "node-fetch";
 
-module.exports = async function (content) {
+export default async function (content: String) {
     try {
         const insensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/insensitive.json").then(res => res.json());
         const sensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/sensitive.json").then(res => res.json());

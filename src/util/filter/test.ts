@@ -1,9 +1,12 @@
-const links = require("./tests/links");
-const markdown = require("./tests/markdown");
-const phishing = require("./tests/phishing");
-const profanity = require("./tests/profanity");
+import ExtendedClient from "../../classes/ExtendedClient";
+import { Message } from "discord.js";
 
-module.exports = async function (message, client, Discord) {
+import links from "./tests/links";
+import markdown from "./tests/markdown";
+import phishing from "./tests/phishing";
+import profanity from "./tests/profanity";
+
+export default async function (message: Message, client: ExtendedClient, Discord: any) {
     if(!message.content.length) return false;
 
     // Phishing
