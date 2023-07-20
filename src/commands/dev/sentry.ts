@@ -114,7 +114,7 @@ export = {
             }
 
             if(interaction.options.getSubcommand() === "deregister") {
-                const token = interaction.options.getString("token");
+                const token = interaction.options.get("token").value;
 
                 const data = await SentryCapture.findOne({ _id: token });
 

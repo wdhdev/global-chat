@@ -77,7 +77,7 @@ export = async (client: ExtendedClient, Discord: any, interaction: ContextMenuCo
 
         command.deferReply ? command.ephemeral ? await interaction.deferReply({ ephemeral: true }) : await interaction.deferReply() : null;
 
-        if(interaction.user.id === client.config_default.owner) {
+        if(interaction.user.id === client.config_main.owner) {
             try {
                 await command.execute(interaction, client, Discord);
                 return;

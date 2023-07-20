@@ -1,9 +1,10 @@
 import { Client } from "discord.js";
 
 import * as Sentry from "@sentry/node";
-import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import express, { Request, Response } from "express";
+import routes from "./routes";
 
 export default async (client: Client & any) => {
     const app = express();
@@ -31,8 +32,6 @@ export default async (client: Client & any) => {
 
     // Host public files
     app.use(express.static(__dirname + "/public"));
-
-    const routes = require("./routes");
 
     app.post("/:secret", async (req: Request, res: Response) => {
         routes.index(req, res, client);

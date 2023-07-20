@@ -4,6 +4,7 @@ import { CommandInteraction, Message as MessageType, PermissionResolvable } from
 import assignRoles from "./roles/assign";
 import cap from "./cap";
 import easterEggs from "./messages/easter-eggs";
+import getRoles from "./roles/get";
 import levelRoles from "./roles/levelRoles";
 import path from "path";
 import test from "./filter/test";
@@ -15,7 +16,7 @@ import Message from "../models/Message";
 const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 
 export default async (message: MessageType, client: ExtendedClient & any, Discord: any) => {
-    const role = await require("./roles/get")(message.author.id, client);
+    const role = await getRoles(message.author.id, client);
 
     try {
         message.delete();

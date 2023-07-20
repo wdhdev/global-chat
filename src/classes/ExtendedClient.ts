@@ -6,8 +6,8 @@ export default class extends Client {
     public commandIds: Collection<string, Snowflake>;
     public commands: Collection<string, any>;
     public config_channels: any;
-    public config_default: any;
     public config_embeds: any;
+    public config_main: any;
     public config_roles: any;
     public contextCommands: Collection<string, any>;
     public events: Collection<string, any>;

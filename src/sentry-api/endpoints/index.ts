@@ -2,10 +2,10 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Discord from "discord.js";
 import { Request, Response } from "express";
 
-const cap = require("../../util/cap");
-const parser = require("../util/parser");
+import cap from "../../util/cap";
+import * as parser from "../util/parser";
 
-const SentryCapture = require("../../models/SentryCapture");
+import SentryCapture from "../../models/SentryCapture";
 
 export default async (req: Request & any, res: Response, client: ExtendedClient & any) => {
     const data = await SentryCapture.findOne({ _id: req.params.secret });
@@ -16,7 +16,7 @@ export default async (req: Request & any, res: Response, client: ExtendedClient 
 
     const embed = new Discord.EmbedBuilder()
         .setColor(parser.getColor(parser.getLevel(event)))
-        .setAuthor({ name: event.project_name, iconURL: "https://gc-sentry-api.wdh.gg/assets/sentry-glyph-light-400x367.png", url: parser.getProjectLink(event) })
+        .setAuthor({ name: event.project_name, iconURL: "https://gc-sentry-api.wdh.gg/assets/sentry-glyph-light-400x367.png", url: `https://${parser.getOrganisation(parser.getLink(event))}.sentry.io/projects/${event.project_slug}` })
         .setTimestamp(parser.getTime(event))
 
     const projectName = parser.getProject(event);

@@ -1,7 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import ExtendedClient from "../../classes/ExtendedClient";
 
-const emoji = require("../../config").emojis;
+import { emojis as emoji } from "../../config";
 
 export = {
     name: "ping",

@@ -34,8 +34,8 @@ database();
 
 // Configs
 client.config_channels = config.channels;
-client.config_default = config.default;
 client.config_embeds = config.embeds;
+client.config_main = config.main;
 client.config_roles = config.roles;
 
 // Handlers

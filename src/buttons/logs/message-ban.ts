@@ -4,7 +4,7 @@ import { ButtonInteraction, Interaction } from "discord.js";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";
-import User = require("../../models/User");
+import User from "../../models/User";
 
 export = {
     name: "message-ban",

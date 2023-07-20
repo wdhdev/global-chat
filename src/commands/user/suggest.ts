@@ -74,9 +74,9 @@ export = {
                 return;
             }
 
-            const prompt = interaction.options.getString("prompt");
-            const output = interaction.options.getString("output");
-            const casing = interaction.options.getString("casing");
+            const prompt = interaction.options.get("prompt").value;
+            const output = interaction.options.get("output").value;
+            const casing = interaction.options.get("casing").value;
 
             const octokit = new Octokit({ auth: data.token });
 
