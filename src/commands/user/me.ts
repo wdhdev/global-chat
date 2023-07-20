@@ -14,7 +14,7 @@ export = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: [],
     cooldown: 0,
     enabled: true,
     staffOnly: true,
