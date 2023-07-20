@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
     _id: String,
@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     description: String
 })
 
-module.exports = mongoose.model("to-do-list", schema, "to-do-list")
+export default mongoose.model("to-do-list", schema, "to-do-list")
