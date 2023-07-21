@@ -1,3 +1,5 @@
+import { ColorResolvable } from "discord.js"
+
 const channels = {
     appeals: "1083298359319736320",
     blocked: "1078093240105975848",
@@ -8,12 +10,12 @@ const channels = {
 }
 
 const embeds = {
-    default: "#E87F2A",
-    error: "#E74C3C",
-    github: "#171515",
-    gray: "#80838D",
-    green: "#57F287",
-    red: "#ED4245"
+    default: "#E87F2A" as ColorResolvable,
+    error: "#E74C3C" as ColorResolvable,
+    github: "#171515" as ColorResolvable,
+    gray: "#80838D" as ColorResolvable,
+    green: "#57F287" as ColorResolvable,
+    red: "#ED4245" as ColorResolvable
 }
 
 const emojis = {

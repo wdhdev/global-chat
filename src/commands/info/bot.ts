@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction, GuildMember } from "discord.js";
 
+const bot = require("../../../package.json");
 import { emojis as emoji } from "../../config";
 
 import BlockedMessage from "../../models/BlockedMessage";
@@ -29,7 +30,7 @@ const command: Command = {
                 .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${client.user.id}` })
                 .setDescription("A Discord bot which connects many servers together using a text channel!")
                 .addFields (
-                    { name: "📈 Version", value: "2.4.2", inline: true },
+                    { name: "📈 Version", value: bot.version, inline: true },
                     { name: "🟢 Online Since", value: `<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:f> (<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:R>)`, inline: true }
                 )
 

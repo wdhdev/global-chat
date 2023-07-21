@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
+import { cannotBanUser, cannotBanYourself } from "../../util/embeds";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";
@@ -23,23 +24,9 @@ const command: ContextCommand = {
         try {
             const user = interaction.targetUser;
 
-            if(user.id === interaction.user.id) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You cannot ban yourself!`)
+            if(user.id === interaction.user.id) return await interaction.editReply({ embeds: [cannotBanYourself] });
 
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
-
-            if(await User.exists({ _id: user.id, immune: true })) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You cannot ban that user!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
+            if(await User.exists({ _id: user.id, immune: true })) return await interaction.editReply({ embeds: [cannotBanUser] });
 
             if(await BannedUser.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()

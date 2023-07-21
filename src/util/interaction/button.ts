@@ -5,6 +5,7 @@ import Button from "../../classes/Button";
 
 import { emojis as emoji } from "../../config";
 import getRoles from "../roles/get";
+import { noPermissionButton } from "../embeds";
 
 export = async (client: ExtendedClient, Discord: any, interaction: ButtonInteraction) => {
     try {
@@ -21,14 +22,7 @@ export = async (client: ExtendedClient, Discord: any, interaction: ButtonInterac
                     if(userRoles[role]) hasRoles.push(role);
                 }
 
-                if(requiredRoles.length !== hasRoles.length) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} You do not have permission to run this button!`)
-
-                    await interaction.reply({ embeds: [error], ephemeral: true });
-                    return;
-                }
+                if(requiredRoles.length !== hasRoles.length) return await interaction.reply({ embeds: [noPermissionButton], ephemeral: true });
             }
 
             try {
@@ -58,14 +52,7 @@ export = async (client: ExtendedClient, Discord: any, interaction: ButtonInterac
                         if(userRoles[role]) hasRoles.push(role);
                     }
 
-                    if(requiredRoles.length !== hasRoles.length) {
-                        const error = new Discord.EmbedBuilder()
-                            .setColor(client.config_embeds.error)
-                            .setDescription(`${emoji.cross} You do not have permission to run this button!`)
-
-                        await interaction.reply({ embeds: [error], ephemeral: true });
-                        return;
-                    }
+                    if(requiredRoles.length !== hasRoles.length) return await interaction.reply({ embeds: [noPermissionButton], ephemeral: true });
                 }
 
                 try {

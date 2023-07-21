@@ -3,7 +3,7 @@ import { CommandInteraction, Message as MessageType, PermissionResolvable } from
 
 import assignRoles from "./roles/assign";
 import cap from "./cap";
-import easterEggs from "./messages/easter-eggs";
+import easterEggs from "./features/easter-eggs";
 import getRoles from "./roles/get";
 import levelRoles from "./roles/levelRoles";
 import path from "path";

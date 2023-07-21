@@ -4,6 +4,7 @@ import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
+import { noMessage } from "../../util/embeds";
 
 import Message from "../../models/Message";
 
@@ -24,14 +25,7 @@ const command: ContextCommand = {
 
             const data = await Message.findOne({ messages: message.url });
 
-            if(!data) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} No message was found with that ID!`)
-
-                await interaction.editReply({ embeds: [error] });
-                return;
-            }
+            if(!data) return await interaction.editReply({ embeds: [noMessage] });
 
             if(data.user === interaction.user.id) {
                 const error = new Discord.EmbedBuilder()
@@ -102,3 +96,5 @@ const command: ContextCommand = {
         }
     }
 }
+
+export = command;

@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
+import { cannotBanUser, cannotBanYourself } from "../../util/embeds";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";
@@ -16,21 +17,10 @@ const button: Button = {
         try {
             const id = interaction.customId.replace("blocked-message-ban-", "");
 
-            if(id === interaction.user.id) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You cannot ban yourself!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
+            if(id === interaction.user.id) return await interaction.reply({ embeds: [cannotBanYourself], ephemeral: true });
 
             if(await User.exists({ _id: id, immune: true })) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You cannot ban that user!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
+                await interaction.reply({ embeds: [cannotBanUser], ephemeral: true });
 
                 interaction.message.components[0].components[1].data.disabled = true;
 

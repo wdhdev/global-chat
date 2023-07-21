@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
-import { emojis as emoji } from "../../config";
+import { noMessage } from "../../util/embeds";
 
 import BlockedMessage from "../../models/BlockedMessage";
 
@@ -17,14 +17,7 @@ const button: Button = {
 
             const data = await BlockedMessage.findOne({ _id: id });
 
-            if(!data) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} No message was found with that ID!`)
-
-                await interaction.reply({ embeds: [error], ephemeral: true });
-                return;
-            }
+            if(!data) return await interaction.reply({ embeds: [noMessage], ephemeral: true });
 
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

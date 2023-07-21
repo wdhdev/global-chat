@@ -4,6 +4,7 @@ import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
+import { noMessage, noPermissionCommand } from "../../util/embeds";
 
 import Message from "../../models/Message";
 import User from "../../models/User";
@@ -27,23 +28,9 @@ const command: ContextCommand = {
             const data = await Message.findOne({ messages: message.url });
             const userData = await User.findOne({ _id: interaction.user.id });
 
-            if(!data) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} No message was found with that ID!`)
+            if(!data) return await interaction.editReply({ embeds: [noMessage] });
 
-                await interaction.editReply({ embeds: [error] });
-                return;
-            }
-
-            if(!userData?.mod && !userData?.dev && data.user !== interaction.user.id) {
-                const error = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have permission to run this command!`)
-
-                await interaction.editReply({ embeds: [error] });
-                return;
-            }
+            if(!userData?.mod && !userData?.dev && data.user !== interaction.user.id) return await interaction.editReply({ embeds: [noPermissionCommand] });
 
             const total = data.messages.length;
             let deleted = 0;
