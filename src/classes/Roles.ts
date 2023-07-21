@@ -11,7 +11,7 @@ export default class {
         const validRoles = ["owner", "dev", "mod", "donator", "verified", "supporter", "immunity"];
 
         for(const role of roles) {
-            if(!validRoles.includes(role)) throw new Error(`Invalid role: ${role}. Allowed roles are: ${validRoles.join(", ")}`);
+            if(!validRoles.includes(role)) throw new Error(`Invalid role: ${role}`);
         }
 
         this.owner = roles.includes("owner");
