@@ -1,3 +1,4 @@
+import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { Message, PermissionResolvable } from "discord.js";
 
@@ -5,8 +6,9 @@ import send from "../../util/send";
 
 import Guild from "../../models/Guild";
 
-export = {
+const event: Event = {
     name: "messageCreate",
+    once: false,
     async execute(client: ExtendedClient, Discord: any, message: Message) {
         try {
             const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks", "ManageMessages"];
@@ -22,3 +24,5 @@ export = {
         }
     }
 }
+
+export = event;

@@ -1,14 +1,16 @@
+import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import Message from "../../models/Message";
 
-export = {
+const button: Button = {
     name: "delete-message",
     startsWith: true,
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("delete-message-", "");
@@ -99,3 +101,5 @@ export = {
         }
     }
 }
+
+export = button;

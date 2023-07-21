@@ -1,8 +1,10 @@
+import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { Guild } from "discord.js";
 
-export = {
+const event: Event = {
     name: "guildCreate",
+    once: false,
     async execute(client: ExtendedClient & any, Discord: any, guild: Guild & any) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
@@ -26,3 +28,5 @@ export = {
         }
     }
 }
+
+export = event;

@@ -1,8 +1,10 @@
+import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { GuildMember } from "discord.js";
 
-export = {
+const event: Event = {
     name: "guildMemberUpdate",
+    once: false,
     async execute(client: ExtendedClient & any, Discord: any, oldMember: GuildMember & any, newMember: GuildMember) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
@@ -44,3 +46,5 @@ export = {
         }
     }
 }
+
+export = event;

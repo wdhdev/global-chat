@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction, GuildMember } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -8,13 +10,13 @@ import GitHubUser from "../../models/GitHubUser";
 import Message from "../../models/Message";
 import User from "../../models/User";
 
-export = {
+const command: Command = {
     name: "bot",
     description: "Different information about the bot.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 5,
     enabled: true,
     staffOnly: false,
@@ -96,3 +98,5 @@ export = {
         }
     }
 }
+
+export = command;

@@ -1,17 +1,19 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import User from "../../models/User";
 
-export = {
+const command: Command = {
     name: "moderators",
     description: "Get a list of all the moderators.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 5,
     enabled: true,
     staffOnly: false,
@@ -47,3 +49,5 @@ export = {
         }
     }
 }
+
+export = command;

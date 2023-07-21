@@ -7,4 +7,4 @@ const schema = new mongoose.Schema({
     user: String
 })
 
-export default mongoose.model("sentry", schema, "sentry")
+export default mongoose.model("sentry", schema, "sentry");

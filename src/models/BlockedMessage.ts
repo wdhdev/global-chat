@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     reason: Array
 })
 
-export default mongoose.model("blocked-messages", schema, "blocked-messages")
+export default mongoose.model("blocked-messages", schema, "blocked-messages");

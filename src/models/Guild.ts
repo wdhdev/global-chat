@@ -7,4 +7,4 @@ const schema = new mongoose.Schema({
     blockedUsers: Array
 })
 
-export default mongoose.model("guilds", schema, "guilds")
+export default mongoose.model("guilds", schema, "guilds");

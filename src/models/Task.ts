@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     description: String
 })
 
-export default mongoose.model("to-do-list", schema, "to-do-list")
+export default mongoose.model("to-do-list", schema, "to-do-list");

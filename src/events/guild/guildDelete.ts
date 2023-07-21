@@ -1,3 +1,4 @@
+import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { Guild as GuildType } from "discord.js";
 
@@ -6,8 +7,9 @@ import fetch from "node-fetch";
 
 import Guild from "../../models/Guild";
 
-export = {
+const event: Event = {
     name: "guildDelete",
+    once: false,
     async execute(client: ExtendedClient & any, Discord: any, guild: GuildType & any) {
         try {
             const data = await Guild.findOne({ _id: guild.id });
@@ -39,3 +41,5 @@ export = {
         }
     }
 }
+
+export = event;

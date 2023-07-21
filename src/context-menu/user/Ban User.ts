@@ -1,4 +1,6 @@
+import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -6,12 +8,12 @@ import { emojis as emoji } from "../../config";
 import BannedUser from "../../models/BannedUser";
 import User from "../../models/User";
 
-export = {
+const command: ContextCommand = {
     name: "Ban User",
     type: 2,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     cooldown: 3,
     enabled: true,
     staffOnly: true,
@@ -158,3 +160,5 @@ export = {
         }
     }
 }
+
+export = command;

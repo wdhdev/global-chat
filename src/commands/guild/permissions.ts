@@ -1,15 +1,17 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import { CommandInteraction, PermissionFlagsBits, PermissionResolvable } from "discord.js";
+import Roles from "../../classes/Roles";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
-export = {
+const command: Command = {
     name: "permissions",
     description: "Check if the bot has the required permissions.",
     options: [],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 20,
     enabled: true,
     staffOnly: false,
@@ -59,3 +61,5 @@ export = {
         }
     }
 }
+
+export = command;

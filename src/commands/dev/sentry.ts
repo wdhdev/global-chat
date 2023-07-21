@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -6,7 +8,7 @@ import fetch from "node-fetch";
 
 import SentryCapture from "../../models/SentryCapture";
 
-export = {
+const command: Command = {
     name: "sentry",
     description: "Manage Sentry",
     options: [
@@ -64,7 +66,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["dev"],
+    requiredRoles: new Roles(["dev"]),
     cooldown: 0,
     enabled: true,
     staffOnly: true,
@@ -196,3 +198,5 @@ export = {
         }
     }
 }
+
+export = command;

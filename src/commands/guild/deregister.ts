@@ -1,17 +1,19 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import Guild from "../../models/Guild";
 
-export = {
+const command: Command = {
     name: "deregister",
     description: "Remove the global chat channel.",
     options: [],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 60,
     enabled: true,
     staffOnly: false,
@@ -45,3 +47,5 @@ export = {
         }
     }
 }
+
+export = command;

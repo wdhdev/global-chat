@@ -10,4 +10,4 @@ const schema = new mongoose.Schema({
     reason: String
 })
 
-export default mongoose.model("appeals", schema, "appeals")
+export default mongoose.model("appeals", schema, "appeals");

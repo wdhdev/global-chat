@@ -1,15 +1,17 @@
-import { CommandInteraction } from "discord.js";
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
+import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
-export = {
+const command: Command = {
     name: "ping",
     description: "Check the bot's latency.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 10,
     enabled: true,
     staffOnly: false,
@@ -59,3 +61,5 @@ export = {
         }
     }
 }
+
+export = command;

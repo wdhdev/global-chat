@@ -1,9 +1,10 @@
+import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 
 import globalCommands from "../../scripts/global-commands";
 import guildCommands from "../../scripts/guild-commands";
 
-export = {
+const event: Event = {
     name: "ready",
     once: true,
     async execute(client: ExtendedClient) {
@@ -19,3 +20,5 @@ export = {
         }
     }
 }
+
+export = event;

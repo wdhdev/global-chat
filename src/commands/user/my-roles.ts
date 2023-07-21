@@ -1,15 +1,17 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import getRoles from "../../util/roles/get";
 
-export = {
+const command: Command = {
     name: "my-roles",
     description: "Get your Global Chat roles.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 10,
     enabled: true,
     staffOnly: false,
@@ -39,3 +41,5 @@ export = {
         }
     }
 }
+
+export = command;

@@ -1,15 +1,17 @@
 import ExtendedClient from "../../classes/ExtendedClient";
 import { ButtonInteraction } from "discord.js";
 
+import Button from "../../classes/Button";
+
 import { emojis as emoji } from "../../config";
 import getRoles from "../roles/get";
 
 export = async (client: ExtendedClient, Discord: any, interaction: ButtonInteraction) => {
     try {
-        const button = client.buttons.get(interaction.customId);
+        const button: Button = client.buttons.get(interaction.customId);
 
         if(button) {
-            const requiredRoles = button.requiredRoles;
+            const requiredRoles: Array<string> = button.requiredRoles.get();
             const userRoles: any = await getRoles(interaction.user.id, client);
 
             if(requiredRoles.length) {
@@ -46,7 +48,7 @@ export = async (client: ExtendedClient, Discord: any, interaction: ButtonInterac
 
         for(const btn of client.buttons) {
             if(interaction.customId.startsWith(btn[0]) && btn[1].startsWith) {
-                const requiredRoles = btn[1].requiredRoles;
+                const requiredRoles: Array<string> = btn[1].requiredRoles.get();
                 const userRoles: any = await getRoles(interaction.user.id, client);
 
                 if(requiredRoles.length) {

@@ -7,10 +7,10 @@ Sentry.init({
     tracesSampleRate: 1.0,
 })
 
-import config from "./config";
-import Discord, { PresenceStatusData } from "discord.js";
+import Discord from "discord.js";
 
 import ExtendedClient from "./classes/ExtendedClient";
+import config from "./config";
 
 const client = new ExtendedClient({
     intents: 3276799,
@@ -21,7 +21,7 @@ const client = new ExtendedClient({
                 type: config.presence.activityType
             }
         ],
-        status: config.presence.status as PresenceStatusData
+        status: config.presence.status as Discord.PresenceStatusData
     }
 })
 

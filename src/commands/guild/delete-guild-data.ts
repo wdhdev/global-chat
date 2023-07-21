@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
 import checkWebhook from "../../util/webhooks/check";
@@ -7,13 +9,13 @@ import fetch from "node-fetch";
 
 import Guild from "../../models/Guild";
 
-export = {
+const command: Command = {
     name: "delete-guild-data",
     description: "Delete all data associated with the current guild.",
     options: [],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 120,
     enabled: true,
     staffOnly: false,
@@ -113,3 +115,5 @@ export = {
         }
     }
 }
+
+export = command;

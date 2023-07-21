@@ -1,11 +1,13 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
 
-export = {
+const command: Command = {
     name: "appeals",
     description: "[MODERATOR ONLY] Get all appeals related to a user.",
     options: [
@@ -18,7 +20,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     cooldown: 10,
     enabled: true,
     staffOnly: true,
@@ -63,3 +65,5 @@ export = {
         }
     }
 }
+
+export = command;

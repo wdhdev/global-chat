@@ -1,12 +1,14 @@
+import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import fetch from "node-fetch";
 
-export = {
+const button: Button = {
     name: "sentry-ignore",
     startsWith: true,
-    requiredRoles: ["dev"],
+    requiredRoles: new Roles(["dev"]),
     async execute(interaction: ButtonInteraction & any, client: ExtendedClient, Discord: any) {
         const id = interaction.customId.replace("sentry-ignore-", "");
 
@@ -40,3 +42,5 @@ export = {
         await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
     }
 }
+
+export = button;

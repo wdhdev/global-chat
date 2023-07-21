@@ -1,10 +1,12 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import fs from "fs";
 import getDirs from "../../util/getDirs";
 
-export = {
+const command: Command = {
     name: "help",
     description: "Displays a list of all of Global Chat's commands.",
     options: [
@@ -17,7 +19,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 5,
     enabled: true,
     staffOnly: false,
@@ -72,21 +74,19 @@ export = {
             await pushRoot();
             (await getDirs("./dist/commands")).forEach(dir => pushDir(dir));
 
-            let cmds = [];
+            const cmds = [];
 
             for(const cmd of commands) {
                 const info = client.commands.get(cmd);
 
-                cmds.push(`</${cmd}:${client.commandIds.get(cmd)}> - ${info.description}`);
+                cmds.push(`</${cmd}:${client.commandIds.get(cmd)}> **|** ${info.description}`);
             }
-
-            cmds = cmds.sort();
 
             const help = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setThumbnail(client.user.displayAvatarURL({ extension: "png", forceStatic: false }))
                 .setTitle("Commands")
-                .setDescription(cmds.join("\n"))
+                .setDescription(cmds.sort().join("\n"))
                 .setTimestamp()
 
             const command = client.commands.get(cmd);
@@ -118,3 +118,5 @@ export = {
         }
     }
 }
+
+export = command;

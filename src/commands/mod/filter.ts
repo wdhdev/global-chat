@@ -1,11 +1,13 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import Filter from "../../models/Filter";
 
-export = {
+const command: Command = {
     name: "filter",
     description: "Manage the bot's filters.",
     options: [
@@ -30,13 +32,11 @@ export = {
                     choices: [
                         {
                             name: "autoban",
-                            description: "Add the word to the autoban filter.",
                             value: "autoban"
                         },
 
                         {
                             name: "blacklist",
-                            description: "Add the word to the blacklist.",
                             value: "blacklist"
                         }
                     ],
@@ -57,13 +57,11 @@ export = {
                     choices: [
                         {
                             name: "autoban",
-                            description: "Get all words on the autoban filter.",
                             value: "autoban"
                         },
 
                         {
                             name: "blacklist",
-                            description: "Get all words on the blacklist.",
                             value: "blacklist"
                         }
                     ],
@@ -93,13 +91,11 @@ export = {
                     choices: [
                         {
                             name: "autoban",
-                            description: "Remove the word to from the autoban filter.",
                             value: "autoban"
                         },
 
                         {
                             name: "blacklist",
-                            description: "Remove the word from the blacklist.",
                             value: "blacklist"
                         }
                     ],
@@ -110,7 +106,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     cooldown: 0,
     enabled: true,
     staffOnly: true,
@@ -227,3 +223,5 @@ export = {
         }
     }
 }
+
+export = command;

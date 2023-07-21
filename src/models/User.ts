@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     donator: Boolean
 })
 
-export default mongoose.model("users", schema, "users")
+export default mongoose.model("users", schema, "users");

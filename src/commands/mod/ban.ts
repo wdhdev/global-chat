@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -6,7 +8,7 @@ import { emojis as emoji } from "../../config";
 import BannedUser from "../../models/BannedUser";
 import User from "../../models/User";
 
-export = {
+const command: Command = {
     name: "ban",
     description: "[MODERATOR ONLY] Ban a user.",
     options: [
@@ -34,7 +36,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     cooldown: 0,
     enabled: true,
     staffOnly: true,
@@ -139,3 +141,5 @@ export = {
         }
     }
 }
+
+export = command;

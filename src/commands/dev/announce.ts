@@ -1,16 +1,18 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { announce } from "../../util/send";
 import { emojis as emoji } from "../../config";
 
-export = {
+const command: Command = {
     name: "announce",
     description: "[DEVELOPER ONLY] Make an announcement.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["dev"],
+    requiredRoles: new Roles(["dev"]),
     cooldown: 60,
     enabled: true,
     staffOnly: true,
@@ -56,3 +58,5 @@ export = {
         }
     }
 }
+
+export = command;

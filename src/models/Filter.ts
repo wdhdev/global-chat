@@ -5,4 +5,4 @@ const schema = new mongoose.Schema({
     words: Array
 })
 
-export default mongoose.model("filter", schema, "filter")
+export default mongoose.model("filter", schema, "filter");

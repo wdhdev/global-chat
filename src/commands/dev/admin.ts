@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction, GuildMember } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -6,7 +8,7 @@ import { emojis as emoji } from "../../config";
 import Task from "../../models/Task";
 import User from "../../models/User";
 
-export = {
+const command: Command = {
     name: "admin",
     description: "Admin Commands",
     options: [
@@ -133,7 +135,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["dev"],
+    requiredRoles: new Roles(["dev"]),
     cooldown: 0,
     enabled: true,
     staffOnly: true,
@@ -577,3 +579,5 @@ export = {
         }
     }
 }
+
+export = command;

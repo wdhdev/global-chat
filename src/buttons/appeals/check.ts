@@ -1,14 +1,16 @@
+import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
 
-export = {
+const button: Button = {
     name: "check-appeal",
     startsWith: false,
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const modal = new Discord.ModalBuilder()
@@ -84,3 +86,5 @@ export = {
         }
     }
 }
+
+export = button;

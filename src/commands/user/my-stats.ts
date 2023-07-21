@@ -1,16 +1,18 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import BlockedMessage from "../../models/BlockedMessage";
 import Message from "../../models/Message";
 
-export = {
+const command: Command = {
     name: "my-stats",
     description: "Get your Global Chat statistics.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 10,
     enabled: true,
     staffOnly: false,
@@ -35,3 +37,5 @@ export = {
         }
     }
 }
+
+export = command;

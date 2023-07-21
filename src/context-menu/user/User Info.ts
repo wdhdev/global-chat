@@ -1,4 +1,6 @@
+import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { UserContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -9,12 +11,12 @@ import BlockedMessage from "../../models/BlockedMessage";
 import GitHubUser from "../../models/GitHubUser";
 import Message from "../../models/Message";
 
-export = {
+const command: ContextCommand = {
     name: "User Info",
     type: 2,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     cooldown: 3,
     enabled: true,
     staffOnly: true,
@@ -87,3 +89,5 @@ export = {
         }
     }
 }
+
+export = command;

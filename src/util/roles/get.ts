@@ -1,7 +1,7 @@
 import ExtendedClient from "../../classes/ExtendedClient";
 import { Snowflake } from "discord.js";
 
-import CustomRoles from "../../classes/CustomRoles";
+import Roles from "../../classes/Roles";
 
 import User from "../../models/User";
 
@@ -17,7 +17,7 @@ export default async function (userId: Snowflake, client: ExtendedClient) {
 
     const data = await User.findOne({ _id: userId });
 
-    const roles: CustomRoles = {
+    const roles: Roles = {
         owner: client.config_main.owner === userId,
         dev: data?.dev ? data.dev : false,
         mod: data?.mod ? data.mod : false,

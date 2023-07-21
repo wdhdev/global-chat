@@ -8,4 +8,4 @@ const schema = new mongoose.Schema({
     mod: String
 })
 
-export default mongoose.model("banned-users", schema, "banned-users")
+export default mongoose.model("banned-users", schema, "banned-users");

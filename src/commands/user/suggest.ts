@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { Octokit } from "@octokit/core";
@@ -6,7 +8,7 @@ import { emojis as emoji } from "../../config";
 
 import GitHubUser from "../../models/GitHubUser";
 
-export = {
+const command: Command = {
     name: "suggest",
     description: "Suggest something.",
     options: [
@@ -55,7 +57,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 10,
     enabled: true,
     staffOnly: false,
@@ -139,3 +141,5 @@ export = {
         }
     }
 }
+
+export = command;

@@ -1,4 +1,6 @@
+import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -6,10 +8,10 @@ import { emojis as emoji } from "../../config";
 import BannedUser from "../../models/BannedUser";
 import User from "../../models/User";
 
-export = {
+const button: Button = {
     name: "blocked-message-ban",
     startsWith: true,
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("blocked-message-ban-", "");
@@ -175,3 +177,5 @@ export = {
         }
     }
 }
+
+export = button;

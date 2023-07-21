@@ -1,6 +1,8 @@
 import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
+import Command from "../../classes/Command";
+
 import { emojis as emoji } from "../../config";
 import getRoles from "../roles/get";
 
@@ -19,11 +21,11 @@ export = async (client: ExtendedClient, Discord: any, interaction: CommandIntera
             return;
         }
 
-        const command = client.commands.get(interaction.commandName);
+        const command: Command = client.commands.get(interaction.commandName);
 
         if(!command) return;
 
-        const requiredRoles = command.requiredRoles;
+        const requiredRoles: Array<string> = command.requiredRoles.get();
         const userRoles: any = await getRoles(interaction.user.id, client);
 
         if(requiredRoles.length) {
@@ -57,12 +59,10 @@ export = async (client: ExtendedClient, Discord: any, interaction: CommandIntera
         if(command.botPermissions.length) {
             const invalidPerms = [];
 
-            for(const perm of command.botPermissions) {
+            for(const perm of command.botPermissions as any) {
                 if(!validPermissions.includes(perm)) return;
 
-                if(!interaction.guild.members.me.permissions.has(perm)) {
-                    invalidPerms.push(perm);
-                }
+                if(!interaction.guild.members.me.permissions.has(perm)) invalidPerms.push(perm);
             }
 
             if(invalidPerms.length) {

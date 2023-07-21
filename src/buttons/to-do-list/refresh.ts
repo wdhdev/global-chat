@@ -1,12 +1,14 @@
+import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import Task from "../../models/Task";
 
-export = {
+const button: Button = {
     name: "refresh-task-list",
     startsWith: false,
-    requiredRoles: [],
+    requiredRoles: new Roles(["dev"]),
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const data = await Task.find();
 
@@ -37,3 +39,5 @@ export = {
         await interaction.deferUpdate();
     }
 }
+
+export = button;

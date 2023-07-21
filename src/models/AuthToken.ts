@@ -6,4 +6,4 @@ const schema = new mongoose.Schema({
     service: String
 })
 
-export default mongoose.model("auth-tokens", schema, "auth-tokens")
+export default mongoose.model("auth-tokens", schema, "auth-tokens");

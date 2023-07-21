@@ -11,4 +11,4 @@ const schema = new mongoose.Schema({
     lastUpdated: String
 })
 
-export default mongoose.model("github-users", schema, "github-users")
+export default mongoose.model("github-users", schema, "github-users");

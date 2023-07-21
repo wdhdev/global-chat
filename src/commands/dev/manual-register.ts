@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -6,7 +8,7 @@ import getWebhook from "../../util/webhooks/get";
 
 import Guild from "../../models/Guild";
 
-export = {
+const command: Command = {
     name: "manual-register",
     description: "[DEVELOPER ONLY] Manually register a Global Chat channel using a webhook URL.",
     options: [
@@ -21,7 +23,7 @@ export = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["dev"],
+    requiredRoles: new Roles(["dev"]),
     cooldown: 0,
     enabled: true,
     staffOnly: true,
@@ -69,3 +71,5 @@ export = {
         }
     }
 }
+
+export = command;

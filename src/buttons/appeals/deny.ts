@@ -1,14 +1,16 @@
+import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
 
-export = {
+const button: Button = {
     name: "appeal-deny",
     startsWith: true,
-    requiredRoles: ["mod"],
+    requiredRoles: new Roles(["mod"]),
     async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("appeal-deny-", "");
@@ -120,3 +122,5 @@ export = {
         }
     }
 }
+
+export = button;

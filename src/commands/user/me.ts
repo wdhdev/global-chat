@@ -1,4 +1,6 @@
+import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
+import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -8,13 +10,13 @@ import BlockedMessage from "../../models/BlockedMessage";
 import GitHubUser from "../../models/GitHubUser";
 import Message from "../../models/Message";
 
-export = {
+const command: Command = {
     name: "me",
     description: "Get Global Chat's information about you.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: [],
+    requiredRoles: new Roles([]),
     cooldown: 0,
     enabled: true,
     staffOnly: true,
@@ -74,3 +76,5 @@ export = {
         }
     }
 }
+
+export = command;
