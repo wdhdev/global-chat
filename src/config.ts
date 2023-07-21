@@ -1,4 +1,4 @@
-import { ColorResolvable } from "discord.js"
+import { ColorResolvable } from "discord.js";
 
 const channels = {
     appeals: "1083298359319736320",
@@ -34,13 +34,7 @@ const main = {
         "1114420523150102588" // Testing
     ],
     owner: "853158265466257448", // william.harrison
-    ownerGuild: "1067023529226293248" // Global Chat Support
-}
-
-const presence = {
-    activity: "for messages",
-    activityType: 3,
-    status: "ONLINE"
+    primaryGuild: "1067023529226293248" // Global Chat Support
 }
 
 const roles = {
@@ -56,7 +50,6 @@ export {
     embeds,
     emojis,
     main,
-    presence,
     roles
 }
 
@@ -65,6 +58,5 @@ export default {
     embeds,
     emojis,
     main,
-    presence,
     roles
 }

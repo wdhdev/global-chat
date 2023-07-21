@@ -80,7 +80,7 @@ const command: Command = {
                     await User.findOneAndUpdate({ _id: user.id }, { dev: true });
                 }
 
-                const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                 const member = await guild.members.cache.get(user.id);
                 const role = await guild.roles.cache.get(client.config_roles.dev);
@@ -119,7 +119,7 @@ const command: Command = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { dev: false });
 
-                const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                 const member = await guild.members.cache.get(user.id);
                 const role = await guild.roles.cache.get(client.config_roles.dev);

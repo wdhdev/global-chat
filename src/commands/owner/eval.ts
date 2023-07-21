@@ -30,7 +30,7 @@ const command: Command = {
             const input: any = interaction.options.get("code").value;
 
             try {
-                const output = new String(await eval(input));
+                const output = new String(await eval(`(async () => {${input}})()`));
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

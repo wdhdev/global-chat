@@ -9,7 +9,7 @@ export default async function (userId: Snowflake, client: ExtendedClient) {
     let supporter = false;
 
     try {
-        const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+        const guild = await client.guilds.fetch(client.config_main.primaryGuild);
         const member = await guild.members.fetch(userId);
 
         supporter = member.premiumSinceTimestamp ? true : false;

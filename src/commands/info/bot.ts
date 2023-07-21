@@ -44,7 +44,7 @@ const command: Command = {
             const messages = await Message.find();
             const blockedMessages = await BlockedMessage.find();
 
-            const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+            const guild = await client.guilds.fetch(client.config_main.primaryGuild);
             const members = await guild.members.fetch();
             const boosters = members.filter((member: GuildMember) => member.premiumSinceTimestamp);
 

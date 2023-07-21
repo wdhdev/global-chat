@@ -20,7 +20,7 @@ export default async function (user: UserType, client: ExtendedClient & any, Dis
             await User.findOneAndUpdate({ _id: user.id }, { verified: true });
         }
 
-        const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+        const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
         const member = guild.members.cache.get(user.id);
         const role = guild.roles.cache.get(client.config_roles.verified);

@@ -229,7 +229,7 @@ const command: Command = {
                         await User.findOneAndUpdate({ _id: user.id }, { mod: true });
                     }
 
-                    const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                    const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                     const member = await guild.members.cache.get(user.id);
                     const role = await guild.roles.cache.get(client.config_roles.mod);
@@ -268,7 +268,7 @@ const command: Command = {
 
                     await User.findOneAndUpdate({ _id: user.id }, { mod: false });
 
-                    const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                    const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                     const member = await guild.members.cache.get(user.id);
                     const role = await guild.roles.cache.get(client.config_roles.mod);
@@ -423,7 +423,7 @@ const command: Command = {
             }
 
             if(interaction.options.getSubcommand() === "supporters") {
-                const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                const guild = await client.guilds.fetch(client.config_main.primaryGuild);
                 const members = await guild.members.fetch();
                 const boosters = members.filter((member: GuildMember) => member.premiumSinceTimestamp);
 
@@ -465,7 +465,7 @@ const command: Command = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { verified: false });
 
-                const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                 const member = await guild.members.cache.get(user.id);
                 const role = await guild.roles.cache.get(client.config_roles.verified);
@@ -548,7 +548,7 @@ const command: Command = {
                     await User.findOneAndUpdate({ _id: user.id }, { verified: true });
                 }
 
-                const guild = await client.guilds.fetch(client.config_main.ownerGuild);
+                const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                 const member = await guild.members.cache.get(user.id);
                 const role = await guild.roles.cache.get(client.config_roles.verified);

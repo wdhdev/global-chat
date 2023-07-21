@@ -45,7 +45,7 @@ export = async (client: ExtendedClient) => {
             )
             .setTimestamp()
 
-        await interaction.editReply({ embeds: [error] });
+        interaction.replied ? await interaction.editReply({ embeds: [error] }) : await interaction.reply({ embeds: [error], ephemeral: true });
     }
 
     require("dotenv").config();

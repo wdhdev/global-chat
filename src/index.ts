@@ -17,11 +17,11 @@ const client = new ExtendedClient({
     presence: {
         activities: [
             {
-                name: config.presence.activity,
-                type: config.presence.activityType
+                name: "for messages",
+                type: Discord.ActivityType.Watching
             }
         ],
-        status: config.presence.status as Discord.PresenceStatusData
+        status: "online"
     }
 })
 
