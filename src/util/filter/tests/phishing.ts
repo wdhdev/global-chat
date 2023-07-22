@@ -35,7 +35,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
             .setDescription(message.content)
             .addFields (
                 { name: "🚩 Filter", value: "🪝 Phishing" },
-                { name: "❓ Reason", value: "Phishing link detected." }
+                { name: "❓ Reason", value: "A phishing link was detected in your message." }
             )
 
         let attachment = null;
