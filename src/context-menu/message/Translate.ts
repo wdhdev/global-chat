@@ -4,10 +4,7 @@ import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import { noMessage } from "../../util/embeds";
 import translate from "../../functions/translate";
-
-import Message from "../../models/Message";
 
 const command: ContextCommand = {
     name: "Translate",
@@ -24,11 +21,7 @@ const command: ContextCommand = {
         try {
             const message = interaction.targetMessage;
 
-            const data = await Message.findOne({ messages: message.url });
-
-            if(!await Message.exists({ messages: message.url })) return await interaction.editReply({ embeds: [noMessage] });
-
-            if(!data.content) {
+            if(!message.content) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} That message has no content!`)
@@ -37,9 +30,9 @@ const command: ContextCommand = {
                 return;
             }
 
-            const translation = await translate(data.content, "en");
+            const result = await translate(message.content, "auto", "en");
 
-            if(translation === message.content) {
+            if(!result.status || result.translated === message.content) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} That message could not be translated.`)
@@ -48,30 +41,32 @@ const command: ContextCommand = {
                 return;
             }
 
-            const result = new Discord.EmbedBuilder()
+            const time = await convertTime(result.time);
+
+            const translated = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setTitle("🌐 Translated Message")
-                .setDescription(`\`\`\`${translation}\`\`\``)
+                .setTitle("Translated Message")
+                .setURL(message.url)
+                .setDescription(`\`\`\`${result.translated}\`\`\``)
+                .setFooter({ text: `Translated in ${time}.` })
                 .setTimestamp()
 
-            const original = new Discord.EmbedBuilder()
-                .setTitle("Original Message")
-                .setURL(message.url)
-                .setDescription(data.content)
-                .setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)))
-
-            let user = null;
-
-            try {
-                user = await client.users.fetch(data.user);
-            } catch {}
-
-            if(user) original.setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` });
-
-            await interaction.editReply({ embeds: [result, original] });
+            await interaction.editReply({ embeds: [translated] });
         } catch(err) {
             client.logContextError(err, interaction, Discord);
         }
+    }
+}
+
+async function convertTime(milliseconds: number): Promise<string> {
+    if(milliseconds < 0) throw new Error("Input cannot be negative.");
+
+    const seconds = milliseconds / 1000;
+
+    if(seconds >= 1) {
+        return seconds.toFixed(1) + "s";
+    } else {
+        return (seconds * 1000).toFixed(0) + "ms";
     }
 }
 
