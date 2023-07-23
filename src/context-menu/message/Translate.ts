@@ -48,7 +48,7 @@ const command: ContextCommand = {
                 .setTitle("Translated Message")
                 .setURL(message.url)
                 .setDescription(`\`\`\`${result.translated}\`\`\``)
-                .setFooter({ text: `Translated in ${time}.` })
+                .setFooter({ text: time })
                 .setTimestamp()
 
             await interaction.editReply({ embeds: [translated] });
