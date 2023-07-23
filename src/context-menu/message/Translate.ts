@@ -37,9 +37,9 @@ const command: ContextCommand = {
                 return;
             }
 
-            const translation = await translate(data.content, "auto", "en");
+            const translation = await translate(data.content, "en");
 
-            if(!translation.status || translation.translated === message.content) {
+            if(translation === message.content) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} That message could not be translated.`)
@@ -48,13 +48,10 @@ const command: ContextCommand = {
                 return;
             }
 
-            const time = await convertTime(translation.time);
-
             const result = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setTitle("🌐 Translated Message")
-                .setDescription(`\`\`\`${translation.translated}\`\`\``)
-                .setFooter({ text: `Translated in ${time}.` })
+                .setDescription(`\`\`\`${translation}\`\`\``)
                 .setTimestamp()
 
             const original = new Discord.EmbedBuilder()
@@ -75,18 +72,6 @@ const command: ContextCommand = {
         } catch(err) {
             client.logContextError(err, interaction, Discord);
         }
-    }
-}
-
-async function convertTime(milliseconds: number): Promise<string> {
-    if(milliseconds < 0) throw new Error("Input cannot be negative.");
-
-    const seconds = milliseconds / 1000;
-
-    if(seconds >= 1) {
-        return seconds.toFixed(1) + "s";
-    } else {
-        return (seconds * 1000).toFixed(0) + "ms";
     }
 }
 
