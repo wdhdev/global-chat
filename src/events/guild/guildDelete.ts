@@ -2,7 +2,7 @@ import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { Guild as GuildType } from "discord.js";
 
-import checkWebhook from "../../util/webhooks/check";
+import checkWebhook from "../../functions/webhooks/check";
 import fetch from "node-fetch";
 
 import Guild from "../../models/Guild";

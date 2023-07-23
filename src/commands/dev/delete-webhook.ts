@@ -4,7 +4,7 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import deleteWebhook from "../../util/webhooks/delete";
+import deleteWebhook from "../../functions/webhooks/delete";
 
 const command: Command = {
     name: "delete-webhook",

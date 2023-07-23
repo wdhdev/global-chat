@@ -1,11 +1,11 @@
 import ExtendedClient from "../classes/ExtendedClient";
 import { CommandInteraction, Message as MessageType, PermissionResolvable } from "discord.js";
 
-import assignRoles from "./roles/assign";
+import assignRoles from "../functions/roles/assign";
 import cap from "./cap";
 import easterEggs from "./features/easter-eggs";
-import getRoles from "./roles/get";
-import levelRoles from "./roles/levelRoles";
+import getRoles from "../functions/roles/get";
+import levelRoles from "../functions/roles/levelRoles";
 import path from "path";
 import test from "./filter/test";
 

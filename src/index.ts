@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/node";
 
 Sentry.init({
     dsn: process.env.sentry_dsn,
-    tracesSampleRate: 1.0,
+    tracesSampleRate: 1.0
 })
 
 import Discord from "discord.js";
@@ -44,9 +44,8 @@ client.commands = new Discord.Collection();
 client.contextCommands = new Discord.Collection();
 client.events = new Discord.Collection();
 
-["button", "command", "context", "event"].forEach((handler) => {
-    require(`./handlers/${handler}`)(client, Discord);
-});
+import loadHandlers from "./functions/loadHandlers";
+loadHandlers(client, Discord);
 
 // Login
 client.login(process.env.token);

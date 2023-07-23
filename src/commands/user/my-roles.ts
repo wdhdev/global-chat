@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
-import getRoles from "../../util/roles/get";
+import getRoles from "../../functions/roles/get";
 
 const command: Command = {
     name: "my-roles",

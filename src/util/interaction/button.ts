@@ -4,7 +4,7 @@ import { ButtonInteraction } from "discord.js";
 import Button from "../../classes/Button";
 
 import { emojis as emoji } from "../../config";
-import getRoles from "../roles/get";
+import getRoles from "../../functions/roles/get";
 import { noPermissionButton } from "../embeds";
 
 export = async (client: ExtendedClient, Discord: any, interaction: ButtonInteraction) => {

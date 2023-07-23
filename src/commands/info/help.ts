@@ -4,7 +4,7 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import fs from "fs";
-import getDirs from "../../util/getDirs";
+import getDirs from "../../functions/getDirs";
 
 const command: Command = {
     name: "help",

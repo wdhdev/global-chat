@@ -4,7 +4,7 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import getWebhook from "../../util/webhooks/get";
+import getWebhook from "../../functions/webhooks/get";
 
 import Guild from "../../models/Guild";
 

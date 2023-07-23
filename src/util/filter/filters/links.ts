@@ -1,7 +1,7 @@
 import Roles from "../../../classes/Roles";
 import { Message } from "discord.js";
 
-import getDomain from "../../getDomain";
+import getDomain from "../../../functions/getDomain";
 
 import WhitelistedDomain from "../../../models/WhitelistedDomain";
 

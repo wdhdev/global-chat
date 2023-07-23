@@ -4,7 +4,7 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import getDomain from "../../util/getDomain";
+import getDomain from "../../functions/getDomain";
 
 import WhitelistedDomain from "../../models/WhitelistedDomain";
 

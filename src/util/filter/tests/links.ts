@@ -2,7 +2,7 @@ import ExtendedClient from "../../../classes/ExtendedClient";
 import { Message } from "discord.js";
 
 import filter from "../filters/links";
-import getRoles from "../../roles/get";
+import getRoles from "../../../functions/roles/get";
 import path from "path";
 
 import BlockedMessage from "../../../models/BlockedMessage";

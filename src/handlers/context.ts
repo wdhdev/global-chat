@@ -2,7 +2,7 @@ import ExtendedClient from "../classes/ExtendedClient";
 import { ContextMenuCommandInteraction } from "discord.js";
 
 import fs from "fs";
-import getDirs from "../util/getDirs";
+import getDirs from "../functions/getDirs";
 
 export = async (client: ExtendedClient) => {
     async function loadRoot() {

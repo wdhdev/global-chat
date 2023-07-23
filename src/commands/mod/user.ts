@@ -4,7 +4,7 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import getRoles from "../../util/roles/get";
+import getRoles from "../../functions/roles/get";
 
 import BannedUser from "../../models/BannedUser";
 import BlockedMessage from "../../models/BlockedMessage";

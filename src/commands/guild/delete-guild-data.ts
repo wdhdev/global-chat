@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
-import checkWebhook from "../../util/webhooks/check";
+import checkWebhook from "../../functions/webhooks/check";
 import { emojis as emoji } from "../../config";
 import fetch from "node-fetch";
 
