@@ -17,6 +17,7 @@ const command: ContextCommand = {
     requiredRoles: new Roles(["mod"]),
     cooldown: 3,
     enabled: true,
+    allowWhileBanned: false,
     staffOnly: true,
     deferReply: false,
     ephemeral: true,
@@ -24,9 +25,9 @@ const command: ContextCommand = {
         try {
             const user = interaction.targetUser;
 
-            if(user.id === interaction.user.id) return await interaction.editReply({ embeds: [cannotBanYourself] });
+            if(user.id === interaction.user.id) return await interaction.reply({ embeds: [cannotBanYourself], ephemeral: true });
 
-            if(await User.exists({ _id: user.id, immune: true })) return await interaction.editReply({ embeds: [cannotBanUser] });
+            if(await User.exists({ _id: user.id, immune: true })) return await interaction.reply({ embeds: [cannotBanUser], ephemeral: true });
 
             if(await BannedUser.exists({ _id: user.id })) {
                 const error = new Discord.EmbedBuilder()

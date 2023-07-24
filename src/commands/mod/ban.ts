@@ -40,6 +40,7 @@ const command: Command = {
     requiredRoles: new Roles(["mod"]),
     cooldown: 0,
     enabled: true,
+    allowWhileBanned: false,
     staffOnly: true,
     deferReply: true,
     ephemeral: true,

@@ -18,6 +18,7 @@ const command: Command = {
     requiredRoles: new Roles([]),
     cooldown: 120,
     enabled: true,
+    allowWhileBanned: false,
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
@@ -35,9 +36,13 @@ const command: Command = {
             }
 
             const confirmation = new Discord.EmbedBuilder()
-                .setColor(client.config_embeds.default)
-                .setTitle("Confirmation")
-                .setDescription("Are you sure you want to delete all data associated with this guild?\n\nThe global chat channel will be **deregistered** and any webhooks will be **deleted**.\n**This cannot be undone.**")
+                .setColor(client.config_embeds.error)
+                .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ extension: "png", forceStatic: false }) })
+                .setTitle("Delete Guild Data")
+                .setDescription("Are you sure you want to delete all data associated with this guild?\n**This cannot be undone.**")
+                .addFields (
+                    { name: "What will be deleted?", value: "📝 Register Data\n🪝 Webhooks" }
+                )
                 .setTimestamp()
 
             const actions = new Discord.ActionRowBuilder()

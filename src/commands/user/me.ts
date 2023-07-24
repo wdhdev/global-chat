@@ -19,6 +19,7 @@ const command: Command = {
     requiredRoles: new Roles([]),
     cooldown: 0,
     enabled: true,
+    allowWhileBanned: false,
     staffOnly: true,
     deferReply: true,
     ephemeral: true,

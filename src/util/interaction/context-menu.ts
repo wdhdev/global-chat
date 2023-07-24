@@ -13,7 +13,11 @@ const cooldowns = new Map();
 
 export = async (client: ExtendedClient, Discord: any, interaction: ContextMenuCommandInteraction) => {
     try {
-        if(await BannedUser.exists({ _id: interaction.user.id })) {
+        const command: ContextCommand = client.contextCommands.get(`${interaction.commandType}-${interaction.commandName}`);
+
+        if(!command) return;
+
+        if(await BannedUser.exists({ _id: interaction.user.id }) && !command.allowWhileBanned) {
             const error = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
                 .setDescription(`${emoji.cross} You are banned from using the bot!`)
@@ -21,10 +25,6 @@ export = async (client: ExtendedClient, Discord: any, interaction: ContextMenuCo
             await interaction.reply({ embeds: [error], ephemeral: true });
             return;
         }
-
-        const command: ContextCommand = client.contextCommands.get(`${interaction.commandType}-${interaction.commandName}`);
-
-        if(!command) return;
 
         const requiredRoles: Array<string> = command.requiredRoles.get();
         const userRoles: any = await getRoles(interaction.user.id, client);

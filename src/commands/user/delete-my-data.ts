@@ -4,7 +4,9 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
+import { Octokit } from "@octokit/core";
 
+import GitHubUser from "../../models/GitHubUser";
 import User from "../../models/User";
 
 const command: Command = {
@@ -16,12 +18,13 @@ const command: Command = {
     requiredRoles: new Roles([]),
     cooldown: 120,
     enabled: true,
+    allowWhileBanned: true,
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            if(!await User.exists({ _id: interaction.user.id })) {
+            if(!await User.exists({ _id: interaction.user.id }) && !await GitHubUser.exists({ _id: interaction.user.id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There is no data associated with your account!`)
@@ -31,9 +34,13 @@ const command: Command = {
             }
 
             const embed = new Discord.EmbedBuilder()
-                .setColor(client.config_embeds.default)
-                .setTitle("Confirmation")
-                .setDescription("Are you sure you want to delete all data associated with your account?\n\nEverything including your **roles** will be removed.\n**This cannot be undone.**")
+                .setColor(client.config_embeds.error)
+                .setTitle("Delete My Data")
+                .setDescription("Are you sure you want to delete all data associated with your account?\n**This cannot be undone.**")
+                .addFields (
+                    { name: "What will be deleted?", value: "🎭 Roles\n🔗 Linked Accounts", inline: true },
+                    { name: "What will not be deleted?", value: "🔨 Ban Data\n💬 Messages\n⛔ Blocked Messages", inline: true }
+                )
                 .setTimestamp()
 
             const actions = new Discord.ActionRowBuilder()
@@ -64,6 +71,21 @@ const command: Command = {
 
                 if(c.customId === `delete-${interaction.id}`) {
                     collector.stop();
+
+                    const githubData = await GitHubUser.findOne({ _id: interaction.user.id });
+
+                    if(githubData) {
+                        try {
+                            const octokit = new Octokit({ auth: githubData.token });
+
+                            await octokit.request("DELETE /applications/{client_id}/grant", {
+                                client_id: process.env.github_client_id,
+                                access_token: githubData.token
+                            })
+                        } catch {}
+
+                        await githubData.delete();
+                    }
 
                     await User.findOneAndDelete({ _id: interaction.user.id });
 

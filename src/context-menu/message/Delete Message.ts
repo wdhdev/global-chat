@@ -17,6 +17,7 @@ const command: ContextCommand = {
     requiredRoles: new Roles([]),
     cooldown: 5,
     enabled: true,
+    allowWhileBanned: false,
     staffOnly: false,
     deferReply: true,
     ephemeral: true,

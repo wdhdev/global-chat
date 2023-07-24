@@ -10,6 +10,7 @@ export default class {
     public requiredRoles: Roles;
     public cooldown: number;
     public enabled: boolean;
+    public allowWhileBanned: boolean;
     public staffOnly: boolean;
     public deferReply: boolean;
     public ephemeral: boolean;

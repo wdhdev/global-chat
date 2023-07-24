@@ -39,6 +39,7 @@ const command: Command = {
     requiredRoles: new Roles([]),
     cooldown: 10,
     enabled: true,
+    allowWhileBanned: false,
     staffOnly: false,
     deferReply: true,
     ephemeral: true,
@@ -161,7 +162,7 @@ const command: Command = {
                 try {
                     const octokit = new Octokit({ auth: data.token });
 
-                    await octokit.request('DELETE /applications/{client_id}/grant', {
+                    await octokit.request("DELETE /applications/{client_id}/grant", {
                         client_id: process.env.github_client_id,
                         access_token: data.token
                     })
