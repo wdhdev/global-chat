@@ -12,9 +12,9 @@ const command: Command = {
     options: [
         {
             type: 3,
-            required: false,
             name: "command",
-            description: "Get info on a specific command."
+            description: "Get info on a specific command.",
+            required: false
         }
     ],
     default_member_permissions: null,
