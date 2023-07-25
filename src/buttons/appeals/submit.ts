@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
@@ -98,6 +99,8 @@ const button: Button = {
                         unban_reason: unbanReason,
                         status: "NOT_REVIEWED"
                     }).save()
+
+                    await createLog(interaction.user.id, id, "appealCreate", null, null);
 
                     const appealsChannel = client.channels.cache.get(client.config_channels.appeals);
 

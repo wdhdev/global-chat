@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
@@ -72,6 +73,8 @@ const command: Command = {
                 }
 
                 await appeal.delete();
+
+                await createLog(appeal._id, appeal.id, "appealDelete", null, interaction.user.id);
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

@@ -33,6 +33,7 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
 
             if(log.event === "appealApprove") logs.push(`✅ Appeal approved \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "appealCreate") logs.push(`📄 Appeal created \`${log.id}\`${!short ? ` @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "appealDelete") logs.push(`🗑️ Appeal deleted \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "appealDeny") logs.push(`❌ Appeal denied \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "immunityAdd") logs.push(`😇 Immunity added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "immunityRemove") logs.push(`😇 Immunity removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
@@ -47,4 +48,4 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
     return logs;
 }
 
-export type Event =  "appealApprove" | "appealCreate" | "appealDeny" | "immunityAdd" | "immunityRemove" | "messageDelete" | "roleAdd" | "roleRemove";
+export type Event =  "appealApprove" | "appealCreate" | "appealDelete" | "appealDeny" | "immunityAdd" | "immunityRemove" | "messageDelete" | "roleAdd" | "roleRemove";

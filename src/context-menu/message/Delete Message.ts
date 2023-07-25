@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 import { noMessage, noPermissionCommand } from "../../util/embeds";
 
@@ -57,6 +58,8 @@ const command: ContextCommand = {
             }
 
             Promise.all(promises).then(async () => {
+                await createLog(data.user, data._id, "messageDelete", null, interaction.user.id);
+
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .setDescription(`${emoji.tick} The message has been deleted!`)

@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
@@ -71,6 +72,8 @@ const button: Button = {
                     const reason = i.fields.getTextInputValue(`modal-reason-${interaction.id}`);
 
                     await Appeal.findOneAndUpdate({ _id: id }, { status: "DENIED", mod: interaction.user.id, reason: reason });
+
+                    await createLog(data.id, data._id, "appealDeny", null, interaction.user.id);
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)

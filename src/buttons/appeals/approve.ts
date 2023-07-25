@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import Appeal from "../../models/Appeal";
@@ -73,6 +74,8 @@ const button: Button = {
 
                     await BannedUser.findOneAndDelete({ _id: data.id });
                     await Appeal.findOneAndUpdate({ _id: id }, { status: "APPROVED", mod: interaction.user.id, reason: reason });
+
+                    await createLog(data.id, data._id, "appealApprove", null, interaction.user.id);
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
