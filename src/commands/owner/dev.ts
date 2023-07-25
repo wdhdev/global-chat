@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import User from "../../models/User";
@@ -81,6 +82,8 @@ const command: Command = {
                     await User.findOneAndUpdate({ _id: user.id }, { dev: true });
                 }
 
+                await createLog(user.id, null, "roleAdd", "dev", interaction.user.id);
+
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                 const member = await guild.members.cache.get(user.id);
@@ -119,6 +122,8 @@ const command: Command = {
                 }
 
                 await User.findOneAndUpdate({ _id: user.id }, { dev: false });
+
+                await createLog(user.id, null, "roleRemove", "dev", interaction.user.id);
 
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 

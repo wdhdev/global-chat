@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import User from "../../models/User";
@@ -57,7 +58,7 @@ const command: Command = {
                 if(user.bot) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} You cannot make a bot immune!`)
+                        .setDescription(`${emoji.cross} You cannot give a bot immunity!`)
 
                     await interaction.editReply({ embeds: [error] });
                     return;
@@ -68,7 +69,7 @@ const command: Command = {
                 if(userData?.immune) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} ${user} is already immune!`)
+                        .setDescription(`${emoji.cross} ${user} is already has immunity!`)
 
                     await interaction.editReply({ embeds: [error] });
                     return;
@@ -79,6 +80,8 @@ const command: Command = {
                 } else {
                     await User.findOneAndUpdate({ _id: user.id }, { immune: true });
                 }
+
+                await createLog(user.id, null, "immunityAdd", null, interaction.user.id);
 
                 const added = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -103,13 +106,15 @@ const command: Command = {
                 if(!await User.exists({ _id: user.id, immune: true })) {
                     const error = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} ${user} is not immune!`)
+                        .setDescription(`${emoji.cross} ${user} is does not have immunity!`)
 
                     await interaction.editReply({ embeds: [error] });
                     return;
                 }
 
                 await User.findOneAndUpdate({ _id: user.id }, { immune: false });
+
+                await createLog(user.id, null, "immunityRemove", null, interaction.user.id);
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

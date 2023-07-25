@@ -13,6 +13,18 @@ const cannotBanYourself = new EmbedBuilder()
     .setColor(embeds.error)
     .setDescription(`${emoji.cross} You cannot ban yourself!`)
 
+const cannotWarnBots = new EmbedBuilder()
+    .setColor(embeds.error)
+    .setDescription(`${emoji.cross} You cannot warn bots!`)
+
+const cannotWarnUser = new EmbedBuilder()
+    .setColor(embeds.error)
+    .setDescription(`${emoji.cross} You cannot warn that user!`)
+
+const cannotWarnYourself = new EmbedBuilder()
+    .setColor(embeds.error)
+    .setDescription(`${emoji.cross} You cannot warn yourself!`)
+
 const noMessage = new EmbedBuilder()
     .setColor(embeds.error)
     .setDescription(`${emoji.cross} No message was found with that ID!`)
@@ -25,4 +37,14 @@ const noPermissionCommand = new EmbedBuilder()
     .setColor(embeds.error)
     .setDescription(`${emoji.cross} You do not have permission to run this command!`)
 
-export { cannotBanBots, cannotBanUser, cannotBanYourself, noMessage, noPermissionButton, noPermissionCommand };
+export {
+    cannotBanBots,
+    cannotBanUser,
+    cannotBanYourself,
+    cannotWarnBots,
+    cannotWarnUser,
+    cannotWarnYourself,
+    noMessage,
+    noPermissionButton,
+    noPermissionCommand
+}

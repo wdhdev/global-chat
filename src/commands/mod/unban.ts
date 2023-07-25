@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
+import createInfractionLog from "../../util/logs/createInfractionLog";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";
@@ -54,6 +55,8 @@ const command: Command = {
             }
 
             await data.delete();
+
+            await createInfractionLog(user.id, null, "unban", interaction.user.id);
 
             const userDM = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.green)

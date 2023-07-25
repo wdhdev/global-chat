@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { CommandInteraction, GuildMember } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { emojis as emoji } from "../../config";
 
 import Task from "../../models/Task";
@@ -230,6 +231,8 @@ const command: Command = {
                         await User.findOneAndUpdate({ _id: user.id }, { mod: true });
                     }
 
+                    await createLog(user.id, null, "roleAdd", "mod", interaction.user.id);
+
                     const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                     const member = await guild.members.cache.get(user.id);
@@ -268,6 +271,8 @@ const command: Command = {
                     }
 
                     await User.findOneAndUpdate({ _id: user.id }, { mod: false });
+
+                    await createLog(user.id, null, "roleRemove", "mod", interaction.user.id);
 
                     const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
@@ -466,6 +471,8 @@ const command: Command = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { verified: false });
 
+                await createLog(user.id, null, "roleRemove", "verified", interaction.user.id);
+
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
                 const member = await guild.members.cache.get(user.id);
@@ -548,6 +555,8 @@ const command: Command = {
                 } else {
                     await User.findOneAndUpdate({ _id: user.id }, { verified: true });
                 }
+
+                await createLog(user.id, null, "roleAdd", "verified", interaction.user.id);
 
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 

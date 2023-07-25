@@ -4,6 +4,7 @@ import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
+import { getInfractions } from "../../classes/Infraction";
 import getRoles from "../../functions/roles/get";
 import { noMessage } from "../../util/embeds";
 
@@ -32,6 +33,9 @@ const command: ContextCommand = {
             if(!messageData) return await interaction.editReply({ embeds: [noMessage] });
 
             const user = await client.users.fetch(messageData.user);
+
+            // Infractions
+            const infractions = await getInfractions(user.id, 5, false);
 
             // Banned
             let banned = false;
@@ -85,6 +89,7 @@ const command: ContextCommand = {
                 userInfo.setDescription(null);
             }
 
+            if(infractions.length) userInfo.setDescription(infractions.join("\n"));
             if(banned) userInfo.addFields({ name: "🔨 Ban Info", value: banData, inline: true });
             if(roles.length) userInfo.addFields({ name: "🎭 Roles", value: roles.join("\n"), inline: true });
             if(blocked || images || messages) userInfo.addFields({ name: "📊 Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}`, inline: true });
