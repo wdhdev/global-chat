@@ -4,6 +4,7 @@ import Roles from "../../classes/Roles";
 import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
 import { cannotBanUser, cannotBanYourself } from "../../util/embeds";
+import createInfractionLog from "../../util/logs/createInfractionLog";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";
@@ -96,6 +97,8 @@ const command: ContextCommand = {
                                 reason: reason,
                                 mod: interaction.user.id
                             }).save()
+
+                            await createInfractionLog(user.id, null, "ban", interaction.user.id);
 
                             const ban = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.error)

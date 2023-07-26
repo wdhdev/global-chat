@@ -4,6 +4,7 @@ import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import { cannotBanUser, cannotBanYourself } from "../../util/embeds";
+import createInfractionLog from "../../util/logs/createInfractionLog";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";
@@ -101,6 +102,8 @@ const button: Button = {
                                 reason: reason,
                                 mod: interaction.user.id
                             }).save()
+
+                            await createInfractionLog(id, null, "ban", interaction.user.id);
 
                             const ban = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.error)

@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
 import { noMessage } from "../../util/embeds";
 
 import Message from "../../models/Message";
@@ -46,6 +47,8 @@ const button: Button = {
             }
 
             Promise.all(promises).then(async () => {
+                await createLog(data.user, data._id, "messageDelete", null, interaction.user.id);
+
                 await interaction.deferUpdate();
 
                 interaction.message.components[0].components[1].data.disabled = true;

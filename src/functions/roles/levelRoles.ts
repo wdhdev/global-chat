@@ -1,6 +1,8 @@
 import ExtendedClient from "../../classes/ExtendedClient";
 import { User as UserType } from "discord.js";
 
+import createLog from "../../util/logs/createLog";
+
 import Message from "../../models/Message";
 import User from "../../models/User";
 
@@ -19,6 +21,8 @@ export default async function (user: UserType, client: ExtendedClient & any, Dis
         } else {
             await User.findOneAndUpdate({ _id: user.id }, { verified: true });
         }
+
+        await createLog(user.id, null, "roleAdd", "verified", client.user.id);
 
         const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 

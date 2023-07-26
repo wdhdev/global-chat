@@ -21,8 +21,8 @@ export default async function (userId: Snowflake, client: ExtendedClient) {
         owner: client.config_main.owner === userId,
         dev: data?.dev ? data.dev : false,
         mod: data?.mod ? data.mod : false,
-        verified: data?.verified ? data.verified : false,
         donator: data?.donator ? data.donator : false,
+        verified: data?.verified ? data.verified : false,
         supporter: supporter,
         immunity: data?.immune ? data.immune : false
     }
