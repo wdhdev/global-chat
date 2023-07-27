@@ -21,6 +21,12 @@ export default async function (client: ExtendedClient) {
 
     (async () => {
         try {
+            for(const [guildId, guild] of client.guilds.cache) {
+                try {
+                    await rest.put(Routes.applicationGuildCommands(process.env.clientId, guildId), { body: [] });
+                } catch {}
+            }
+
             for(const guild of client.config_main.hasGuildOnlyCommands) {
                 try {
                     await rest.put(Routes.applicationGuildCommands(process.env.clientId, guild), { body: commands });

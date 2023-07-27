@@ -1,4 +1,4 @@
-import index from "./endpoints/index";
+import index from "./endpoints/[secret]";
 
 export default {
     index: index

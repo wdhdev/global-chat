@@ -4,11 +4,9 @@ import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { cannotWarnBots, cannotWarnUser, cannotWarnYourself } from "../../util/embeds";
-import createInfractionLog from "../../util/logs/createInfractionLog";
 import { emojis as emoji } from "../../config";
-import { randomUUID } from "crypto";
+import warn from "../../functions/warn";
 
-import Infraction from "../../models/Infraction";
 import User from "../../models/User";
 
 const command: Command = {
@@ -52,37 +50,9 @@ const command: Command = {
 
             if(await User.exists({ _id: user.id, immune: true })) return await interaction.editReply({ embeds: [cannotWarnUser] });
 
-            let infractionData = await Infraction.findOne({ _id: user.id });
+            const id = await warn(user.id, reason, interaction.user.id);
 
-            const id = randomUUID().slice(0, 8);
-
-            if(!infractionData) {
-                new Infraction({
-                    _id: user.id,
-                    audit_log: [],
-                    warnings: [
-                        {
-                            id: id,
-                            timestamp: Date.now(),
-                            mod: interaction.user.id,
-                            reason: reason
-                        }
-                    ]
-                }).save()
-            } else {
-                infractionData.warnings.push({
-                    id: id,
-                    timestamp: Date.now(),
-                    mod: interaction.user.id,
-                    reason: reason
-                })
-
-                await infractionData.save();
-            }
-
-            await createInfractionLog(user.id, id, "warn", interaction.user.id);
-
-            const warn = new Discord.EmbedBuilder()
+            const warning = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
                 .setTitle("Warning")
                 .setDescription("ℹ️ You have been warned, continuation will result in a ban.")
@@ -94,7 +64,7 @@ const command: Command = {
             let sentDM = false;
 
             try {
-                await user.send({ embeds: [warn] });
+                await user.send({ embeds: [warning] });
                 sentDM = true;
             } catch {}
 

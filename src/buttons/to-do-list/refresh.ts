@@ -8,7 +8,7 @@ import Task from "../../models/Task";
 const button: Button = {
     name: "refresh-task-list",
     startsWith: false,
-    requiredRoles: new Roles(["dev"]),
+    requiredRoles: new Roles([]),
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const data = await Task.find();
 

@@ -32,7 +32,7 @@ const button: Button = {
             if(await BannedUser.exists({ _id: id })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} That user is already banned!`)
+                    .setDescription(`${emoji.cross} <@${id}> is already banned!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
 

@@ -28,8 +28,7 @@ const emojis = {
 
 const main = {
     hasGuildOnlyCommands: [
-        "1067023529226293248", // Global Chat Support
-        "1101152111187734649", // Batema Development
+        "1067023529226293248" // Global Chat Support
     ],
     owner: "853158265466257448", // william.harrison
     primaryGuild: "1067023529226293248" // Global Chat Support

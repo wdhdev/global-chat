@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import Roles from "../../classes/Roles";
 import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
-import { cannotBanUser, cannotBanYourself } from "../../util/embeds";
+import { cannotBanBots, cannotBanUser, cannotBanYourself } from "../../util/embeds";
 import createInfractionLog from "../../util/logs/createInfractionLog";
 import { emojis as emoji } from "../../config";
 
@@ -27,6 +27,8 @@ const command: ContextCommand = {
             const user = interaction.targetUser;
 
             if(user.id === interaction.user.id) return await interaction.reply({ embeds: [cannotBanYourself], ephemeral: true });
+
+            if(user.bot) return await interaction.reply({ embeds: [cannotBanBots], ephemeral: true });
 
             if(await User.exists({ _id: user.id, immune: true })) return await interaction.reply({ embeds: [cannotBanUser], ephemeral: true });
 

@@ -1,4 +1,4 @@
-import SentryIssue from "../../types/SentryIssue";
+type SentryIssue = Record<string, any>;
 
 export function getColor(level: string) {
     switch (level) {
