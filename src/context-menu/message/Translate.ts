@@ -33,7 +33,7 @@ const command: ContextCommand = {
 
             const result = await translate(message.content, "auto", "en");
 
-            if(!result.status || result.translated === message.content) {
+            if(!result.status || result.translated.toLowerCase() === message.content.toLowerCase()) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} That message could not be translated.`)
