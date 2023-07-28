@@ -3,6 +3,7 @@ import { CommandInteraction } from "discord.js";
 
 import Command from "../../classes/Command";
 
+import { Role } from "../../classes/Roles";
 import { emojis as emoji } from "../../config";
 import getRoles from "../../functions/roles/get";
 import { noPermissionCommand } from "../embeds";
@@ -27,7 +28,7 @@ export = async (client: ExtendedClient, Discord: any, interaction: CommandIntera
             return;
         }
 
-        const requiredRoles: Array<string> = command.requiredRoles.get();
+        const requiredRoles: Array<Role> = command.requiredRoles;
         const userRoles: any = await getRoles(interaction.user.id, client);
 
         if(requiredRoles.length) {

@@ -1,6 +1,5 @@
 import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import createLog from "../../util/logs/createLog";
@@ -15,7 +14,7 @@ const command: ContextCommand = {
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     cooldown: 5,
     enabled: true,
     allowWhileBanned: false,
@@ -58,7 +57,7 @@ const command: ContextCommand = {
             }
 
             Promise.all(promises).then(async () => {
-                await createLog(data.user, data._id, "messageDelete", null, interaction.user.id);
+                await createLog(interaction.user.id, data._id, "messageDelete", null, data.user);
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

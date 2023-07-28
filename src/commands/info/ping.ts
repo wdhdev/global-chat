@@ -1,6 +1,5 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -11,7 +10,7 @@ const command: Command = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     cooldown: 10,
     enabled: true,
     allowWhileBanned: false,

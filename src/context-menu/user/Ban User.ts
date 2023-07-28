@@ -1,6 +1,5 @@
 import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
 import { cannotBanBots, cannotBanUser, cannotBanYourself } from "../../util/embeds";
@@ -15,7 +14,7 @@ const command: ContextCommand = {
     type: 2,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     cooldown: 3,
     enabled: true,
     allowWhileBanned: false,

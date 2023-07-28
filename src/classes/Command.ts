@@ -1,4 +1,4 @@
-import Roles from "./Roles";
+import { Role } from "./Roles";
 import { ApplicationCommandOptionData, PermissionResolvable, Permissions } from "discord.js";
 
 export default class {
@@ -7,7 +7,7 @@ export default class {
     public options: ApplicationCommandOptionData[];
     public default_member_permissions: Permissions;
     public botPermissions: PermissionResolvable[];
-    public requiredRoles: Roles;
+    public requiredRoles: Role[];
     public cooldown: number;
     public enabled: boolean;
     public allowWhileBanned: boolean;

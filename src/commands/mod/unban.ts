@@ -1,6 +1,5 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import createInfractionLog from "../../util/logs/createInfractionLog";
@@ -29,7 +28,7 @@ const command: Command = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,

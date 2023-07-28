@@ -1,6 +1,5 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { CommandInteraction, GuildMember } from "discord.js";
 
 import createLog from "../../util/logs/createLog";
@@ -136,7 +135,7 @@ const command: Command = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["dev"]),
+    requiredRoles: ["dev"],
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,

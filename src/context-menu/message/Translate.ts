@@ -1,6 +1,5 @@
 import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -11,7 +10,7 @@ const command: ContextCommand = {
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     cooldown: 3,
     enabled: true,
     allowWhileBanned: false,

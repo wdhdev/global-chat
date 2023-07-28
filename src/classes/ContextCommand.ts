@@ -1,4 +1,4 @@
-import Roles from "./Roles";
+import { Role } from "./Roles";
 import { ContextMenuCommandType, PermissionResolvable, Permissions } from "discord.js";
 
 export default class {
@@ -6,7 +6,7 @@ export default class {
     public type: ContextMenuCommandType;
     public default_member_permissions: Permissions;
     public botPermissions: PermissionResolvable[];
-    public requiredRoles: Roles;
+    public requiredRoles: Role[];
     public cooldown: number;
     public enabled: boolean;
     public allowWhileBanned: boolean;

@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -10,7 +9,7 @@ import SentryCapture from "../../models/SentryCapture";
 const button: Button = {
     name: "sentry-capture-info",
     startsWith: false,
-    requiredRoles: new Roles(["dev"]),
+    requiredRoles: ["dev"],
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const modal = new Discord.ModalBuilder()
             .setCustomId(`modal-${interaction.id}`)

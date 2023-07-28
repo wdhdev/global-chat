@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import { cannotBanUser, cannotBanYourself } from "../../util/embeds";
@@ -13,7 +12,7 @@ import User from "../../models/User";
 const button: Button = {
     name: "report-ban",
     startsWith: true,
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("report-ban-", "");

@@ -37,7 +37,7 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
             if(log.event === "appealDeny") logs.push(`❌ Appeal denied \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "immunityAdd") logs.push(`😇 Immunity added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "immunityRemove") logs.push(`😇 Immunity removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
-            if(log.event === "messageDelete") logs.push(`🗑️ Deleted message \`${log.id}\`${!short ? ` @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "messageDelete") logs.push(`🗑️ Deleted message \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "roleAdd") logs.push(`${roleWithEmoji(log.role)} role added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "roleRemove") logs.push(`${roleWithEmoji(log.role)} role removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
 

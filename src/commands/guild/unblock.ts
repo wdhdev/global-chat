@@ -1,6 +1,5 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -20,7 +19,7 @@ const command: Command = {
     ],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     cooldown: 10,
     enabled: true,
     allowWhileBanned: false,

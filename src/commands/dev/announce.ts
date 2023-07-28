@@ -1,6 +1,5 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { CommandInteraction } from "discord.js";
 
 import { announce } from "../../util/send";
@@ -12,7 +11,7 @@ const command: Command = {
     options: [],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["dev"]),
+    requiredRoles: ["dev"],
     cooldown: 60,
     enabled: true,
     allowWhileBanned: false,

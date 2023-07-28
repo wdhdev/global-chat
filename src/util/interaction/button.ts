@@ -3,6 +3,7 @@ import { ButtonInteraction } from "discord.js";
 
 import Button from "../../classes/Button";
 
+import { Role } from "../../classes/Roles";
 import { emojis as emoji } from "../../config";
 import getRoles from "../../functions/roles/get";
 import { noPermissionButton } from "../embeds";
@@ -12,7 +13,7 @@ export = async (client: ExtendedClient, Discord: any, interaction: ButtonInterac
         const button: Button = client.buttons.get(interaction.customId);
 
         if(button) {
-            const requiredRoles: Array<string> = button.requiredRoles.get();
+            const requiredRoles: Array<Role> = button.requiredRoles;
             const userRoles: any = await getRoles(interaction.user.id, client);
 
             if(requiredRoles.length) {

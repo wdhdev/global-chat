@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import { Octokit } from "@octokit/core";
@@ -11,7 +10,7 @@ import GitHubUser from "../../models/GitHubUser";
 const button: Button = {
     name: "github-unlink",
     startsWith: false,
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const data = await GitHubUser.findOne({ _id: interaction.user.id });

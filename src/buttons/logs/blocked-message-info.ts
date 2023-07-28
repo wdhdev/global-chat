@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import { noMessage } from "../../util/embeds";
@@ -10,7 +9,7 @@ import BlockedMessage from "../../models/BlockedMessage";
 const button: Button = {
     name: "blocked-message-info",
     startsWith: true,
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const id = interaction.customId.replace("blocked-message-info-", "");

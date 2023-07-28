@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import createLog from "../../util/logs/createLog";
@@ -12,7 +11,7 @@ import BannedUser from "../../models/BannedUser";
 const button: Button = {
     name: "submit-appeal",
     startsWith: false,
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const banData = await BannedUser.findOne({ _id: interaction.user.id });

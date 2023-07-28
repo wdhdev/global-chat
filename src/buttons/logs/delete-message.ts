@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import createLog from "../../util/logs/createLog";
@@ -11,7 +10,7 @@ import Message from "../../models/Message";
 const button: Button = {
     name: "delete-message",
     startsWith: true,
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("delete-message-", "");
@@ -47,7 +46,7 @@ const button: Button = {
             }
 
             Promise.all(promises).then(async () => {
-                await createLog(data.user, data._id, "messageDelete", null, interaction.user.id);
+                await createLog(interaction.user.id, data._id, "messageDelete", null, data.user);
 
                 await interaction.deferUpdate();
 

@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction } from "discord.js";
 
 import fetch from "node-fetch";
@@ -8,7 +7,7 @@ import fetch from "node-fetch";
 const button: Button = {
     name: "sentry-ignore",
     startsWith: true,
-    requiredRoles: new Roles(["dev"]),
+    requiredRoles: ["dev"],
     async execute(interaction: ButtonInteraction & any, client: ExtendedClient, Discord: any) {
         const id = interaction.customId.replace("sentry-ignore-", "");
 

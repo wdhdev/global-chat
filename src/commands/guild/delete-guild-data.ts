@@ -1,6 +1,5 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 
 import checkWebhook from "../../functions/webhooks/check";
@@ -15,7 +14,7 @@ const command: Command = {
     options: [],
     default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
     botPermissions: [],
-    requiredRoles: new Roles([]),
+    requiredRoles: [],
     cooldown: 120,
     enabled: true,
     allowWhileBanned: false,

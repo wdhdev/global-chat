@@ -20,6 +20,7 @@ const embeds = {
 
 const emojis = {
     cross: "<:cross:1127043491642478592>",
+    discord: "<:discord:1134618172625006742>",
     github: "<:github:1129227804693774346>",
     ping: "<a:ping:1127044182352072786>",
     reply: "<:reply:1111102420714537012>",
@@ -30,7 +31,7 @@ const main = {
     hasGuildOnlyCommands: [
         "1067023529226293248" // Global Chat Support
     ],
-    owner: "853158265466257448", // william.harrison
+    owner: "853158265466257448", // williamharrison
     primaryGuild: "1067023529226293248" // Global Chat Support
 }
 

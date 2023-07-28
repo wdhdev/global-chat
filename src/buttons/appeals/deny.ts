@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import createLog from "../../util/logs/createLog";
@@ -11,7 +10,7 @@ import Appeal from "../../models/Appeal";
 const button: Button = {
     name: "appeal-deny",
     startsWith: true,
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
         try {
             const id = interaction.customId.replace("appeal-deny-", "");

@@ -1,6 +1,5 @@
 import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { noMessage } from "../../util/embeds";
@@ -12,7 +11,7 @@ const command: ContextCommand = {
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,

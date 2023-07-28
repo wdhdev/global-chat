@@ -1,6 +1,5 @@
 import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -18,7 +17,7 @@ const command: ContextCommand = {
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: new Roles(["mod"]),
+    requiredRoles: ["mod"],
     cooldown: 3,
     enabled: true,
     allowWhileBanned: false,
@@ -82,12 +81,9 @@ const command: ContextCommand = {
             const userInfo = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setAuthor({ name: user.tag.endsWith("#0") ? user.username : user.tag, iconURL: user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${user.id}` })
-                .setDescription("*There is no information available about this user.*")
-
-            if(banned || accounts.length || roles.length || blocked || images || messages) {
-                userInfo.setTitle("User Information");
-                userInfo.setDescription(null);
-            }
+                .addFields (
+                    { name: `${emoji.discord} Account Info`, value: `**ID**: \`${user.id}\`\n**Created**: <t:${user.createdTimestamp.toString().slice(0, -3)}> (<t:${user.createdTimestamp.toString().slice(0, -3)}:R>)` }
+                )
 
             if(infractions.length) userInfo.setDescription(infractions.join("\n"));
             if(banned) userInfo.addFields({ name: "🔨 Ban Info", value: banData, inline: true });

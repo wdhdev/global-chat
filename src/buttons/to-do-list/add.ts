@@ -1,6 +1,5 @@
 import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
-import Roles from "../../classes/Roles";
 import { ButtonInteraction, Interaction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
@@ -10,7 +9,7 @@ import Task from "../../models/Task";
 const button: Button = {
     name: "add-task",
     startsWith: false,
-    requiredRoles: new Roles(["dev"]),
+    requiredRoles: ["dev"],
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         const todoData = await Task.find();
 
