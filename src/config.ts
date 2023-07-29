@@ -20,10 +20,9 @@ const embeds: { [key: string]: ColorResolvable } = {
 
 const emojis: { [key: string]: EmojiResolvable } = {
     connection_bad: "<:connection_bad:1134804962732429332>",
-    connection_good: "<:connection_good:1134804958793977928>",
     connection_excellent: "<:connection_excellent:1134809429783617557>",
+    connection_good: "<:connection_good:1134804958793977928>",
     cross: "<:cross:1127043491642478592>",
-    developer: "<:developer:1134808090496208938>",
     discord: "<:discord:1134618172625006742>",
     github: "<:github:1129227804693774346>",
     ping: "<a:ping:1127044182352072786>",
