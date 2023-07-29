@@ -168,7 +168,6 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                         const username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
                         let webhookUsername = username;
 
-                        if(role.supporter) webhookUsername = `${username} 💖`;
                         if(role.verified) webhookUsername = `${username} ✅`;
                         if(role.donator) webhookUsername = `${username} 💸`;
                         if(role.mod) webhookUsername = `${username} 🔨`;

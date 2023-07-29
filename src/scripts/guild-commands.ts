@@ -27,7 +27,7 @@ export default async function (client: ExtendedClient) {
                 } catch {}
             }
 
-            for(const guild of client.config_main.hasGuildOnlyCommands) {
+            for(const guild of client.config_main.primaryGuild) {
                 try {
                     await rest.put(Routes.applicationGuildCommands(process.env.clientId, guild), { body: commands });
                     console.log(`Registered guild commands to ${guild}!`);

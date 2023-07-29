@@ -3,10 +3,8 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction, GuildMember } from "discord.js";
 
 const bot = require("../../../package.json");
-import { emojis as emoji } from "../../config";
 
 import BlockedMessage from "../../models/BlockedMessage";
-import GitHubUser from "../../models/GitHubUser";
 import Message from "../../models/Message";
 import User from "../../models/User";
 
@@ -31,7 +29,7 @@ const command: Command = {
                 .setDescription("A Discord bot which connects many servers together using a text channel!")
                 .addFields (
                     { name: "📈 Version", value: bot.version, inline: true },
-                    { name: "🟢 Online Since", value: `<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:f> (<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:R>)`, inline: true }
+                    { name: "🟢 Online Since", value: `<t:${(Date.now() - client.uptime).toString().slice(0, -3)}:f>`, inline: true }
                 )
 
             const developers = await User.find({ dev: true });
@@ -39,14 +37,8 @@ const command: Command = {
             const verified = await User.find({ verified: true });
             const donators = await User.find({ donator: true });
 
-            const githubUsers = await GitHubUser.find();
-
             const messages = await Message.find();
             const blockedMessages = await BlockedMessage.find();
-
-            const guild = await client.guilds.fetch(client.config_main.primaryGuild);
-            const members = await guild.members.fetch();
-            const boosters = members.filter((member: GuildMember) => member.premiumSinceTimestamp);
 
             const stat_guilds = `🗄️ ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
             const stat_users = `👤 ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
@@ -55,9 +47,6 @@ const command: Command = {
             const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
             const stat_donators = `💸 ${donators.length} Donator${donators.length === 1 ? "" : "s"}`;
             const stat_verified = `✅ ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
-            const stat_supporters = `💖 ${boosters.size} Supporter${boosters.size === 1 ? "" : "s"}`;
-
-            const stat_github = `${emoji.github} ${githubUsers.length}`;
 
             const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
             const stat_blocked_messages = `⛔ ${blockedMessages.length} Blocked Message${messages.length === 1 ? "" : "s"}`;
@@ -67,8 +56,7 @@ const command: Command = {
                 .setTitle("Statistics")
                 .addFields (
                     { name: "🤖 Bot", value: `${stat_guilds}\n${stat_users}`, inline: true },
-                    { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_donators}\n${stat_verified}\n${stat_supporters}`, inline: true },
-                    { name: "🔗 Linked Accounts", value: `${stat_github}`, inline: true },
+                    { name: "🎭 Roles", value: `${stat_developers}\n${stat_moderators}\n${stat_donators}\n${stat_verified}`, inline: true },
                     { name: "🌐 Global Chat", value: `${stat_messages}\n${stat_blocked_messages}`, inline: true }
                 )
 

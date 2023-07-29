@@ -4,6 +4,7 @@ import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 import getRoles from "../../functions/roles/get";
+import { Role } from "../../classes/Roles";
 
 import BlockedMessage from "../../models/BlockedMessage";
 import GitHubUser from "../../models/GitHubUser";
@@ -25,17 +26,7 @@ const command: Command = {
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             // Roles
-            const role = await getRoles(interaction.user.id, client);
-
-            const roles = [];
-
-            if(role.owner) roles.push("👑 Owner");
-            if(role.dev) roles.push("💻 Developer");
-            if(role.mod) roles.push("🔨 Moderator");
-            if(role.donator) roles.push("💸 Donator");
-            if(role.verified) roles.push("✅ Verified");
-            if(role.supporter) roles.push("💖 Supporter");
-            if(role.immunity) roles.push("😇 Immunity");
+            const roles: Role[] = (await getRoles(interaction.user.id, client)).get();
 
             // Linked Accounts
             const accounts = [];

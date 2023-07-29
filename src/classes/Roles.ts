@@ -4,11 +4,10 @@ export default class {
     public mod: Boolean;
     public donator: Boolean;
     public verified: Boolean;
-    public supporter: Boolean;
     public immunity: Boolean;
 
     constructor(roles: Role[]) {
-        const validRoles = ["owner", "dev", "mod", "donator", "verified", "supporter", "immunity"];
+        const validRoles = ["owner", "dev", "mod", "donator", "verified", "immunity"];
 
         for(const role of roles) {
             if(!validRoles.includes(role)) throw new Error(`Invalid role: ${role}`);
@@ -19,7 +18,6 @@ export default class {
         this.mod = roles.includes("mod");
         this.donator = roles.includes("donator");
         this.verified = roles.includes("verified");
-        this.supporter = roles.includes("supporter");
         this.immunity = roles.includes("immunity");
     }
 
@@ -31,7 +29,6 @@ export default class {
         if(this.mod) roles.push("mod");
         if(this.donator) roles.push("donator");
         if(this.verified) roles.push("verified");
-        if(this.supporter) roles.push("supporter");
         if(this.immunity) roles.push("immunity");
 
         return roles;
@@ -44,7 +41,6 @@ export function roleProperCase(role: Role) {
     if(role === "mod") return "Moderator";
     if(role === "donator") return "Donator";
     if(role === "verified") return "Verified";
-    if(role === "supporter") return "Supporter";
     if(role === "immunity") return "Immunity";
 }
 
@@ -54,8 +50,7 @@ export function roleWithEmoji(role: Role) {
     if(role === "mod") return "🔨 Moderator";
     if(role === "donator") return "💸 Donator";
     if(role === "verified") return "✅ Verified";
-    if(role === "supporter") return "💖 Supporter";
     if(role === "immunity") return "😇 Immunity";
 }
 
-export type Role = "owner" | "dev" | "mod" | "donator" | "verified" | "supporter" | "immunity";
+export type Role = "owner" | "dev" | "mod" | "donator" | "verified" | "immunity";

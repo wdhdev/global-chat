@@ -15,47 +15,40 @@ const command: Command = {
     enabled: true,
     allowWhileBanned: false,
     staffOnly: false,
-    deferReply: true,
-    ephemeral: true,
+    deferReply: false,
+    ephemeral: false,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            const pinging = new Discord.EmbedBuilder()
-                .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.ping} Pinging...`)
-
-            const i = await interaction.editReply({ embeds: [pinging] });
-
-            const botLatency = i.createdTimestamp - interaction.createdTimestamp;
+            const botLatency = Date.now() - interaction.createdTimestamp;
             const apiLatency = Math.round(client.ws.ping);
 
             let botLatencyValue;
             let apiLatencyValue;
 
             if(botLatency >= 0 && botLatency <= 99) {
-                botLatencyValue = `🟢 ${botLatency}ms`;
+                botLatencyValue = `${emoji.connection_excellent} ${botLatency}ms`;
             } else if(botLatency >= 100 && botLatency <= 199) {
-                botLatencyValue = `🟠 ${botLatency}ms`;
+                botLatencyValue = `${emoji.connection_good} ${botLatency}ms`;
             } else {
-                botLatencyValue = `🔴 ${botLatency}ms`;
+                botLatencyValue = `${emoji.connection_bad} ${botLatency}ms`;
             }
 
             if(apiLatency >= 0 && apiLatency <= 99) {
-                apiLatencyValue = `🟢 ${apiLatency}ms`;
+                apiLatencyValue = `${emoji.connection_excellent} ${apiLatency}ms`;
             } else if(apiLatency >= 100 && apiLatency <= 199) {
-                apiLatencyValue = `🟠 ${apiLatency}ms`;
+                apiLatencyValue = `${emoji.connection_good} ${apiLatency}ms`;
             } else {
-                apiLatencyValue = `🔴 ${apiLatency}ms`;
+                apiLatencyValue = `${emoji.connection_bad} ${apiLatency}ms`;
             }
 
             const ping = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setTitle("🏓 Pong!")
                 .addFields (
                     { name: "Bot Latency", value: botLatencyValue, inline: true },
                     { name: "API Latency", value: apiLatencyValue, inline: true }
                 )
 
-            await interaction.editReply({ embeds: [ping] });
+            await interaction.reply({ embeds: [ping] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }

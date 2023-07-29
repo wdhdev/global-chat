@@ -10,7 +10,7 @@ import User from "../../models/User";
 
 const command: Command = {
     name: "admin",
-    description: "Admin Commands",
+    description: "Developer Commands",
     options: [
         {
             type: 1,
@@ -424,35 +424,6 @@ const command: Command = {
                     return;
                 }
 
-                return;
-            }
-
-            if(interaction.options.getSubcommand() === "supporters") {
-                const guild = await client.guilds.fetch(client.config_main.primaryGuild);
-                const members = await guild.members.fetch();
-                const boosters = members.filter((member: GuildMember) => member.premiumSinceTimestamp);
-
-                const users = [];
-
-                for(const [userId, guildMember] of boosters) {
-                    users.push(userId);
-                }
-
-                if(!users.length) {
-                    const error = new Discord.EmbedBuilder()
-                        .setColor(client.config_embeds.error)
-                        .setDescription(`${emoji.cross} There are no supporters!`)
-
-                    await interaction.editReply({ embeds: [error] });
-                    return;
-                }
-
-                const supporters = new Discord.EmbedBuilder()
-                    .setColor(client.config_embeds.default)
-                    .setTitle("💖 Supporters")
-                    .setDescription(`<@${users.join(">, <@")}>`)
-
-                await interaction.editReply({ embeds: [supporters] });
                 return;
             }
 
