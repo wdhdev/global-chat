@@ -93,13 +93,6 @@ const command: Command = {
 
         {
             type: 1,
-            name: "supporters",
-            description: "[DEVELOPER ONLY] Get a list of all the supporters.",
-            options: []
-        },
-
-        {
-            type: 1,
             name: "unverify",
             description: "[DEVELOPER ONLY] Unverify a user.",
             options: [
@@ -139,7 +132,7 @@ const command: Command = {
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,
-    staffOnly: true,
+    guildOnly: true,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
@@ -367,7 +360,7 @@ const command: Command = {
                 }
 
                 for(const todo of data) {
-                    todoList.push(`- ${priority[todo.priority]} ${todo.name}`);
+                    todoList.push(`- ${todo.name}`);
                 }
 
                 const list = new Discord.EmbedBuilder()

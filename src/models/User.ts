@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     immune: Boolean,
     dev: Boolean,
@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     donator: Boolean
 })
 
-export default mongoose.model("users", schema, "users");
+export default model("users", schema, "users");

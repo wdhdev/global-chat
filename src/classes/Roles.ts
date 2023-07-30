@@ -1,4 +1,4 @@
-export default class {
+export default class Roles {
     public owner: Boolean;
     public dev: Boolean;
     public mod: Boolean;

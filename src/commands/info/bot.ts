@@ -1,6 +1,6 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import { CommandInteraction, GuildMember } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 const bot = require("../../../package.json");
 
@@ -18,7 +18,7 @@ const command: Command = {
     cooldown: 5,
     enabled: true,
     allowWhileBanned: false,
-    staffOnly: false,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {

@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     channel: String,
     registered: String,
     user: String
 })
 
-export default mongoose.model("sentry", schema, "sentry");
+export default model("sentry", schema, "sentry");

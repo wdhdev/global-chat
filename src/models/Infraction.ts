@@ -1,12 +1,9 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-import Infraction from "../classes/Infraction";
-import Warning from "../classes/Warning";
-
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
-    audit_log: Array<Infraction>,
-    warnings: Array<Warning>
+    audit_log: Array,
+    warnings: Array
 })
 
-export default mongoose.model("infractions", schema, "infractions");
+export default model("infractions", schema, "infractions");

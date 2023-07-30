@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     timestamp: String,
     allowAppeal: Boolean,
@@ -8,4 +8,4 @@ const schema = new mongoose.Schema({
     mod: String
 })
 
-export default mongoose.model("banned-users", schema, "banned-users");
+export default model("banned-users", schema, "banned-users");

@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     user: String,
     service: String
 })
 
-export default mongoose.model("auth-tokens", schema, "auth-tokens");
+export default model("auth-tokens", schema, "auth-tokens");

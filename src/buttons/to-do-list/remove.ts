@@ -77,7 +77,7 @@ const button: Button = {
                 const todoList = [];
 
                 for(const task of newData) {
-                    todoList.push(`- ${priority[task.priority]} ${task.name}`);
+                    todoList.push(`- ${task.name}`);
                 }
 
                 const list = new Discord.EmbedBuilder()

@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     id: String,
     ban_reason: String,
@@ -10,4 +10,4 @@ const schema = new mongoose.Schema({
     reason: String
 })
 
-export default mongoose.model("appeals", schema, "appeals");
+export default model("appeals", schema, "appeals");

@@ -1,12 +1,13 @@
+import Filter from "../../../classes/Filter";
 import { Message } from "discord.js";
 
 import replaceContent from "../replaceContent";
 
-import Filter from "../../../models/Filter";
+import { default as FilterModel } from "../../../models/Filter";
 
 export default async function (message: Message) {
-    const autobanFilter: any = await Filter.findOne({ _id: "autoban" }) || { words: [] };
-    const blacklistFilter: any = await Filter.findOne({ _id: "blacklist" }) || { words: [] };
+    const autobanFilter: Filter = await FilterModel.findOne({ _id: "autoban" }) || { _id: "whitelist", words: [] };
+    const blacklistFilter: Filter = await FilterModel.findOne({ _id: "blacklist" }) || { _id: "blacklist", words: [] };
 
     const content = replaceContent(message.content.toLowerCase());
 

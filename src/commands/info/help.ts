@@ -22,7 +22,7 @@ const command: Command = {
     cooldown: 5,
     enabled: true,
     allowWhileBanned: false,
-    staffOnly: false,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
@@ -38,7 +38,7 @@ const command: Command = {
                     const command = require(`../${file}`);
 
                     if(command.name) {
-                        if(!command.enabled || command.staffOnly) continue;
+                        if(!command.enabled || command.guildOnly) continue;
 
                         if(command.default_member_permissions) {
                             if(!interaction.member.permissions.has(command.default_member_permissions)) continue;
@@ -58,7 +58,7 @@ const command: Command = {
                     const command = require(`../${dir}/${file}`);
 
                     if(command.name) {
-                        if(!command.enabled || command.staffOnly) continue;
+                        if(!command.enabled || command.guildOnly) continue;
 
                         if(command.default_member_permissions) {
                             if(!interaction.member.permissions.has(command.default_member_permissions)) continue;

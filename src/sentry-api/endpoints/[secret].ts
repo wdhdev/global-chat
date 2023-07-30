@@ -60,7 +60,7 @@ export default async (req: Request & any, res: Response, client: ExtendedClient 
         })
     }
 
-    const tags: Array<any> = parser.getTags(event);
+    const tags: string[] = parser.getTags(event);
 
     if(Object.keys(tags).length > 0) {
         fields.push({

@@ -16,7 +16,7 @@ const command: ContextCommand = {
     cooldown: 10,
     enabled: true,
     allowWhileBanned: false,
-    staffOnly: false,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: MessageContextMenuCommandInteraction, client: ExtendedClient & any, Discord: any) {

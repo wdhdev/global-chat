@@ -22,13 +22,6 @@ const button: Button = {
             return;
         }
 
-        const priorityIcons: any = {
-            high: "🔴",
-            medium: "🟠",
-            low: "🟢",
-            none: "⚪"
-        }
-
         const modal = new Discord.ModalBuilder()
             .setCustomId(`modal-${interaction.id}`)
             .setTitle("Add Task")
@@ -120,7 +113,7 @@ const button: Button = {
                         const todoList = [];
 
                         for(const task of newData) {
-                            todoList.push(`- ${priorityIcons[task.priority]} ${task.name}`);
+                            todoList.push(`- ${task.name}`);
                         }
 
                         const list = new Discord.EmbedBuilder()

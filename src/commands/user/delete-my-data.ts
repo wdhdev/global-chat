@@ -18,7 +18,7 @@ const command: Command = {
     cooldown: 120,
     enabled: true,
     allowWhileBanned: true,
-    staffOnly: false,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {

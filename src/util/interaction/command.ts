@@ -3,7 +3,7 @@ import { CommandInteraction } from "discord.js";
 
 import Command from "../../classes/Command";
 
-import { Role } from "../../classes/Roles";
+import Roles, { Role } from "../../classes/Roles";
 import { emojis as emoji } from "../../config";
 import getRoles from "../../functions/roles/get";
 import { noPermissionCommand } from "../embeds";
@@ -28,8 +28,8 @@ export = async (client: ExtendedClient, Discord: any, interaction: CommandIntera
             return;
         }
 
-        const requiredRoles: Array<Role> = command.requiredRoles;
-        const userRoles: any = await getRoles(interaction.user.id, client);
+        const requiredRoles: Role[] = command.requiredRoles;
+        const userRoles: Roles = await getRoles(interaction.user.id, client);
 
         if(requiredRoles.length) {
             const hasRoles = [];
@@ -99,11 +99,11 @@ export = async (client: ExtendedClient, Discord: any, interaction: CommandIntera
             const expirationTime = timeStamps.get(interaction.user.id) + cooldownAmount;
 
             if(currentTime < expirationTime) {
-                const timeLeft: any = ((expirationTime - currentTime) / 1000).toFixed(0);
+                const timeLeft: string = (((expirationTime - currentTime) / 1000).toFixed(0)).toString();
 
                 const cooldown = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`⏰ Please wait ${timeLeft} second${timeLeft === 1 ? "" : "s"} before running that command again!`)
+                    .setDescription(`⏰ Please wait ${timeLeft} second${timeLeft === "1" ? "" : "s"} before running that command again!`)
 
                 command.deferReply ? await interaction.editReply({ embeds: [cooldown] }) : await interaction.reply({ embeds: [cooldown], ephemeral: true });
                 return;

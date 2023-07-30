@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-import Log from "../classes/Log";
-
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
-    logs: Array<Log>
+    logs: Array
 })
 
-export default mongoose.model("audit-logs", schema, "audit-logs");
+export default model("audit-logs", schema, "audit-logs");

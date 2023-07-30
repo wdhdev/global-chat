@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     timestamp: String,
     added_by: String,
@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     description: String
 })
 
-export default mongoose.model("to-do-list", schema, "to-do-list");
+export default model("to-do-list", schema, "to-do-list");

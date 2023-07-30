@@ -3,7 +3,7 @@ import { Snowflake } from "discord.js";
 import AuditLog from "../models/AuditLog";
 import { Role, roleWithEmoji } from "./Roles";
 
-export default class {
+export default class Log {
     public id?: String;
     public timestamp: number;
     public event: Event;
@@ -19,7 +19,7 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
 
     list:
     if(data) {
-        const formattedData = data.logs.sort((a, b) => b.timestamp - a.timestamp);
+        const formattedData = data.logs.sort((a: Log, b: Log) => b.timestamp - a.timestamp);
 
         for(const log of formattedData) {
             if(i >= max && max !== -1) {

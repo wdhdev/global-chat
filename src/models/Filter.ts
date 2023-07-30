@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     words: Array
 })
 
-export default mongoose.model("filter", schema, "filter");
+export default model("filter", schema, "filter");

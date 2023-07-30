@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     user: String,
     guild: String,
@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     reason: Array
 })
 
-export default mongoose.model("blocked-messages", schema, "blocked-messages");
+export default model("blocked-messages", schema, "blocked-messages");

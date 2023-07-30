@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     id: Number,
     avatar_url: String,
@@ -11,4 +11,4 @@ const schema = new mongoose.Schema({
     lastUpdated: String
 })
 
-export default mongoose.model("github-users", schema, "github-users");
+export default model("github-users", schema, "github-users");

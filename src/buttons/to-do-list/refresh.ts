@@ -13,15 +13,8 @@ const button: Button = {
 
         const todoList = [];
 
-        const priority: any = {
-            high: "🔴",
-            medium: "🟠",
-            low: "🟢",
-            none: "⚪"
-        }
-
         for(const todo of data) {
-            todoList.push(`- ${priority[todo.priority]} ${todo.name}`);
+            todoList.push(`- ${todo.name}`);
         }
 
         const list = new Discord.EmbedBuilder()

@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id: String,
     channel: String,
     webhook: String,
     blockedUsers: Array
 })
 
-export default mongoose.model("guilds", schema, "guilds");
+export default model("guilds", schema, "guilds");

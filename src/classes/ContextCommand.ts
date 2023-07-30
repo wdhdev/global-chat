@@ -1,7 +1,7 @@
 import { Role } from "./Roles";
 import { ContextMenuCommandType, PermissionResolvable, Permissions } from "discord.js";
 
-export default class {
+export default class ContextCommand {
     public name: string;
     public type: ContextMenuCommandType;
     public default_member_permissions: Permissions;
@@ -10,7 +10,7 @@ export default class {
     public cooldown: number;
     public enabled: boolean;
     public allowWhileBanned: boolean;
-    public staffOnly: boolean;
+    public guildOnly: boolean;
     public deferReply: boolean;
     public ephemeral: boolean;
     public execute: Function;

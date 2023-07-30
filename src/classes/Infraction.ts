@@ -1,8 +1,8 @@
 import { Snowflake } from "discord.js";
 
-import Infraction from "../models/Infraction";
+import { default as InfractionModel } from "../models/Infraction";
 
-export default class {
+export default class Infraction {
     public id?: String;
     public timestamp: number;
     public event: Event;
@@ -10,14 +10,14 @@ export default class {
 }
 
 export async function getInfractions(user: Snowflake, max: number, short: boolean): Promise<string[]> {
-    const data = await Infraction.findOne({ _id: user })
+    const data = await InfractionModel.findOne({ _id: user })
     const infractions: string[] = [];
 
     let i = 0;
 
     list:
     if(data) {
-        const formattedData = data.audit_log.sort((a, b) => b.timestamp - a.timestamp);
+        const formattedData = data.audit_log.sort((a: Infraction, b: Infraction) => b.timestamp - a.timestamp);
 
         for(const infraction of formattedData) {
             if(i >= max && max !== -1) {
