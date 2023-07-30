@@ -74,9 +74,9 @@ const button: Button = {
                     .setTitle(`${todo.name}`)
                     .setDescription(`${todo.description || "*No description provided.*"}`)
                     .addFields (
-                        { name: "❗ Priority", value: priority.text[todo.priority] },
-                        { name: "🕰️ Created", value: `<t:${todo.timestamp.slice(0, -3)}> (<t:${todo.timestamp.slice(0, -3)}:R>)` },
-                        { name: "👤 Added By", value: `<@${todo.added_by}>` }
+                        { name: "❗ Priority", value: priority.text[todo.priority], inline: true },
+                        { name: "🕰️ Created", value: `<t:${todo.timestamp.slice(0, -3)}>`, inline: true },
+                        { name: "👤 Added By", value: `<@${todo.added_by}>`, inline: true }
                     )
 
                 await interaction.editReply({ embeds: [info], components: [] });
