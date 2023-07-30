@@ -1,7 +1,7 @@
 import ExtendedClient from "../../classes/ExtendedClient";
 import { User as UserType } from "discord.js";
 
-import createLog from "../../util/logs/createLog";
+import { createLog } from "../../util/logger";
 
 import Message from "../../models/Message";
 import User from "../../models/User";

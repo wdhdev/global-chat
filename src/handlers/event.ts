@@ -1,7 +1,7 @@
 import ExtendedClient from "../classes/ExtendedClient";
 
 import fs from "fs";
-import getDirs from "../functions/getDirs";
+import { getDirs } from "../util/functions";
 
 export = async (client: ExtendedClient, Discord: any) => {
     async function loadDir(dir: String) {

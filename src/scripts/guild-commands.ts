@@ -2,7 +2,7 @@ import ExtendedClient from "../classes/ExtendedClient";
 import { REST, Routes } from "discord.js";
 
 import fs from "fs";
-import getDirs from "../functions/getDirs";
+import { getDirs } from "../util/functions";
 
 require("dotenv").config();
 

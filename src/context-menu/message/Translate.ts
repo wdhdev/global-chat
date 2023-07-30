@@ -10,11 +10,11 @@ const command: ContextCommand = {
     type: 3,
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
-    cooldown: 3,
+    requiredRoles: [],
+    cooldown: 5,
     enabled: true,
     allowWhileBanned: false,
-    guildOnly: true,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: MessageContextMenuCommandInteraction, client: ExtendedClient, Discord: any) {
@@ -32,10 +32,19 @@ const command: ContextCommand = {
 
             const result = await translate(message.content, "auto", "en");
 
-            if(!result.status || result.translated.toLowerCase() === message.content.toLowerCase()) {
+            if(!result.status) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} That message could not be translated.`)
+
+                await interaction.editReply({ embeds: [error] });
+                return;
+            }
+
+            if(result.translated.toLowerCase() === message.content.toLowerCase()) {
+                const error = new Discord.EmbedBuilder()
+                    .setColor(client.config_embeds.error)
+                    .setDescription(`${emoji.cross} That message has no content that needs to be translated!`)
 
                 await interaction.editReply({ embeds: [error] });
                 return;

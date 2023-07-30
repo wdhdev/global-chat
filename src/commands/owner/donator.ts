@@ -2,7 +2,7 @@ import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
-import createLog from "../../util/logs/createLog";
+import { createLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
 
 import User from "../../models/User";

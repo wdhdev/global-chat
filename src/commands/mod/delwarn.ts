@@ -2,7 +2,7 @@ import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
-import createInfractionLog from "../../util/logs/createInfractionLog";
+import { createInfractionLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
 import { Types } from "mongoose";
 

@@ -7,7 +7,7 @@ import markdown from "./tests/markdown";
 import phishing from "./tests/phishing";
 import profanity from "./tests/profanity";
 
-export default async function (message: Message, client: ExtendedClient, Discord: any) {
+export default async function (message: Message, client: ExtendedClient, Discord: any): Promise<boolean> {
     if(!message.content.length) return false;
 
     // Phishing

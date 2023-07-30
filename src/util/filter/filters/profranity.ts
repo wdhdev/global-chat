@@ -5,7 +5,7 @@ import replaceContent from "../replaceContent";
 
 import { default as FilterModel } from "../../../models/Filter";
 
-export default async function (message: Message) {
+export default async function (message: Message): Promise<Result> {
     const autobanFilter: Filter = await FilterModel.findOne({ _id: "autoban" }) || { _id: "whitelist", words: [] };
     const blacklistFilter: Filter = await FilterModel.findOne({ _id: "blacklist" }) || { _id: "blacklist", words: [] };
 
@@ -32,16 +32,25 @@ export default async function (message: Message) {
 
     if(matches.length) {
         return {
-            "result": true,
-            "matches": matches,
-            "filter": {
-                "autoban": autoban,
-                "blacklist": blacklist
+            result: true,
+            matches: matches,
+            filter: {
+                autoban: autoban,
+                blacklist: blacklist
             }
         }
     } else {
         return {
-            "result": false
+            result: false
         }
+    }
+}
+
+type Result = {
+    result: boolean,
+    matches?: string[]
+    filter?: {
+        autoban: boolean,
+        blacklist: boolean
     }
 }

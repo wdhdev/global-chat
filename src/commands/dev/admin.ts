@@ -1,8 +1,8 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import { CommandInteraction, GuildMember } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
-import createLog from "../../util/logs/createLog";
+import { createLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
 
 import Task from "../../models/Task";

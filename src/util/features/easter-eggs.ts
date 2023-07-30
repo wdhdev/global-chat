@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/node";
 import fetch from "node-fetch";
 
-export default async function (content: String) {
+export default async function (content: string): Promise<string | unknown> {
     try {
         const insensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/insensitive.json").then(res => res.json());
         const sensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/sensitive.json").then(res => res.json());

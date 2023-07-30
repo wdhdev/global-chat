@@ -7,7 +7,7 @@ import path from "path";
 import BannedUser from "../../../models/BannedUser";
 import BlockedMessage from "../../../models/BlockedMessage";
 
-export default async function (message: Message, client: ExtendedClient & any, Discord: any) {
+export default async function (message: Message, client: ExtendedClient & any, Discord: any): Promise<boolean> {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
@@ -106,6 +106,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
                     .setStyle(Discord.ButtonStyle.Secondary)
                     .setCustomId(`blocked-message-ban-${message.author.id}`)
                     .setEmoji("🔨")
+                    .setLabel("Ban")
             )
         }
 

@@ -8,7 +8,6 @@ Sentry.init({
 })
 
 import Discord from "discord.js";
-
 import ExtendedClient from "./classes/ExtendedClient";
 import config from "./config";
 
@@ -26,7 +25,7 @@ const client = new ExtendedClient({
 })
 
 // Error Handling
-process.on("unhandledRejection", (err) => Sentry.captureException(err));
+process.on("unhandledRejection", (err: Error) => Sentry.captureException(err));
 
 // Connect to Database
 import database from "./util/database";
@@ -44,8 +43,8 @@ client.commands = new Discord.Collection();
 client.contextCommands = new Discord.Collection();
 client.events = new Discord.Collection();
 
-import loadHandlers from "./functions/loadHandlers";
-loadHandlers(client, Discord);
+import { loadHandlers } from "./util/functions";
+loadHandlers(client);
 
 // Login
 client.login(process.env.token);

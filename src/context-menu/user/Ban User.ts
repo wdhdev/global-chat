@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { Interaction, UserContextMenuCommandInteraction } from "discord.js";
 
 import { cannotBanBots, cannotBanUser, cannotBanYourself } from "../../util/embeds";
-import createInfractionLog from "../../util/logs/createInfractionLog";
+import { createInfractionLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
 
 import BannedUser from "../../models/BannedUser";

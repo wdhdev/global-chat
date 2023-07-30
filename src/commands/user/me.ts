@@ -3,8 +3,8 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
+import { getRoleArray, Role, getRoleWithEmoji } from "../../classes/Roles";
 import getRoles from "../../functions/roles/get";
-import { Role } from "../../classes/Roles";
 
 import BlockedMessage from "../../models/BlockedMessage";
 import GitHubUser from "../../models/GitHubUser";
@@ -20,22 +20,21 @@ const command: Command = {
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,
-    guildOnly: true,
+    guildOnly: false,
     deferReply: true,
     ephemeral: true,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             // Roles
-            const roles: Role[] = (await getRoles(interaction.user.id, client)).get();
+            const roleArray: Role[] = getRoleArray(await getRoles(interaction.user.id, client));
+            const roles = roleArray.map(role => getRoleWithEmoji(role));
 
             // Linked Accounts
             const accounts = [];
 
             const github = await GitHubUser.findOne({ _id: interaction.user.id });
 
-            if(github) {
-                accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
-            }
+            if(github) accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
 
             // Statistics
             const blocked = (await BlockedMessage.find({ user: interaction.user.id })).length;

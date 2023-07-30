@@ -4,8 +4,8 @@ import { UserContextMenuCommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 import { getInfractions } from "../../classes/Infraction";
+import { getRoleArray, Role, getRoleWithEmoji } from "../../classes/Roles";
 import getRoles from "../../functions/roles/get";
-import { Role } from "../../classes/Roles";
 
 import BannedUser from "../../models/BannedUser";
 import BlockedMessage from "../../models/BlockedMessage";
@@ -41,16 +41,15 @@ const command: ContextCommand = {
             const banData = banned ? `🕰️ <t:${banInfo.timestamp.slice(0, -3)}> (<t:${banInfo.timestamp.slice(0, -3)}:R>)\n📜 ${banInfo.allowAppeal ? "Appealable" : "Not Appealable"}\n❓ ${banInfo.reason}\n🔨 <@${banInfo.mod}>` : null;
 
             // Roles
-            const roles: Role[] = (await getRoles(interaction.user.id, client)).get();
+            const roleArray: Role[] = getRoleArray(await getRoles(user.id, client));
+            const roles = roleArray.map(role => getRoleWithEmoji(role));
 
             // Linked Accounts
             const accounts = [];
 
             const github = await GitHubUser.findOne({ _id: user.id });
 
-            if(github) {
-                accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
-            }
+            if(github) accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
 
             // Statistics
             const blocked = (await BlockedMessage.find({ user: user.id })).length;

@@ -5,10 +5,10 @@ import Roles from "../../classes/Roles";
 
 import User from "../../models/User";
 
-export default async function (userId: Snowflake, client: ExtendedClient) {
+export default async function (userId: Snowflake, client: ExtendedClient): Promise<Roles> {
     const data = await User.findOne({ _id: userId });
 
-    const roles: Roles = {
+    return {
         owner: client.config_main.owner === userId,
         dev: data?.dev ? true : false,
         mod: data?.mod ? true : false,
@@ -16,6 +16,4 @@ export default async function (userId: Snowflake, client: ExtendedClient) {
         verified: data?.verified ? true : false,
         immunity: data?.immune ? true : false
     }
-
-    return roles;
 }

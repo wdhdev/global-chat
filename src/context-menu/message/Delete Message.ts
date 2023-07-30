@@ -2,7 +2,7 @@ import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
-import createLog from "../../util/logs/createLog";
+import { createLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
 import { noMessage, noPermissionCommand } from "../../util/embeds";
 

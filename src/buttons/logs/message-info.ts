@@ -28,7 +28,7 @@ const button: Button = {
                 )
 
             if(!interaction.message.components[0].components[1].data.disabled) {
-                info.setDescription(`📤 Sent to ${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}.`);
+                info.addFields({ name: "📤 Sent To", value: `${data.messages.length} guild${data.messages.length === 1 ? "" : "s"}` });
             }
 
             await interaction.reply({ embeds: [info], ephemeral: true });

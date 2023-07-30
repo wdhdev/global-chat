@@ -1,4 +1,4 @@
-import { ColorResolvable, EmojiResolvable, RoleResolvable, Snowflake } from "discord.js";
+import { ColorResolvable, EmojiResolvable, Snowflake } from "discord.js";
 
 const channels: { [key: string]: Snowflake } = {
     appeals: "1083298359319736320",
@@ -35,7 +35,7 @@ const main = {
     primaryGuild: "1067023529226293248" as Snowflake // Global Chat Support
 }
 
-const roles: { [key: string]: RoleResolvable } = {
+const roles: { [key: string]: Snowflake } = {
     dev: "1067023529305976898",
     donator: "1127426331286712320",
     mod: "1082167230357307402",

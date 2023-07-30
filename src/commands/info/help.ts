@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import fs from "fs";
-import getDirs from "../../functions/getDirs";
+import { getDirs } from "../../util/functions";
 
 const command: Command = {
     name: "help",

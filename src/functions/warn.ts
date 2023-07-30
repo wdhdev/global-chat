@@ -1,11 +1,11 @@
 import { Snowflake } from "discord.js";
 
-import createInfractionLog from "../util/logs/createInfractionLog";
+import { createInfractionLog } from "../util/logger";
 import { randomUUID } from "crypto";
 
 import Infraction from "../models/Infraction";
 
-export default async function (user: Snowflake, reason: string, mod: Snowflake) {
+export default async function (user: Snowflake, reason: string, mod: Snowflake): Promise<string> {
     let data = await Infraction.findOne({ _id: user });
 
     const id = randomUUID().slice(0, 8);

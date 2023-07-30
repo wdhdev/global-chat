@@ -2,7 +2,7 @@ import Button from "../../classes/Button";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { ButtonInteraction } from "discord.js";
 
-import createLog from "../../util/logs/createLog";
+import { createLog } from "../../util/logger";
 import { noMessage } from "../../util/embeds";
 
 import Message from "../../models/Message";

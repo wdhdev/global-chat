@@ -3,7 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import getDomain from "../../functions/getDomain";
+import { getDomain } from "../../util/functions";
 
 import WhitelistedDomain from "../../models/WhitelistedDomain";
 

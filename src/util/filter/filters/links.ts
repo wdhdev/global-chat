@@ -1,11 +1,11 @@
 import Roles from "../../../classes/Roles";
 import { Message } from "discord.js";
 
-import getDomain from "../../../functions/getDomain";
+import { getDomain } from "../../../util/functions";
 
 import WhitelistedDomain from "../../../models/WhitelistedDomain";
 
-export default async function (message: Message, role: Roles) {
+export default async function (message: Message, role: Roles): Promise<Result> {
     const regex = new RegExp(/(?:https?:\/\/)[a-z0-9_\-\.]*[a-z0-9_\-]{2,}\.[a-z]{2,}/g);
 
     const regexMatches = message.content.match(regex) || [];
@@ -21,12 +21,17 @@ export default async function (message: Message, role: Roles) {
 
     if(matches.length && !role.verified) {
         return {
-            "result": true,
-            "matches": matches
+            result: true,
+            matches: matches
         }
     } else {
         return {
-            "result": false
+            result: false
         }
     }
+}
+
+type Result = {
+    result: boolean,
+    matches?: string[]
 }

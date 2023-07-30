@@ -2,6 +2,7 @@ import ContextCommand from "../../classes/ContextCommand";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
+import { createLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
 import { noMessage } from "../../util/embeds";
 
@@ -53,12 +54,14 @@ const command: ContextCommand = {
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Secondary)
                         .setCustomId(`report-ban-${data.user}`)
-                        .setEmoji("🔨"),
+                        .setEmoji("🔨")
+                        .setLabel("Ban User"),
 
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Secondary)
                         .setCustomId(`delete-message-${data._id}`)
                         .setEmoji("🗑️")
+                        .setLabel("Delete Message")
                 )
 
             let user = null;
@@ -74,6 +77,8 @@ const command: ContextCommand = {
             if(data.content) messageEmbed.setDescription(data.content);
 
             reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report, messageEmbed], components: [actions] });
+
+            await createLog(interaction.user.id, data._id, "messageReport", null, data.user);
 
             const submitted = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

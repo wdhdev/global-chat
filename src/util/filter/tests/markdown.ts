@@ -6,7 +6,7 @@ import path from "path";
 
 import BlockedMessage from "../../../models/BlockedMessage";
 
-export default async function (message: Message, client: ExtendedClient & any, Discord: any) {
+export default async function (message: Message, client: ExtendedClient & any, Discord: any): Promise<boolean> {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
     const filterResult = await filter(message);
@@ -58,6 +58,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
                     .setStyle(Discord.ButtonStyle.Secondary)
                     .setCustomId(`blocked-message-ban-${message.author.id}`)
                     .setEmoji("🔨")
+                    .setLabel("Ban")
             )
 
         blockedChannel.send({ embeds: [blocked], components: [actions], files: attachment ? [attachment] : [] });

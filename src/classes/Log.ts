@@ -1,7 +1,7 @@
 import { Snowflake } from "discord.js";
 
 import AuditLog from "../models/AuditLog";
-import { Role, roleWithEmoji } from "./Roles";
+import { Role, getRoleWithEmoji } from "./Roles";
 
 export default class Log {
     public id?: String;
@@ -38,8 +38,9 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
             if(log.event === "immunityAdd") logs.push(`😇 Immunity added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "immunityRemove") logs.push(`😇 Immunity removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "messageDelete") logs.push(`🗑️ Deleted message \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
-            if(log.event === "roleAdd") logs.push(`${roleWithEmoji(log.role)} role added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
-            if(log.event === "roleRemove") logs.push(`${roleWithEmoji(log.role)} role removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "messageReport") logs.push(`❗ Reported message \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "roleAdd") logs.push(`${getRoleWithEmoji(log.role)} role added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "roleRemove") logs.push(`${getRoleWithEmoji(log.role)} role removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
 
             i++;
         }
@@ -48,4 +49,4 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
     return logs;
 }
 
-export type Event =  "appealApprove" | "appealCreate" | "appealDelete" | "appealDeny" | "immunityAdd" | "immunityRemove" | "messageDelete" | "roleAdd" | "roleRemove";
+export type Event =  "appealApprove" | "appealCreate" | "appealDelete" | "appealDeny" | "immunityAdd" | "immunityRemove" | "messageDelete" | "messageReport" | "roleAdd" | "roleRemove";
