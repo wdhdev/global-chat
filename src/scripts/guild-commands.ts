@@ -27,14 +27,11 @@ export default async function (client: ExtendedClient) {
                 } catch {}
             }
 
-            for(const guild of client.config_main.primaryGuild) {
-                try {
-                    await rest.put(Routes.applicationGuildCommands(process.env.clientId, guild), { body: commands });
-                    console.log(`Registered guild commands to ${guild}!`);
-                } catch(err) {
-                    console.log(`Failed to register guild commands to ${guild}!`);
-                    continue;
-                }
+            try {
+                await rest.put(Routes.applicationGuildCommands(process.env.clientId, client.config_main.primaryGuild), { body: commands });
+                console.log(`Registered guild commands to ${client.config_main.primaryGuild}!`);
+            } catch(err) {
+                console.log(`Failed to register guild commands to ${client.config_main.primaryGuild}!`);
             }
         } catch(err) {
             client.sentry.captureException(err);
