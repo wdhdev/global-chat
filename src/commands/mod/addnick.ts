@@ -22,6 +22,8 @@ const command: Command = {
             type: 3,
             name: "nick",
             description: "The nickname to add.",
+            min_length: 4,
+            max_length: 10,
             required: true
         }
     ],
