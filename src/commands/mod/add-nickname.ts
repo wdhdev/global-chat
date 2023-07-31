@@ -64,7 +64,7 @@ const command: Command = {
                 .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
                 .setTitle("🪪 Nickname Changed")
                 .addFields (
-                    { name: "Old Nickname", value: `\`${userData?.nickname}\`` || "*None*", inline: true },
+                    { name: "Old Nickname", value: userData?.nickname ? `\`${userData?.nickname}\`` : "*None*", inline: true },
                     { name: "New Nickname", value: `\`${nickname}\``, inline: true },
                     { name: "User", value: `${user}` }
                 )
