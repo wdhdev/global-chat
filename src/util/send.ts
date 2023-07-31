@@ -8,7 +8,7 @@ import getRoles from "../functions/roles/get";
 import levelRoles from "../functions/roles/levelRoles";
 import path from "path";
 import test from "./filter/test";
-
+import User from "../models/User";
 import BannedUser from "../models/BannedUser";
 import Guild from "../models/Guild";
 import Message from "../models/Message";
@@ -17,6 +17,8 @@ const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 
 export default async (message: MessageType, client: ExtendedClient & any, Discord: any) => {
     const role = await getRoles(message.author.id, client);
+    const Userdata = await User.findOne({ _id: message.author.id });
+    const nick = Userdata?.nick ? Userdata.nick : null;
 
     try {
         message.delete();
@@ -160,8 +162,13 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                 if(data.webhook) {
                     try {
                         const webhook = new Discord.WebhookClient({ url: data.webhook });
-
-                        const username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
+                        let username= null;
+                        if (nick){
+                            username = nick;
+                        }
+                        else{
+                            username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
+                        }
                         let webhookUsername = username;
 
                         if(role.verified) webhookUsername = `${username} ✅`;
@@ -273,6 +280,7 @@ export async function announce(text: String, interaction: CommandInteraction, cl
             if(!guild.members.me.permissions.has(requiredPerms)) return resolve();
 
             const data = await Guild.findOne({ _id: guildId });
+            
 
             if(!data) return resolve();
 

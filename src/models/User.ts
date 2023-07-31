@@ -6,7 +6,9 @@ const schema = new Schema({
     dev: Boolean,
     mod: Boolean,
     verified: Boolean,
-    donator: Boolean
+    donator: Boolean,
+    nick: String
 })
 
 export default model("users", schema, "users");
+
