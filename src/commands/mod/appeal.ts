@@ -52,7 +52,7 @@ const command: Command = {
     allowWhileBanned: false,
     guildOnly: true,
     deferReply: true,
-    ephemeral: true,
+    ephemeral: false,
     async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -73,7 +73,7 @@ const command: Command = {
 
                 await appeal.delete();
 
-                await createLog(appeal._id, appeal.id, "appealDelete", null, interaction.user.id);
+                await createLog(appeal._id, appeal.id, "appealDelete", null, null, interaction.user.id);
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

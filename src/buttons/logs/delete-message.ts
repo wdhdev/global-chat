@@ -46,7 +46,7 @@ const button: Button = {
             }
 
             Promise.all(promises).then(async () => {
-                await createLog(interaction.user.id, data._id, "messageDelete", null, data.user);
+                await createLog(interaction.user.id, data._id, "messageDelete", null, null, data.user);
 
                 await interaction.deferUpdate();
 

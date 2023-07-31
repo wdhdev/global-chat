@@ -6,7 +6,7 @@ import { Snowflake } from "discord.js";
 import AuditLog from "../models/AuditLog";
 import { default as InfractionModel } from "../models/Infraction";
 
-export async function createLog(user: Snowflake, id: string, event: LogEvent, role: Role, by: Snowflake) {
+export async function createLog(user: Snowflake, id: string, event: LogEvent, nickname: string, role: Role, by: Snowflake) {
     let data = await AuditLog.findOne({ _id: user });
 
     const log: Log = {
@@ -15,6 +15,7 @@ export async function createLog(user: Snowflake, id: string, event: LogEvent, ro
     }
 
     if(id) log["id"] = id;
+    if(nickname) log["nickname"] = nickname;
     if(role) log["role"] = role;
     if(by) log["by"] = by;
 

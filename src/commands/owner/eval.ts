@@ -24,10 +24,10 @@ const command: Command = {
     allowWhileBanned: false,
     guildOnly: true,
     deferReply: true,
-    ephemeral: true,
+    ephemeral: false,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            const input: any = interaction.options.get("code").value;
+            const input = interaction.options.get("code").value;
 
             try {
                 const output = new String(await eval(`(async () => {${input}})()`));

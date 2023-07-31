@@ -20,7 +20,7 @@ const command: Command = {
     allowWhileBanned: false,
     guildOnly: false,
     deferReply: true,
-    ephemeral: true,
+    ephemeral: false,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const data = await Guild.findOne({ _id: interaction.guild.id });
@@ -40,7 +40,7 @@ const command: Command = {
                 .setTitle("Delete Guild Data")
                 .setDescription("Are you sure you want to delete all data associated with this guild?\n**This cannot be undone.**")
                 .addFields (
-                    { name: "What will be deleted?", value: "📝 Register Data\n🪝 Webhooks" }
+                    { name: "✅ Will be deleted", value: "📝 Register Data\n🪝 Webhooks" }
                 )
                 .setTimestamp()
 
@@ -57,7 +57,8 @@ const command: Command = {
                         .setLabel("Cancel")
                 )
 
-            await interaction.editReply({ embeds: [confirmation], components: [actions] })
+            await interaction.editReply({ embeds: [confirmation], components: [actions] });
+
             const collector = interaction.channel.createMessageComponentCollector({ componentType: Discord.ComponentType.Button, time: 30000 });
 
             collector.on("collect", async c => {

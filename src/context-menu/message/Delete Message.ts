@@ -57,7 +57,7 @@ const command: ContextCommand = {
             }
 
             Promise.all(promises).then(async () => {
-                await createLog(interaction.user.id, data._id, "messageDelete", null, data.user);
+                await createLog(interaction.user.id, data._id, "messageDelete", null, null, data.user);
 
                 const result = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

@@ -37,8 +37,8 @@ const command: Command = {
                 .setTitle("Delete My Data")
                 .setDescription("Are you sure you want to delete all data associated with your account?\n**This cannot be undone.**")
                 .addFields (
-                    { name: "What will be deleted?", value: "🎭 Roles\n🔗 Linked Accounts", inline: true },
-                    { name: "What will not be deleted?", value: "🔨 Ban Data\n💬 Messages\n⛔ Blocked Messages", inline: true }
+                    { name: "✅ Will be deleted", value: "🎭 Roles\n🔗 Linked Accounts", inline: true },
+                    { name: "❌ Won't be deleted", value: "📜 Audit Logs\n📝 Infractions\n🔨 Ban Data\n💬 Messages\n⛔ Blocked Messages", inline: true }
                 )
                 .setTimestamp()
 

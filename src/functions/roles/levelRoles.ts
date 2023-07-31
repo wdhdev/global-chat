@@ -22,7 +22,7 @@ export default async function (user: UserType, client: ExtendedClient & any, Dis
             await User.findOneAndUpdate({ _id: user.id }, { verified: true });
         }
 
-        await createLog(user.id, null, "roleAdd", "verified", client.user.id);
+        await createLog(user.id, null, "roleAdd", null, "verified", client.user.id);
 
         const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 

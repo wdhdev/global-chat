@@ -97,7 +97,7 @@ const button: Button = {
                         status: "NOT_REVIEWED"
                     }).save()
 
-                    await createLog(interaction.user.id, id, "appealCreate", null, null);
+                    await createLog(interaction.user.id, id, "appealCreate", null, null, null);
 
                     const appealsChannel = client.channels.cache.get(client.config_channels.appeals);
 

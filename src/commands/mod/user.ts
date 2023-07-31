@@ -31,7 +31,7 @@ const command: Command = {
     allowWhileBanned: false,
     guildOnly: true,
     deferReply: true,
-    ephemeral: true,
+    ephemeral: false,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
             const user = interaction.options.getUser("user");

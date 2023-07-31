@@ -7,6 +7,7 @@ export default class Log {
     public id?: String;
     public timestamp: number;
     public event: Event;
+    public nickname?: String;
     public role?: Role;
     public by?: Snowflake;
 }
@@ -39,6 +40,8 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
             if(log.event === "immunityRemove") logs.push(`😇 Immunity removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "messageDelete") logs.push(`🗑️ Deleted message \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "messageReport") logs.push(`❗ Reported message \`${log.id}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "nicknameAdd") logs.push(`➕ Nickname set to \`${log.nickname}\`${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
+            if(log.event === "nicknameRemove") logs.push(`➖ Nickname removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "roleAdd") logs.push(`${getRoleWithEmoji(log.role)} role added${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(log.event === "roleRemove") logs.push(`${getRoleWithEmoji(log.role)} role removed${!short ? ` by <@${log.by}> @ <t:${log.timestamp.toString().slice(0, -3)}>` : ""}`);
 
@@ -49,4 +52,4 @@ export async function getLogs(user: Snowflake, max: number, short: boolean): Pro
     return logs;
 }
 
-export type Event =  "appealApprove" | "appealCreate" | "appealDelete" | "appealDeny" | "immunityAdd" | "immunityRemove" | "messageDelete" | "messageReport" | "roleAdd" | "roleRemove";
+export type Event =  "appealApprove" | "appealCreate" | "appealDelete" | "appealDeny" | "immunityAdd" | "immunityRemove" | "messageDelete" | "messageReport" | "nicknameAdd" | "nicknameRemove" | "roleAdd" | "roleRemove";

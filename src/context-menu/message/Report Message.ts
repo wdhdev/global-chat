@@ -78,7 +78,7 @@ const command: ContextCommand = {
 
             reportChannel.send({ content: `<@&${client.config_roles.mod}>`, embeds: [report, messageEmbed], components: [actions] });
 
-            await createLog(interaction.user.id, data._id, "messageReport", null, data.user);
+            await createLog(interaction.user.id, data._id, "messageReport", null, null, data.user);
 
             const submitted = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

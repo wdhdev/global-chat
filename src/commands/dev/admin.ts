@@ -223,7 +223,7 @@ const command: Command = {
                         await User.findOneAndUpdate({ _id: user.id }, { mod: true });
                     }
 
-                    await createLog(user.id, null, "roleAdd", "mod", interaction.user.id);
+                    await createLog(user.id, null, "roleAdd", null, "mod", interaction.user.id);
 
                     const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
@@ -264,7 +264,7 @@ const command: Command = {
 
                     await User.findOneAndUpdate({ _id: user.id }, { mod: false });
 
-                    await createLog(user.id, null, "roleRemove", "mod", interaction.user.id);
+                    await createLog(user.id, null, "roleRemove", null, "mod", interaction.user.id);
 
                     const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
@@ -431,7 +431,7 @@ const command: Command = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { verified: false });
 
-                await createLog(user.id, null, "roleRemove", "verified", interaction.user.id);
+                await createLog(user.id, null, "roleRemove", null, "verified", interaction.user.id);
 
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
@@ -516,7 +516,7 @@ const command: Command = {
                     await User.findOneAndUpdate({ _id: user.id }, { verified: true });
                 }
 
-                await createLog(user.id, null, "roleAdd", "verified", interaction.user.id);
+                await createLog(user.id, null, "roleAdd", null, "verified", interaction.user.id);
 
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 

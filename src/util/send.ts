@@ -17,8 +17,6 @@ const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 
 export default async (message: MessageType, client: ExtendedClient & any, Discord: any) => {
     const role = await getRoles(message.author.id, client);
-    const Userdata = await User.findOne({ _id: message.author.id });
-    const nick = Userdata?.nick ? Userdata.nick : null;
 
     try {
         message.delete();
@@ -101,9 +99,13 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
     }
 
+    const userData = await User.findOne({ _id: message.author.id });
+
+    const nickname = userData?.nickname ? userData.nickname : null;
+
     // Embed message
     const chat = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: nickname ? `^${nickname}` : message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     if(content.length) chat.setDescription(content);
@@ -162,23 +164,18 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                 if(data.webhook) {
                     try {
                         const webhook = new Discord.WebhookClient({ url: data.webhook });
-                        let username= null;
-                        if (nick){
-                            username = nick;
-                        }
-                        else{
-                            username = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
-                        }
-                        let webhookUsername = username;
 
-                        if(role.verified) webhookUsername = `${username} ✅`;
-                        if(role.donator) webhookUsername = `${username} 💸`;
-                        if(role.mod) webhookUsername = `${username} 🔨`;
-                        if(role.dev) webhookUsername = `${username} 💻`;
+                        const userUsername = nickname ? `^${nickname}` : message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
+                        let username = null;
+
+                        if(role.verified) username = `${userUsername} ✅`;
+                        if(role.donator) username = `${userUsername} 💸`;
+                        if(role.mod) username = `${userUsername} 🔨`;
+                        if(role.dev) username = `${userUsername} 💻`;
 
                         if(reply) {
                             await webhook.send({
-                                username: webhookUsername,
+                                username: username,
                                 avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 embeds: [replyEmbed],
@@ -186,7 +183,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                             }).then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
                         } else {
                             await webhook.send({
-                                username: webhookUsername,
+                                username: username,
                                 avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 allowedMentions: { parse: [] }

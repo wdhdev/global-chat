@@ -16,7 +16,7 @@ const command: Command = {
     allowWhileBanned: false,
     guildOnly: false,
     deferReply: true,
-    ephemeral: true,
+    ephemeral: false,
     async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
         try {
             const permissions: any = {
