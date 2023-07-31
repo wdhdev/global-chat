@@ -8,7 +8,7 @@ import { Types } from "mongoose";
 
 
 const command: Command = {
-    name: "delwarn",
+    name: "addnick",
     description: "[MODERATOR ONLY] Add a nickname to a user.",
     options: [
         {
