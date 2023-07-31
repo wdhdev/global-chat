@@ -121,7 +121,7 @@ const command: Command = {
                 const data = await Filter.findOne({ _id: filter });
 
                 if(!data) {
-                    new Filter({
+                    await new Filter({
                         _id: filter,
                         words: [word.toLowerCase()]
                     }).save()

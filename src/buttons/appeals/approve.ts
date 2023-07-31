@@ -48,14 +48,12 @@ const button: Button = {
 
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
-                .setTitle("Approve Appeal")
+                .setTitle(`Approve Appeal: ${data._id}`)
 
             const modalReason = new Discord.TextInputBuilder()
                 .setCustomId(`modal-reason-${interaction.id}`)
                 .setStyle(Discord.TextInputStyle.Paragraph)
-                .setLabel("Why should this appeal be approved?")
-                .setPlaceholder("This appeal should be approved because...")
-                .setMinLength(5)
+                .setLabel("Reason")
                 .setMaxLength(250)
                 .setRequired(true)
 

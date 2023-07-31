@@ -47,7 +47,7 @@ const command: Command = {
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
-    cooldown: 5,
+    cooldown: 0,
     enabled: true,
     allowWhileBanned: false,
     guildOnly: true,

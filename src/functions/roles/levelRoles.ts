@@ -17,7 +17,7 @@ export default async function (user: UserType, client: ExtendedClient & any, Dis
         const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
         if(!userData) {
-            new User({ _id: user.id, verified: true }).save();
+            await new User({ _id: user.id, verified: true }).save();
         } else {
             await User.findOneAndUpdate({ _id: user.id }, { verified: true });
         }

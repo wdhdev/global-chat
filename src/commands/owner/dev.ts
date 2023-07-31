@@ -76,7 +76,7 @@ const command: Command = {
                 }
 
                 if(!userData) {
-                    new User({ _id: user.id, dev: true }).save();
+                    await new User({ _id: user.id, dev: true }).save();
                 } else {
                     await User.findOneAndUpdate({ _id: user.id }, { dev: true });
                 }

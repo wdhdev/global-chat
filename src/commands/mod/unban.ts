@@ -59,7 +59,7 @@ const command: Command = {
 
             const userDM = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.green)
-                .setTitle("Unbanned")
+                .setTitle("🙌 Unban")
                 .setDescription(`${emoji.tick} You have been unbanned from Global Chat.`)
                 .addFields (
                     { name: "❓ Reason", value: reason }

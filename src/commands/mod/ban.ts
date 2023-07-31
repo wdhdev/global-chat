@@ -67,7 +67,7 @@ const command: Command = {
                 return;
             }
 
-            new BannedUser({
+            await new BannedUser({
                 _id: user.id,
                 timestamp: Date.now(),
                 allowAppeal: appealable,
@@ -79,8 +79,7 @@ const command: Command = {
 
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setTitle("Banned")
-                .setDescription("ℹ️ You have been banned from using Global Chat.")
+                .setTitle("🔨 Ban")
                 .addFields (
                     { name: "❓ Reason", value: reason },
                     { name: "📜 Appealable", value: appealable ? "✅" : "❌" }

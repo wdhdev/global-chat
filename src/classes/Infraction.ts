@@ -30,10 +30,9 @@ export async function getInfractions(user: Snowflake, max: number, short: boolea
             }
 
             if(infraction.event === "ban") infractions.push(`🔨 Banned${!short ? ` by <@${infraction.mod}> @ <t:${infraction.timestamp.toString().slice(0, -3)}>` : ""}`);
-            if(infraction.event === "deleteWarning") infractions.push(`🗑️ Warning \`${infraction.id}\` deleted${!short ? ` by <@${infraction.mod}> @ <t:${infraction.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(infraction.event === "unban") infractions.push(`🙌 Unbanned${!short ? ` by <@${infraction.mod}> @ <t:${infraction.timestamp.toString().slice(0, -3)}>` : ""}`);
             if(infraction.event === "warn") infractions.push(`⚠️ Warning \`${infraction.id}\`${!short ? ` by <@${infraction.mod}> @ <t:${infraction.timestamp.toString().slice(0, -3)}>` : ""}`);
-
+            if(infraction.event === "warnDelete") infractions.push(`🗑️ Warning \`${infraction.id}\` deleted${!short ? ` by <@${infraction.mod}> @ <t:${infraction.timestamp.toString().slice(0, -3)}>` : ""}`);
             i++;
         }
     }
@@ -41,4 +40,4 @@ export async function getInfractions(user: Snowflake, max: number, short: boolea
     return infractions;
 }
 
-export type Event = "ban" | "deleteWarning" | "unban" | "warn";
+export type Event = "ban" | "unban" | "warn" | "warnDelete";

@@ -39,7 +39,7 @@ const command: Command = {
             })
 
             if(!await Guild.exists({ _id: interaction.guild.id })) {
-                new Guild({
+                await new Guild({
                     _id: interaction.guild.id,
                     channel: channel.id,
                     webhook: webhook.url

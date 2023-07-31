@@ -93,7 +93,7 @@ const button: Button = {
                         const message = interaction.message;
                         const taskId = require("crypto").randomUUID();
 
-                        new Task({
+                        await new Task({
                             _id: taskId,
                             timestamp: Date.now(),
                             added_by: interaction.user.id,

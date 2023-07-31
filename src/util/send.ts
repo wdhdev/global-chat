@@ -125,12 +125,8 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
             new Discord.ButtonBuilder()
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`delete-message-${message.id}`)
-                .setEmoji("🗑️"),
-
-            new Discord.ButtonBuilder()
-                .setStyle(Discord.ButtonStyle.Secondary)
-                .setCustomId(`message-ban-${message.author.id}`)
-                .setEmoji("🔨")
+                .setEmoji("🗑️")
+                .setLabel("Delete")
         )
 
     if(content.length >= 1) messageLog.setDescription(content);
@@ -222,7 +218,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
     }
 
     Promise.all(promises).then(async () => {
-        new Message({
+        await new Message({
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
@@ -231,9 +227,9 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
         }).save()
 
         messagesChannel.send({ embeds: [messageLog], components: [actions] });
-    })
 
-    await levelRoles(message.author, client, Discord);
+        await levelRoles(message.author, client, Discord);
+    })
 }
 
 export async function announce(text: String, interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
@@ -265,6 +261,7 @@ export async function announce(text: String, interaction: CommandInteraction, cl
                 .setStyle(Discord.ButtonStyle.Secondary)
                 .setCustomId(`delete-message-${interaction.id}`)
                 .setEmoji("🗑️")
+                .setLabel("Delete")
         )
 
     // Send Global Message
@@ -312,7 +309,7 @@ export async function announce(text: String, interaction: CommandInteraction, cl
     }
 
     Promise.all(promises).then(async () => {
-        new Message({
+        await new Message({
             _id: interaction.id,
             user: interaction.user.id,
             guild: interaction.guild.id,

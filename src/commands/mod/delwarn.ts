@@ -58,7 +58,7 @@ const command: Command = {
             data.warnings = data.warnings.filter(warning => !warning.id === warn);
             await data.save();
 
-            await createInfractionLog(user.id, warn, "deleteWarning", interaction.user.id);
+            await createInfractionLog(user.id, warn, "warnDelete", interaction.user.id);
 
             const deleted = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

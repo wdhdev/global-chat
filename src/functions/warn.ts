@@ -11,7 +11,7 @@ export default async function (user: Snowflake, reason: string, mod: Snowflake):
     const id = randomUUID().slice(0, 8);
 
     if(!data) {
-        new Infraction({
+        await new Infraction({
             _id: user,
             audit_log: [],
             warnings: [

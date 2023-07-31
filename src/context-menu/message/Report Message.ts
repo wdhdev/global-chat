@@ -14,7 +14,7 @@ const command: ContextCommand = {
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: [],
-    cooldown: 10,
+    cooldown: 15,
     enabled: true,
     allowWhileBanned: false,
     guildOnly: false,

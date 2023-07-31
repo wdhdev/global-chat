@@ -14,7 +14,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
     const filterResult = await filter(message);
 
     if(filterResult) {
-        new BlockedMessage({
+        await new BlockedMessage({
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
@@ -22,7 +22,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
             reason: "Phishing link detected."
         }).save()
 
-        new BannedUser({
+        await new BannedUser({
             _id: message.author.id,
             timestamp: Date.now(),
             allowAppeal: true,
@@ -53,8 +53,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
 
         const ban = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
-            .setTitle("Banned")
-            .setDescription("ℹ️ You have been banned from using Global Chat.")
+            .setTitle("🔨 Ban")
             .addFields (
                 { name: "❓ Reason", value: "[AUTOMOD] Phishing link detected." },
                 { name: "📜 Appealable", value: "✅" },
@@ -71,7 +70,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
         } catch {}
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` });
-        blocked.addFields ({ name: "⚒️ Action", value: "🔨 Ban" });
+        blocked.addFields({ name: "⚒️ Action", value: "🔨 Ban" });
 
         const actions = new Discord.ActionRowBuilder()
             .addComponents (

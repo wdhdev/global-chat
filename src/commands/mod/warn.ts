@@ -53,8 +53,7 @@ const command: Command = {
 
             const warning = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setTitle("Warning")
-                .setDescription("ℹ️ You have been warned, continuation will result in a ban.")
+                .setTitle("⚠️ Warning")
                 .addFields (
                     { name: "❓ Reason", value: reason }
                 )

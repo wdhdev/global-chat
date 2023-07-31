@@ -53,7 +53,6 @@ const button: Button = {
                 .setCustomId(`modal-banreason-${id}`)
                 .setStyle(Discord.TextInputStyle.Short)
                 .setLabel("Why were you banned?")
-                .setPlaceholder("I was banned for...")
                 .setMinLength(5)
                 .setMaxLength(100)
                 .setRequired(true)
@@ -62,8 +61,7 @@ const button: Button = {
                 .setCustomId(`modal-unbanreason-${id}`)
                 .setStyle(Discord.TextInputStyle.Paragraph)
                 .setLabel("Why should you be unbanned?")
-                .setPlaceholder("I should be unbanned because...")
-                .setMinLength(30)
+                .setMinLength(35)
                 .setMaxLength(250)
                 .setRequired(true)
 

@@ -19,7 +19,7 @@ export async function createLog(user: Snowflake, id: string, event: LogEvent, ro
     if(by) log["by"] = by;
 
     if(!data) {
-        new AuditLog({
+        await new AuditLog({
             _id: user,
             logs: [log]
         }).save()
@@ -41,7 +41,7 @@ export async function createInfractionLog(user: Snowflake, id: string, event: In
     if(id) log["id"] = id;
 
     if(!data) {
-        new InfractionModel({
+        await new InfractionModel({
             _id: user,
             audit_log: [log],
             warnings: []

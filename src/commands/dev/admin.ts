@@ -218,7 +218,7 @@ const command: Command = {
                     }
 
                     if(!userData) {
-                        new User({ _id: user.id, mod: true }).save();
+                        await new User({ _id: user.id, mod: true }).save();
                     } else {
                         await User.findOneAndUpdate({ _id: user.id }, { mod: true });
                     }
@@ -511,7 +511,7 @@ const command: Command = {
                 }
 
                 if(!userData) {
-                    new User({ _id: user.id, verified: true }).save();
+                    await new User({ _id: user.id, verified: true }).save();
                 } else {
                     await User.findOneAndUpdate({ _id: user.id }, { verified: true });
                 }

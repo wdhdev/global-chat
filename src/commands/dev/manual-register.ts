@@ -47,7 +47,7 @@ const command: Command = {
             const guildData = await Guild.findOne({ _id: data.guild_id });
 
             if(!guildData) {
-                new Guild({
+                await new Guild({
                     _id: data.guild_id,
                     channel: data.channel_id,
                     webhook: webhook

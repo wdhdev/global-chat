@@ -4,11 +4,11 @@ import { CommandInteraction } from "discord.js";
 
 import cap from "../../util/cap";
 import { emojis as emoji } from "../../config";
-import { getInfractions } from "../../classes/Infraction";
+import { getWarnings } from "../../classes/Warning";
 
 const command: Command = {
-    name: "my-infractions",
-    description: "Get all of your infractions.",
+    name: "my-warnings",
+    description: "Get all of your warnings.",
     options: [],
     default_member_permissions: null,
     botPermissions: [],
@@ -21,23 +21,23 @@ const command: Command = {
     ephemeral: true,
     async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
-            const infractions = await getInfractions(interaction.user.id, -1, true);
+            const warnings = await getWarnings(interaction.user.id);
 
-            if(!infractions.length) {
+            if(!warnings.length) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You do not have any infractions!`)
+                    .setDescription(`${emoji.cross} You do not have any warnings!`)
 
                 await interaction.editReply({ embeds: [error] });
                 return;
             }
 
-            const infractionLog = new Discord.EmbedBuilder()
+            const warningsLog = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setTitle("Infractions")
-                .setDescription(cap(infractions.join("\n"), 2000))
+                .setTitle("Warnings")
+                .setDescription(cap(warnings.join("\n"), 2000))
 
-            await interaction.editReply({ embeds: [infractionLog] });
+            await interaction.editReply({ embeds: [warningsLog] });
         } catch(err) {
             client.logCommandError(err, interaction, Discord);
         }

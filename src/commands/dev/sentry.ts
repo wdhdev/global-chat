@@ -175,7 +175,7 @@ const command: Command = {
 
                 const id = require("crypto").randomUUID();
 
-                new SentryCapture({
+                await new SentryCapture({
                     _id: id,
                     channel: channel.id,
                     registered: Date.now(),

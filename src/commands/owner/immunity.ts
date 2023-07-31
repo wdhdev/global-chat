@@ -75,7 +75,7 @@ const command: Command = {
                 }
 
                 if(!userData) {
-                    new User({ _id: user.id, immune: true }).save();
+                    await new User({ _id: user.id, immune: true }).save();
                 } else {
                     await User.findOneAndUpdate({ _id: user.id }, { immune: true });
                 }

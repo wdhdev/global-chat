@@ -42,7 +42,7 @@ const command: Command = {
                 return;
             }
 
-            new WhitelistedDomain({
+            await new WhitelistedDomain({
                 _id: domain,
                 timestamp: Date.now(),
                 whitelisted_by: interaction.user.id

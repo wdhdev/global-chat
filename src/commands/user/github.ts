@@ -127,7 +127,7 @@ const command: Command = {
 
                 const token = require("crypto").randomUUID();
 
-                new AuthToken({
+                await new AuthToken({
                     _id: token,
                     user: interaction.user.id,
                     service: "github"

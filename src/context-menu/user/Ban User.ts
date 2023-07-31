@@ -15,7 +15,7 @@ const command: ContextCommand = {
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
-    cooldown: 3,
+    cooldown: 0,
     enabled: true,
     allowWhileBanned: false,
     guildOnly: true,
@@ -44,13 +44,12 @@ const command: ContextCommand = {
 
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
-                .setTitle("Ban User")
+                .setTitle(`Ban ${user.tag.endsWith("#0") ? user.username : user.tag}`)
 
             const modalReason = new Discord.TextInputBuilder()
                 .setCustomId(`modal-reason-${interaction.id}`)
                 .setStyle(Discord.TextInputStyle.Paragraph)
-                .setLabel("Why should this user be banned?")
-                .setPlaceholder("This user should be banned because...")
+                .setLabel("Reason")
                 .setMaxLength(250)
                 .setRequired(true)
 
@@ -91,7 +90,7 @@ const command: ContextCommand = {
                         if(i2.customId === `select-menu-${interaction.id}`) {
                             const appealable = i2.values[0];
 
-                            new BannedUser({
+                            await new BannedUser({
                                 _id: user.id,
                                 timestamp: Date.now(),
                                 allowAppeal: appealable === "true" ? true : false,
@@ -103,8 +102,7 @@ const command: ContextCommand = {
 
                             const ban = new Discord.EmbedBuilder()
                                 .setColor(client.config_embeds.error)
-                                .setTitle("Banned")
-                                .setDescription("ℹ️ You have been banned from using Global Chat.")
+                                .setTitle("🔨 Ban")
                                 .addFields (
                                     { name: "❓ Reason", value: reason },
                                     { name: "📜 Appealable", value: appealable ? "✅" : "❌" }

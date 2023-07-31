@@ -3,6 +3,7 @@ import { Message } from "discord.js";
 
 import filter from "../filters/profranity";
 import path from "path";
+import warn from "../../../functions/warn";
 
 import BannedUser from "../../../models/BannedUser";
 import BlockedMessage from "../../../models/BlockedMessage";
@@ -14,7 +15,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
     const filterResult = await filter(message);
 
     if(filterResult.result) {
-        new BlockedMessage({
+        await new BlockedMessage({
             _id: message.id,
             user: message.author.id,
             guild: message.guild.id,
@@ -27,7 +28,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
             .setDescription(message.content)
             .addFields (
                 { name: "🚩 Filter", value: `🤬 Profanity (${filterResult.filter.autoban ? "autoban" : "blacklist"})` },
-                { name: "❓ Reason", value: `- \`${filterResult.matches.join("\`\n- \`")}\`` }
+                { name: "❓ Reason", value: "[AUTOMOD] Your message includes disallowed profanity." }
             )
 
         let attachment = null;
@@ -52,7 +53,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
             )
 
         if(filterResult.filter.autoban) {
-            new BannedUser({
+            await new BannedUser({
                 _id: message.author.id,
                 timestamp: Date.now(),
                 allowAppeal: true,
@@ -62,8 +63,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
 
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)
-                .setTitle("Banned")
-                .setDescription("ℹ️ You have been banned from using Global Chat.")
+                .setTitle("🔨 Ban")
                 .addFields (
                     { name: "❓ Reason", value: "[AUTOMOD] Profanity included on the autoban filter detected." },
                     { name: "📜 Appealable", value: "✅" },
@@ -79,9 +79,7 @@ export default async function (message: Message, client: ExtendedClient & any, D
                 sentDM = true;
             } catch {}
 
-            blocked.addFields (
-                { name: "⚒️ Action", value: "🔨 Ban" }
-            )
+            blocked.addFields({ name: "⚒️ Action", value: "🔨 Ban" });
 
             const banLog = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
@@ -97,17 +95,30 @@ export default async function (message: Message, client: ExtendedClient & any, D
 
             modLogsChannel.send({ embeds: [banLog] });
         } else {
+            blocked.addFields({ name: "⚒️ Action", value: "⚠️ Warning" });
+
+            const id = await warn(message.author.id, "[AUTOMOD] Your message includes disallowed profanity.", client.user.id);
+
+            let sentDM = false;
+
             try {
                 await message.author.send({ embeds: [blocked], files: attachment ? [attachment] : [] });
+                sentDM = true;
             } catch {}
 
-            actions.addComponents (
-                new Discord.ButtonBuilder()
-                    .setStyle(Discord.ButtonStyle.Secondary)
-                    .setCustomId(`blocked-message-ban-${message.author.id}`)
-                    .setEmoji("🔨")
-                    .setLabel("Ban")
-            )
+            const warnLog = new Discord.EmbedBuilder()
+                .setColor(client.config_embeds.default)
+                .setAuthor({ name: client.user.tag.endsWith("#0") ? client.user.username : client.user.tag, iconURL: client.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${client.user.id}` })
+                .setTitle("User Warned")
+                .addFields (
+                    { name: "📄 ID", value: `\`${id}\`` },
+                    { name: "👤 User", value: `${message.author}` },
+                    { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
+                    { name: "❓ Reason", value: "[AUTOMOD] Your message includes disallowed profanity." }
+                )
+                .setTimestamp()
+
+            modLogsChannel.send({ embeds: [warnLog] });
         }
 
         blocked.setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` });
