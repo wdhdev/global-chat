@@ -20,7 +20,7 @@ const command: Command = {
                     type: 3,
                     name: "prompt",
                     description: "What will trigger the easter egg.",
-                    min_length: 4,
+                    min_length: 3,
                     max_length: 30,
                     required: true
                 },

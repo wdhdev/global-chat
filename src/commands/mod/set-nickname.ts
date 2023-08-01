@@ -8,13 +8,13 @@ import { emojis as emoji } from "../../config";
 import User from "../../models/User";
 
 const command: Command = {
-    name: "add-nickname",
-    description: "[MODERATOR ONLY] Add a nickname to a user.",
+    name: "set-nickname",
+    description: "[MODERATOR ONLY] Set a user's nickname.",
     options: [
         {
             type: 6,
             name: "user",
-            description: "The user to add the nickname to.",
+            description: "The user who's nickname to be changed.",
             required: true
         },
 
@@ -33,7 +33,7 @@ const command: Command = {
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,
-    guildOnly: false,
+    guildOnly: true,
     deferReply: true,
     ephemeral: false,
     async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
@@ -62,7 +62,7 @@ const command: Command = {
             const log = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
                 .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
-                .setTitle("🪪 Nickname Changed")
+                .setTitle("👤 Nickname Changed")
                 .addFields (
                     { name: "Old Nickname", value: userData?.nickname ? `\`${userData?.nickname}\`` : "*None*", inline: true },
                     { name: "New Nickname", value: `\`${nickname}\``, inline: true },
