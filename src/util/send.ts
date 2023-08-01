@@ -166,7 +166,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                         const webhook = new Discord.WebhookClient({ url: data.webhook });
 
                         const userUsername = nickname ? `^${nickname}` : message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
-                        let username = null;
+                        let username = userUsername;
 
                         if(role.verified) username = `${userUsername} ✅`;
                         if(role.donator) username = `${userUsername} 💸`;
