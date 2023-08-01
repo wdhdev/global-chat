@@ -42,7 +42,7 @@ const command: Command = {
                 .addFields (
                     { name: "✅ Will be deleted", value: "📝 Register Data\n🪝 Webhooks" }
                 )
-                .setTimestamp()
+                .setFooter({ text: "This prompt will expire in 30 seconds." })
 
             const actions = new Discord.ActionRowBuilder()
                 .addComponents (
