@@ -11,4 +11,4 @@ A Discord bot which connects many servers together using a text channel!
 - Copying this source code and promoting it as your own.
 - Leaking the source code.
 
-**Breaking any of the usage rules will result in takedowns and removal from this repository.**
+**If you are found to have broken any usage rules, DMCA takedowns will be issued along with your access being removed from this repository permanently.**
