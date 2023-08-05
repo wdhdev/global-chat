@@ -3,6 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 const bot = require("../../../package.json");
+import { emojis as emoji } from "../../config";
 
 import BlockedMessage from "../../models/BlockedMessage";
 import Message from "../../models/Message";
@@ -40,16 +41,16 @@ const command: Command = {
             const messages = await Message.find();
             const blockedMessages = await BlockedMessage.find();
 
-            const stat_guilds = `🗄️ ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
-            const stat_users = `👤 ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
+            const stat_guilds = `${emoji.reply} ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
+            const stat_users = `${emoji.reply} ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
 
-            const stat_developers = `💻 ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
-            const stat_moderators = `🔨 ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
-            const stat_donators = `💸 ${donators.length} Donator${donators.length === 1 ? "" : "s"}`;
-            const stat_verified = `✅ ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
+            const stat_developers = `${emoji.reply} ${developers.length} Developer${developers.length === 1 ? "" : "s"}`;
+            const stat_moderators = `${emoji.reply} ${moderators.length} Moderator${moderators.length === 1 ? "" : "s"}`;
+            const stat_donators = `${emoji.reply} ${donators.length} Donator${donators.length === 1 ? "" : "s"}`;
+            const stat_verified = `${emoji.reply} ${verified.length} Verified User${verified.length === 1 ? "" : "s"}`;
 
-            const stat_messages = `💬 ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
-            const stat_blocked_messages = `⛔ ${blockedMessages.length} Blocked Message${messages.length === 1 ? "" : "s"}`;
+            const stat_messages = `${emoji.reply} ${messages.length} Message${messages.length === 1 ? "" : "s"}`;
+            const stat_blocked_messages = `${emoji.reply} ${blockedMessages.length} Blocked Message${messages.length === 1 ? "" : "s"}`;
 
             const statistics = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

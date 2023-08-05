@@ -2,6 +2,7 @@ import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
+import { emojis as emoji } from "../../config";
 import fs from "fs";
 import { getDirs } from "../../util/functions";
 
@@ -79,7 +80,7 @@ const command: Command = {
             for(const cmd of commands) {
                 const info = client.commands.get(cmd);
 
-                cmds.push(`</${cmd}:${client.commandIds.get(cmd)}> **|** ${info.description}`);
+                cmds.push(`</${cmd}:${client.commandIds.get(cmd)}>\n${emoji.reply} ${info.description}`);
             }
 
             const help = new Discord.EmbedBuilder()
