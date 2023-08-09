@@ -73,7 +73,7 @@ const command: Command = {
                         .setStyle(Discord.ButtonStyle.Link)
                         .setEmoji("🆘")
                         .setLabel("Support")
-                        .setURL("https://discord.gg/globalchat"),
+                        .setURL("https://discord.gg/9XW6ru8d9D"),
 
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Link)

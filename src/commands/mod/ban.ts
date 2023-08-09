@@ -88,7 +88,7 @@ const command: Command = {
 
             if(appealable) {
                 ban.addFields (
-                    { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/globalchat).\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331).\n3. Click \`Submit\` and fill in the form.\n4. Wait for a response to your appeal." }
+                    { name: "ℹ️ How to Appeal", value: "1. Join the [support server](https://discord.gg/9XW6ru8d9D).\n2. Go to the [appeal channel](https://discord.com/channels/1067023529226293248/1094505532267704331).\n3. Click \`Submit\` and fill in the form.\n4. Wait for a response to your appeal." }
                 )
             }
 
