@@ -102,7 +102,6 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
     const userData = await User.findOne({ _id: message.author.id });
 
     const nickname = userData?.nickname ? userData.nickname : null;
-    
 
     // Embed message
     const chat = new Discord.EmbedBuilder()
