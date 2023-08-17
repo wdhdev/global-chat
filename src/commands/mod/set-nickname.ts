@@ -25,15 +25,6 @@ const command: Command = {
             min_length: 1,
             max_length: 32,
             required: true
-        },
-
-        {
-            type: 3,
-            name: "imageurl",
-            description: "The image URL to add to the user.",
-            min_length: 1,
-            max_length: 256,
-            required: false
         }
     ],
     default_member_permissions: null,
@@ -51,14 +42,13 @@ const command: Command = {
 
             const user = interaction.options.getUser("user");
             const nickname = interaction.options.get("nickname").value as string;
-            const imageURL = interaction.options.get("imageurl").value as string;
 
             const userData = await User.findOne({ _id: user.id });
 
             if(!userData) {
-                await new User({ _id: user.id, nickname: nickname, imageURL: imageURL }).save();
+                await new User({ _id: user.id, nickname: nickname }).save();
             } else {
-                await User.findOneAndUpdate({ _id: user.id }, { nickname: nickname, imageURL: imageURL });
+                await User.findOneAndUpdate({ _id: user.id }, { nickname: nickname });
             }
 
             const added = new Discord.EmbedBuilder()

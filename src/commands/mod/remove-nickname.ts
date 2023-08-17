@@ -44,7 +44,7 @@ const command: Command = {
                 return;
             }
 
-            await User.findOneAndUpdate({ _id: user.id }, { nickname: null, imageURL: null });
+            await User.findOneAndUpdate({ _id: user.id }, { nickname: null });
 
             const removed = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

@@ -167,7 +167,6 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                         const webhook = new Discord.WebhookClient({ url: data.webhook });
 
                         const userUsername = nickname ? `^${nickname}` : message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
-                        const nickphoto = userData?.imageURL ? userData.imageURL : message.author.displayAvatarURL({ extension: "png", forceStatic: false });
                         let username = userUsername;
 
                         if(role.verified) username = `${userUsername} ✅`;
@@ -178,7 +177,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                         if(reply) {
                             await webhook.send({
                                 username: username,
-                                avatarURL: nickphoto,
+                                avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 embeds: [replyEmbed],
                                 allowedMentions: { parse: [] }
@@ -186,7 +185,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                         } else {
                             await webhook.send({
                                 username: username,
-                                avatarURL: nickphoto,
+                                avatarURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }),
                                 content: content,
                                 allowedMentions: { parse: [] }
                             }).then((msg: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${msg.channel_id}/${msg.id}`)))
