@@ -4,7 +4,6 @@ import { CommandInteraction } from "discord.js";
 
 import { createInfractionLog } from "../../util/logger";
 import { emojis as emoji } from "../../config";
-import { Types } from "mongoose";
 
 import Infraction from "../../models/Infraction";
 
@@ -55,7 +54,7 @@ const command: Command = {
 
             let data = await Infraction.findOne({ _id: user.id });
 
-            data.warnings = data.warnings.filter(warning => !warning.id === warn);
+            data.warnings = data.warnings.filter(warning => warning.id !== warn);
             await data.save();
 
             await createInfractionLog(user.id, warn, "warnDelete", interaction.user.id);

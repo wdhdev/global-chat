@@ -21,7 +21,7 @@ const command: Command = {
     ephemeral: true,
     async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
         try {
-            const warnings = await getWarnings(interaction.user.id);
+            const warnings = await getWarnings(interaction.user.id, false);
 
             if(!warnings.length) {
                 const error = new Discord.EmbedBuilder()

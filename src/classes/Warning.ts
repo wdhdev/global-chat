@@ -9,7 +9,7 @@ export default class Warning {
     public reason: String;
 }
 
-export async function getWarnings(user: Snowflake): Promise<string[]> {
+export async function getWarnings(user: Snowflake, showMod: Boolean): Promise<string[]> {
     const data = await Infraction.findOne({ _id: user });
     const warnings: string[] = [];
 
@@ -17,7 +17,7 @@ export async function getWarnings(user: Snowflake): Promise<string[]> {
         const formattedData = data.warnings.sort((a: Warning, b: Warning) => b.timestamp - a.timestamp);
 
         for(const warning of formattedData) {
-            warnings.push(`\`${warning.id}\` **|** <t:${warning.timestamp.toString().slice(0, -3)}:R>\n> ${warning.reason}`);
+            warnings.push(`\`${warning.id}\` **|** <t:${warning.timestamp.toString().slice(0, -3)}:R>${showMod ? ` by <@${warning.mod}>` : ""}\n**>>** ${warning.reason}`);
         }
     }
 

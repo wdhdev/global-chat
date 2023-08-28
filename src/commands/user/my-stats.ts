@@ -14,7 +14,7 @@ const command: Command = {
     requiredRoles: [],
     cooldown: 10,
     enabled: true,
-    allowWhileBanned: false,
+    allowWhileBanned: true,
     guildOnly: false,
     deferReply: true,
     ephemeral: true,
