@@ -99,7 +99,3 @@ client.validPermissions = [
     "UseSoundboard",
     "SendVoiceMessages"
 ]
-
-// Start Sentry API
-import sentryAPI from "./sentry-api/index";
-sentryAPI(client);
