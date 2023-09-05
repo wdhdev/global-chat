@@ -28,7 +28,7 @@ const command: Command = {
         {
             type: 1,
             name: "remove",
-            description: "[DEVELOPER ONLY] Remove someone's immunity to moderator commands.",
+            description: "[OWNER ONLY] Remove someone's immunity to moderator commands.",
             options: [
                 {
                     type: 6,
