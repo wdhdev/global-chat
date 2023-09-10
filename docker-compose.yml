@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    volumes:
+      - db:/data/db
+      - db_config:/data/configdb
+
+  bot:
+    image: ghcr.io/global-chat-bot/bot:main
+    restart: always
+    environment:
+      clientId:
+      database: mongodb://mongo:mongo@mongo:27017/
+      sentry_dsn:
+      token:
+    depends_on:
+      - "mongo"
+
+volumes:
+  db:
+  db_config:
