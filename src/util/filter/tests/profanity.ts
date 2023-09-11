@@ -1,6 +1,7 @@
 import ExtendedClient from "../../../classes/ExtendedClient";
 import { Message } from "discord.js";
 
+import { createInfractionLog } from "../../logger";
 import filter from "../filters/profranity";
 import path from "path";
 import warn from "../../../functions/warn";
@@ -60,6 +61,8 @@ export default async function (message: Message, client: ExtendedClient & any, D
                 reason: "[AUTOMOD] Profanity which is included on the autoban filter detected.",
                 mod: client.user.id
             }).save()
+
+            await createInfractionLog(message.author.id, null, "ban", client.user.id);
 
             const ban = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.error)

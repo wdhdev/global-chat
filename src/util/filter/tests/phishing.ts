@@ -1,6 +1,7 @@
 import ExtendedClient from "../../../classes/ExtendedClient";
 import { Message } from "discord.js";
 
+import { createInfractionLog } from "../../logger";
 import filter from "../filters/phishing";
 import path from "path";
 
@@ -29,6 +30,8 @@ export default async function (message: Message, client: ExtendedClient & any, D
             reason: "[AUTOMOD] Phishing link detected.",
             mod: client.user.id
         }).save()
+
+        await createInfractionLog(message.author.id, null, "ban", client.user.id);
 
         const blocked = new Discord.EmbedBuilder()
             .setTitle("⛔ Message Blocked")
