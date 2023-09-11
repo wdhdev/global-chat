@@ -12,8 +12,8 @@ const event: Event = {
     once: false,
     async execute(client: ExtendedClient, Discord: any, message: Message) {
         try {
-            const killswitchData = await killswitch.findOne({ killswitch: true });
-            if (killswitchData) return;
+            const killswitchData = await killswitch.findOne({ killswitch: false });
+            if (!killswitchData) return;
             const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks", "ManageMessages"];
 
             if(message.author.bot || !message.guild) return;
