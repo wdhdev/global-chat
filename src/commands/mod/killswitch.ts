@@ -7,7 +7,7 @@ import { announce } from "../../util/send";
 import { emojis as emoji } from "../../config";
 
 const command: Command = {
-    name: "announce",
+    name: "killswitch",
     description: "[STAFF ONLY] Emergency killswitch.",
     options: [],
     default_member_permissions: null,
