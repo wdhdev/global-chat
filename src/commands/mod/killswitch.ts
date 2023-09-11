@@ -9,34 +9,7 @@ import { emojis as emoji } from "../../config";
 const command: Command = {
     name: "announce",
     description: "[STAFF ONLY] Emergency killswitch.",
-    options: [
-        {
-            type: 3,
-            name: "message",
-            description: "Killswitch message.",
-            min_length: 3,
-            max_length: 64,
-            required: true
-        },
-
-        {
-            type: 3,
-            name: "enable",
-            description: "Do you want to enable or disable the killswitch?",
-            choices: [
-                {
-                    name: "enable",
-                    value: "enable"
-                },
-
-                {
-                    name: "disable",
-                    value: "disable"
-                }
-            ],
-            required: true
-        }
-    ],
+    options: [],
     default_member_permissions: null,
     botPermissions: [],
     requiredRoles: ["mod"],
@@ -48,16 +21,17 @@ const command: Command = {
     ephemeral: true,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            const message = interaction.options.get("message").value;
-            const enable = interaction.options.get("enable").value;
-            if (enable === "enable") {
-                await interaction.reply({ content: `${emoji.tick} Killswitch enabled.` });
-            }
-            const killData = await killswitch.findOne({ killswitch: enable});
+            const killData = await killswitch.findOne({ killswitch: true });
             if (killData) {
-                await killswitch.findOneAndUpdate({ killswitch: enable }, { message: message });
+                await killswitch.findOneAndUpdate({ killswitch: false });
+                const text = `${emoji.tick} The killswitch has been deactivated.`
+                await announce(text, interaction, client, Discord);
+                return;
             } else {
-                (await killswitch.create({ killswitch: enable, message: message })).save();
+                (await killswitch.create({ killswitch: true })).save();
+                const text = `${emoji.tick} The killswitch has been activated.`
+                await announce(text, interaction, client, Discord);
+                return;
             }
             
         } catch(err) {
