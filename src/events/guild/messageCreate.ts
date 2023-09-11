@@ -5,12 +5,15 @@ import { Message, PermissionResolvable } from "discord.js";
 import send from "../../util/send";
 
 import Guild from "../../models/Guild";
+import killswitch from "../../models/killswitch";
 
 const event: Event = {
     name: "messageCreate",
     once: false,
     async execute(client: ExtendedClient, Discord: any, message: Message) {
         try {
+            const killswitchData = await killswitch.findOne({ killswitch: true });
+            if (killswitchData) return;
             const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks", "ManageMessages"];
 
             if(message.author.bot || !message.guild) return;
