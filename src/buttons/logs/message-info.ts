@@ -9,7 +9,7 @@ import Message from "../../models/Message";
 const button: Button = {
     name: "message-info",
     startsWith: true,
-    requiredRoles: [],
+    requiredRoles: ["staff"],
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const id = interaction.customId.replace("message-info-", "");

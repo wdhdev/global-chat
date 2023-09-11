@@ -12,6 +12,8 @@ const event: Event = {
     once: false,
     async execute(client: ExtendedClient & any, Discord: any, guild: GuildType & any) {
         try {
+            if(client.killSwitch) return;
+
             const data = await Guild.findOne({ _id: guild.id });
 
             if(data) {

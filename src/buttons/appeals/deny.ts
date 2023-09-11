@@ -70,7 +70,7 @@ const button: Button = {
 
                     await Appeal.findOneAndUpdate({ _id: id }, { status: "DENIED", mod: interaction.user.id, reason: reason });
 
-                    await createLog(data.id, data._id, "appealDeny", null, null, interaction.user.id);
+                    await createLog(data.id, data._id, "appealDeny", null, interaction.user.id);
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)

@@ -12,6 +12,7 @@ export default async function (userId: Snowflake, client: ExtendedClient): Promi
         owner: client.config_main.owner === userId,
         dev: data?.dev ? true : false,
         mod: data?.mod ? true : false,
+        staff: data?.dev || data?.mod,
         donator: data?.donator ? true : false,
         verified: data?.verified ? true : false,
         immunity: data?.immune ? true : false

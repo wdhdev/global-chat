@@ -1,6 +1,6 @@
 {
   "name": "global-chat",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "A Discord bot which connects many servers together using a text channel!",
   "main": "dist/index.js",
   "scripts": {

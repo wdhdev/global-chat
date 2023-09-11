@@ -8,7 +8,7 @@ import getRoles from "../functions/roles/get";
 import levelRoles from "../functions/roles/levelRoles";
 import path from "path";
 import test from "./filter/test";
-import User from "../models/User";
+
 import BannedUser from "../models/BannedUser";
 import Guild from "../models/Guild";
 import Message from "../models/Message";
@@ -68,7 +68,9 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
         return;
     }
 
-    if(await test(message, client, Discord)) return;
+    if(!role.staff) {
+        if(await test(message, client, Discord)) return;
+    }
 
     const content: any = await easterEggs(message.content);
 
@@ -99,13 +101,9 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
         replyEmbed.setTimestamp(new Date(Number((BigInt(data._id) >> 22n) + 1420070400000n)));
     }
 
-    const userData = await User.findOne({ _id: message.author.id });
-
-    const nickname = userData?.nickname ? userData.nickname : null;
-
     // Embed message
     const chat = new Discord.EmbedBuilder()
-        .setAuthor({ name: nickname ? `^${nickname}` : message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
+        .setAuthor({ name: message.author.tag.endsWith("#0") ? message.author.username : message.author.tag, iconURL: message.author.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${message.author.id}` })
         .setTimestamp()
 
     if(content.length) chat.setDescription(content);
@@ -165,7 +163,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
                     try {
                         const webhook = new Discord.WebhookClient({ url: data.webhook });
 
-                        const userUsername = nickname ? `^${nickname}` : message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
+                        const userUsername = message.author.tag.endsWith("#0") ? message.author.username : message.author.tag;
                         let username = userUsername;
 
                         if(role.verified) username = `${userUsername} ✅`;

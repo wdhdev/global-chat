@@ -72,7 +72,7 @@ const button: Button = {
                     await BannedUser.findOneAndDelete({ _id: data.id });
                     await Appeal.findOneAndUpdate({ _id: id }, { status: "APPROVED", mod: interaction.user.id, reason: reason });
 
-                    await createLog(data.id, data._id, "appealApprove", null, null, interaction.user.id);
+                    await createLog(data.id, data._id, "appealApprove", null, interaction.user.id);
 
                     const userDM = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)

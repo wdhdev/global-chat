@@ -5,12 +5,17 @@ import { Interaction, PermissionResolvable } from "discord.js";
 import buttonHandler from "../../util/interaction/button";
 import commandHandler from "../../util/interaction/command";
 import contextCommandHandler from "../../util/interaction/context-menu";
+import getRoles from "../../functions/roles/get";
 
 const event: Event = {
     name: "interactionCreate",
     once: false,
     async execute(client: ExtendedClient, Discord: any, interaction: Interaction) {
         try {
+            const userRoles = await getRoles(interaction.user.id, client);
+
+            if(client.killSwitch && !userRoles.staff) return;
+
             const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 
             if(!interaction.guild) return;

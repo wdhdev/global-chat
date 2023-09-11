@@ -80,7 +80,7 @@ const command: Command = {
                     await User.findOneAndUpdate({ _id: user.id }, { immune: true });
                 }
 
-                await createLog(user.id, null, "immunityAdd", null, null, interaction.user.id);
+                await createLog(user.id, null, "immunityAdd", null, interaction.user.id);
 
                 const added = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -113,7 +113,7 @@ const command: Command = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { immune: false });
 
-                await createLog(user.id, null, "immunityRemove", null, null, interaction.user.id);
+                await createLog(user.id, null, "immunityRemove", null, interaction.user.id);
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

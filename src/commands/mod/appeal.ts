@@ -73,7 +73,7 @@ const command: Command = {
 
                 await appeal.delete();
 
-                await createLog(appeal._id, appeal.id, "appealDelete", null, null, interaction.user.id);
+                await createLog(appeal._id, appeal.id, "appealDelete", null, interaction.user.id);
 
                 const deleted = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

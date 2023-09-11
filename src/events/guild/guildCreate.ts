@@ -7,6 +7,8 @@ const event: Event = {
     once: false,
     async execute(client: ExtendedClient & any, Discord: any, guild: Guild & any) {
         try {
+            if(client.killSwitch) return;
+
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
             const log = new Discord.EmbedBuilder()

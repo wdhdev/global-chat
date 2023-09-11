@@ -81,7 +81,7 @@ const command: Command = {
                     await User.findOneAndUpdate({ _id: user.id }, { dev: true });
                 }
 
-                await createLog(user.id, null, "roleAdd", null, "dev", interaction.user.id);
+                await createLog(user.id, null, "roleAdd", "dev", interaction.user.id);
 
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 
@@ -122,7 +122,7 @@ const command: Command = {
 
                 await User.findOneAndUpdate({ _id: user.id }, { dev: false });
 
-                await createLog(user.id, null, "roleRemove", null, "dev", interaction.user.id);
+                await createLog(user.id, null, "roleRemove", "dev", interaction.user.id);
 
                 const guild = await client.guilds.fetch(client.config_main.primaryGuild);
 

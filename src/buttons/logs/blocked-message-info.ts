@@ -9,7 +9,7 @@ import BlockedMessage from "../../models/BlockedMessage";
 const button: Button = {
     name: "blocked-message-info",
     startsWith: true,
-    requiredRoles: [],
+    requiredRoles: ["mod"],
     async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
         try {
             const id = interaction.customId.replace("blocked-message-info-", "");

@@ -51,6 +51,7 @@ client.login(process.env.token);
 
 // Constants
 client.commandIds = new Discord.Collection();
+client.killSwitch = false;
 client.sentry = Sentry;
 
 client.validPermissions = [

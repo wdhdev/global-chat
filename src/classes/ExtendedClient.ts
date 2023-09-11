@@ -12,6 +12,7 @@ export default class ExtendedClient extends Client {
     public config_roles: typeof roles;
     public contextCommands: Collection<string, any>;
     public events: Collection<string, any>;
+    public killSwitch: Boolean;
     public logButtonError: Function;
     public logCommandError: Function;
     public logContextError: Function;

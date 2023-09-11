@@ -1,6 +1,6 @@
 import { ColorResolvable, EmojiResolvable, Snowflake } from "discord.js";
 
-const channels: { [key: string]: Snowflake } = {
+const channels = {
     appeals: "1083298359319736320",
     blocked: "1078093240105975848",
     logs: "1117236422164885514",
@@ -9,16 +9,16 @@ const channels: { [key: string]: Snowflake } = {
     reports: "1067341548393615430"
 }
 
-const embeds: { [key: string]: ColorResolvable } = {
-    default: "#0096FF",
-    error: "#E74C3C",
-    github: "#171515",
-    gray: "#80838D",
-    green: "#57F287",
-    red: "#ED4245"
+const embeds = {
+    default: "#0096FF" as ColorResolvable,
+    error: "#E74C3C" as ColorResolvable,
+    github: "#171515" as ColorResolvable,
+    gray: "#80838D" as ColorResolvable,
+    green: "#57F287" as ColorResolvable,
+    red: "#ED4245" as ColorResolvable
 }
 
-const emojis: { [key: string]: EmojiResolvable } = {
+const emojis = {
     connection_bad: "<:connection_bad:1134804962732429332>",
     connection_excellent: "<:connection_excellent:1134809429783617557>",
     connection_good: "<:connection_good:1134804958793977928>",
@@ -35,7 +35,7 @@ const main = {
     primaryGuild: "1067023529226293248" as Snowflake // Global Chat Support
 }
 
-const roles: { [key: string]: Snowflake } = {
+const roles = {
     dev: "1067023529305976898",
     donator: "1127426331286712320",
     mod: "1082167230357307402",

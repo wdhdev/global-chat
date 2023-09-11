@@ -14,7 +14,7 @@ import Message from "../../models/Message";
 
 const command: Command = {
     name: "user",
-    description: "[MODERATOR ONLY] Get information about a user.",
+    description: "[STAFF ONLY] Get information about a user.",
     options: [
         {
             type: 6,
@@ -25,7 +25,7 @@ const command: Command = {
     ],
     default_member_permissions: null,
     botPermissions: [],
-    requiredRoles: ["mod"],
+    requiredRoles: ["staff"],
     cooldown: 0,
     enabled: true,
     allowWhileBanned: false,
