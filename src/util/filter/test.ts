@@ -3,7 +3,6 @@ import { Message } from "discord.js";
 
 import emojis from "./tests/emojis";
 import links from "./tests/links";
-import markdown from "./tests/markdown";
 import phishing from "./tests/phishing";
 import profanity from "./tests/profanity";
 
@@ -21,9 +20,6 @@ export default async function (message: Message, client: ExtendedClient, Discord
 
     // Emojis
     if(await emojis(message, client, Discord)) return true;
-
-    // Markdown
-    if(await markdown(message, client, Discord)) return true;
 
     return false;
 }
