@@ -2,6 +2,7 @@ import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { Message, PermissionResolvable } from "discord.js";
 
+import getRoles from "../../functions/roles/get";
 import send from "../../util/send";
 
 import BannedUser from "../../models/BannedUser";
@@ -21,7 +22,8 @@ const event: Event = {
             if(message.author.bot || !message.guild) return;
             if(!message.guild.members.me.permissions.has(requiredPerms)) return;
 
-            // Anti-raid
+            const role = await getRoles(message.author.id, client);
+
             // Check if the user has triggered the event more than 5 times in 3 seconds
             const currentTime = Date.now();
             const userTriggers = eventTriggers.get(message.author.id) || { count: 0, timestamp: 0 };
@@ -36,7 +38,7 @@ const event: Event = {
 
             eventTriggers.set(message.author.id, userTriggers);
 
-            if(userTriggers.count > 5) {
+            if(userTriggers.count > 5 && !role.staff) {
                 const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
                 await new BannedUser({
