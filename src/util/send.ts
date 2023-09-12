@@ -18,10 +18,6 @@ const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 export default async (message: MessageType, client: ExtendedClient & any, Discord: any) => {
     const role = await getRoles(message.author.id, client);
 
-    try {
-        message.delete();
-    } catch {}
-
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
     if(await BannedUser.exists({ _id: message.author.id })) return;
@@ -71,6 +67,10 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
     if(!role.staff) {
         if(await test(message, client, Discord)) return;
     }
+
+    try {
+        message.delete();
+    } catch {}
 
     const content: any = await easterEggs(message.content);
 
