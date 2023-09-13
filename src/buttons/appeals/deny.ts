@@ -47,7 +47,7 @@ const button: Button = {
 
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
-                .setTitle(`Deny Appeal: ${data._id}`)
+                .setTitle("Deny Appeal")
 
             const modalReason = new Discord.TextInputBuilder()
                 .setCustomId(`modal-reason-${interaction.id}`)
