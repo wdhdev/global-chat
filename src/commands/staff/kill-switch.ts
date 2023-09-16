@@ -23,7 +23,7 @@ const command: Command = {
             if(client.killSwitch) {
                 client.killSwitch = false;
 
-                await announce(`${emoji.tick} The kill switch has been deactivated.\n\nThe bot will now respond to all commands and continue to process messages.`, interaction, client, Discord);
+                await announce(`${emoji.cross} The kill switch has been deactivated.\nThe bot will now respond to all commands and continue to process messages.`, interaction, client, Discord);
 
                 const status = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
@@ -36,7 +36,7 @@ const command: Command = {
             } else {
                 client.killSwitch = true;
 
-                await announce(`${emoji.tick} The kill switch has been activated.\n\nThe bot will no longer respond to commands run by users and will no longer process messages.`, interaction, client, Discord);
+                await announce(`${emoji.tick} The kill switch has been activated.\nThe bot will no longer process any events until the kill switch is disabled.`, interaction, client, Discord);
 
                 const status = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
