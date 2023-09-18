@@ -14,7 +14,6 @@ const cooldowns = new Map();
 
 export = async (client: ExtendedClient, Discord: any, interaction: CommandInteraction) => {
     try {
-
         const command: Command = client.commands.get(interaction.commandName);
 
         if(!command) return;
