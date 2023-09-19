@@ -23,7 +23,10 @@ const command: Command = {
     ephemeral: true,
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
         try {
-            if(!await User.exists({ _id: interaction.user.id }) && !await GitHubUser.exists({ _id: interaction.user.id })) {
+            const userData = await User.findOne({ _id: interaction.user.id });
+            const githubData = await GitHubUser.findOne({ _id: interaction.user.id });
+
+            if(!userData && !githubData) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There is no data associated with your account!`)
@@ -71,8 +74,6 @@ const command: Command = {
                 if(c.customId === `delete-${interaction.id}`) {
                     collector.stop();
 
-                    const githubData = await GitHubUser.findOne({ _id: interaction.user.id });
-
                     if(githubData) {
                         try {
                             const octokit = new Octokit({ auth: githubData.token });
@@ -86,7 +87,7 @@ const command: Command = {
                         await githubData.delete();
                     }
 
-                    await User.findOneAndDelete({ _id: interaction.user.id });
+                    await userData.delete();
 
                     const deleted = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)
