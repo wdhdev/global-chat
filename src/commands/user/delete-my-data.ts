@@ -58,7 +58,7 @@ const command: Command = {
                         .setLabel("Cancel")
                 )
 
-            await interaction.editReply({ embeds: [embed], components: [actions] })
+            await interaction.editReply({ embeds: [embed], components: [actions] });
             const collector = interaction.channel.createMessageComponentCollector({ componentType: Discord.ComponentType.Button, time: 30000 });
 
             collector.on("collect", async c => {
