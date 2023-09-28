@@ -1,7 +1,6 @@
 import ExtendedClient from "../classes/ExtendedClient";
 
-import { AttachmentBuilder, EmbedBuilder, PermissionResolvable, TextChannel } from "discord.js";
-import { channels } from "../config";
+import { PermissionResolvable, TextChannel } from "discord.js";
 
 import Guild from "../models/Guild";
 
@@ -37,6 +36,8 @@ export default async function (client: ExtendedClient): Promise<string[]> {
 
             if(!channel) {
                 await data.delete();
+                output.push(`Deleted ${guild.name} (${guildId}) from the database due to not being able to access the registered channel`);
+
                 resolve();
                 return;
             }
