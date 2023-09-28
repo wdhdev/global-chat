@@ -42,8 +42,11 @@ const command: Command = {
 
             const user = interaction.options.getUser("user");
             const warn = interaction.options.get("warn").value;
-            
-            if(!await Infraction.find({ _id: user.id, "warnings.id": warn })) {
+
+            // Check if warning exists
+            let data = await Infraction.findOne({ _id: user.id });
+
+            if(!data || !data.warnings.find(w => w.id === warn)) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} That warning does not exist!`)
@@ -52,9 +55,8 @@ const command: Command = {
                 return;
             }
 
-            let data = await Infraction.findOne({ _id: user.id });
-
-            data.warnings = data.warnings.filter(warning => warning.id !== warn);
+            // Remove warning from database
+            data.warnings = data.warnings.filter(w => w.id !== warn);
             await data.save();
 
             await createInfractionLog(user.id, warn, "warnDelete", interaction.user.id);
