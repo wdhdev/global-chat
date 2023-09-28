@@ -21,7 +21,7 @@ const command: ContextCommand = {
     guildOnly: true,
     deferReply: false,
     ephemeral: true,
-    async execute(interaction: UserContextMenuCommandInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: UserContextMenuCommandInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const user = interaction.targetUser;
 
@@ -53,7 +53,7 @@ const command: ContextCommand = {
                 .setMaxLength(250)
                 .setRequired(true)
 
-            const row = new Discord.ActionRowBuilder().addComponents(modalReason);
+            const row: any = new Discord.ActionRowBuilder().addComponents(modalReason);
 
             modal.addComponents(row);
 
@@ -80,7 +80,7 @@ const command: ContextCommand = {
                                 .setValue("false")
                         )
 
-                    const row = new Discord.ActionRowBuilder().addComponents(menu);
+                    const row: any = new Discord.ActionRowBuilder().addComponents(menu);
 
                     await i.reply({ components: [row], ephemeral: true });
 

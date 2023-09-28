@@ -19,7 +19,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const logs = await getLogs(interaction.user.id, -1, true);
 

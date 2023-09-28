@@ -10,8 +10,8 @@ const button: Button = {
     name: "get-task",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
-        const data = await Task.find();
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
+        const data = await Task.find({});
 
         const priority: any = {
             high: "🔴",
@@ -48,7 +48,7 @@ const button: Button = {
             )
         }
 
-        const row = new Discord.ActionRowBuilder().addComponents(menu);
+        const row: any = new Discord.ActionRowBuilder().addComponents(menu);
 
         await interaction.reply({ components: [row], ephemeral: true });
 

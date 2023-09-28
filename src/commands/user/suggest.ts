@@ -63,7 +63,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             let data = await GitHubUser.findOne({ _id: interaction.user.id });
 

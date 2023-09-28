@@ -32,7 +32,7 @@ const command: Command = {
     guildOnly: true,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const user = interaction.options.getUser("user");
 

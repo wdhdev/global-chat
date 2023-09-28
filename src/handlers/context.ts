@@ -32,7 +32,7 @@ export = async (client: ExtendedClient) => {
     await loadRoot();
     (await getDirs("./dist/context-menu")).forEach((dir: String) => loadDir(dir));
 
-    client.logContextError = async function (err: Error, interaction: ContextMenuCommandInteraction, Discord: any) {
+    client.logContextError = async function (err: Error, interaction: ContextMenuCommandInteraction, Discord: typeof import("discord.js")) {
         const id = client.sentry.captureException(err);
         console.error(err);
 

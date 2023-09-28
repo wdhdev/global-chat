@@ -24,7 +24,7 @@ const command: ContextCommand = {
     guildOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: UserContextMenuCommandInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: UserContextMenuCommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const user = interaction.targetUser;
 

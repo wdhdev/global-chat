@@ -17,7 +17,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const permissions: any = {
                 AttachFiles: "Attach Files",

@@ -11,7 +11,7 @@ export default async function (message: Message, role: Roles): Promise<Result> {
     const regexMatches = message.content.match(regex) || [];
     const remove: string[] = [];
 
-    const data = await WhitelistedDomain.find();
+    const data = await WhitelistedDomain.find({});
 
     for(const document of data) {
         remove.push(document._id);

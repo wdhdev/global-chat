@@ -18,7 +18,7 @@ const command: Command = {
     guildOnly: true,
     deferReply: false,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
@@ -32,7 +32,7 @@ const command: Command = {
                 .setMaxLength(2000)
                 .setRequired(true)
 
-            const row = new Discord.ActionRowBuilder().addComponents(modalText);
+            const row: any = new Discord.ActionRowBuilder().addComponents(modalText);
 
             modal.addComponents(row);
 

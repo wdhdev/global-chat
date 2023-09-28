@@ -19,7 +19,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const data = await User.find({ mod: true });
 

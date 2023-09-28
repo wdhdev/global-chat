@@ -12,7 +12,7 @@ const button: Button = {
     name: "appeal-approve",
     startsWith: true,
     requiredRoles: ["mod"],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const id = interaction.customId.replace("appeal-approve-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -57,7 +57,7 @@ const button: Button = {
                 .setMaxLength(250)
                 .setRequired(true)
 
-            const row = new Discord.ActionRowBuilder().addComponents(modalReason);
+            const row: any = new Discord.ActionRowBuilder().addComponents(modalReason);
 
             modal.addComponents(row);
 
@@ -91,7 +91,7 @@ const button: Button = {
                         sentDM = true;
                     } catch {}
 
-                    const approved = new Discord.EmbedBuilder()
+                    const approved: any = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.green)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
                         .setTitle("✅ Approved")

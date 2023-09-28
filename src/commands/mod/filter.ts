@@ -112,7 +112,7 @@ const command: Command = {
     guildOnly: true,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             if(interaction.options.getSubcommand() === "add") {
                 const word = interaction.options.getString("word");

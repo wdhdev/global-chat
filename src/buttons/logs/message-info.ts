@@ -10,7 +10,7 @@ const button: Button = {
     name: "message-info",
     startsWith: true,
     requiredRoles: ["staff"],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const id = interaction.customId.replace("message-info-", "");
 

@@ -18,7 +18,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const messages = await Message.find({ user: interaction.user.id });
             const blockedMessages = await BlockedMessage.find({ user: interaction.user.id });

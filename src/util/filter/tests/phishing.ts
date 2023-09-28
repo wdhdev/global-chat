@@ -8,7 +8,7 @@ import path from "path";
 import BannedUser from "../../../models/BannedUser";
 import BlockedMessage from "../../../models/BlockedMessage";
 
-export default async function (message: Message, client: ExtendedClient & any, Discord: any): Promise<boolean> {
+export default async function (message: Message, client: ExtendedClient & any, Discord: typeof import("discord.js")): Promise<boolean> {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
     const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 

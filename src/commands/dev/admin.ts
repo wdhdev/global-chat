@@ -135,7 +135,7 @@ const command: Command = {
     guildOnly: true,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 
@@ -348,7 +348,7 @@ const command: Command = {
                 const channel = interaction.options.getChannel("channel");
                 const appealChannel = client.channels.cache.get(channel.id);
 
-                const data = await Task.find();
+                const data = await Task.find({});
 
                 const todoList = [];
 

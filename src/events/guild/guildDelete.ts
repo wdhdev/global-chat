@@ -10,7 +10,7 @@ import Guild from "../../models/Guild";
 const event: Event = {
     name: "guildDelete",
     once: false,
-    async execute(client: ExtendedClient & any, Discord: any, guild: GuildType & any) {
+    async execute(client: ExtendedClient & any, Discord: typeof import("discord.js"), guild: GuildType & any) {
         try {
             if(client.killSwitch) return;
 

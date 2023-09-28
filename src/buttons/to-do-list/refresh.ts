@@ -8,8 +8,8 @@ const button: Button = {
     name: "refresh-task-list",
     startsWith: false,
     requiredRoles: ["dev"],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
-        const data = await Task.find();
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
+        const data = await Task.find({});
 
         const todoList = [];
 

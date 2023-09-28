@@ -10,8 +10,8 @@ const button: Button = {
     name: "remove-task",
     startsWith: false,
     requiredRoles: ["dev"],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
-        const data = await Task.find();
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
+        const data = await Task.find({});
 
         const priority: any = {
             high: "🔴",
@@ -42,7 +42,7 @@ const button: Button = {
             )
         }
 
-        const row = new Discord.ActionRowBuilder().addComponents(menu);
+        const row: any = new Discord.ActionRowBuilder().addComponents(menu);
 
         await interaction.reply({ components: [row], ephemeral: true });
 
@@ -72,7 +72,7 @@ const button: Button = {
 
                 await interaction.editReply({ embeds: [removed], components: [] });
 
-                const newData = await Task.find();
+                const newData = await Task.find({});
 
                 const todoList = [];
 

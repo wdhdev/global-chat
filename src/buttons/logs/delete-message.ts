@@ -11,7 +11,7 @@ const button: Button = {
     name: "delete-message",
     startsWith: true,
     requiredRoles: ["mod"],
-    async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: ButtonInteraction & any, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const id = interaction.customId.replace("delete-message-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);

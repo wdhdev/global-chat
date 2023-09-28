@@ -35,7 +35,7 @@ const command: Command = {
     guildOnly: true,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
 
@@ -62,7 +62,7 @@ const command: Command = {
                 .setTitle("🙌 Unban")
                 .setDescription(`${emoji.tick} You have been unbanned from Global Chat.`)
                 .addFields (
-                    { name: "❓ Reason", value: reason }
+                    { name: "❓ Reason", value: `${reason}` }
                 )
                 .setTimestamp()
 
@@ -87,7 +87,7 @@ const command: Command = {
                 .addFields (
                     { name: "👤 User", value: `${user}` },
                     { name: "🔔 User Notified", value: sentDM ? "✅" : "❌" },
-                    { name: "❓ Reason", value: reason }
+                    { name: "❓ Reason", value: `${reason}` }
                 )
                 .setTimestamp()
 

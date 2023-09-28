@@ -11,7 +11,7 @@ const button: Button = {
     name: "appeal-deny",
     startsWith: true,
     requiredRoles: ["mod"],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const id = interaction.customId.replace("appeal-deny-", "");
             const modLogsChannel = client.channels.cache.get(client.config_channels.modLogs);
@@ -56,7 +56,7 @@ const button: Button = {
                 .setMaxLength(250)
                 .setRequired(true)
 
-            const row = new Discord.ActionRowBuilder().addComponents(modalReason);
+            const row: any = new Discord.ActionRowBuilder().addComponents(modalReason);
 
             modal.addComponents(row);
 
@@ -89,7 +89,7 @@ const button: Button = {
                         sentDM = true;
                     } catch {}
 
-                    const denied = new Discord.EmbedBuilder()
+                    const denied: any = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.red)
                         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
                         .setTitle("❌ Denied")

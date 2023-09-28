@@ -19,7 +19,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const logsChannel = client.channels.cache.get(client.config_channels.logs);
 

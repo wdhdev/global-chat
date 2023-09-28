@@ -7,7 +7,7 @@ import warn from "../../../functions/warn";
 
 import BlockedMessage from "../../../models/BlockedMessage";
 
-export default async function (message: Message, client: ExtendedClient & any, Discord: any): Promise<boolean> {
+export default async function (message: Message, client: ExtendedClient & any, Discord: typeof import("discord.js")): Promise<boolean> {
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
 
     const filterResult = await filter(message);

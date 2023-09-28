@@ -10,7 +10,7 @@ import getRoles from "../../functions/roles/get";
 const event: Event = {
     name: "interactionCreate",
     once: false,
-    async execute(client: ExtendedClient, Discord: any, interaction: Interaction) {
+    async execute(client: ExtendedClient, Discord: typeof import("discord.js"), interaction: Interaction) {
         try {
             const userRoles = await getRoles(interaction.user.id, client);
 

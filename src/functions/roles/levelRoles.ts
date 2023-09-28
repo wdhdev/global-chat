@@ -6,7 +6,7 @@ import { createLog } from "../../util/logger";
 import Message from "../../models/Message";
 import User from "../../models/User";
 
-export default async function (user: UserType, client: ExtendedClient & any, Discord: any) {
+export default async function (user: UserType, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
     const messages = (await Message.find({ user: user.id })).length;
     const userData = await User.findOne({ _id: user.id });
 

@@ -11,7 +11,7 @@ const button: Button = {
     name: "github-unlink",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const data = await GitHubUser.findOne({ _id: interaction.user.id });
 

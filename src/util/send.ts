@@ -15,7 +15,7 @@ import Message from "../models/Message";
 
 const requiredPerms: PermissionResolvable = ["SendMessages", "EmbedLinks"];
 
-export default async (message: MessageType, client: ExtendedClient & any, Discord: any) => {
+export default async (message: MessageType, client: ExtendedClient & any, Discord: typeof import("discord.js")) => {
     const role = await getRoles(message.author.id, client);
 
     const blockedChannel = client.channels.cache.get(client.config_channels.blocked);
@@ -234,7 +234,7 @@ export default async (message: MessageType, client: ExtendedClient & any, Discor
     })
 }
 
-export async function announce(text: String, interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
+export async function announce(text: string, interaction: CommandInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
     const msg = new Discord.EmbedBuilder()
         .setColor(client.config_embeds.default)
         .setAuthor({ name: interaction.user.tag.endsWith("#0") ? interaction.user.username : interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ extension: "png", forceStatic: false }), url: `https://discord.com/users/${interaction.user.id}` })
@@ -290,9 +290,8 @@ export async function announce(text: String, interaction: CommandInteraction, cl
                         username: "Announcements",
                         avatar: "https://avatars.githubusercontent.com/u/126386097",
                         embeds: [msg]
-                    }).then((message: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channel_id}/${message.id}`)))
+                    } as any).then((message: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channel_id}/${message.id}`)))
                 } catch(err) {
-                    console.error(err)
                     try {
                         await chatChannel.send({ embeds: [msg] })
                             .then((message: MessageType & any) => resolve(messages.push(`https://discord.com/channels/${guildId}/${message.channelId}/${message.id}`)))

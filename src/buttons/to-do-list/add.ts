@@ -10,8 +10,8 @@ const button: Button = {
     name: "add-task",
     startsWith: false,
     requiredRoles: ["dev"],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
-        const todoData = await Task.find();
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
+        const todoData = await Task.find({});
 
         if(todoData.length >= 25) {
             const error = new Discord.EmbedBuilder()
@@ -41,8 +41,8 @@ const button: Button = {
             .setMaxLength(500)
             .setRequired(false)
 
-        const firstRow = new Discord.ActionRowBuilder().addComponents(modalName);
-        const secondRow = new Discord.ActionRowBuilder().addComponents(modalDescription);
+        const firstRow: any = new Discord.ActionRowBuilder().addComponents(modalName);
+        const secondRow: any = new Discord.ActionRowBuilder().addComponents(modalDescription);
 
         modal.addComponents(firstRow, secondRow);
 
@@ -80,7 +80,7 @@ const button: Button = {
                             .setValue("none")
                     )
 
-                const row = new Discord.ActionRowBuilder().addComponents(menu);
+                const row: any = new Discord.ActionRowBuilder().addComponents(menu);
 
                 await i.reply({ components: [row], ephemeral: true });
 
@@ -108,7 +108,7 @@ const button: Button = {
 
                         await i.editReply({ embeds: [added], components: [] });
 
-                        const newData = await Task.find();
+                        const newData = await Task.find({});
 
                         const todoList = [];
 

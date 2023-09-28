@@ -10,7 +10,7 @@ const button: Button = {
     name: "check-appeal",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const modal = new Discord.ModalBuilder()
                 .setCustomId(`modal-${interaction.id}`)
@@ -25,9 +25,9 @@ const button: Button = {
                 .setMaxLength(36)
                 .setRequired(true)
 
-            const firstRow = new Discord.ActionRowBuilder().addComponents(modalAppealId);
+            const row: any = new Discord.ActionRowBuilder().addComponents(modalAppealId);
 
-            modal.addComponents(firstRow);
+            modal.addComponents(row);
 
             await interaction.showModal(modal);
 

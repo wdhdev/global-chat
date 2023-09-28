@@ -5,7 +5,7 @@ import { Guild } from "discord.js";
 const event: Event = {
     name: "guildCreate",
     once: false,
-    async execute(client: ExtendedClient & any, Discord: any, guild: Guild & any) {
+    async execute(client: ExtendedClient & any, Discord: typeof import("discord.js"), guild: Guild & any) {
         try {
             if(client.killSwitch) return;
 

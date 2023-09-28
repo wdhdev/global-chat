@@ -12,7 +12,7 @@ import BannedUser from "../../models/BannedUser";
 
 const cooldowns = new Map();
 
-export = async (client: ExtendedClient, Discord: any, interaction: ContextMenuCommandInteraction) => {
+export = async (client: ExtendedClient, Discord: typeof import("discord.js"), interaction: ContextMenuCommandInteraction) => {
     try {
         const command: ContextCommand = client.contextCommands.get(`${interaction.commandType}-${interaction.commandName}`);
 

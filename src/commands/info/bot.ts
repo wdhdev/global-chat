@@ -22,7 +22,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: true,
-    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
@@ -38,8 +38,8 @@ const command: Command = {
             const verified = await User.find({ verified: true });
             const donators = await User.find({ donator: true });
 
-            const messages = await Message.find();
-            const blockedMessages = await BlockedMessage.find();
+            const messages = await Message.find({});
+            const blockedMessages = await BlockedMessage.find({});
 
             const stat_guilds = `${emoji.reply} ${client.guilds.cache.size} Guild${client.guilds.cache.size === 1 ? "" : "s"}`;
             const stat_users = `${emoji.reply} ${client.users.cache.size} User${client.users.cache.size === 1 ? "" : "s"}`;
@@ -61,7 +61,7 @@ const command: Command = {
                     { name: "🌐 Global Chat", value: `${stat_messages}\n${stat_blocked_messages}`, inline: true }
                 )
 
-            const buttons = new Discord.ActionRowBuilder()
+            const buttons: any = new Discord.ActionRowBuilder()
                 .addComponents (
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Link)

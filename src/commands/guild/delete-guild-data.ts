@@ -21,7 +21,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: any) {
+    async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const data = await Guild.findOne({ _id: interaction.guild.id });
 
@@ -44,7 +44,7 @@ const command: Command = {
                 )
                 .setFooter({ text: "This prompt will expire in 30 seconds." })
 
-            const actions = new Discord.ActionRowBuilder()
+            const actions: any = new Discord.ActionRowBuilder()
                 .addComponents (
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Danger)

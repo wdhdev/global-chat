@@ -12,7 +12,7 @@ const button: Button = {
     name: "submit-appeal",
     startsWith: false,
     requiredRoles: [],
-    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: ButtonInteraction, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const banData = await BannedUser.findOne({ _id: interaction.user.id });
 
@@ -65,8 +65,8 @@ const button: Button = {
                 .setMaxLength(250)
                 .setRequired(true)
 
-            const firstRow = new Discord.ActionRowBuilder().addComponents(modalBanReason);
-            const secondRow = new Discord.ActionRowBuilder().addComponents(modalUnbanReason);
+            const firstRow: any = new Discord.ActionRowBuilder().addComponents(modalBanReason);
+            const secondRow: any = new Discord.ActionRowBuilder().addComponents(modalUnbanReason);
 
             modal.addComponents(firstRow, secondRow);
 

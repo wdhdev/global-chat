@@ -27,7 +27,7 @@ const command: Command = {
     guildOnly: false,
     deferReply: true,
     ephemeral: false,
-    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: any) {
+    async execute(interaction: CommandInteraction & any, client: ExtendedClient & any, Discord: typeof import("discord.js")) {
         try {
             const channel = interaction.options.getChannel("channel");
 
