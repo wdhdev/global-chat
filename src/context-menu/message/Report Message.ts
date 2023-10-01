@@ -53,15 +53,9 @@ const command: ContextCommand = {
                 .addComponents (
                     new Discord.ButtonBuilder()
                         .setStyle(Discord.ButtonStyle.Secondary)
-                        .setCustomId(`report-ban-${data.user}`)
-                        .setEmoji("🔨")
-                        .setLabel("Ban User"),
-
-                    new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Secondary)
                         .setCustomId(`delete-message-${data._id}`)
                         .setEmoji("🗑️")
-                        .setLabel("Delete Message")
+                        .setLabel("Delete")
                 )
 
             let user = null;
