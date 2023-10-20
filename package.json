@@ -22,7 +22,7 @@
   "devDependencies": {
     "@sentry/types": "^7.59.3",
     "@types/mongoose": "^5.11.97",
-    "@types/node": "^20.4.2",
+    "@types/node": "^20.8.7",
     "@types/node-fetch": "^2.6.4",
     "typescript": "^5.2.2"
   }
