@@ -50,7 +50,11 @@ const button: Button = {
 
                 await interaction.deferUpdate();
 
-                interaction.message.components[0].components[1].data.disabled = true;
+                if(interaction.message.components[0].components[1]) {
+                    interaction.message.components[0].components[1].data.disabled = true;
+                } else {
+                    interaction.message.components[0].components[0].data.disabled = true;
+                }
 
                 await interaction.message.edit({ embeds: interaction.message.embeds, components: interaction.message.components });
 
