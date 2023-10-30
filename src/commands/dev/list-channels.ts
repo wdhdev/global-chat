@@ -1,7 +1,6 @@
 import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
-import { CommandInteraction, TextChannel, GuildChannel } from "discord.js";
-import fs from "fs";
+import { CommandInteraction, TextChannel, GuildChannel, MessageActionRow, MessageButton } from "discord.js";
 
 import { emojis as emoji } from "../../config";
 import renewWebhooks from "../../scripts/renew-webhooks";
@@ -31,13 +30,21 @@ const command: Command = {
 
             // Create a text file with the list of channels
             const channelListText = `List of channels in every guild:\n${allChannels.join("\n")}`;
-            fs.writeFileSync("channel-list.txt", channelListText);
 
-            // Send the file as an attachment
-            const file = new Discord.AttachmentBuilder("channel-list.txt");
+            // Send the file as a message with a button to download
+            const fileBuffer = Buffer.from(channelListText, "utf-8");
+            const file = new Discord.MessageAttachment(fileBuffer, "channel-list.txt");
 
-            // Send the file as a reply
-            await interaction.editReply({ files: [file] });
+            const row = new MessageActionRow()
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId("download")
+                        .setLabel("Download List")
+                        .setStyle("PRIMARY")
+                );
+
+            await interaction.editReply({ files: [file], components: [row] });
+
         } catch (err) {
             client.logCommandError(err, interaction, Discord);
         }
