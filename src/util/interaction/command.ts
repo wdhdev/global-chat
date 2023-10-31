@@ -73,6 +73,9 @@ export = async (client: ExtendedClient, Discord: typeof import("discord.js"), in
         command.deferReply ? command.ephemeral ? await interaction.deferReply({ ephemeral: true }) : await interaction.deferReply() : null;
 
         if(interaction.user.id === client.config_main.owner) {
+            // Log interaction to console
+            console.log(`[interactionCreate] [command] ${interaction.user.tag} (${interaction.user.id}): /${interaction.commandName} ${interaction.options.data.map((option: any) => option.value ? `${option.name}:${option.value}` : option.name).join(" ")}`);
+
             try {
                 await command.execute(interaction, client, Discord);
                 return;
@@ -116,6 +119,9 @@ export = async (client: ExtendedClient, Discord: typeof import("discord.js"), in
         }, cooldownAmount)
 
         try {
+            // Log interaction to console
+            console.log(`[interactionCreate] [command] ${interaction.user.tag} (${interaction.user.id}): /${interaction.commandName} ${interaction.options.data.map((option: any) => option.value ? `${option.name}:${option.value}` : option.name).join(" ")}`);
+
             await command.execute(interaction, client, Discord);
         } catch(err) {
             client.logError(err);
