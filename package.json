@@ -15,7 +15,7 @@
     "axios": "^1.6.0",
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
-    "mongoose": "^6.11.5",
+    "mongoose": "^8.0.0",
     "node-fetch": "^2.6.12",
     "stop-discord-phishing": "^0.3.3"
   },
