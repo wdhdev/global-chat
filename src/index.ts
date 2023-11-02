@@ -16,8 +16,8 @@ const client = new ExtendedClient({
     presence: {
         activities: [
             {
-                name: "for messages",
-                type: Discord.ActivityType.Watching
+                name: "📨 Sending messages",
+                type: Discord.ActivityType.Custom
             }
         ],
         status: "online"
