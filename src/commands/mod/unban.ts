@@ -53,7 +53,7 @@ const command: Command = {
                 return;
             }
 
-            await data.delete();
+            await data.deleteOne();
 
             await createInfractionLog(user.id, null, "unban", interaction.user.id);
 

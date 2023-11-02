@@ -78,7 +78,7 @@ const command: Command = {
                         if(await checkWebhook(data.webhook)) fetch(data.webhook, { method: "DELETE" });
                     }
 
-                    await data.delete();
+                    await data.deleteOne();
 
                     const deleted = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)

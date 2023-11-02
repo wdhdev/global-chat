@@ -19,7 +19,7 @@ const event: Event = {
             if(data) {
                 if(await checkWebhook(data.webhook)) await fetch(data.webhook, { method: "DELETE" });
 
-                await data.delete();
+                await data.deleteOne();
             }
 
             const logsChannel = client.channels.cache.get(client.config_channels.logs);

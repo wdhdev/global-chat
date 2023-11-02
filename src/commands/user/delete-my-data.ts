@@ -84,10 +84,10 @@ const command: Command = {
                             })
                         } catch {}
 
-                        await githubData.delete();
+                        await githubData.deleteOne();
                     }
 
-                    await userData.delete();
+                    await userData.deleteOne();
 
                     const deleted = new Discord.EmbedBuilder()
                         .setColor(client.config_embeds.default)

@@ -35,7 +35,7 @@ export default async function (client: ExtendedClient): Promise<string[]> {
             const channel = guild.channels.cache.get(data.channel) as TextChannel;
 
             if(!channel) {
-                await data.delete();
+                await data.deleteOne();
                 output.push(`Deleted ${guild.name} (${guildId}) from the database due to not being able to access the registered channel`);
 
                 resolve();

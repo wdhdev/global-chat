@@ -33,7 +33,7 @@ const button: Button = {
                 })
             } catch {}
 
-            await data.delete();
+            await data.deleteOne();
 
             const unlinked = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.github)

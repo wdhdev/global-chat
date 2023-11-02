@@ -42,7 +42,7 @@ const command: Command = {
                 return;
             }
 
-            await data.delete();
+            await data.deleteOne();
 
             const unwhitelisted = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)

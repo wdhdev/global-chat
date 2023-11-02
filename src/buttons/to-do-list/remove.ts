@@ -64,7 +64,7 @@ const button: Button = {
                     return;
                 }
 
-                await todo.delete();
+                await todo.deleteOne();
 
                 const removed = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)

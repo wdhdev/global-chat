@@ -71,7 +71,7 @@ const command: Command = {
                     return;
                 }
 
-                await appeal.delete();
+                await appeal.deleteOne();
 
                 await createLog(appeal._id, appeal.id, "appealDelete", null, interaction.user.id);
 
