@@ -1,6 +1,7 @@
 import Event from "../../classes/Event";
 import ExtendedClient from "../../classes/ExtendedClient";
 
+import { exec } from "child_process";
 import globalCommands from "../../scripts/global-commands";
 import guildCommands from "../../scripts/guild-commands";
 
@@ -15,6 +16,17 @@ const event: Event = {
             // Register Commands
             await globalCommands(client);
             await guildCommands(client);
+
+            // Automatic Git Pull
+            setInterval(() => {
+                exec("git pull", (err: any, stdout: any) => {
+                    if(err) return console.log(err);
+                    if(stdout.includes("Already up to date.")) return;
+
+                    console.log(stdout);
+                    process.exit();
+                })
+            }, 30 * 1000) // 30 seconds
         } catch(err) {
             client.logError(err);
         }

@@ -129,4 +129,4 @@ dist
 .pnp.*
 
 # Other
-webhooks.json
+src/config.ts
