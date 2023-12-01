@@ -79,7 +79,7 @@ const command: Command = {
                         .setStyle(Discord.ButtonStyle.Link)
                         .setEmoji("🗳️")
                         .setLabel("Vote")
-                        .setURL("https://wdh.gg/gc-vote")
+                        .setURL("https://wdh.gg/gc/vote")
                 )
 
             await interaction.editReply({ embeds: [info, statistics], components: [buttons] });
