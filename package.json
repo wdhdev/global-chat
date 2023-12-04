@@ -10,7 +10,7 @@
   "author": "William Harrison",
   "license": "MIT",
   "dependencies": {
-    "@octokit/core": "^5.0.1",
+    "@octokit/core": "^5.0.2",
     "@sentry/node": "^7.84.0",
     "axios": "^1.6.2",
     "discord.js": "^14.14.1",
