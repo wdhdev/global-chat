@@ -23,6 +23,6 @@
     "@sentry/types": "^7.79.0",
     "@types/node": "^20.10.1",
     "@types/node-fetch": "^2.6.4",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   }
 }
