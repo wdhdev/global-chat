@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@octokit/core": "^5.1.0",
-    "@sentry/node": "^7.95.0",
+    "@sentry/node": "^7.98.0",
     "axios": "^1.6.6",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.1",
