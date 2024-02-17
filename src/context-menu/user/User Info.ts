@@ -9,7 +9,6 @@ import getRoles from "../../functions/roles/get";
 
 import BannedUser from "../../models/BannedUser";
 import BlockedMessage from "../../models/BlockedMessage";
-import GitHubUser from "../../models/GitHubUser";
 import Message from "../../models/Message";
 
 const command: ContextCommand = {
@@ -44,13 +43,6 @@ const command: ContextCommand = {
             const roleArray: Role[] = getRoleArray(await getRoles(user.id, client));
             const roles = roleArray.map(role => getRoleWithEmoji(role));
 
-            // Linked Accounts
-            const accounts = [];
-
-            const github = await GitHubUser.findOne({ _id: user.id });
-
-            if(github) accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
-
             // Statistics
             const blocked = (await BlockedMessage.find({ user: user.id })).length;
             const images = (await Message.find({ user: user.id, attachment: { $ne: null } })).length;
@@ -73,7 +65,6 @@ const command: ContextCommand = {
             if(banned) userInfo.addFields({ name: "🔨 Ban Info", value: banData, inline: true });
             if(roles.length) userInfo.addFields({ name: "🎭 Roles", value: roles.join("\n"), inline: true });
             if(blocked || images || messages) userInfo.addFields({ name: "📊 Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}`, inline: true });
-            if(accounts.length) userInfo.addFields({ name: "🔗 Linked Accounts", value: accounts.join("\n"), inline: true });
 
             await interaction.editReply({ embeds: [userInfo] });
         } catch(err) {

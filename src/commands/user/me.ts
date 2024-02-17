@@ -2,12 +2,10 @@ import Command from "../../classes/Command";
 import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
-import { emojis as emoji } from "../../config";
 import { getRoleArray, Role, getRoleWithEmoji } from "../../classes/Roles";
 import getRoles from "../../functions/roles/get";
 
 import BlockedMessage from "../../models/BlockedMessage";
-import GitHubUser from "../../models/GitHubUser";
 import Message from "../../models/Message";
 
 const command: Command = {
@@ -29,13 +27,6 @@ const command: Command = {
             const roleArray: Role[] = getRoleArray(await getRoles(interaction.user.id, client));
             const roles = roleArray.map(role => getRoleWithEmoji(role));
 
-            // Linked Accounts
-            const accounts = [];
-
-            const github = await GitHubUser.findOne({ _id: interaction.user.id });
-
-            if(github) accounts.push(`${emoji.github} GitHub\n${emoji.reply} <t:${github.linked.toString().slice(0, -3)}>`);
-
             // Statistics
             const blocked = (await BlockedMessage.find({ user: interaction.user.id })).length;
             const images = (await Message.find({ user: interaction.user.id, attachment: { $ne: null } })).length;
@@ -51,14 +42,13 @@ const command: Command = {
                 .setColor(client.config_embeds.default)
                 .setDescription("*There is no information available about you.*")
 
-            if(accounts.length || roles.length || blocked || images || messages) {
+            if(roles.length || blocked || images || messages) {
                 userInfo.setTitle("User Information");
                 userInfo.setDescription(null);
             }
 
             if(roles.length) userInfo.addFields({ name: "🎭 Roles", value: roles.join("\n"), inline: true });
             if(blocked || images || messages) userInfo.addFields({ name: "📊 Statistics", value: `${stats.messages}\n${stats.images}\n${stats.blocked}`, inline: true });
-            if(accounts.length) userInfo.addFields({ name: "🔗 Linked Accounts", value: accounts.join("\n"), inline: true });
 
             await interaction.editReply({ embeds: [userInfo] });
         } catch(err) {

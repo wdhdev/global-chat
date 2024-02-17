@@ -1,24 +1,14 @@
-import * as Sentry from "@sentry/node";
-import fetch from "node-fetch";
+export default function (content: string): string {
+    const insensitive = require("../../../eggs/insensitive.json");
+    const sensitive = require("../../../eggs/sensitive.json");
 
-export default async function (content: string): Promise<string | unknown> {
-    try {
-        const insensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/insensitive.json").then(res => res.json());
-        const sensitive = await fetch("https://raw.githubusercontent.com/Global-Chat-Bot/easter-eggs/main/eggs/sensitive.json").then(res => res.json());
-
-        for(const [key, value] of Object.entries(insensitive)) {
-            if(content.toLowerCase() === key) return value;
-        }
-
-        for(const [key, value] of Object.entries(sensitive)) {
-            if(content === key) return value;
-        }
-
-        return content;
-    } catch(err) {
-        Sentry.captureException(err);
-        console.error(err);
-
-        return content;
+    for(const [key, value] of Object.entries(insensitive)) {
+        if(content.toLowerCase() === key) return value as string;
     }
+
+    for(const [key, value] of Object.entries(sensitive)) {
+        if(content === key) return value as string;
+    }
+
+    return content;
 }

@@ -1,4 +1,4 @@
-import { ColorResolvable, EmojiResolvable, Snowflake } from "discord.js";
+import { ColorResolvable, Snowflake } from "discord.js";
 
 const channels = {
     appeals: "",
@@ -12,7 +12,6 @@ const channels = {
 const embeds = {
     default: "#0096FF" as ColorResolvable,
     error: "#E74C3C" as ColorResolvable,
-    github: "#171515" as ColorResolvable,
     gray: "#80838D" as ColorResolvable,
     green: "#57F287" as ColorResolvable,
     red: "#ED4245" as ColorResolvable
@@ -24,7 +23,6 @@ const emojis = {
     connection_good: "",
     cross: "",
     discord: "",
-    github: "",
     ping: "",
     reply: "",
     tick: ""
