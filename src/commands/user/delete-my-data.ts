@@ -3,9 +3,7 @@ import ExtendedClient from "../../classes/ExtendedClient";
 import { CommandInteraction } from "discord.js";
 
 import { emojis as emoji } from "../../config";
-import { Octokit } from "@octokit/core";
 
-import GitHubUser from "../../models/GitHubUser";
 import User from "../../models/User";
 
 const command: Command = {
@@ -24,9 +22,8 @@ const command: Command = {
     async execute(interaction: CommandInteraction, client: ExtendedClient, Discord: typeof import("discord.js")) {
         try {
             const userData = await User.findOne({ _id: interaction.user.id });
-            const githubData = await GitHubUser.findOne({ _id: interaction.user.id });
 
-            if(!userData && !githubData) {
+            if(!userData) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.cross} There is no data associated with your account!`)
@@ -40,7 +37,7 @@ const command: Command = {
                 .setTitle("Delete My Data")
                 .setDescription("Are you sure you want to delete all data associated with your account?\n**This cannot be undone.**")
                 .addFields (
-                    { name: "✅ Will be deleted", value: "🎭 Roles\n🔗 Linked Accounts", inline: true },
+                    { name: "✅ Will be deleted", value: "🎭 Roles", inline: true },
                     { name: "❌ Won't be deleted", value: "📜 Audit Logs\n📝 Infractions\n💬 Messages\n⛔ Blocked Messages", inline: true }
                 )
                 .setFooter({ text: "This prompt will expire in 30 seconds." })
@@ -73,19 +70,6 @@ const command: Command = {
 
                 if(c.customId === `delete-${interaction.id}`) {
                     collector.stop();
-
-                    if(githubData) {
-                        try {
-                            const octokit = new Octokit({ auth: githubData.token });
-
-                            await octokit.request("DELETE /applications/{client_id}/grant", {
-                                client_id: process.env.github_client_id,
-                                access_token: githubData.token
-                            })
-                        } catch {}
-
-                        await githubData.deleteOne();
-                    }
 
                     await userData.deleteOne();
 
