@@ -28,7 +28,7 @@ const button: Button = {
             if(!banData.allowAppeal || await Appeal.exists({ id: interaction.user.id, status: "DENIED" })) {
                 const error = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
-                    .setDescription(`${emoji.cross} You are allowed to submit an appeal!`)
+                    .setDescription(`${emoji.cross} You are not allowed to submit an appeal!`)
 
                 await interaction.reply({ embeds: [error], ephemeral: true });
                 return;
