@@ -22,7 +22,7 @@ const command: Command = {
         try {
             const renewing = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setDescription(`${emoji.ping} Renewing webhooks...`)
+                .setDescription(`${emoji.ping} Deleting webhooks...`)
 
             const i = await interaction.editReply({ embeds: [renewing] });
 
